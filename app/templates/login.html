@@ -1,12 +1,17 @@
 <!DOCTYPE html>
-<html lang="id" class="h-full bg-[#0D1B2A]">
+<html lang="id" class="h-full bg-slate-950">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - PRIMA BPS Kabupaten Banyuwangi</title>
+    <title>Masuk - PRIMA BPS Kabupaten Banyuwangi</title>
 
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='images/favicon.svg') }}">
+
+    <!-- Google Font: Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -23,139 +28,302 @@
                         'light-bg': '#F4F6F9',
                     },
                     fontFamily: {
-                        sans: ['Plus Jakarta Sans', 'Inter', 'Segoe UI', 'sans-serif'],
+                        sans: ['"Plus Jakarta Sans"', 'Inter', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        'glow': '0 0 50px -10px rgba(242, 140, 40, 0.25)',
+                        'card-xl': '0 25px 60px -15px rgba(13, 27, 42, 0.4)',
                     }
                 }
             }
         }
     </script>
+
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <style>
+        /* Ambient backdrop patterns */
+        .bg-grid-pattern {
+            background-image: radial-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+        .bg-radial-glow {
+            background: radial-gradient(circle at 50% 0%, rgba(30, 62, 102, 0.45) 0%, rgba(13, 27, 42, 0.95) 75%);
+        }
+    </style>
 </head>
-<body class="h-full flex items-center justify-center p-4 bg-[#0D1B2A] relative overflow-hidden">
+<body class="h-full flex items-center justify-center p-4 sm:p-6 lg:p-8 bg-[#0D1B2A] relative overflow-x-hidden selection:bg-orange-500 selection:text-white font-sans">
 
-    <!-- Decorative background glow -->
-    <div class="absolute -top-32 -left-32 w-96 h-96 bg-blue-900/30 rounded-full blur-3xl pointer-events-none"></div>
-    <div class="absolute -bottom-32 -right-32 w-96 h-96 bg-orange-600/20 rounded-full blur-3xl pointer-events-none"></div>
+    <!-- Background Decorative Lighting Effects -->
+    <div class="fixed inset-0 bg-grid-pattern opacity-40 pointer-events-none"></div>
+    <div class="fixed top-0 left-1/4 -translate-x-1/2 w-[550px] h-[550px] bg-gradient-to-br from-blue-700/20 to-navy-main/30 rounded-full blur-[140px] pointer-events-none"></div>
+    <div class="fixed bottom-0 right-1/4 translate-x-1/2 w-[500px] h-[500px] bg-gradient-to-tl from-orange-500/15 to-transparent rounded-full blur-[130px] pointer-events-none"></div>
 
-    <div class="w-full max-w-md relative z-10">
+    <!-- Main Container Card (Modern Split-Layout) -->
+    <main class="w-full max-w-5xl bg-white rounded-[28px] sm:rounded-[32px] shadow-card-xl border border-white/20 overflow-hidden relative z-10 grid lg:grid-cols-12 transition-all">
         
-        <!-- Brand & App Identity Card -->
-        <div class="text-center mb-8">
-            <div class="inline-flex items-center justify-center mb-3">
-                <img src="{{ url_for('static', filename='images/logo_icon.svg') }}" alt="Logo PRIMA BPS Banyuwangi" class="w-24 h-24 object-contain drop-shadow-2xl hover:scale-105 transition-transform duration-300">
+        <!-- LEFT PANEL: Institutional Branding & Feature Showcase -->
+        <div class="lg:col-span-5 bg-gradient-to-br from-[#0D1B2A] via-[#142B4A] to-[#1E3E66] p-8 sm:p-10 flex flex-col justify-between relative overflow-hidden border-b lg:border-b-0 lg:border-r border-slate-700/40">
+            <!-- Subtle Radial Glow on Left Panel -->
+            <div class="absolute -top-24 -left-24 w-72 h-72 bg-orange-500/15 rounded-full blur-3xl pointer-events-none"></div>
+            <div class="absolute -bottom-24 -right-24 w-72 h-72 bg-blue-500/20 rounded-full blur-3xl pointer-events-none"></div>
+            
+            <!-- Top Branding -->
+            <div class="relative z-10">
+                <!-- Agency Pill -->
+                <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-slate-200 text-xs font-semibold mb-6">
+                    <span class="w-2 h-2 rounded-full bg-orange-400 animate-pulse"></span>
+                    <span>BPS Kabupaten Banyuwangi</span>
+                </div>
+
+                <!-- Logo & Title -->
+                <div class="flex items-center gap-3.5 mb-4">
+                    <div class="w-14 h-14 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 p-2 flex items-center justify-center shadow-lg shadow-black/20 group hover:scale-105 transition-transform duration-300">
+                        <img src="{{ url_for('static', filename='images/logo_icon.svg') }}" alt="Logo PRIMA" class="w-full h-full object-contain">
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <span class="text-2xl font-black tracking-tight text-white">PRIMA</span>
+                            <span class="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-md bg-orange-500 text-white tracking-wider shadow-xs">AKIP</span>
+                        </div>
+                        <p class="text-xs text-slate-300 font-medium">Pusat Arsip dan Manajemen AKIP</p>
+                    </div>
+                </div>
+
+                <!-- Tagline Quote -->
+                <div class="p-3.5 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-sm mt-5 mb-8">
+                    <p class="text-xs text-orange-300 font-medium italic leading-relaxed">
+                        &ldquo;Arsip Tertata, Akuntabilitas Terjaga, Kinerja Prima.&rdquo;
+                    </p>
+                </div>
+
+                <!-- Feature Highlights -->
+                <div class="space-y-3.5 hidden sm:block">
+                    <div class="flex items-start gap-3">
+                        <div class="w-8 h-8 rounded-xl bg-orange-500/20 border border-orange-500/30 flex items-center justify-center flex-shrink-0 text-orange-400 mt-0.5">
+                            <i data-lucide="folder-check" class="w-4 h-4"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-xs font-bold text-white">Digitalisasi Arsip Terpadu</h4>
+                            <p class="text-[11px] text-slate-300">Pengorganisasian dokumen perencanaan, pengukuran, hingga pelaporan kinerja.</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start gap-3">
+                        <div class="w-8 h-8 rounded-xl bg-blue-500/20 border border-blue-500/30 flex items-center justify-center flex-shrink-0 text-blue-300 mt-0.5">
+                            <i data-lucide="shield-check" class="w-4 h-4"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-xs font-bold text-white">Audit & Monitoring Akuntabilitas</h4>
+                            <p class="text-[11px] text-slate-300">Pemantauan kelengkapan administrasi dan penilaian AKIP secara transparan.</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start gap-3">
+                        <div class="w-8 h-8 rounded-xl bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center flex-shrink-0 text-emerald-300 mt-0.5">
+                            <i data-lucide="layers" class="w-4 h-4"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-xs font-bold text-white">Integrasi Portal Penting</h4>
+                            <p class="text-[11px] text-slate-300">Akses cepat SIMONIK, SINERGI, FRA, PROKSI, JANJIKU, dan PERMINDOK.</p>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <h1 class="text-3xl font-black tracking-tight text-white flex items-center justify-center gap-2">
-                <span>PRIMA</span>
-                <span class="text-xs uppercase font-extrabold px-2 py-0.5 rounded bg-orange-500 text-white tracking-widest shadow-sm">BPS</span>
-            </h1>
-            <p class="text-sm font-semibold text-slate-300 mt-1">Pusat Arsip dan Manajemen AKIP Banyuwangi</p>
-            <p class="text-xs text-orange-400 italic mt-0.5 font-medium">"Arsip Tertata, Akuntabilitas Terjaga, Kinerja Prima."</p>
+
+            <!-- Bottom Note Left Panel -->
+            <div class="pt-6 mt-8 border-t border-white/10 text-[11px] text-slate-400 flex items-center justify-between">
+                <span>Versi 1.0 (2025/2026)</span>
+                <span class="flex items-center gap-1.5 text-slate-300 font-medium">
+                    <i data-lucide="shield" class="w-3.5 h-3.5 text-orange-400"></i> Sistem Terproteksi
+                </span>
+            </div>
         </div>
 
-        <!-- Login Card Form -->
-        <div class="bg-white/95 backdrop-blur-xl rounded-3xl p-8 shadow-2xl border border-white/20">
-            <div class="mb-6">
-                <h2 class="text-xl font-bold text-slate-900">Masuk ke Portal PRIMA</h2>
-                <p class="text-xs text-slate-500 mt-1">Masukkan kredensial akun Anda untuk mengakses arsip dan dokumen AKIP.</p>
-            </div>
+        <!-- RIGHT PANEL: Sleek Modern Login Form -->
+        <div class="lg:col-span-7 p-8 sm:p-10 lg:p-12 flex flex-col justify-between bg-white">
+            <div>
+                <!-- Header Form -->
+                <div class="mb-7">
+                    <span class="text-[11px] font-bold uppercase tracking-widest text-orange-600 bg-orange-50 px-2.5 py-1 rounded-full border border-orange-200 inline-block mb-2.5">
+                        Portal Internal
+                    </span>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">Selamat Datang</h2>
+                    <p class="text-xs sm:text-sm text-slate-500 mt-1.5 leading-relaxed">
+                        Silakan masukkan username dan kata sandi akun Anda untuk mengakses sistem informasi arsip.
+                    </p>
+                </div>
 
-            <!-- Flash messages -->
-            {% with messages = get_flashed_messages(with_categories=true) %}
-                {% if messages %}
-                    <div class="mb-5 space-y-2">
-                        {% for category, message in messages %}
-                            <div class="p-3.5 rounded-xl text-xs font-semibold flex items-center gap-2.5
-                                {% if category == 'success' %} bg-emerald-50 text-emerald-800 border border-emerald-200
-                                {% elif category == 'danger' or category == 'error' %} bg-red-50 text-red-800 border border-red-200
-                                {% elif category == 'warning' %} bg-amber-50 text-amber-800 border border-amber-200
-                                {% else %} bg-blue-50 text-blue-800 border border-blue-200 {% endif %}">
-                                <i data-lucide="info" class="w-4 h-4 flex-shrink-0"></i>
-                                <span>{{ message }}</span>
+                <!-- Flash Alert Messages -->
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        <div class="mb-6 space-y-2.5">
+                            {% for category, message in messages %}
+                                <div class="p-3.5 rounded-2xl text-xs font-semibold flex items-center gap-3 animate-fade-in
+                                    {% if category == 'success' %} bg-emerald-50 text-emerald-800 border border-emerald-200
+                                    {% elif category == 'danger' or category == 'error' %} bg-red-50 text-red-800 border border-red-200
+                                    {% elif category == 'warning' %} bg-amber-50 text-amber-800 border border-amber-200
+                                    {% else %} bg-blue-50 text-blue-800 border border-blue-200 {% endif %}">
+                                    <i data-lucide="alert-circle" class="w-4 h-4 flex-shrink-0"></i>
+                                    <span class="flex-1">{{ message }}</span>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                {% endwith %}
+
+                <!-- Form Login -->
+                <form method="POST" action="{{ url_for('auth.login', next=request.args.get('next')) }}" class="space-y-4">
+                    <!-- Username Input -->
+                    <div>
+                        <label for="username" class="block text-xs font-bold text-slate-700 mb-1.5">
+                            Username / ID Pegawai
+                        </label>
+                        <div class="relative flex items-center">
+                            <span class="absolute left-3.5 flex items-center pointer-events-none text-slate-400">
+                                <i data-lucide="user" class="w-4 h-4"></i>
+                            </span>
+                            <input type="text" 
+                                   id="username" 
+                                   name="username" 
+                                   value="{{ username or '' }}"
+                                   required 
+                                   autocomplete="username"
+                                   placeholder="Contoh: admin atau nama pengguna" 
+                                   class="w-full h-11 pl-10 pr-4 bg-slate-50 hover:bg-slate-100/70 focus:bg-white text-slate-900 placeholder:text-slate-400 text-xs sm:text-sm rounded-xl border border-slate-200 focus:border-navy-main focus:ring-2 focus:ring-navy-main/15 transition-all outline-none">
+                        </div>
+                    </div>
+
+                    <!-- Password Input with Toggle Visibility -->
+                    <div>
+                        <div class="flex items-center justify-between mb-1.5">
+                            <label for="password" class="block text-xs font-bold text-slate-700">
+                                Kata Sandi (Password)
+                            </label>
+                        </div>
+                        <div class="relative flex items-center">
+                            <span class="absolute left-3.5 flex items-center pointer-events-none text-slate-400">
+                                <i data-lucide="lock" class="w-4 h-4"></i>
+                            </span>
+                            <input type="password" 
+                                   id="password" 
+                                   name="password" 
+                                   required 
+                                   autocomplete="current-password"
+                                   placeholder="Masukkan kata sandi akun" 
+                                   class="w-full h-11 pl-10 pr-11 bg-slate-50 hover:bg-slate-100/70 focus:bg-white text-slate-900 placeholder:text-slate-400 text-xs sm:text-sm rounded-xl border border-slate-200 focus:border-navy-main focus:ring-2 focus:ring-navy-main/15 transition-all outline-none">
+                            <button type="button" 
+                                    id="toggle-password-btn" 
+                                    class="absolute right-3 text-slate-400 hover:text-slate-600 focus:outline-none p-1 transition"
+                                    title="Tampilkan / Sembunyikan Kata Sandi">
+                                <i data-lucide="eye" id="eye-icon" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Remember Me & Help -->
+                    <div class="flex items-center justify-between pt-1">
+                        <label class="flex items-center gap-2 cursor-pointer select-none">
+                            <input type="checkbox" name="remember" class="w-4 h-4 text-orange-500 rounded border-slate-300 focus:ring-orange-400">
+                            <span class="text-xs text-slate-600 font-medium">Ingat Sesi Saya</span>
+                        </label>
+                        <span class="text-xs text-slate-400 font-medium">BPS 3510</span>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button type="submit" 
+                            class="w-full h-12 mt-2 bg-gradient-to-r from-[#142B4A] via-[#1E3E66] to-[#0D1B2A] hover:from-orange-600 hover:via-orange-500 hover:to-orange-600 text-white font-bold text-sm rounded-xl shadow-md hover:shadow-lg hover:shadow-orange-500/20 transition-all duration-300 flex items-center justify-center gap-2 active:scale-[0.99]">
+                        <i data-lucide="log-in" class="w-4 h-4"></i>
+                        <span>Masuk ke Dashboard PRIMA</span>
+                    </button>
+                </form>
+
+                <!-- Quick One-Click Demo Credentials Buttons -->
+                <div class="mt-7 pt-5 border-t border-slate-100">
+                    <div class="flex items-center justify-between mb-2.5">
+                        <span class="text-[11px] font-bold uppercase tracking-wider text-slate-500 flex items-center gap-1.5">
+                            <i data-lucide="key-round" class="w-3.5 h-3.5 text-orange-500"></i>
+                            Akses Cepat Pengujian (1-Klik Isi Form):
+                        </span>
+                    </div>
+                    <div class="grid grid-cols-2 gap-2.5">
+                        <!-- Button Fill Admin -->
+                        <button type="button" 
+                                onclick="fillCredentials('admin', 'admin123')"
+                                class="group p-2.5 rounded-xl border border-slate-200/90 bg-slate-50/70 hover:bg-orange-50/60 hover:border-orange-200 text-left transition-all flex flex-col justify-between">
+                            <div class="flex items-center justify-between mb-1">
+                                <span class="text-[11px] font-bold text-navy-main group-hover:text-orange-600">Administrator</span>
+                                <span class="text-[9px] font-extrabold uppercase px-1.5 py-0.2 rounded bg-navy-main/10 text-navy-main group-hover:bg-orange-100 group-hover:text-orange-700">Pilih</span>
                             </div>
-                        {% endfor %}
-                    </div>
-                {% endif %}
-            {% endwith %}
+                            <span class="text-[10px] text-slate-500 font-mono">admin / admin123</span>
+                        </button>
 
-            <form method="POST" action="{{ url_for('auth.login', next=request.args.get('next')) }}" class="space-y-4">
-                <div>
-                    <label for="username" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">Username</label>
-                    <div class="relative">
-                        <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none text-slate-400">
-                            <i data-lucide="user" class="w-4 h-4"></i>
-                        </span>
-                        <input type="text" 
-                               id="username" 
-                               name="username" 
-                               value="{{ username or '' }}"
-                               required 
-                               placeholder="Masukkan username" 
-                               class="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-800 focus:bg-white focus:border-navy-main focus:ring-2 focus:ring-navy-main/20 outline-none transition">
-                    </div>
-                </div>
-
-                <div>
-                    <label for="password" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">Kata Sandi (Password)</label>
-                    <div class="relative">
-                        <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none text-slate-400">
-                            <i data-lucide="lock" class="w-4 h-4"></i>
-                        </span>
-                        <input type="password" 
-                               id="password" 
-                               name="password" 
-                               required 
-                               placeholder="Masukkan kata sandi" 
-                               class="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-800 focus:bg-white focus:border-navy-main focus:ring-2 focus:ring-navy-main/20 outline-none transition">
-                    </div>
-                </div>
-
-                <div class="flex items-center justify-between pt-1">
-                    <label class="flex items-center gap-2 cursor-pointer">
-                        <input type="checkbox" name="remember" class="w-4 h-4 text-orange-500 rounded border-slate-300 focus:ring-orange-400">
-                        <span class="text-xs text-slate-600 font-medium">Ingat Saya</span>
-                    </label>
-                    <span class="text-xs text-slate-400">BPS Banyuwangi</span>
-                </div>
-
-                <button type="submit" 
-                        class="w-full py-3 px-4 bg-gradient-to-r from-[#142B4A] via-[#1E3E66] to-[#0D1B2A] hover:from-[#0D1B2A] hover:to-[#142B4A] text-white font-bold text-sm rounded-xl shadow-lg shadow-navy-main/30 transition-all hover:scale-[1.01] active:scale-[0.99] flex items-center justify-center gap-2">
-                    <i data-lucide="log-in" class="w-4 h-4"></i>
-                    <span>Masuk ke Aplikasi</span>
-                </button>
-            </form>
-
-            <!-- Demo Credentials Box for Easy Evaluation -->
-            <div class="mt-6 pt-5 border-t border-slate-100 bg-slate-50 -mx-8 -mb-8 p-6 rounded-b-3xl">
-                <p class="text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-2 flex items-center gap-1.5">
-                    <i data-lucide="key" class="w-3.5 h-3.5 text-orange-500"></i>
-                    <span>Akun Demo Akses Pengujian:</span>
-                </p>
-                <div class="grid grid-cols-2 gap-2 text-[11px]">
-                    <div class="bg-white p-2.5 rounded-lg border border-slate-200/80">
-                        <span class="font-bold text-navy-main block">Role Admin:</span>
-                        <span class="text-slate-600">User: <strong class="text-slate-900">admin</strong></span><br>
-                        <span class="text-slate-600">Pass: <strong class="text-slate-900">admin123</strong></span>
-                    </div>
-                    <div class="bg-white p-2.5 rounded-lg border border-slate-200/80">
-                        <span class="font-bold text-navy-main block">Role Pegawai:</span>
-                        <span class="text-slate-600">User: <strong class="text-slate-900">pegawai</strong></span><br>
-                        <span class="text-slate-600">Pass: <strong class="text-slate-900">pegawai123</strong></span>
+                        <!-- Button Fill Pegawai -->
+                        <button type="button" 
+                                onclick="fillCredentials('pegawai', 'pegawai123')"
+                                class="group p-2.5 rounded-xl border border-slate-200/90 bg-slate-50/70 hover:bg-blue-50/60 hover:border-blue-200 text-left transition-all flex flex-col justify-between">
+                            <div class="flex items-center justify-between mb-1">
+                                <span class="text-[11px] font-bold text-navy-main group-hover:text-blue-700">Pegawai Biasa</span>
+                                <span class="text-[9px] font-extrabold uppercase px-1.5 py-0.2 rounded bg-blue-100 text-blue-800">Pilih</span>
+                            </div>
+                            <span class="text-[10px] text-slate-500 font-mono">pegawai / pegawai123</span>
+                        </button>
                     </div>
                 </div>
             </div>
 
+            <!-- Bottom Copyright & Agency Info -->
+            <div class="pt-6 mt-6 border-t border-slate-100 text-center text-xs text-slate-400">
+                Badan Pusat Statistik Kabupaten Banyuwangi &copy; 2025 - 2026
+            </div>
         </div>
 
-        <p class="text-center text-xs text-slate-400 mt-6">
-            Badan Pusat Statistik Kabupaten Banyuwangi &copy; 2025 - 2026
-        </p>
-    </div>
+    </main>
 
+    <!-- JavaScript Helpers: Password Toggle & Fast Credential Fill -->
     <script>
+        // Inisialisasi ikon Lucide
         lucide.createIcons();
+
+        // Fitur Tampilkan / Sembunyikan Password
+        const passwordInput = document.getElementById('password');
+        const toggleBtn = document.getElementById('toggle-password-btn');
+        const eyeIcon = document.getElementById('eye-icon');
+
+        if (toggleBtn && passwordInput) {
+            toggleBtn.addEventListener('click', () => {
+                const isPassword = passwordInput.getAttribute('type') === 'password';
+                passwordInput.setAttribute('type', isPassword ? 'text' : 'password');
+                
+                // Ubah ikon
+                if (isPassword) {
+                    toggleBtn.innerHTML = '<i data-lucide="eye-off" class="w-4 h-4 text-orange-500"></i>';
+                } else {
+                    toggleBtn.innerHTML = '<i data-lucide="eye" class="w-4 h-4 text-slate-400"></i>';
+                }
+                lucide.createIcons();
+            });
+        }
+
+        // Fungsi Auto-Fill Akun Demo
+        function fillCredentials(user, pass) {
+            const usernameInput = document.getElementById('username');
+            const passwordInputField = document.getElementById('password');
+            if (usernameInput && passwordInputField) {
+                usernameInput.value = user;
+                passwordInputField.value = pass;
+                
+                // Efek visual highlight halus
+                usernameInput.classList.add('ring-2', 'ring-orange-400');
+                passwordInputField.classList.add('ring-2', 'ring-orange-400');
+                setTimeout(() => {
+                    usernameInput.classList.remove('ring-2', 'ring-orange-400');
+                    passwordInputField.classList.remove('ring-2', 'ring-orange-400');
+                }, 800);
+            }
+        }
     </script>
 </body>
 </html>
-
