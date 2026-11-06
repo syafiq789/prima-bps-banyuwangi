@@ -1,0 +1,142 @@
+{% extends 'base.html' %}
+
+{% block title %}Unggah Dokumen AKIP - PRIMA BPS Kabupaten Banyuwangi{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto space-y-6">
+
+    <!-- Top Navigation -->
+    <div class="flex items-center justify-between">
+        <a href="{{ url_for('documents.index') }}" class="inline-flex items-center gap-2 text-xs font-semibold text-slate-600 hover:text-navy-main transition">
+            <i data-lucide="arrow-left" class="w-4 h-4"></i>
+            <span>Kembali ke Daftar Dokumen</span>
+        </a>
+        <span class="text-xs text-slate-400">Formulir Pengarsipan Digital</span>
+    </div>
+
+    <!-- Upload Form Card -->
+    <div class="bg-white rounded-3xl border border-slate-200/80 shadow-card p-6 sm:p-8">
+        
+        <div class="mb-6 pb-4 border-b border-slate-100">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-2xl bg-orange-100 text-orange-600 flex items-center justify-center">
+                    <i data-lucide="upload-cloud" class="w-5 h-5"></i>
+                </div>
+                <div>
+                    <h1 class="text-xl font-black text-slate-900 tracking-tight">Unggah Dokumen AKIP</h1>
+                    <p class="text-xs text-slate-500 mt-0.5">Simpan dan tata arsip akuntabilitas kinerja BPS Kabupaten Banyuwangi.</p>
+                </div>
+            </div>
+        </div>
+
+        <form action="{{ url_for('documents.upload') }}" method="POST" enctype="multipart/form-data" class="space-y-5">
+            
+            <!-- Judul Dokumen -->
+            <div>
+                <label for="title" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+                    Judul Dokumen <span class="text-red-500">*</span>
+                </label>
+                <input type="text" 
+                       id="title" 
+                       name="title" 
+                       required 
+                       placeholder="Contoh: Perjanjian Kinerja Kepala BPS Kabupaten Banyuwangi Tahun 2025" 
+                       class="w-full px-4 py-2.5 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-navy-main focus:ring-2 focus:ring-navy-main/20 outline-none transition">
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <!-- Kategori Dokumen -->
+                <div>
+                    <label for="category_id" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+                        Kategori Dokumen <span class="text-red-500">*</span>
+                    </label>
+                    <select id="category_id" name="category_id" required class="w-full px-3 py-2.5 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-navy-main outline-none">
+                        <option value="">-- Pilih Kategori --</option>
+                        {% for cat in categories %}
+                            <option value="{{ cat.id }}" {% if selected_cat_id == cat.id %}selected{% endif %}>
+                                {{ cat.name }} ({{ cat.group|capitalize }})
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <!-- Tahun Dokumen -->
+                <div>
+                    <label for="year" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+                        Tahun Anggaran/Kinerja <span class="text-red-500">*</span>
+                    </label>
+                    <select id="year" name="year" required class="w-full px-3 py-2.5 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-navy-main outline-none">
+                        {% for y in [2026, 2025, 2024, 2023, 2022, 2021, 2020] %}
+                            <option value="{{ y }}" {% if y == 2025 %}selected{% endif %}>Tahun {{ y }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <!-- Status Kelengkapan -->
+                <div>
+                    <label for="status" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+                        Status Dokumen <span class="text-red-500">*</span>
+                    </label>
+                    <select id="status" name="status" required class="w-full px-3 py-2.5 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-navy-main outline-none">
+                        <option value="lengkap" selected>Lengkap (Tervalidasi)</option>
+                        <option value="belum_lengkap">Belum Lengkap (Perlu Tindak Lanjut)</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- File Upload Input (Drag & drop visual) -->
+            <div>
+                <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+                    File Dokumen <span class="text-red-500">*</span>
+                </label>
+                <div class="p-6 border-2 border-dashed border-slate-300 rounded-2xl bg-slate-50/60 hover:bg-slate-50 text-center transition">
+                    <input type="file" 
+                           id="file" 
+                           name="file" 
+                           required 
+                           accept=".pdf,.doc,.docx,.xls,.xlsx,.pptx"
+                           class="w-full text-xs text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-navy-main file:text-white hover:file:bg-navy-dark cursor-pointer">
+                    <p class="text-[11px] text-slate-400 mt-2">
+                        Format yang didukung: <strong>PDF, DOC, DOCX, XLS, XLSX, PPTX</strong> (Maksimal ukuran: 32MB).
+                    </p>
+                </div>
+            </div>
+
+            <!-- Deskripsi -->
+            <div>
+                <label for="description" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">Deskripsi Ringkas</label>
+                <textarea id="description" 
+                          name="description" 
+                          rows="3" 
+                          placeholder="Jelaskan ringkasan isi dokumen, tujuan pengesahan, atau rincian penting lainnya..." 
+                          class="w-full px-4 py-2.5 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-navy-main outline-none"></textarea>
+            </div>
+
+            <!-- Catatan Validasi / Kelengkapan -->
+            <div>
+                <label for="notes" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">Catatan Validasi / Keterangan Tambahan</label>
+                <textarea id="notes" 
+                          name="notes" 
+                          rows="2" 
+                          placeholder="Misal: Sudah ditandatangani Kepala BPS, menunggu reviu provinsi, dll..." 
+                          class="w-full px-4 py-2.5 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-navy-main outline-none"></textarea>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="pt-4 border-t border-slate-100 flex items-center justify-end gap-3">
+                <a href="{{ url_for('documents.index') }}" class="px-5 py-2.5 rounded-xl border border-slate-200 text-slate-600 hover:bg-slate-50 text-xs font-semibold transition">
+                    Batal
+                </a>
+                <button type="submit" class="px-6 py-2.5 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white rounded-xl text-xs font-bold shadow-md shadow-orange-500/20 transition flex items-center gap-2">
+                    <i data-lucide="check" class="w-4 h-4"></i>
+                    <span>Simpan & Unggah Dokumen</span>
+                </button>
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+{% endblock %}
+

@@ -1,0 +1,173 @@
+{% extends 'base.html' %}
+
+{% block title %}Checklist Dokumen AKIP - PRIMA BPS Kabupaten Banyuwangi{% endblock %}
+
+{% block content %}
+<div class="space-y-6">
+
+    <!-- Header & Year Selector -->
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-6 rounded-3xl border border-slate-200/80 shadow-soft">
+        <div>
+            <div class="flex items-center gap-2 text-xs text-slate-500 mb-1">
+                <span>Kelengkapan</span>
+                <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+                <span class="text-orange-600 font-bold">Checklist Dokumen</span>
+            </div>
+            <h1 class="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
+                Checklist Dokumen AKIP Tahun {{ selected_year }}
+            </h1>
+            <p class="text-xs text-slate-500 mt-1">
+                Pantau daftar pemenuhan dokumen wajib Akuntabilitas Kinerja Instansi Pemerintah.
+            </p>
+        </div>
+
+        <div class="flex items-center gap-2">
+            <span class="text-xs font-bold text-slate-500">Pilih Tahun:</span>
+            <div class="inline-flex rounded-xl bg-slate-100 p-1 border border-slate-200">
+                {% for y in available_years %}
+                <a href="{{ url_for('completeness.checklist', year=y) }}" 
+                   class="px-3 py-1.5 rounded-lg text-xs font-bold transition {% if selected_year == y %} bg-white text-navy-main shadow-sm {% else %} text-slate-500 hover:text-slate-800 {% endif %}">
+                    {{ y }}
+                </a>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Progress Card -->
+    <div class="bg-white p-6 rounded-3xl border border-slate-200/80 shadow-card">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-3">
+            <div>
+                <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Progres Pemenuhan Checklist</span>
+                <h3 class="text-lg font-black text-slate-900">{{ fulfilled_items }} dari {{ total_items }} Item Terpenuhi</h3>
+            </div>
+            <div class="text-right">
+                <span class="text-2xl font-black text-orange-600">{{ percentage }}%</span>
+                <span class="text-xs text-slate-400 block font-medium">Tingkat Kepatuhan</span>
+            </div>
+        </div>
+
+        <div class="w-full h-3.5 bg-slate-100 rounded-full overflow-hidden p-0.5 border border-slate-200">
+            <div class="h-full bg-gradient-to-r from-orange-400 to-emerald-500 rounded-full transition-all duration-500" style="width: {{ percentage }}%;"></div>
+        </div>
+    </div>
+
+    <!-- Checklist Table -->
+    <div class="bg-white rounded-3xl border border-slate-200/80 shadow-card overflow-hidden">
+        <div class="p-5 border-b border-slate-100 flex items-center justify-between">
+            <h3 class="text-sm font-bold text-slate-800">Daftar Item Pemenuhan Dokumen</h3>
+            {% if current_user.is_admin %}
+            <span class="text-xs text-slate-400">Klik tombol status untuk mengubah</span>
+            {% endif %}
+        </div>
+
+        <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="bg-slate-50 border-b border-slate-200/80 text-[11px] font-bold uppercase tracking-wider text-slate-600">
+                        <th class="py-3.5 px-6">Nama Dokumen Wajib</th>
+                        <th class="py-3.5 px-4">Kategori AKIP</th>
+                        <th class="py-3.5 px-4">Catatan / Keterangan</th>
+                        <th class="py-3.5 px-4 text-center">Status Pemenuhan</th>
+                        {% if current_user.is_admin %}
+                        <th class="py-3.5 px-6 text-right">Aksi</th>
+                        {% endif %}
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100 text-xs">
+                    {% if checklist_items %}
+                        {% for item in checklist_items %}
+                        <tr class="hover:bg-slate-50/80 transition-colors">
+                            <td class="py-4 px-6 font-bold text-slate-800">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-6 h-6 rounded-lg flex items-center justify-center flex-shrink-0 {% if item.is_fulfilled %} bg-emerald-100 text-emerald-700 {% else %} bg-slate-100 text-slate-400 {% endif %}">
+                                        <i data-lucide="{% if item.is_fulfilled %}check{% else %}circle{% endif %}" class="w-3.5 h-3.5"></i>
+                                    </div>
+                                    <span>{{ item.item_name }}</span>
+                                </div>
+                            </td>
+
+                            <td class="py-4 px-4 font-semibold text-slate-600">
+                                {{ item.category.name }}
+                            </td>
+
+                            <td class="py-4 px-4 text-slate-500">
+                                {{ item.notes or '-' }}
+                            </td>
+
+                            <td class="py-4 px-4 text-center">
+                                {% if current_user.is_admin %}
+                                <form action="{{ url_for('completeness.toggle', item_id=item.id) }}" method="POST" class="inline">
+                                    <button type="submit" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold transition {% if item.is_fulfilled %} bg-emerald-100 text-emerald-800 hover:bg-emerald-200 {% else %} bg-amber-100 text-amber-800 hover:bg-amber-200 {% endif %}">
+                                        <i data-lucide="{% if item.is_fulfilled %}check-circle-2{% else %}clock{% endif %}" class="w-3.5 h-3.5"></i>
+                                        <span>{{ 'Terpenuhi (Klik Ubah)' if item.is_fulfilled else 'Belum (Klik Selesai)' }}</span>
+                                    </button>
+                                </form>
+                                {% else %}
+                                    {% if item.is_fulfilled %}
+                                    <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800">
+                                        <i data-lucide="check" class="w-3 h-3"></i> Terpenuhi
+                                    </span>
+                                    {% else %}
+                                    <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-bold bg-amber-100 text-amber-800">
+                                        <i data-lucide="clock" class="w-3 h-3"></i> Belum
+                                    </span>
+                                    {% endif %}
+                                {% endif %}
+                            </td>
+
+                            {% if current_user.is_admin %}
+                            <td class="py-4 px-6 text-right">
+                                <form action="{{ url_for('completeness.delete_item', item_id=item.id) }}" method="POST" onsubmit="return confirm('Hapus item checklist ini?');" class="inline">
+                                    <button type="submit" class="p-1.5 text-slate-400 hover:text-red-600 rounded-lg transition" title="Hapus Item">
+                                        <i data-lucide="trash-2" class="w-4 h-4"></i>
+                                    </button>
+                                </form>
+                            </td>
+                            {% endif %}
+                        </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td colspan="5" class="py-8 text-center text-slate-400">
+                                Belum ada item checklist untuk tahun {{ selected_year }}.
+                            </td>
+                        </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Admin Add Item Section -->
+        {% if current_user.is_admin %}
+        <div class="p-6 bg-slate-50 border-t border-slate-100">
+            <h4 class="text-xs font-bold uppercase tracking-wider text-slate-700 mb-3 flex items-center gap-1.5">
+                <i data-lucide="plus-circle" class="w-4 h-4 text-orange-500"></i>
+                <span>Tambah Dokumen ke Checklist Tahun {{ selected_year }}</span>
+            </h4>
+            <form action="{{ url_for('completeness.add_item') }}" method="POST" class="grid grid-cols-1 sm:grid-cols-4 gap-3">
+                <input type="hidden" name="year" value="{{ selected_year }}">
+                <div class="sm:col-span-2">
+                    <input type="text" name="item_name" required placeholder="Nama item dokumen (misal: Laporan Reviu RKT)" class="w-full px-3 py-2 text-xs bg-white border border-slate-200 rounded-xl focus:border-navy-main outline-none">
+                </div>
+                <div>
+                    <select name="category_id" required class="w-full px-3 py-2 text-xs bg-white border border-slate-200 rounded-xl focus:border-navy-main outline-none">
+                        {% for cat in categories %}
+                        <option value="{{ cat.id }}">{{ cat.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div>
+                    <button type="submit" class="w-full py-2 px-4 bg-navy-main hover:bg-navy-dark text-white rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5">
+                        <i data-lucide="plus" class="w-4 h-4"></i>
+                        <span>Tambahkan Item</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+        {% endif %}
+    </div>
+
+</div>
+{% endblock %}
+

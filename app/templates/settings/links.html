@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+
+{% block title %}Pengaturan Tautan Dokumen Penting - PRIMA BPS Kabupaten Banyuwangi{% endblock %}
+
+{% block content %}
+<div class="space-y-6">
+
+    <!-- Header Section -->
+    <div class="bg-white p-6 rounded-3xl border border-slate-200/80 shadow-soft">
+        <div class="flex items-center gap-2 text-xs text-slate-500 mb-1.5">
+            <span>Manajemen Admin</span>
+            <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+            <span class="text-orange-600 font-bold">Pengaturan Tautan Dokumen Penting</span>
+        </div>
+        <h1 class="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
+            Konfigurasi Tautan Eksternal & Dokumen Penting
+        </h1>
+        <p class="text-xs text-slate-500 mt-0.5">
+            Kelola URL rujukan resmi untuk SIMONIK, SINERGI, FRA, LINK AKIP JATIM, PROKSI, PERMINDOK, dan JANJIKU.
+        </p>
+    </div>
+
+    <!-- Links List -->
+    <div class="space-y-4">
+        {% for link in links %}
+        <div class="bg-white rounded-3xl border border-slate-200/80 shadow-soft p-6">
+            <form action="{{ url_for('settings.edit_link', link_id=link.id) }}" method="POST" class="space-y-4">
+                <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+                    <div class="flex items-center gap-3">
+                        <div class="w-9 h-9 rounded-xl bg-orange-100 text-orange-600 flex items-center justify-center font-bold">
+                            <i data-lucide="{{ link.icon or 'link' }}" class="w-4 h-4"></i>
+                        </div>
+                        <div>
+                            <span class="text-sm font-black text-slate-900">{{ link.title }}</span>
+                            <span class="text-[10px] text-slate-400 font-mono ml-2">code: {{ link.code }}</span>
+                        </div>
+                    </div>
+                    <label class="flex items-center gap-2 cursor-pointer text-xs">
+                        <input type="checkbox" name="is_active" {% if link.is_active %}checked{% endif %} class="w-4 h-4 text-orange-500 rounded border-slate-300">
+                        <span class="font-bold text-slate-700">Tampilkan di Navigasi</span>
+                    </label>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">Judul Menu</label>
+                        <input type="text" name="title" value="{{ link.title }}" required class="w-full px-3 py-2 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-navy-main outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">Label Badge</label>
+                        <input type="text" name="badge_text" value="{{ link.badge_text }}" class="w-full px-3 py-2 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-navy-main outline-none">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">Alamat Tautan URL Eksternal</label>
+                    <input type="url" name="url" value="{{ link.url }}" required class="w-full px-3 py-2 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-navy-main outline-none font-mono">
+                </div>
+
+                <div>
+                    <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">Deskripsi Singkat</label>
+                    <textarea name="description" rows="2" class="w-full px-3 py-2 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-navy-main outline-none">{{ link.description }}</textarea>
+                </div>
+
+                <div class="flex items-center justify-between pt-2">
+                    <a href="{{ link.url }}" target="_blank" rel="noopener noreferrer" class="text-xs text-navy-main hover:underline flex items-center gap-1">
+                        <span>Uji Buka URL</span>
+                        <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+                    </a>
+                    <button type="submit" class="px-4 py-2 bg-navy-main hover:bg-navy-dark text-white rounded-xl text-xs font-bold transition flex items-center gap-1.5 shadow-sm">
+                        <i data-lucide="save" class="w-3.5 h-3.5"></i>
+                        <span>Simpan Pengaturan</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+        {% endfor %}
+    </div>
+
+</div>
+{% endblock %}
+

@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+
+{% block title %}Dokumen Penting & Portal Terintegrasi - PRIMA BPS Kabupaten Banyuwangi{% endblock %}
+
+{% block content %}
+<div class="space-y-6">
+
+    <!-- Header Section -->
+    <div class="bg-white p-6 rounded-3xl border border-slate-200/80 shadow-soft">
+        <div class="flex items-center gap-2 text-xs text-slate-500 mb-1.5">
+            <a href="{{ url_for('dashboard.index') }}" class="hover:text-navy-main">PRIMA</a>
+            <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+            <span class="text-orange-600 font-bold">Dokumen Penting</span>
+        </div>
+        <div class="flex items-center gap-3">
+            <div class="w-12 h-12 rounded-2xl bg-orange-100 text-orange-600 flex items-center justify-center font-bold">
+                <i data-lucide="star" class="w-6 h-6"></i>
+            </div>
+            <div>
+                <h1 class="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
+                    Dokumen Penting & Aplikasi Terintegrasi
+                </h1>
+                <p class="text-xs text-slate-500 mt-0.5">
+                    Akses cepat ke 8 portal dan instrumen kunci Akuntabilitas Kinerja Instansi Pemerintah di BPS Banyuwangi.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 8 Portal Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        {% for link in links %}
+        <div class="bg-white rounded-3xl border border-slate-200/80 shadow-soft p-5 flex flex-col justify-between hover-lift">
+            <div>
+                <div class="flex items-center justify-between mb-3">
+                    <span class="text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-orange-100 text-orange-700">
+                        {{ link.badge_text }}
+                    </span>
+                    <div class="w-8 h-8 rounded-xl bg-slate-100 text-navy-main flex items-center justify-center">
+                        <i data-lucide="{{ link.icon or 'external-link' }}" class="w-4 h-4"></i>
+                    </div>
+                </div>
+
+                <h3 class="text-base font-extrabold text-slate-900 mb-1.5">
+                    {{ link.title }}
+                </h3>
+
+                <p class="text-xs text-slate-500 leading-relaxed line-clamp-3 mb-4">
+                    {{ link.description }}
+                </p>
+            </div>
+
+            <div class="pt-3 border-t border-slate-100 flex items-center justify-between gap-2">
+                <a href="{{ url_for('important_links.detail', code_slug=link.code) }}" class="text-xs font-semibold text-slate-700 hover:text-navy-main flex items-center gap-1">
+                    <span>Detail & Panduan</span>
+                    <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+                </a>
+                <a href="{{ link.url }}" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 bg-navy-main hover:bg-navy-dark text-white rounded-xl text-xs font-bold transition flex items-center gap-1 shadow-sm">
+                    <span>Buka Tautan</span>
+                    <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+                </a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+</div>
+{% endblock %}
+

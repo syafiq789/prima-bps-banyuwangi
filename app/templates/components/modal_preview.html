@@ -1,0 +1,49 @@
+<!-- Document Preview Modal Component -->
+<div id="preview-modal" class="fixed inset-0 z-50 hidden overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+    <!-- Backdrop -->
+    <div class="fixed inset-0 modal-backdrop transition-opacity" onclick="closePreviewModal()"></div>
+
+    <div class="flex min-h-screen items-center justify-center p-3 sm:p-5 text-center">
+        <div class="relative w-full max-w-5xl transform overflow-hidden rounded-2xl bg-white text-left shadow-2xl transition-all border border-slate-200">
+            
+            <!-- Modal Header -->
+            <div class="flex items-center justify-between px-6 py-4 border-b border-slate-100 bg-slate-50/60">
+                <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 rounded-lg bg-orange-100 text-orange-600 flex items-center justify-center">
+                        <i data-lucide="eye" class="w-4 h-4"></i>
+                    </div>
+                    <div>
+                        <h3 id="preview-modal-title" class="text-sm sm:text-base font-bold text-slate-900 line-clamp-1">
+                            Pratinjau Dokumen
+                        </h3>
+                        <p class="text-[11px] text-slate-500">PRIMA BPS Kabupaten Banyuwangi</p>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-2">
+                    <a id="preview-modal-download" href="#" target="_blank" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-orange-500 hover:bg-orange-600 text-white text-xs font-semibold rounded-lg shadow-sm transition">
+                        <i data-lucide="download" class="w-3.5 h-3.5"></i>
+                        <span>Unduh</span>
+                    </a>
+                    <button type="button" onclick="closePreviewModal()" class="p-1.5 text-slate-400 hover:text-slate-700 hover:bg-slate-200/60 rounded-lg transition">
+                        <i data-lucide="x" class="w-5 h-5"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Modal Content (Preview Area) -->
+            <div id="preview-modal-container" class="p-4 sm:p-6 bg-slate-100/50 min-h-[500px] flex items-center justify-center">
+                <!-- Dynamic Content injected via JS -->
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="px-6 py-3 border-t border-slate-100 bg-white flex justify-end">
+                <button type="button" onclick="closePreviewModal()" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold rounded-xl transition">
+                    Tutup Pratinjau
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,112 @@
+{% extends 'base.html' %}
+
+{% block title %}Panduan Penggunaan - PRIMA BPS Kabupaten Banyuwangi{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto space-y-6">
+
+    <!-- Hero Card -->
+    <div class="bg-white p-6 rounded-3xl border border-slate-200/80 shadow-soft">
+        <div class="flex items-center gap-2 text-xs text-slate-500 mb-1.5">
+            <a href="{{ url_for('dashboard.index') }}" class="hover:text-navy-main">PRIMA</a>
+            <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+            <span class="text-orange-600 font-bold">Panduan Penggunaan</span>
+        </div>
+        <div class="flex items-center gap-3">
+            <div class="w-12 h-12 rounded-2xl bg-orange-100 text-orange-600 flex items-center justify-center font-bold">
+                <i data-lucide="book-open" class="w-6 h-6"></i>
+            </div>
+            <div>
+                <h1 class="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
+                    Panduan Penggunaan Portal PRIMA
+                </h1>
+                <p class="text-xs text-slate-500 mt-0.5">
+                    Petunjuk langkah demi langkah pengoperasian fitur bagi seluruh pegawai dan administrator BPS Kabupaten Banyuwangi.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Step Guides -->
+    <div class="space-y-4">
+        
+        <!-- Step 1: Navigasi Sidebar Accordion -->
+        <div class="bg-white p-6 rounded-3xl border border-slate-200/80 shadow-soft">
+            <div class="flex items-start gap-4">
+                <div class="w-10 h-10 rounded-2xl bg-navy-main text-white flex items-center justify-center font-black flex-shrink-0">
+                    1
+                </div>
+                <div>
+                    <h3 class="text-sm font-bold text-slate-900 mb-1">Navigasi Menggunakan Sidebar Accordion</h3>
+                    <p class="text-xs text-slate-600 leading-relaxed">
+                        Klik pada menu utama di sidebar sebelah kiri (seperti <em>Perencanaan</em>, <em>Pengukuran</em>, <em>Pelaporan</em>, <em>Dokumen Penting</em>, atau <em>Kelengkapan</em>). Menu akan membuka submenu di bawahnya secara otomatis dengan animasi mulus dan menutup kelompok menu lainnya.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 2: Pencarian & Filter Dokumen -->
+        <div class="bg-white p-6 rounded-3xl border border-slate-200/80 shadow-soft">
+            <div class="flex items-start gap-4">
+                <div class="w-10 h-10 rounded-2xl bg-navy-main text-white flex items-center justify-center font-black flex-shrink-0">
+                    2
+                </div>
+                <div>
+                    <h3 class="text-sm font-bold text-slate-900 mb-1">Pencarian & Penyaringan Dokumen (Filter)</h3>
+                    <p class="text-xs text-slate-600 leading-relaxed">
+                        Anda dapat mencari arsip dengan cepat melalui kolom pencarian di bagian atas atau menggunakan filter kategori, tahun kinerja, dan status kelengkapan pada halaman arsip.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 3: Pratinjau & Unduh Dokumen -->
+        <div class="bg-white p-6 rounded-3xl border border-slate-200/80 shadow-soft">
+            <div class="flex items-start gap-4">
+                <div class="w-10 h-10 rounded-2xl bg-navy-main text-white flex items-center justify-center font-black flex-shrink-0">
+                    3
+                </div>
+                <div>
+                    <h3 class="text-sm font-bold text-slate-900 mb-1">Pratinjau (Preview) & Unduh Dokumen</h3>
+                    <p class="text-xs text-slate-600 leading-relaxed">
+                        Klik tombol mata (<i data-lucide="eye" class="w-3.5 h-3.5 inline"></i>) untuk membaca dokumen langsung di dalam jendela pop-up peramban (khusus berkas PDF dan gambar). Untuk dokumen format Word/Excel/PowerPoint, gunakan tombol unduh (<i data-lucide="download" class="w-3.5 h-3.5 inline"></i>) untuk menyimpannya di perangkat Anda.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 4: Unggah Dokumen Baru (Admin) -->
+        <div class="bg-white p-6 rounded-3xl border border-slate-200/80 shadow-soft">
+            <div class="flex items-start gap-4">
+                <div class="w-10 h-10 rounded-2xl bg-orange-500 text-white flex items-center justify-center font-black flex-shrink-0">
+                    4
+                </div>
+                <div>
+                    <h3 class="text-sm font-bold text-slate-900 mb-1">Unggah Dokumen Baru (Khusus Administrator)</h3>
+                    <p class="text-xs text-slate-600 leading-relaxed">
+                        Administrator dapat mengklik tombol <strong>Unggah Dokumen</strong> di navbar atas atau di dalam halaman kategori. Isi formulir dengan lengkap (Judul, Kategori, Tahun, Status, dan pilih berkas PDF/DOCX/XLSX hingga maksimal 32MB).
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 5: Dokumen Penting & Checklist -->
+        <div class="bg-white p-6 rounded-3xl border border-slate-200/80 shadow-soft">
+            <div class="flex items-start gap-4">
+                <div class="w-10 h-10 rounded-2xl bg-navy-main text-white flex items-center justify-center font-black flex-shrink-0">
+                    5
+                </div>
+                <div>
+                    <h3 class="text-sm font-bold text-slate-900 mb-1">Akses Portal Dokumen Penting (SIMONIK, SINERGI, FRA, dll)</h3>
+                    <p class="text-xs text-slate-600 leading-relaxed">
+                        Gunakan menu <em>Dokumen Penting</em> untuk membuka 8 instrumen dan portal kinerja eksternal. Administrator dapat memperbarui tautan URL kapan saja melalui form pengaturan yang tersedia.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+{% endblock %}
+

@@ -1,0 +1,149 @@
+{% extends 'base.html' %}
+
+{% block title %}Dokumen Belum Lengkap - PRIMA BPS Kabupaten Banyuwangi{% endblock %}
+
+{% block content %}
+<div class="space-y-6">
+
+    <!-- Header Section -->
+    <div class="bg-white p-6 rounded-3xl border border-amber-200/80 shadow-soft">
+        <div class="flex items-center gap-2 text-xs text-slate-500 mb-1.5">
+            <a href="{{ url_for('dashboard.index') }}" class="hover:text-navy-main">PRIMA</a>
+            <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+            <span class="text-amber-600 font-bold">Dokumen Belum Lengkap</span>
+        </div>
+        <div class="flex items-center gap-3">
+            <div class="w-12 h-12 rounded-2xl bg-amber-100 text-amber-700 flex items-center justify-center font-bold">
+                <i data-lucide="alert-circle" class="w-6 h-6"></i>
+            </div>
+            <div>
+                <h1 class="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
+                    Daftar Dokumen Belum Lengkap (Perlu Tindak Lanjut)
+                </h1>
+                <p class="text-xs text-slate-500 mt-0.5">
+                    Monitoring berkas yang masih dalam proses penyusunan, revisi, atau menunggu pengesahan pimpinan.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Section 1: Dokumen Fisik Belum Lengkap -->
+    <div class="bg-white rounded-3xl border border-slate-200/80 shadow-card overflow-hidden">
+        <div class="p-5 border-b border-slate-100 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+                <i data-lucide="file-warning" class="w-5 h-5 text-amber-500"></i>
+                <h3 class="text-sm font-bold text-slate-800">Berkas Dokumen yang Belum Lengkap</h3>
+            </div>
+            <span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-amber-100 text-amber-800">
+                {{ pending_documents|length }} Berkas
+            </span>
+        </div>
+
+        <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="bg-slate-50 border-b border-slate-200 text-[11px] font-bold uppercase tracking-wider text-slate-600">
+                        <th class="py-3.5 px-6">Nama Dokumen</th>
+                        <th class="py-3.5 px-4">Kategori</th>
+                        <th class="py-3.5 px-4 text-center">Tahun</th>
+                        <th class="py-3.5 px-4">Catatan Kendala</th>
+                        <th class="py-3.5 px-6 text-right">Aksi Tindak Lanjut</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100 text-xs">
+                    {% if pending_documents %}
+                        {% for doc in pending_documents %}
+                        <tr class="hover:bg-slate-50/80 transition-colors">
+                            <td class="py-4 px-6 font-bold text-slate-800">
+                                <a href="{{ url_for('documents.detail', doc_id=doc.id) }}" class="hover:text-orange-600 transition">
+                                    {{ doc.title }}
+                                </a>
+                            </td>
+                            <td class="py-4 px-4 font-semibold text-slate-600">
+                                {{ doc.category.name }}
+                            </td>
+                            <td class="py-4 px-4 text-center">
+                                <span class="px-2.5 py-0.5 rounded-lg bg-slate-100 text-slate-700 font-bold">
+                                    {{ doc.year }}
+                                </span>
+                            </td>
+                            <td class="py-4 px-4 text-amber-800 font-medium">
+                                {{ doc.notes or 'Perlu konfirmasi berkas final.' }}
+                            </td>
+                            <td class="py-4 px-6 text-right">
+                                <div class="flex items-center justify-end gap-2">
+                                    <a href="{{ url_for('documents.detail', doc_id=doc.id) }}" class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-xs font-bold transition">
+                                        Periksa
+                                    </a>
+                                    {% if current_user.is_admin %}
+                                    <a href="{{ url_for('documents.edit', doc_id=doc.id) }}" class="px-3 py-1.5 bg-orange-500 hover:bg-orange-600 text-white rounded-lg text-xs font-bold transition">
+                                        Lengkapi & Edit
+                                    </a>
+                                    {% endif %}
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td colspan="5" class="py-10 text-center text-slate-400">
+                                <div class="flex flex-col items-center justify-center">
+                                    <i data-lucide="check-circle-2" class="w-10 h-10 text-emerald-500 mb-2"></i>
+                                    <p class="text-sm font-semibold text-slate-700">Semua dokumen saat ini lengkap!</p>
+                                    <p class="text-xs text-slate-400">Tidak ada berkas berstatus belum lengkap yang perlu ditindaklanjuti.</p>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Section 2: Item Checklist Belum Terpenuhi -->
+    <div class="bg-white rounded-3xl border border-slate-200/80 shadow-card overflow-hidden">
+        <div class="p-5 border-b border-slate-100 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+                <i data-lucide="list-checks" class="w-5 h-5 text-purple-500"></i>
+                <h3 class="text-sm font-bold text-slate-800">Item Checklist Wajib yang Belum Terpenuhi</h3>
+            </div>
+            <a href="{{ url_for('completeness.checklist') }}" class="text-xs font-semibold text-orange-600 hover:text-orange-700">
+                Buka Checklist Lengkap &rarr;
+            </a>
+        </div>
+
+        <div class="divide-y divide-slate-100 text-xs">
+            {% if unfulfilled_checklist %}
+                {% for item in unfulfilled_checklist %}
+                <div class="p-4 flex items-center justify-between hover:bg-slate-50 transition">
+                    <div class="flex items-center gap-3">
+                        <div class="w-7 h-7 rounded-lg bg-amber-100 text-amber-700 flex items-center justify-center">
+                            <i data-lucide="clock" class="w-4 h-4"></i>
+                        </div>
+                        <div>
+                            <p class="font-bold text-slate-800">{{ item.item_name }}</p>
+                            <span class="text-[11px] text-slate-500">{{ item.category.name }} &bull; Tahun {{ item.year }} &bull; {{ item.notes or 'Belum ada catatan' }}</span>
+                        </div>
+                    </div>
+
+                    {% if current_user.is_admin %}
+                    <form action="{{ url_for('completeness.toggle', item_id=item.id) }}" method="POST">
+                        <button type="submit" class="px-3 py-1.5 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-200 rounded-lg text-xs font-bold transition flex items-center gap-1">
+                            <i data-lucide="check" class="w-3.5 h-3.5"></i>
+                            <span>Tandai Selesai</span>
+                        </button>
+                    </form>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            {% else %}
+                <div class="p-8 text-center text-slate-400">
+                    Semua item checklist telah terpenuhi dengan baik.
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+</div>
+{% endblock %}
+

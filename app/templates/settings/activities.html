@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+
+{% block title %}Log Aktivitas Sistem - PRIMA BPS Kabupaten Banyuwangi{% endblock %}
+
+{% block content %}
+<div class="space-y-6">
+
+    <!-- Header Section -->
+    <div class="bg-white p-6 rounded-3xl border border-slate-200/80 shadow-soft">
+        <div class="flex items-center gap-2 text-xs text-slate-500 mb-1.5">
+            <span>Manajemen Admin</span>
+            <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+            <span class="text-orange-600 font-bold">Log Aktivitas</span>
+        </div>
+        <h1 class="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
+            Audit Trail & Rekam Jejak Aktivitas
+        </h1>
+        <p class="text-xs text-slate-500 mt-0.5">
+            Pantau seluruh histori login, pengunggahan dokumen, pembaruan, dan penghapusan data.
+        </p>
+    </div>
+
+    <!-- Activities Table -->
+    <div class="bg-white rounded-3xl border border-slate-200/80 shadow-card overflow-hidden">
+        <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="bg-slate-50 border-b border-slate-200 text-[11px] font-bold uppercase tracking-wider text-slate-600">
+                        <th class="py-3.5 px-6">Waktu Kejadian</th>
+                        <th class="py-3.5 px-4">Pengguna</th>
+                        <th class="py-3.5 px-4">Tindakan (Action)</th>
+                        <th class="py-3.5 px-6">Rincian Deskripsi</th>
+                        <th class="py-3.5 px-4 text-right">IP Address</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100 text-xs">
+                    {% if activities %}
+                        {% for act in activities %}
+                        <tr class="hover:bg-slate-50/80 transition-colors">
+                            <td class="py-4 px-6 text-slate-500 whitespace-nowrap">
+                                <span class="font-bold text-slate-700 block">{{ act.created_at.strftime('%d/%m/%Y') }}</span>
+                                <span class="text-[10px] text-slate-400 font-mono">{{ act.created_at.strftime('%H:%M:%S WIB') }}</span>
+                            </td>
+
+                            <td class="py-4 px-4 font-bold text-slate-800">
+                                {% if act.user %}
+                                    <span>{{ act.user.full_name }}</span>
+                                    <span class="text-[10px] text-slate-400 block font-normal">{{ act.user.username }}</span>
+                                {% else %}
+                                    <span class="text-slate-400 italic">Sistem / Tamu</span>
+                                {% endif %}
+                            </td>
+
+                            <td class="py-4 px-4">
+                                <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold uppercase tracking-wider
+                                    {% if 'UPLOAD' in act.action %} bg-emerald-100 text-emerald-800
+                                    {% elif 'DELETE' in act.action %} bg-red-100 text-red-800
+                                    {% elif 'LOGIN' in act.action %} bg-blue-100 text-blue-800
+                                    {% else %} bg-slate-100 text-slate-700 {% endif %}">
+                                    {{ act.action }}
+                                </span>
+                            </td>
+
+                            <td class="py-4 px-6 text-slate-700 font-medium">
+                                {{ act.description }}
+                            </td>
+
+                            <td class="py-4 px-4 text-right text-slate-400 font-mono text-[11px]">
+                                {{ act.ip_address or '127.0.0.1' }}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td colspan="5" class="py-10 text-center text-slate-400">
+                                Belum ada log aktivitas tercatat.
+                            </td>
+                        </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Pagination -->
+        {% if pagination.pages > 1 %}
+        <div class="px-6 py-4 border-t border-slate-100 flex items-center justify-between text-xs">
+            <span class="text-slate-500">
+                Halaman {{ pagination.page }} dari {{ pagination.pages }}
+            </span>
+            <div class="flex items-center gap-1">
+                {% if pagination.has_prev %}
+                <a href="{{ url_for('settings.activities', page=pagination.prev_num) }}" class="px-3 py-1.5 rounded-lg border border-slate-200 text-slate-700 hover:bg-slate-50 font-semibold transition">
+                    &larr; Sebelumnya
+                </a>
+                {% endif %}
+                {% if pagination.has_next %}
+                <a href="{{ url_for('settings.activities', page=pagination.next_num) }}" class="px-3 py-1.5 rounded-lg border border-slate-200 text-slate-700 hover:bg-slate-50 font-semibold transition">
+                    Berikutnya &rarr;
+                </a>
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+</div>
+{% endblock %}
+

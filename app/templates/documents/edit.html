@@ -1,0 +1,118 @@
+{% extends 'base.html' %}
+
+{% block title %}Edit Dokumen #{{ document.id }} - PRIMA BPS Kabupaten Banyuwangi{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto space-y-6">
+
+    <div class="flex items-center justify-between">
+        <a href="{{ url_for('documents.detail', doc_id=document.id) }}" class="inline-flex items-center gap-2 text-xs font-semibold text-slate-600 hover:text-navy-main transition">
+            <i data-lucide="arrow-left" class="w-4 h-4"></i>
+            <span>Batal & Kembali ke Detail Dokumen</span>
+        </a>
+        <span class="text-xs text-slate-400">Edit Dokumen ID #{{ document.id }}</span>
+    </div>
+
+    <div class="bg-white rounded-3xl border border-slate-200/80 shadow-card p-6 sm:p-8">
+        
+        <div class="mb-6 pb-4 border-b border-slate-100 flex items-center gap-3">
+            <div class="w-10 h-10 rounded-2xl bg-blue-100 text-blue-600 flex items-center justify-center">
+                <i data-lucide="edit-3" class="w-5 h-5"></i>
+            </div>
+            <div>
+                <h1 class="text-xl font-black text-slate-900 tracking-tight">Perbarui Informasi Dokumen</h1>
+                <p class="text-xs text-slate-500 mt-0.5">Ubah metadata atau perbarui file dokumen jika ada revisi terbaru.</p>
+            </div>
+        </div>
+
+        <form action="{{ url_for('documents.edit', doc_id=document.id) }}" method="POST" enctype="multipart/form-data" class="space-y-5">
+            
+            <div>
+                <label for="title" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+                    Judul Dokumen <span class="text-red-500">*</span>
+                </label>
+                <input type="text" 
+                       id="title" 
+                       name="title" 
+                       required 
+                       value="{{ document.title }}"
+                       class="w-full px-4 py-2.5 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-navy-main outline-none">
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div>
+                    <label for="category_id" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+                        Kategori Dokumen <span class="text-red-500">*</span>
+                    </label>
+                    <select id="category_id" name="category_id" required class="w-full px-3 py-2.5 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-navy-main outline-none">
+                        {% for cat in categories %}
+                            <option value="{{ cat.id }}" {% if document.category_id == cat.id %}selected{% endif %}>
+                                {{ cat.name }} ({{ cat.group|capitalize }})
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div>
+                    <label for="year" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+                        Tahun Kinerja <span class="text-red-500">*</span>
+                    </label>
+                    <select id="year" name="year" required class="w-full px-3 py-2.5 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-navy-main outline-none">
+                        {% for y in [2026, 2025, 2024, 2023, 2022, 2021, 2020] %}
+                            <option value="{{ y }}" {% if document.year == y %}selected{% endif %}>Tahun {{ y }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div>
+                    <label for="status" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+                        Status Kelengkapan <span class="text-red-500">*</span>
+                    </label>
+                    <select id="status" name="status" required class="w-full px-3 py-2.5 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-navy-main outline-none">
+                        <option value="lengkap" {% if document.status == 'lengkap' %}selected{% endif %}>Lengkap</option>
+                        <option value="belum_lengkap" {% if document.status == 'belum_lengkap' %}selected{% endif %}>Belum Lengkap</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Ganti file opsional -->
+            <div class="p-4 bg-slate-50 rounded-2xl border border-slate-200">
+                <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+                    Ganti File Dokumen (Opsional)
+                </label>
+                <p class="text-[11px] text-slate-500 mb-2">File saat ini: <strong>{{ document.original_filename }}</strong> ({{ document.formatted_size }})</p>
+                <input type="file" 
+                       id="file" 
+                       name="file" 
+                       accept=".pdf,.doc,.docx,.xls,.xlsx,.pptx"
+                       class="w-full text-xs text-slate-500 file:mr-4 file:py-1.5 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-navy-main file:text-white cursor-pointer">
+                <span class="text-[10px] text-slate-400 block mt-1">Kosongkan jika tidak ingin mengubah file fisik dokumen.</span>
+            </div>
+
+            <div>
+                <label for="description" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">Deskripsi Ringkas</label>
+                <textarea id="description" name="description" rows="3" class="w-full px-4 py-2.5 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-navy-main outline-none">{{ document.description or '' }}</textarea>
+            </div>
+
+            <div>
+                <label for="notes" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">Catatan Validasi</label>
+                <textarea id="notes" name="notes" rows="2" class="w-full px-4 py-2.5 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-navy-main outline-none">{{ document.notes or '' }}</textarea>
+            </div>
+
+            <div class="pt-4 border-t border-slate-100 flex items-center justify-end gap-3">
+                <a href="{{ url_for('documents.detail', doc_id=document.id) }}" class="px-5 py-2.5 rounded-xl border border-slate-200 text-slate-600 hover:bg-slate-50 text-xs font-semibold transition">
+                    Batal
+                </a>
+                <button type="submit" class="px-6 py-2.5 bg-navy-main hover:bg-navy-dark text-white rounded-xl text-xs font-bold transition flex items-center gap-2">
+                    <i data-lucide="check" class="w-4 h-4"></i>
+                    <span>Simpan Perubahan</span>
+                </button>
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+{% endblock %}
+

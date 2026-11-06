@@ -1,0 +1,521 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard - PRIMA BPS Kabupaten Banyuwangi{% endblock %}
+
+{% block content %}
+<div class="space-y-6">
+
+    <!-- 1. Hero Welcome Banner -->
+    <div class="relative overflow-hidden rounded-3xl bg-gradient-to-r from-[#0D1B2A] via-[#142B4A] to-[#1E3E66] text-white p-6 sm:p-8 shadow-card border border-slate-700/50">
+        <!-- Background decorative elements -->
+        <div class="absolute -right-10 -bottom-10 w-72 h-72 bg-orange-500/10 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute right-10 top-6 hidden md:block opacity-10 pointer-events-none">
+            <i data-lucide="shield-check" class="w-52 h-52"></i>
+        </div>
+
+        <div class="relative z-10 space-y-5">
+            
+            <!-- BAGIAN 1: HEADER JUDUL TERPISAH -->
+            <div class="space-y-1.5 pb-4 border-b border-white/10 max-w-3xl">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-500/20 text-orange-400 border border-orange-500/30 text-xs font-semibold uppercase tracking-wider mb-1">
+                    <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
+                    <span>Sistem Informasi Akuntabilitas Kinerja BPS</span>
+                </div>
+                
+                <h1 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-white">
+                    Selamat Datang di PRIMA
+                </h1>
+                <p class="text-base sm:text-lg font-medium text-slate-300">
+                    Pusat Arsip dan Manajemen AKIP Banyuwangi
+                </p>
+            </div>
+
+            <!-- BAGIAN 2: DESKRIPSI APLIKASI -->
+            <div class="max-w-3xl">
+                <p class="text-xs sm:text-sm text-slate-300/90 leading-relaxed">
+                    Platform digital terintegrasi untuk pengelolaan, penyimpanan, pengorganisasian, dan pemantauan dokumen administrasi serta Akuntabilitas Kinerja Instansi Pemerintah (AKIP) di lingkungan Badan Pusat Statistik Kabupaten Banyuwangi.
+                </p>
+            </div>
+
+            <!-- BAGIAN 3: BAGIAN BAWAH (TAGLINE, LOGIN, & STATUS ARSIP) -->
+            <div class="pt-4 border-t border-white/10 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <!-- Tagline ditaruh di bawah -->
+                <div class="flex items-center gap-2 text-xs sm:text-sm text-orange-300 font-medium italic">
+                    <i data-lucide="quote" class="w-4 h-4 text-orange-400 flex-shrink-0"></i>
+                    <span>"{{ app_tagline }}"</span>
+                </div>
+
+                <!-- Info Login & Status Arsip di bagian bawah -->
+                <div class="flex flex-wrap items-center gap-3 text-xs text-slate-300 bg-white/5 px-4 py-2.5 rounded-xl border border-white/10 backdrop-blur-sm self-start md:self-auto">
+                    <div class="flex items-center gap-1.5">
+                        <i data-lucide="user-check" class="w-4 h-4 text-orange-400"></i>
+                        <span>Login sebagai: <strong class="text-white">{{ current_user.full_name }}</strong> ({{ current_user.role|capitalize }})</span>
+                    </div>
+                    <span class="text-slate-500">&bull;</span>
+                    <div class="flex items-center gap-1.5">
+                        <i data-lucide="database" class="w-4 h-4 text-emerald-400"></i>
+                        <span>Status Arsip: <strong class="text-emerald-300">{{ total_docs }} Dokumen Terdata</strong></span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- 2. Dokumen Statistik 7 Metrik Grid -->
+    <div>
+        <div class="flex items-center justify-between mb-3">
+            <h3 class="text-base font-bold text-slate-800 flex items-center gap-2">
+                <i data-lucide="bar-chart-2" class="w-5 h-5 text-orange-prima"></i>
+                <span>Statistik Dokumen AKIP</span>
+            </h3>
+            <span class="text-xs text-slate-500">Pembaruan real-time dari database</span>
+        </div>
+
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-7 gap-3 sm:gap-4">
+            
+            <!-- Total Dokumen -->
+            <div class="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-soft hover-lift">
+                <div class="flex items-center justify-between mb-2">
+                    <span class="text-[11px] font-bold uppercase tracking-wider text-slate-500">Total</span>
+                    <div class="w-8 h-8 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center">
+                        <i data-lucide="files" class="w-4 h-4"></i>
+                    </div>
+                </div>
+                <div class="text-2xl font-black text-slate-900">{{ total_docs }}</div>
+                <p class="text-[10px] text-slate-400 mt-0.5">Semua Dokumen</p>
+            </div>
+
+            <!-- Perencanaan -->
+            <div class="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-soft hover-lift">
+                <div class="flex items-center justify-between mb-2">
+                    <span class="text-[11px] font-bold uppercase tracking-wider text-slate-500">Perencanaan</span>
+                    <div class="w-8 h-8 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center">
+                        <i data-lucide="compass" class="w-4 h-4"></i>
+                    </div>
+                </div>
+                <div class="text-2xl font-black text-indigo-900">{{ docs_perencanaan }}</div>
+                <p class="text-[10px] text-slate-400 mt-0.5">Renstra, RKT, PK, IKU</p>
+            </div>
+
+            <!-- Pengukuran -->
+            <div class="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-soft hover-lift">
+                <div class="flex items-center justify-between mb-2">
+                    <span class="text-[11px] font-bold uppercase tracking-wider text-slate-500">Pengukuran</span>
+                    <div class="w-8 h-8 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
+                        <i data-lucide="gauge" class="w-4 h-4"></i>
+                    </div>
+                </div>
+                <div class="text-2xl font-black text-emerald-900">{{ docs_pengukuran }}</div>
+                <p class="text-[10px] text-slate-400 mt-0.5">Metrik & Capaian</p>
+            </div>
+
+            <!-- Pelaporan -->
+            <div class="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-soft hover-lift">
+                <div class="flex items-center justify-between mb-2">
+                    <span class="text-[11px] font-bold uppercase tracking-wider text-slate-500">Pelaporan</span>
+                    <div class="w-8 h-8 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center">
+                        <i data-lucide="file-check-2" class="w-4 h-4"></i>
+                    </div>
+                </div>
+                <div class="text-2xl font-black text-amber-900">{{ docs_pelaporan }}</div>
+                <p class="text-[10px] text-slate-400 mt-0.5">LAKIP & Evaluasi</p>
+            </div>
+
+            <!-- Dokumen Penting -->
+            <div class="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-soft hover-lift">
+                <div class="flex items-center justify-between mb-2">
+                    <span class="text-[11px] font-bold uppercase tracking-wider text-slate-500">Penting</span>
+                    <div class="w-8 h-8 rounded-xl bg-orange-50 text-orange-600 flex items-center justify-center">
+                        <i data-lucide="star" class="w-4 h-4"></i>
+                    </div>
+                </div>
+                <div class="text-2xl font-black text-orange-900">{{ total_important_links }}</div>
+                <p class="text-[10px] text-slate-400 mt-0.5">8 Portal Utama</p>
+            </div>
+
+            <!-- Dokumen Lengkap -->
+            <div class="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-soft hover-lift">
+                <div class="flex items-center justify-between mb-2">
+                    <span class="text-[11px] font-bold uppercase tracking-wider text-slate-500">Lengkap</span>
+                    <div class="w-8 h-8 rounded-xl bg-teal-50 text-teal-600 flex items-center justify-center">
+                        <i data-lucide="check-circle-2" class="w-4 h-4"></i>
+                    </div>
+                </div>
+                <div class="text-2xl font-black text-teal-700">{{ docs_lengkap }}</div>
+                <p class="text-[10px] text-teal-600 mt-0.5 font-semibold">{{ completion_percentage }}% Lengkap</p>
+            </div>
+
+            <!-- Dokumen Belum Lengkap -->
+            <a href="{{ url_for('completeness.belum_lengkap') }}" class="bg-white p-4 rounded-2xl border border-amber-200/80 shadow-soft hover-lift group block col-span-2 sm:col-span-1">
+                <div class="flex items-center justify-between mb-2">
+                    <span class="text-[11px] font-bold uppercase tracking-wider text-amber-600">Perlu Tindak</span>
+                    <div class="w-8 h-8 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center group-hover:scale-110 transition">
+                        <i data-lucide="alert-circle" class="w-4 h-4"></i>
+                    </div>
+                </div>
+                <div class="text-2xl font-black text-amber-600">{{ docs_belum_lengkap }}</div>
+                <p class="text-[10px] text-amber-700 font-semibold mt-0.5 flex items-center gap-1">
+                    <span>Belum Lengkap</span>
+                    <i data-lucide="arrow-right" class="w-3 h-3"></i>
+                </p>
+            </a>
+
+        </div>
+    </div>
+
+    <!-- 3. Progress Kelengkapan & Charts Section -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        
+        <!-- Kelengkapan Ringkasan Box -->
+        <div class="bg-white p-6 rounded-3xl border border-slate-200/80 shadow-card flex flex-col justify-between">
+            <div>
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-sm font-bold text-slate-800 uppercase tracking-wider">Tingkat Kelengkapan AKIP</h3>
+                    <span class="px-2.5 py-1 text-xs font-extrabold rounded-lg bg-orange-100 text-orange-700">
+                        {{ completion_percentage }}%
+                    </span>
+                </div>
+
+                <!-- Progress Bar Dokumen -->
+                <div class="mb-5">
+                    <div class="flex justify-between text-xs font-semibold text-slate-600 mb-1.5">
+                        <span>Dokumen Terpenuhi</span>
+                        <span>{{ docs_lengkap }} / {{ total_docs }} Dokumen</span>
+                    </div>
+                    <div class="w-full h-3 bg-slate-100 rounded-full overflow-hidden p-0.5 border border-slate-200">
+                        <div class="h-full bg-gradient-to-r from-orange-400 to-orange-500 rounded-full transition-all duration-500" style="width: {{ completion_percentage }}%;"></div>
+                    </div>
+                </div>
+
+                <!-- Progress Bar Checklist Item -->
+                <div class="mb-5">
+                    <div class="flex justify-between text-xs font-semibold text-slate-600 mb-1.5">
+                        <span>Checklist Administrasi SAKIP</span>
+                        <span>{{ fulfilled_checklist }} / {{ total_checklist }} Item ({{ checklist_percentage }}%)</span>
+                    </div>
+                    <div class="w-full h-3 bg-slate-100 rounded-full overflow-hidden p-0.5 border border-slate-200">
+                        <div class="h-full bg-gradient-to-r from-emerald-400 to-emerald-600 rounded-full transition-all duration-500" style="width: {{ checklist_percentage }}%;"></div>
+                    </div>
+                </div>
+
+                <div class="p-4 bg-slate-50 rounded-2xl border border-slate-100 text-xs text-slate-600 space-y-2">
+                    <div class="flex items-center justify-between">
+                        <span class="flex items-center gap-1.5 text-slate-600">
+                            <i data-lucide="check-check" class="w-4 h-4 text-teal-600"></i>
+                            <span>Status Selesai Validasi:</span>
+                        </span>
+                        <strong class="text-slate-800">{{ docs_lengkap }} File</strong>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span class="flex items-center gap-1.5 text-slate-600">
+                            <i data-lucide="clock" class="w-4 h-4 text-amber-500"></i>
+                            <span>Pending Dokumen:</span>
+                        </span>
+                        <strong class="text-amber-600">{{ docs_belum_lengkap }} File</strong>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-6 pt-4 border-t border-slate-100 flex gap-2">
+                <a href="{{ url_for('completeness.checklist') }}" class="flex-1 py-2.5 px-3 text-center bg-navy-main hover:bg-navy-dark text-white rounded-xl text-xs font-semibold shadow-sm transition">
+                    Lihat Checklist
+                </a>
+                <a href="{{ url_for('completeness.belum_lengkap') }}" class="py-2.5 px-3 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-semibold transition">
+                    Tindak Lanjut ({{ docs_belum_lengkap }})
+                </a>
+            </div>
+        </div>
+
+        <!-- Chart 1: Distribusi Kategori Dokumen (Doughnut) -->
+        <div class="bg-white p-6 rounded-3xl border border-slate-200/80 shadow-card">
+            <div class="flex items-center justify-between mb-3">
+                <h3 class="text-sm font-bold text-slate-800 uppercase tracking-wider">Distribusi Kategori Dokumen</h3>
+                <i data-lucide="pie-chart" class="w-4 h-4 text-slate-400"></i>
+            </div>
+            <div class="relative h-60 flex items-center justify-center">
+                <canvas id="categoryChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Chart 2: Tren Dokumen per Tahun (Bar) -->
+        <div class="bg-white p-6 rounded-3xl border border-slate-200/80 shadow-card">
+            <div class="flex items-center justify-between mb-3">
+                <h3 class="text-sm font-bold text-slate-800 uppercase tracking-wider">Arsip Dokumen per Tahun</h3>
+                <i data-lucide="trending-up" class="w-4 h-4 text-slate-400"></i>
+            </div>
+            <div class="relative h-60 flex items-center justify-center">
+                <canvas id="yearChart"></canvas>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- 4. Quick Access Shortcuts Kategori -->
+    <div>
+        <div class="flex items-center justify-between mb-3">
+            <h3 class="text-base font-bold text-slate-800 flex items-center gap-2">
+                <i data-lucide="grid" class="w-5 h-5 text-orange-prima"></i>
+                <span>Akses Cepat Kategori AKIP</span>
+            </h3>
+            <a href="{{ url_for('documents.index') }}" class="text-xs font-semibold text-orange-600 hover:text-orange-700 flex items-center gap-1">
+                <span>Lihat Seluruh Arsip</span>
+                <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+            </a>
+        </div>
+
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+            <a href="{{ url_for('documents.category_view', slug='dokumen-perencanaan') }}" class="p-4 bg-white rounded-2xl border border-slate-200/80 shadow-soft hover-lift text-left group">
+                <div class="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center mb-3 group-hover:bg-blue-600 group-hover:text-white transition">
+                    <i data-lucide="compass" class="w-5 h-5"></i>
+                </div>
+                <p class="text-xs font-bold text-slate-800 line-clamp-1">Perencanaan</p>
+                <p class="text-[10px] text-slate-400 mt-0.5">Renstra & RKT</p>
+            </a>
+
+            <a href="{{ url_for('documents.category_view', slug='perjanjian-kinerja') }}" class="p-4 bg-white rounded-2xl border border-slate-200/80 shadow-soft hover-lift text-left group">
+                <div class="w-10 h-10 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center mb-3 group-hover:bg-purple-600 group-hover:text-white transition">
+                    <i data-lucide="award" class="w-5 h-5"></i>
+                </div>
+                <p class="text-xs font-bold text-slate-800 line-clamp-1">Perjanjian Kinerja</p>
+                <p class="text-[10px] text-slate-400 mt-0.5">PK Pegawai</p>
+            </a>
+
+            <a href="{{ url_for('documents.category_view', slug='indikator-kinerja-utama') }}" class="p-4 bg-white rounded-2xl border border-slate-200/80 shadow-soft hover-lift text-left group">
+                <div class="w-10 h-10 rounded-xl bg-teal-50 text-teal-600 flex items-center justify-center mb-3 group-hover:bg-teal-600 group-hover:text-white transition">
+                    <i data-lucide="target" class="w-5 h-5"></i>
+                </div>
+                <p class="text-xs font-bold text-slate-800 line-clamp-1">IKU</p>
+                <p class="text-[10px] text-slate-400 mt-0.5">Target Kunci</p>
+            </a>
+
+            <a href="{{ url_for('documents.category_view', slug='capaian-kinerja') }}" class="p-4 bg-white rounded-2xl border border-slate-200/80 shadow-soft hover-lift text-left group">
+                <div class="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center mb-3 group-hover:bg-emerald-600 group-hover:text-white transition">
+                    <i data-lucide="gauge" class="w-5 h-5"></i>
+                </div>
+                <p class="text-xs font-bold text-slate-800 line-clamp-1">Capaian Kinerja</p>
+                <p class="text-[10px] text-slate-400 mt-0.5">Realisasi Triwulan</p>
+            </a>
+
+            <a href="{{ url_for('documents.category_view', slug='laporan-kinerja') }}" class="p-4 bg-white rounded-2xl border border-slate-200/80 shadow-soft hover-lift text-left group">
+                <div class="w-10 h-10 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center mb-3 group-hover:bg-amber-600 group-hover:text-white transition">
+                    <i data-lucide="book-open" class="w-5 h-5"></i>
+                </div>
+                <p class="text-xs font-bold text-slate-800 line-clamp-1">LAKIP</p>
+                <p class="text-[10px] text-slate-400 mt-0.5">Laporan Tahunan</p>
+            </a>
+
+            <a href="{{ url_for('important_links.index') }}" class="p-4 bg-white rounded-2xl border border-slate-200/80 shadow-soft hover-lift text-left group">
+                <div class="w-10 h-10 rounded-xl bg-orange-50 text-orange-600 flex items-center justify-center mb-3 group-hover:bg-orange-600 group-hover:text-white transition">
+                    <i data-lucide="star" class="w-5 h-5"></i>
+                </div>
+                <p class="text-xs font-bold text-slate-800 line-clamp-1">Dokumen Penting</p>
+                <p class="text-[10px] text-slate-400 mt-0.5">SIMONIK, FRA, dll</p>
+            </a>
+        </div>
+    </div>
+
+    <!-- 5. Dokumen Terakhir & Aktivitas Terbaru Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        
+        <!-- Dokumen Terakhir Diunggah (2 cols) -->
+        <div class="lg:col-span-2 bg-white rounded-3xl border border-slate-200/80 shadow-card p-6">
+            <div class="flex items-center justify-between mb-4 pb-3 border-b border-slate-100">
+                <div class="flex items-center gap-2.5">
+                    <div class="w-8 h-8 rounded-lg bg-blue-50 text-navy-main flex items-center justify-center">
+                        <i data-lucide="file-text" class="w-4 h-4"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-sm font-bold text-slate-800">Dokumen Terakhir Diunggah</h3>
+                        <p class="text-[11px] text-slate-400">Arsip dokumen kinerja yang baru masuk</p>
+                    </div>
+                </div>
+                <a href="{{ url_for('documents.index') }}" class="text-xs font-semibold text-orange-600 hover:text-orange-700">Lihat Semua &rarr;</a>
+            </div>
+
+            {% if recent_documents %}
+            <div class="divide-y divide-slate-100">
+                {% for doc in recent_documents %}
+                <div class="py-3.5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 hover:bg-slate-50/80 px-2 rounded-xl transition">
+                    <div class="flex items-start gap-3 min-w-0">
+                        <div class="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 font-bold text-xs uppercase
+                            {% if doc.file_type == 'pdf' %} bg-red-50 text-red-600 border border-red-100
+                            {% elif doc.file_type in ['xlsx', 'xls'] %} bg-emerald-50 text-emerald-600 border border-emerald-100
+                            {% elif doc.file_type in ['docx', 'doc'] %} bg-blue-50 text-blue-600 border border-blue-100
+                            {% else %} bg-orange-50 text-orange-600 border border-orange-100 {% endif %}">
+                            {{ doc.file_type }}
+                        </div>
+                        <div class="min-w-0">
+                            <a href="{{ url_for('documents.detail', doc_id=doc.id) }}" class="text-xs sm:text-sm font-bold text-slate-800 hover:text-navy-main line-clamp-1">
+                                {{ doc.title }}
+                            </a>
+                            <div class="flex flex-wrap items-center gap-2 mt-1 text-[11px] text-slate-500">
+                                <span class="bg-slate-100 px-2 py-0.5 rounded font-medium text-slate-700">{{ doc.category.name }}</span>
+                                <span>Tahun {{ doc.year }}</span>
+                                <span>&bull;</span>
+                                <span>{{ doc.formatted_size }}</span>
+                                <span>&bull;</span>
+                                <span class="{% if doc.status == 'lengkap' %}text-teal-600 font-semibold{% else %}text-amber-600 font-semibold{% endif %}">
+                                    {{ 'Lengkap' if doc.status == 'lengkap' else 'Belum Lengkap' }}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center gap-1.5 self-end sm:self-center">
+                        <button type="button" 
+                                onclick="openPreviewModal('{{ url_for('documents.preview', doc_id=doc.id) }}', '{{ doc.title|e }}', '{{ doc.file_type }}')"
+                                class="p-2 text-slate-500 hover:text-navy-main hover:bg-slate-100 rounded-lg text-xs font-semibold transition"
+                                title="Pratinjau Dokumen">
+                            <i data-lucide="eye" class="w-4 h-4"></i>
+                        </button>
+                        <a href="{{ url_for('documents.download', doc_id=doc.id) }}" 
+                           class="p-2 text-slate-500 hover:text-orange-600 hover:bg-orange-50 rounded-lg text-xs font-semibold transition"
+                           title="Unduh Dokumen">
+                            <i data-lucide="download" class="w-4 h-4"></i>
+                        </a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <div class="py-8 text-center text-slate-400 text-xs">
+                Belum ada dokumen yang diunggah.
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Aktivitas Terbaru (1 col) -->
+        <div class="bg-white rounded-3xl border border-slate-200/80 shadow-card p-6">
+            <div class="flex items-center justify-between mb-4 pb-3 border-b border-slate-100">
+                <div class="flex items-center gap-2.5">
+                    <div class="w-8 h-8 rounded-lg bg-orange-50 text-orange-600 flex items-center justify-center">
+                        <i data-lucide="history" class="w-4 h-4"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-sm font-bold text-slate-800">Aktivitas Terbaru</h3>
+                        <p class="text-[11px] text-slate-400">Log operasional sistem</p>
+                    </div>
+                </div>
+                {% if current_user.is_admin %}
+                <a href="{{ url_for('settings.activities') }}" class="text-xs font-semibold text-orange-600 hover:text-orange-700">Semua &rarr;</a>
+                {% endif %}
+            </div>
+
+            {% if recent_activities %}
+            <div class="space-y-4">
+                {% for act in recent_activities %}
+                <div class="flex items-start gap-3">
+                    <div class="w-7 h-7 rounded-full bg-slate-100 text-slate-600 flex items-center justify-center flex-shrink-0 mt-0.5 text-xs">
+                        <i data-lucide="activity" class="w-3.5 h-3.5 text-navy-main"></i>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <p class="text-xs text-slate-700 font-medium leading-snug line-clamp-2">
+                            {{ act.description }}
+                        </p>
+                        <div class="flex items-center gap-2 mt-1 text-[10px] text-slate-400">
+                            <span>{{ act.created_at.strftime('%d/%m/%Y %H:%M') }}</span>
+                            {% if act.user %}
+                            <span>&bull;</span>
+                            <span class="font-semibold text-slate-600">{{ act.user.full_name }}</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <div class="py-8 text-center text-slate-400 text-xs">
+                Belum ada aktivitas tercatat.
+            </div>
+            {% endif %}
+        </div>
+
+    </div>
+
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Chart 1: Kategori Dokumen (Doughnut)
+        const ctxCategory = document.getElementById('categoryChart');
+        if (ctxCategory) {
+            new Chart(ctxCategory, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Perencanaan', 'Pengukuran', 'Pelaporan', 'Lainnya'],
+                    datasets: [{
+                        data: [
+                            {{ group_counts.get('Perencanaan', 0) }},
+                            {{ group_counts.get('Pengukuran', 0) }},
+                            {{ group_counts.get('Pelaporan', 0) }},
+                            {{ group_counts.get('Kelengkapan & Lainnya', 0) }}
+                        ],
+                        backgroundColor: [
+                            '#142B4A',
+                            '#10B981',
+                            '#F59E0B',
+                            '#F28C28'
+                        ],
+                        borderWidth: 2,
+                        borderColor: '#ffffff'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                font: { size: 10, family: 'Plus Jakarta Sans' },
+                                boxWidth: 12
+                            }
+                        }
+                    },
+                    cutout: '70%'
+                }
+            });
+        }
+
+        // Chart 2: Tren Tahun (Bar)
+        const ctxYear = document.getElementById('yearChart');
+        if (ctxYear) {
+            new Chart(ctxYear, {
+                type: 'bar',
+                data: {
+                    labels: {{ chart_years|tojson }},
+                    datasets: [{
+                        label: 'Jumlah Dokumen',
+                        data: {{ chart_year_counts|tojson }},
+                        backgroundColor: '#F28C28',
+                        borderRadius: 8,
+                        barThickness: 24
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: { precision: 0, font: { size: 10 } },
+                            grid: { color: '#f1f5f9' }
+                        },
+                        x: {
+                            grid: { display: false },
+                            ticks: { font: { size: 10 } }
+                        }
+                    }
+                }
+            });
+        }
+    });
+</script>
+{% endblock %}
+

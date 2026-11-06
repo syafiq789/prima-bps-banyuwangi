@@ -1,0 +1,145 @@
+{% extends 'base.html' %}
+
+{% block title %}Kelola Kategori - PRIMA BPS Kabupaten Banyuwangi{% endblock %}
+
+{% block content %}
+<div class="space-y-6">
+
+    <!-- Header Section -->
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-6 rounded-3xl border border-slate-200/80 shadow-soft">
+        <div>
+            <div class="flex items-center gap-2 text-xs text-slate-500 mb-1">
+                <span>Manajemen Admin</span>
+                <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+                <span class="text-orange-600 font-bold">Kelola Kategori</span>
+            </div>
+            <h1 class="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
+                Kategori Dokumen AKIP
+            </h1>
+            <p class="text-xs text-slate-500 mt-1">
+                Daftar klasifikasi dan pengelompokan arsip pada struktur navigasi PRIMA.
+            </p>
+        </div>
+
+        <button type="button" 
+                onclick="document.getElementById('add-cat-modal').classList.remove('hidden')"
+                class="inline-flex items-center gap-2 px-4 py-2.5 bg-navy-main hover:bg-navy-dark text-white rounded-xl text-xs sm:text-sm font-bold shadow-md transition">
+            <i data-lucide="folder-plus" class="w-4 h-4"></i>
+            <span>Tambah Kategori Baru</span>
+        </button>
+    </div>
+
+    <!-- Category Grid / Table -->
+    <div class="bg-white rounded-3xl border border-slate-200/80 shadow-card overflow-hidden">
+        <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="bg-slate-50 border-b border-slate-200 text-[11px] font-bold uppercase tracking-wider text-slate-600">
+                        <th class="py-3.5 px-6">Nama Kategori</th>
+                        <th class="py-3.5 px-4">Slug URL</th>
+                        <th class="py-3.5 px-4">Kelompok Utama</th>
+                        <th class="py-3.5 px-4 text-center">Jumlah Dokumen</th>
+                        <th class="py-3.5 px-6 text-right">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100 text-xs">
+                    {% for cat in categories %}
+                    <tr class="hover:bg-slate-50/80 transition-colors">
+                        <td class="py-4 px-6 font-bold text-slate-800">
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 rounded-lg bg-slate-100 text-navy-main flex items-center justify-center flex-shrink-0">
+                                    <i data-lucide="{{ cat.icon or 'folder' }}" class="w-4 h-4"></i>
+                                </div>
+                                <div>
+                                    <span class="block">{{ cat.name }}</span>
+                                    <span class="text-[11px] text-slate-400 font-normal line-clamp-1">{{ cat.description or '-' }}</span>
+                                </div>
+                            </div>
+                        </td>
+
+                        <td class="py-4 px-4 font-mono text-slate-600">
+                            {{ cat.slug }}
+                        </td>
+
+                        <td class="py-4 px-4">
+                            <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-slate-100 text-slate-700">
+                                {{ cat.group }}
+                            </span>
+                        </td>
+
+                        <td class="py-4 px-4 text-center font-bold text-slate-800">
+                            {{ cat.doc_count }} File
+                        </td>
+
+                        <td class="py-4 px-6 text-right">
+                            <div class="flex items-center justify-end gap-2">
+                                <a href="{{ url_for('documents.category_view', slug=cat.slug) }}" class="p-1.5 text-slate-500 hover:text-navy-main hover:bg-slate-100 rounded-lg transition" title="Lihat Berkas">
+                                    <i data-lucide="eye" class="w-4 h-4"></i>
+                                </a>
+
+                                <form action="{{ url_for('categories.delete', cat_id=cat.id) }}" method="POST" onsubmit="return confirm('Hapus kategori {{ cat.name }}? Pastikan tidak ada dokumen di dalamnya.');" class="inline">
+                                    <button type="submit" class="p-1.5 text-slate-400 hover:text-red-600 rounded-lg transition" title="Hapus Kategori">
+                                        <i data-lucide="trash-2" class="w-4 h-4"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+<!-- Modal Tambah Kategori -->
+<div id="add-cat-modal" class="fixed inset-0 z-50 hidden overflow-y-auto">
+    <div class="fixed inset-0 modal-backdrop" onclick="document.getElementById('add-cat-modal').classList.add('hidden')"></div>
+    <div class="flex min-h-screen items-center justify-center p-4">
+        <div class="relative w-full max-w-md bg-white rounded-3xl shadow-2xl p-6 border border-slate-200">
+            <div class="flex items-center justify-between pb-4 border-b border-slate-100 mb-4">
+                <h3 class="text-base font-bold text-slate-900">Tambah Kategori Baru</h3>
+                <button type="button" onclick="document.getElementById('add-cat-modal').classList.add('hidden')" class="p-1 text-slate-400 hover:text-slate-600">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <form action="{{ url_for('categories.create') }}" method="POST" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">Nama Kategori</label>
+                    <input type="text" name="name" required placeholder="Contoh: Rencana Strategis" class="w-full px-3 py-2 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-navy-main outline-none">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">Slug URL (Unik)</label>
+                    <input type="text" name="slug" required placeholder="rencana-strategis" class="w-full px-3 py-2 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-navy-main outline-none font-mono">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">Kelompok Menu</label>
+                    <select name="group" required class="w-full px-3 py-2 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-navy-main outline-none">
+                        <option value="perencanaan">Perencanaan</option>
+                        <option value="pengukuran">Pengukuran</option>
+                        <option value="pelaporan">Pelaporan</option>
+                        <option value="kelengkapan">Kelengkapan</option>
+                        <option value="lainnya">Lainnya</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">Deskripsi</label>
+                    <textarea name="description" rows="2" placeholder="Keterangan singkat..." class="w-full px-3 py-2 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-navy-main outline-none"></textarea>
+                </div>
+
+                <div class="pt-4 flex justify-end gap-2">
+                    <button type="button" onclick="document.getElementById('add-cat-modal').classList.add('hidden')" class="px-4 py-2 border border-slate-200 text-slate-600 rounded-xl text-xs font-semibold">
+                        Batal
+                    </button>
+                    <button type="submit" class="px-5 py-2 bg-navy-main hover:bg-navy-dark text-white rounded-xl text-xs font-bold shadow-sm">
+                        Simpan Kategori
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

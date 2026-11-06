@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+
+{% block title %}Profil Pengguna - PRIMA BPS Kabupaten Banyuwangi{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto space-y-6">
+
+    <!-- Header Section -->
+    <div class="bg-white p-6 rounded-3xl border border-slate-200/80 shadow-soft">
+        <div class="flex items-center gap-4">
+            <div class="w-16 h-16 rounded-2xl bg-gradient-to-tr from-[#142B4A] to-[#F28C28] text-white flex items-center justify-center font-black text-xl shadow-md">
+                {{ current_user.full_name[:2].upper() }}
+            </div>
+            <div>
+                <div class="flex items-center gap-2 mb-1">
+                    <h1 class="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
+                        {{ current_user.full_name }}
+                    </h1>
+                    <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-orange-100 text-orange-700">
+                        {{ current_user.role }}
+                    </span>
+                </div>
+                <p class="text-xs text-slate-500">
+                    Username: <strong class="text-slate-700">{{ current_user.username }}</strong> &bull; NIP: <strong class="text-slate-700">{{ current_user.nip or '-' }}</strong>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        
+        <!-- Form 1: Ubah Data Profil -->
+        <div class="bg-white p-6 rounded-3xl border border-slate-200/80 shadow-card">
+            <h3 class="text-sm font-bold text-slate-900 mb-4 pb-2 border-b border-slate-100 flex items-center gap-2">
+                <i data-lucide="user" class="w-4 h-4 text-orange-500"></i>
+                <span>Informasi Pribadi</span>
+            </h3>
+
+            <form action="{{ url_for('auth.profile') }}" method="POST" class="space-y-4">
+                <input type="hidden" name="action" value="update_profile">
+                <div>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">Nama Lengkap & Gelar</label>
+                    <input type="text" name="full_name" value="{{ current_user.full_name }}" required class="w-full px-3 py-2 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-navy-main outline-none">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">NIP (Nomor Induk Pegawai)</label>
+                    <input type="text" name="nip" value="{{ current_user.nip or '' }}" placeholder="198..." class="w-full px-3 py-2 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-navy-main outline-none">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">Username (ID Akun)</label>
+                    <input type="text" disabled value="{{ current_user.username }}" class="w-full px-3 py-2 text-xs bg-slate-100 text-slate-500 border border-slate-200 rounded-xl cursor-not-allowed">
+                    <span class="text-[10px] text-slate-400 mt-1 block">Username tidak dapat diubah secara mandiri.</span>
+                </div>
+
+                <div class="pt-2">
+                    <button type="submit" class="w-full py-2.5 px-4 bg-navy-main hover:bg-navy-dark text-white rounded-xl text-xs font-bold transition flex items-center justify-center gap-2">
+                        <i data-lucide="save" class="w-3.5 h-3.5"></i>
+                        <span>Simpan Perubahan Profil</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Form 2: Ganti Password -->
+        <div class="bg-white p-6 rounded-3xl border border-slate-200/80 shadow-card">
+            <h3 class="text-sm font-bold text-slate-900 mb-4 pb-2 border-b border-slate-100 flex items-center gap-2">
+                <i data-lucide="lock" class="w-4 h-4 text-orange-500"></i>
+                <span>Perbarui Kata Sandi</span>
+            </h3>
+
+            <form action="{{ url_for('auth.profile') }}" method="POST" class="space-y-4">
+                <input type="hidden" name="action" value="change_password">
+                <div>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">Password Saat Ini</label>
+                    <input type="password" name="old_password" required placeholder="Masukkan password sekarang" class="w-full px-3 py-2 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-navy-main outline-none">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">Password Baru</label>
+                    <input type="password" name="new_password" required minlength="6" placeholder="Minimal 6 karakter" class="w-full px-3 py-2 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-navy-main outline-none">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">Konfirmasi Password Baru</label>
+                    <input type="password" name="confirm_password" required minlength="6" placeholder="Ketik ulang password baru" class="w-full px-3 py-2 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-navy-main outline-none">
+                </div>
+
+                <div class="pt-2">
+                    <button type="submit" class="w-full py-2.5 px-4 bg-orange-500 hover:bg-orange-600 text-white rounded-xl text-xs font-bold transition flex items-center justify-center gap-2 shadow-sm">
+                        <i data-lucide="key" class="w-3.5 h-3.5"></i>
+                        <span>Ubah Kata Sandi</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+
+    </div>
+
+</div>
+{% endblock %}
+

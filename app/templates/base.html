@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="id" class="h-full bg-[#F4F6F9]">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}PRIMA - Pusat Arsip dan Manajemen AKIP Banyuwangi{% endblock %}</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='images/favicon.svg') }}">
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'navy-main': '#142B4A',
+                        'navy-dark': '#0D1B2A',
+                        'navy-light': '#1E3E66',
+                        'orange-prima': '#F28C28',
+                        'orange-hover': '#D9771C',
+                        'light-bg': '#F4F6F9',
+                    },
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'Inter', 'Segoe UI', 'Roboto', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        'soft': '0 4px 20px -2px rgba(13, 27, 42, 0.05), 0 2px 6px -1px rgba(13, 27, 42, 0.03)',
+                        'card': '0 10px 25px -5px rgba(20, 43, 74, 0.06), 0 8px 10px -6px rgba(20, 43, 74, 0.02)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Lucide Icons CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    
+    {% block extra_head %}{% endblock %}
+</head>
+<body class="h-full flex bg-[#F4F6F9] text-slate-800 antialiased selection:bg-orange-500 selection:text-white">
+
+    <!-- Vertical Sidebar -->
+    {% include 'components/sidebar.html' %}
+
+    <!-- Main Content Area Wrapper -->
+    <div id="main-content" class="flex-1 flex flex-col min-h-screen transition-all duration-300 lg:ml-72">
+        
+        <!-- Top Navigation Bar -->
+        {% include 'components/navbar.html' %}
+
+        <!-- Flash Alert Messages Container -->
+        <div class="px-4 sm:px-6 lg:px-8 pt-4">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    <div class="space-y-2 mb-4">
+                        {% for category, message in messages %}
+                            <div class="flash-alert flex items-center justify-between p-4 rounded-xl border text-sm font-medium shadow-sm transition-all
+                                {% if category == 'success' %} bg-emerald-50 text-emerald-800 border-emerald-200
+                                {% elif category == 'danger' or category == 'error' %} bg-red-50 text-red-800 border-red-200
+                                {% elif category == 'warning' %} bg-amber-50 text-amber-800 border-amber-200
+                                {% else %} bg-blue-50 text-blue-800 border-blue-200 {% endif %}">
+                                <div class="flex items-center gap-3">
+                                    {% if category == 'success' %}
+                                        <i data-lucide="check-circle" class="w-5 h-5 text-emerald-600 flex-shrink-0"></i>
+                                    {% elif category == 'danger' or category == 'error' %}
+                                        <i data-lucide="alert-octagon" class="w-5 h-5 text-red-600 flex-shrink-0"></i>
+                                    {% elif category == 'warning' %}
+                                        <i data-lucide="alert-triangle" class="w-5 h-5 text-amber-600 flex-shrink-0"></i>
+                                    {% else %}
+                                        <i data-lucide="info" class="w-5 h-5 text-blue-600 flex-shrink-0"></i>
+                                    {% endif %}
+                                    <span>{{ message }}</span>
+                                </div>
+                                <button type="button" onclick="this.parentElement.remove()" class="text-slate-400 hover:text-slate-600 p-1">
+                                    <i data-lucide="x" class="w-4 h-4"></i>
+                                </button>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endwith %}
+        </div>
+
+        <!-- Main Dynamic Content Block -->
+        <main class="flex-1 px-4 sm:px-6 lg:px-8 py-6">
+            {% block content %}{% endblock %}
+        </main>
+
+        <!-- Footer -->
+        {% include 'components/footer.html' %}
+    </div>
+
+    <!-- Document Preview Modal -->
+    {% include 'components/modal_preview.html' %}
+
+    <!-- Custom Main JS -->
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    {% block extra_scripts %}{% endblock %}
+</body>
+</html>
+

@@ -1,0 +1,174 @@
+{% extends 'base.html' %}
+
+{% block title %}Kelola Pengguna - PRIMA BPS Kabupaten Banyuwangi{% endblock %}
+
+{% block content %}
+<div class="space-y-6">
+
+    <!-- Header & Action -->
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-6 rounded-3xl border border-slate-200/80 shadow-soft">
+        <div>
+            <div class="flex items-center gap-2 text-xs text-slate-500 mb-1">
+                <span>Manajemen Admin</span>
+                <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+                <span class="text-orange-600 font-bold">Kelola Pengguna</span>
+            </div>
+            <h1 class="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
+                Hak Akses & Pengguna Sistem
+            </h1>
+            <p class="text-xs text-slate-500 mt-1">
+                Atur akun administrator dan staf pengguna portal PRIMA.
+            </p>
+        </div>
+
+        <button type="button" 
+                onclick="document.getElementById('add-user-modal').classList.remove('hidden')"
+                class="inline-flex items-center gap-2 px-4 py-2.5 bg-navy-main hover:bg-navy-dark text-white rounded-xl text-xs sm:text-sm font-bold shadow-md transition">
+            <i data-lucide="user-plus" class="w-4 h-4"></i>
+            <span>Tambah Pengguna Baru</span>
+        </button>
+    </div>
+
+    <!-- Users Table -->
+    <div class="bg-white rounded-3xl border border-slate-200/80 shadow-card overflow-hidden">
+        <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="bg-slate-50 border-b border-slate-200 text-[11px] font-bold uppercase tracking-wider text-slate-600">
+                        <th class="py-3.5 px-6">Pengguna</th>
+                        <th class="py-3.5 px-4">Username</th>
+                        <th class="py-3.5 px-4">NIP</th>
+                        <th class="py-3.5 px-4 text-center">Peran (Role)</th>
+                        <th class="py-3.5 px-4 text-center">Status</th>
+                        <th class="py-3.5 px-6 text-right">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100 text-xs">
+                    {% for u in users %}
+                    <tr class="hover:bg-slate-50/80 transition-colors">
+                        <td class="py-4 px-6 font-bold text-slate-800">
+                            <div class="flex items-center gap-3">
+                                <div class="w-9 h-9 rounded-xl bg-orange-100 text-orange-700 font-bold text-xs flex items-center justify-center flex-shrink-0">
+                                    {{ u.full_name[:2].upper() }}
+                                </div>
+                                <div>
+                                    <span class="block">{{ u.full_name }}</span>
+                                    <span class="text-[10px] text-slate-400 font-normal">Dibuat: {{ u.created_at.strftime('%d/%m/%Y') }}</span>
+                                </div>
+                            </div>
+                        </td>
+
+                        <td class="py-4 px-4 font-mono text-slate-700">
+                            {{ u.username }}
+                        </td>
+
+                        <td class="py-4 px-4 text-slate-600">
+                            {{ u.nip or '-' }}
+                        </td>
+
+                        <td class="py-4 px-4 text-center">
+                            {% if u.role == 'admin' %}
+                                <span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-purple-100 text-purple-800 border border-purple-200">
+                                    ADMIN
+                                </span>
+                            {% else %}
+                                <span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-blue-100 text-blue-800 border border-blue-200">
+                                    USER (PEGAWAI)
+                                </span>
+                            {% endif %}
+                        </td>
+
+                        <td class="py-4 px-4 text-center">
+                            {% if u.is_active %}
+                                <span class="inline-flex items-center gap-1 text-[11px] font-bold text-emerald-600">
+                                    <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+                                    <span>Aktif</span>
+                                </span>
+                            {% else %}
+                                <span class="inline-flex items-center gap-1 text-[11px] font-bold text-red-500">
+                                    <span class="w-2 h-2 rounded-full bg-red-500"></span>
+                                    <span>Non-aktif</span>
+                                </span>
+                            {% endif %}
+                        </td>
+
+                        <td class="py-4 px-6 text-right">
+                            <div class="flex items-center justify-end gap-2">
+                                <!-- Toggle status -->
+                                {% if u.id != current_user.id %}
+                                <form action="{{ url_for('users.toggle_status', user_id=u.id) }}" method="POST" class="inline">
+                                    <button type="submit" class="px-2.5 py-1 text-[11px] font-semibold rounded-lg border border-slate-200 hover:bg-slate-100 text-slate-600 transition" title="Aktif/Nonaktifkan">
+                                        {{ 'Nonaktifkan' if u.is_active else 'Aktifkan' }}
+                                    </button>
+                                </form>
+
+                                <form action="{{ url_for('users.delete', user_id=u.id) }}" method="POST" onsubmit="return confirm('Hapus akun pengguna {{ u.username }}?');" class="inline">
+                                    <button type="submit" class="p-1.5 text-slate-400 hover:text-red-600 rounded-lg transition" title="Hapus Pengguna">
+                                        <i data-lucide="trash-2" class="w-4 h-4"></i>
+                                    </button>
+                                </form>
+                                {% else %}
+                                <span class="text-[11px] text-slate-400 italic">Akun Anda</span>
+                                {% endif %}
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+<!-- Modal Tambah Pengguna -->
+<div id="add-user-modal" class="fixed inset-0 z-50 hidden overflow-y-auto">
+    <div class="fixed inset-0 modal-backdrop" onclick="document.getElementById('add-user-modal').classList.add('hidden')"></div>
+    <div class="flex min-h-screen items-center justify-center p-4">
+        <div class="relative w-full max-w-md bg-white rounded-3xl shadow-2xl p-6 border border-slate-200">
+            <div class="flex items-center justify-between pb-4 border-b border-slate-100 mb-4">
+                <h3 class="text-base font-bold text-slate-900">Tambah Pengguna Baru</h3>
+                <button type="button" onclick="document.getElementById('add-user-modal').classList.add('hidden')" class="p-1 text-slate-400 hover:text-slate-600">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <form action="{{ url_for('users.create') }}" method="POST" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">Nama Lengkap</label>
+                    <input type="text" name="full_name" required placeholder="Contoh: Budi Santoso, S.Si." class="w-full px-3 py-2 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-navy-main outline-none">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">Username Login</label>
+                    <input type="text" name="username" required placeholder="Contoh: budi.santoso" class="w-full px-3 py-2 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-navy-main outline-none">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">NIP (Nomor Induk Pegawai)</label>
+                    <input type="text" name="nip" placeholder="1990..." class="w-full px-3 py-2 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-navy-main outline-none">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">Peran (Role)</label>
+                    <select name="role" required class="w-full px-3 py-2 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-navy-main outline-none">
+                        <option value="user" selected>User (Akses Lihat, Cari, Unduh)</option>
+                        <option value="admin">Admin (Akses Penuh CRUD Dokumen & Sistem)</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">Password Awal</label>
+                    <input type="password" name="password" required minlength="6" placeholder="Minimal 6 karakter" class="w-full px-3 py-2 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-navy-main outline-none">
+                </div>
+
+                <div class="pt-4 flex justify-end gap-2">
+                    <button type="button" onclick="document.getElementById('add-user-modal').classList.add('hidden')" class="px-4 py-2 border border-slate-200 text-slate-600 rounded-xl text-xs font-semibold">
+                        Batal
+                    </button>
+                    <button type="submit" class="px-5 py-2 bg-navy-main hover:bg-navy-dark text-white rounded-xl text-xs font-bold shadow-sm">
+                        Simpan Pengguna
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
