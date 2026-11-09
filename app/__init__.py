@@ -425,51 +425,98 @@ def seed_initial_data():
 
         db.session.commit()
 
-        # Catatan: Tabel documents dibiarkan bersih (kosong) agar pengguna dapat mengunggah dokumen sendiri secara langsung.
+        # 4. Inisialisasi Data Dokumen Resmi BPS Banyuwangi Terhubung ke Google Drive
+        official_docs = [
+            # Perencanaan
+            {"title": "Dokumen Rancangan Awal Renstra BPS Banyuwangi", "cat_slug": "rencana-awal-renstra", "year": 2024, "drive_url": "https://drive.google.com/drive/folders/13z-GsSIqqSXNa4QbdAj9ezuYQ-K0V89y?usp=sharing", "status": "lengkap", "notes": "Rancangan baseline indikator strategis"},
+            {"title": "Dokumen Rencana Strategis (Renstra) Resmi BPS Banyuwangi", "cat_slug": "renstra", "year": 2025, "drive_url": "https://drive.google.com/drive/folders/1tG_Z7uqrJQ0B8EJxbgsN-NgfgSocK1uJ?usp=sharing", "status": "lengkap", "notes": "Renstra BPS periode berjalan"},
+            {"title": "Perjanjian Kinerja (PK) Kepala BPS Kabupaten Banyuwangi", "cat_slug": "perjanjian-kinerja", "year": 2025, "drive_url": "https://drive.google.com/drive/folders/1sPNbUk3DsKIPL4XS6ZWagtCp7Oxyp7Sy?usp=sharing", "status": "lengkap", "notes": "Komitmen target kinerja pimpinan & koordinator"},
 
-        # 4. Checklist Kelengkapan Dokumen Standard AKIP (jika masih kosong)
-        if DocumentCompleteness.query.count() == 0:
-            cat_ren = Category.query.filter_by(slug='dokumen-perencanaan').first()
-            cat_pk = Category.query.filter_by(slug='perjanjian-kinerja').first()
-            cat_iku = Category.query.filter_by(slug='indikator-kinerja-utama').first()
-            cat_cap = Category.query.filter_by(slug='capaian-kinerja').first()
-            cat_lakip = Category.query.filter_by(slug='laporan-kinerja').first()
+            # Pengukuran (Monitoring Capaian Kinerja)
+            {"title": "Kertas Kerja Pengukuran Kinerja (KKPK) BPS Banyuwangi", "cat_slug": "kkpk", "year": 2025, "drive_url": "https://drive.google.com/drive/folders/1X3YlxX-Y9MHur9xvSxwktSHXeYeD7qY6?usp=sharing", "status": "lengkap", "notes": "Instrumen kertas kerja validasi capaian triwulanan"},
+            {"title": "Data & Arsip Hasil Analisis (DAHA) Kinerja Statistik", "cat_slug": "daha", "year": 2025, "drive_url": "https://drive.google.com/drive/folders/1ZXCDu6HCLKHx-PwuGlhzsDQj1ck2UQpE?usp=sharing", "status": "lengkap", "notes": "Data dukung hasil analisis statistik"},
+            {"title": "Laporan Pengawasan & Pengendalian Kinerja Internal (Proksi)", "cat_slug": "proksi", "year": 2025, "drive_url": "https://drive.google.com/drive/folders/1dKKWp8QvaBSOwQitaADRup27ktVdu485?usp=sharing", "status": "lengkap", "notes": "Pemantauan integritas dan kepatuhan jadwal sensus/survei"},
+            {"title": "Laporan Monitoring Capaian Target Indikator Renstra", "cat_slug": "monitoring-capaian-renstra", "year": 2024, "drive_url": "https://drive.google.com/drive/folders/1BYW2BPyeDHEGI7AbcmkywUaaHdguZbe-?usp=sharing", "status": "lengkap", "notes": "Evaluasi pencapaian target sasaran strategis"},
 
-            checklist_data = [
-                {"category_id": cat_ren.id if cat_ren else 1, "year": 2025, "item_name": "Dokumen Renstra BPS 2025-2029", "is_required": True, "is_fulfilled": False, "notes": "Perlu diunggah"},
-                {"category_id": cat_ren.id if cat_ren else 1, "year": 2025, "item_name": "Rencana Kerja Tahunan (RKT) 2025", "is_required": True, "is_fulfilled": False, "notes": "Perlu diunggah"},
-                {"category_id": cat_pk.id if cat_pk else 1, "year": 2025, "item_name": "Perjanjian Kinerja Eselon III", "is_required": True, "is_fulfilled": False, "notes": "Perlu diunggah"},
-                {"category_id": cat_pk.id if cat_pk else 1, "year": 2025, "item_name": "Perjanjian Kinerja Seluruh Ketua Tim", "is_required": True, "is_fulfilled": False, "notes": "Perlu diunggah"},
-                {"category_id": cat_iku.id if cat_iku else 1, "year": 2025, "item_name": "Matriks Definisi Operasional IKU 2025", "is_required": True, "is_fulfilled": False, "notes": "Perlu diunggah"},
-                {"category_id": cat_cap.id if cat_cap else 1, "year": 2025, "item_name": "Laporan Capaian Kinerja Triwulan I 2025", "is_required": True, "is_fulfilled": False, "notes": "Perlu diunggah"},
-                {"category_id": cat_cap.id if cat_cap else 1, "year": 2025, "item_name": "Laporan Capaian Kinerja Triwulan II 2025", "is_required": True, "is_fulfilled": False, "notes": "Perlu diunggah"},
-                {"category_id": cat_cap.id if cat_cap else 1, "year": 2025, "item_name": "Laporan Capaian Kinerja Triwulan III 2025", "is_required": True, "is_fulfilled": False, "notes": "Perlu diunggah"},
-                {"category_id": cat_lakip.id if cat_lakip else 1, "year": 2025, "item_name": "Laporan Kinerja (LAKIP) 2025", "is_required": True, "is_fulfilled": False, "notes": "Perlu diunggah"}
-            ]
+            # Pelaporan
+            {"title": "Laporan Kinerja Instansi Pemerintah (LAKIP) BPS Banyuwangi", "cat_slug": "laporan-kinerja", "year": 2024, "drive_url": "https://drive.google.com/drive/folders/1APuhRzJikTUZVLujq34rhQ-z1KAzmAQ3?usp=sharing", "status": "lengkap", "notes": "LAKIP / LKjIP resmi tahunan"},
 
-            for item in checklist_data:
-                chk = DocumentCompleteness(
-                    category_id=item['category_id'],
-                    year=item['year'],
-                    item_name=item['item_name'],
-                    is_required=item['is_required'],
-                    is_fulfilled=item['is_fulfilled'],
-                    notes=item['notes']
-                )
-                db.session.add(chk)
-            db.session.commit()
+            # Evaluasi
+            {"title": "Permintaan Dokumen dan Penataan Kelengkapan (PERMINDOK)", "cat_slug": "permindok", "year": 2025, "drive_url": "https://drive.google.com/drive/folders/1MZNZ5ybRGqwKP16L-ZcJNaYTb2Wkvu5Y?usp=sharing", "status": "lengkap", "notes": "Pedoman pemenuhan administrasi evaluasi SAKIP"},
+            {"title": "Laporan Hasil Evaluasi (LHE) AKIP Inspektorat Utama BPS RI", "cat_slug": "lhe-akip", "year": 2024, "drive_url": "https://drive.google.com/drive/folders/1qafMSDY-mGhsAsC1IhNWZ1PLDbdDBRxl?usp=sharing", "status": "lengkap", "notes": "LHE dan rekomendasi tindak lanjut akuntabilitas"},
+            {"title": "Berita Acara Rapat Evaluasi & Rekonsiliasi Kinerja", "cat_slug": "berita-acara", "year": 2025, "drive_url": "https://drive.google.com/drive/folders/1EvOLIDXtA-2p9Y1Uz2rJwUEtZV7THPcG?usp=sharing", "status": "lengkap", "notes": "Notula kesepakatan dan rekonsiliasi data"},
 
-            # Activity log awal
-            admin_account = User.query.filter_by(username='admin').first()
-            admin_id = admin_account.id if admin_account else 1
-            act1 = Activity(
-                user_id=admin_id,
-                action='INITIALIZE_SYSTEM',
-                description='Sistem PRIMA BPS Kabupaten Banyuwangi diinisialisasi secara otomatis.',
-                ip_address='127.0.0.1'
-            )
-            db.session.add(act1)
-            db.session.commit()
+            # Kelengkapan SAKIP
+            {"title": "SK Tim Kerja Pengelola SAKIP BPS Kabupaten Banyuwangi", "cat_slug": "sk-tim-kerja-sakip", "year": 2025, "drive_url": "https://drive.google.com/drive/folders/1CNCg7oMRIuZLiYzs0h_Bju3EVhsfZPPV?usp=sharing", "status": "lengkap", "notes": "SK penetapan tim pelaksana dan pengawas akuntabilitas"},
+            {"title": "Pedoman & Laporan Pelaksanaan Reward and Punishment", "cat_slug": "reward-dan-punishment", "year": 2025, "drive_url": "https://drive.google.com/drive/folders/1nMcUg8C6FiVyMRRFqiQCUmaspezWYzQ3?usp=sharing", "status": "lengkap", "notes": "Kebijakan dan bukti penghargaan prestasi pegawai"},
+            {"title": "Matriks Pengelolaan Hari (MPH) Beban Kerja Operasional", "cat_slug": "mph", "year": 2025, "drive_url": "https://drive.google.com/drive/folders/1Q4Fyhv6MGXEGVHwg9NQ5SQgTRvr4eCki?usp=sharing", "status": "lengkap", "notes": "Matriks alokasi pembagian waktu kegiatan harian"},
+            {"title": "Dokumen Sasaran Kinerja Pegawai (SKP) Seluruh Aparatur", "cat_slug": "skp", "year": 2025, "drive_url": "https://drive.google.com/drive/folders/13MaRpuGKJqjLFbkYpdrVwo5PfQUI8pRA?usp=sharing", "status": "lengkap", "notes": "Kompilasi SKP dan penilaian kinerja individu"},
+            {"title": "Buku Pedoman Teknis & Standar Operasional AKIP BPS", "cat_slug": "pedoman-teknis", "year": 2024, "drive_url": "https://drive.google.com/drive/folders/1WNZs2D4AeNCrYv6wOtS3qHWPvS7-xLHy?usp=sharing", "status": "lengkap", "notes": "Juklak dan SOP pelaksanaan sistem akuntabilitas"}
+        ]
+
+        admin_user = User.query.filter_by(username='admin').first()
+        admin_id = admin_user.id if admin_user else 1
+
+        for doc_item in official_docs:
+            cat = Category.query.filter_by(slug=doc_item['cat_slug']).first()
+            if cat:
+                existing_doc = Document.query.filter_by(category_id=cat.id, title=doc_item['title']).first()
+                if not existing_doc:
+                    new_doc = Document(
+                        title=doc_item['title'],
+                        category_id=cat.id,
+                        year=doc_item['year'],
+                        description=doc_item['notes'],
+                        drive_url=doc_item['drive_url'],
+                        filename=f"gdrive_{cat.slug}_{doc_item['year']}.url",
+                        original_filename=f"{cat.name}.gdrive",
+                        file_type="gdrive",
+                        file_size=1024,
+                        uploaded_by=admin_id,
+                        status=doc_item['status'],
+                        notes=doc_item['notes']
+                    )
+                    db.session.add(new_doc)
+                elif not existing_doc.drive_url:
+                    existing_doc.drive_url = doc_item['drive_url']
+
+        db.session.commit()
+
+        # 5. Checklist Kelengkapan Dokumen Standard AKIP (Terkoneksi Real-Time)
+        checklist_templates = [
+            {"cat_slug": "renstra", "year": 2025, "item": "Rencana Strategis (Renstra) BPS Banyuwangi 2025-2029"},
+            {"cat_slug": "rencana-awal-renstra", "year": 2024, "item": "Dokumen Rancangan Awal Renstra"},
+            {"cat_slug": "perjanjian-kinerja", "year": 2025, "item": "Perjanjian Kinerja (PK) Kepala Kantor & Tim"},
+            {"cat_slug": "kkpk", "year": 2025, "item": "Kertas Kerja Pengukuran Kinerja (KKPK)"},
+            {"cat_slug": "daha", "year": 2025, "item": "Dokumen Arsip Hasil Analisis (DAHA)"},
+            {"cat_slug": "proksi", "year": 2025, "item": "Laporan Pengawasan & Pengendalian (Proksi)"},
+            {"cat_slug": "laporan-kinerja", "year": 2024, "item": "Laporan Kinerja (LAKIP / LKjIP) Tahunan"},
+            {"cat_slug": "permindok", "year": 2025, "item": "Permintaan Dokumen Evaluasi (PERMINDOK)"},
+            {"cat_slug": "lhe-akip", "year": 2024, "item": "Laporan Hasil Evaluasi (LHE) AKIP"},
+            {"cat_slug": "sk-tim-kerja-sakip", "year": 2025, "item": "SK Tim Kerja Pengelola SAKIP BPS"},
+            {"cat_slug": "skp", "year": 2025, "item": "Sasaran Kinerja Pegawai (SKP) Aparatur BPS"},
+            {"cat_slug": "pedoman-teknis", "year": 2024, "item": "Buku Pedoman Teknis & SOP SAKIP"}
+        ]
+
+        for chk_item in checklist_templates:
+            cat = Category.query.filter_by(slug=chk_item['cat_slug']).first()
+            if cat:
+                c_item = DocumentCompleteness.query.filter_by(item_name=chk_item['item']).first()
+                if not c_item:
+                    c_item = DocumentCompleteness(
+                        category_id=cat.id,
+                        year=chk_item['year'],
+                        item_name=chk_item['item'],
+                        is_required=True,
+                        is_fulfilled=True,
+                        notes="Dokumen resmi BPS Banyuwangi telah terhubung ke Google Drive."
+                    )
+                    db.session.add(c_item)
+                else:
+                    c_item.is_fulfilled = True
+                    c_item.category_id = cat.id
+
+        db.session.commit()
 
         logger.info("Database initialization and initial data seeding completed.")
     except Exception as e:

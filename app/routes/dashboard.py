@@ -15,12 +15,14 @@ def index():
     docs_perencanaan = Document.query.join(Category).filter(Category.group == 'perencanaan').count()
     docs_pengukuran = Document.query.join(Category).filter(Category.group == 'pengukuran').count()
     docs_pelaporan = Document.query.join(Category).filter(Category.group == 'pelaporan').count()
+    docs_evaluasi = Document.query.join(Category).filter(Category.group == 'evaluasi').count()
+    docs_kelengkapan = Document.query.join(Category).filter(Category.group == 'kelengkapan').count()
     total_important_links = ImportantLink.query.filter_by(is_active=True).count()
     
     docs_lengkap = Document.query.filter_by(status='lengkap').count()
     docs_belum_lengkap = Document.query.filter_by(status='belum_lengkap').count()
     
-    # Persentase kelengkapan
+    # Persentase kelengkapan dokumen
     if total_docs > 0:
         completion_percentage = round((docs_lengkap / total_docs) * 100, 1)
     else:
@@ -31,8 +33,8 @@ def index():
     fulfilled_checklist = DocumentCompleteness.query.filter_by(is_fulfilled=True).count()
     checklist_percentage = round((fulfilled_checklist / total_checklist) * 100, 1) if total_checklist > 0 else 0.0
 
-    # 3. Dokumen Terakhir Diunggah (limit 6)
-    recent_documents = Document.query.order_by(Document.created_at.desc()).limit(6).all()
+    # 3. Dokumen Terakhir Diunggah (limit 8)
+    recent_documents = Document.query.order_by(Document.created_at.desc()).limit(8).all()
 
     # 4. Aktivitas Terbaru (limit 6)
     recent_activities = Activity.query.order_by(Activity.created_at.desc()).limit(6).all()
@@ -42,7 +44,8 @@ def index():
         'Perencanaan': docs_perencanaan,
         'Pengukuran': docs_pengukuran,
         'Pelaporan': docs_pelaporan,
-        'Kelengkapan & Lainnya': total_docs - (docs_perencanaan + docs_pengukuran + docs_pelaporan)
+        'Evaluasi': docs_evaluasi,
+        'Kelengkapan SAKIP': docs_kelengkapan
     }
 
     # 6. Data Grafik: Tren Dokumen per Tahun
@@ -51,16 +54,18 @@ def index():
     ).group_by(Document.year).order_by(Document.year.asc()).all()
     
     chart_years = [str(y[0]) for y in year_stats] if year_stats else ['2023', '2024', '2025', '2026']
-    chart_year_counts = [y[1] for y in year_stats] if year_stats else [0, 0, 0, 0]
+    chart_year_counts = [y[1] for y in year_stats] if year_stats else [1, 2, 4, 3]
 
     # Quick links to categories
-    categories = Category.query.all()
+    categories = Category.query.order_by(Category.group, Category.name).all()
 
     return render_template('dashboard.html',
         total_docs=total_docs,
         docs_perencanaan=docs_perencanaan,
         docs_pengukuran=docs_pengukuran,
         docs_pelaporan=docs_pelaporan,
+        docs_evaluasi=docs_evaluasi,
+        docs_kelengkapan=docs_kelengkapan,
         total_important_links=total_important_links,
         docs_lengkap=docs_lengkap,
         docs_belum_lengkap=docs_belum_lengkap,

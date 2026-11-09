@@ -1,60 +1,64 @@
 {% extends 'base.html' %}
 
-{% block title %}Dashboard - PRIMA BPS Kabupaten Banyuwangi{% endblock %}
+{% block title %}Dashboard - LENTERA BPS Kabupaten Banyuwangi{% endblock %}
 
 {% block content %}
 <div class="space-y-6">
 
-    <!-- 1. Hero Welcome Banner -->
-    <div class="relative overflow-hidden rounded-3xl bg-gradient-to-r from-[#0D1B2A] via-[#142B4A] to-[#1E3E66] text-white p-6 sm:p-8 shadow-card border border-slate-700/50">
-        <!-- Background decorative elements -->
-        <div class="absolute -right-10 -bottom-10 w-72 h-72 bg-orange-500/10 rounded-full blur-3xl pointer-events-none"></div>
-        <div class="absolute right-10 top-6 hidden md:block opacity-10 pointer-events-none">
-            <i data-lucide="shield-check" class="w-52 h-52"></i>
+    <!-- 1. Hero Welcome Banner LENTERA -->
+    <div class="relative overflow-hidden rounded-3xl bg-gradient-to-r from-[#061325] via-[#0A1E38] to-[#102A4E] text-white p-6 sm:p-8 shadow-card border border-slate-700/50">
+        <!-- Background decorative ambient glow -->
+        <div class="absolute -right-10 -bottom-10 w-80 h-80 bg-orange-500/15 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute right-12 top-6 hidden md:block opacity-10 pointer-events-none">
+            <i data-lucide="shield-check" class="w-48 h-48"></i>
         </div>
 
         <div class="relative z-10 space-y-5">
             
-            <!-- BAGIAN 1: HEADER JUDUL TERPISAH -->
-            <div class="space-y-1.5 pb-4 border-b border-white/10 max-w-3xl">
-                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-500/20 text-orange-400 border border-orange-500/30 text-xs font-semibold uppercase tracking-wider mb-1">
-                    <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
-                    <span>Sistem Informasi Akuntabilitas Kinerja BPS</span>
+            <!-- HEADER JUDUL LENTERA -->
+            <div class="flex flex-col sm:flex-row sm:items-center gap-4 pb-4 border-b border-white/10">
+                <div class="w-16 h-16 rounded-2xl bg-white p-1.5 flex items-center justify-center shadow-lg shadow-black/30 border border-white/30 flex-shrink-0">
+                    <img src="{{ url_for('static', filename='images/logo_lentera.jpg') }}" alt="Logo LENTERA" class="w-full h-full object-contain">
                 </div>
-                
-                <h1 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-white">
-                    Selamat Datang di PRIMA
-                </h1>
-                <p class="text-base sm:text-lg font-medium text-slate-300">
-                    Pusat Arsip dan Manajemen AKIP Banyuwangi
-                </p>
+                <div class="space-y-1">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-500/20 text-orange-400 border border-orange-500/30 text-xs font-semibold uppercase tracking-wider">
+                        <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
+                        <span>Sistem Informasi Akuntabilitas Kinerja BPS</span>
+                    </div>
+                    
+                    <h1 class="text-2xl sm:text-3xl font-black tracking-tight text-white flex items-center gap-2">
+                        <span>Selamat Datang di LENTERA</span>
+                        <span class="text-xs font-bold uppercase tracking-widest px-2 py-0.5 rounded-full bg-orange-500 text-white">BPS</span>
+                    </h1>
+                    <p class="text-xs sm:text-sm font-medium text-slate-300">
+                        Layanan Elektronik Terpadu & Repositori Akuntabilitas &bull; BPS Kabupaten Banyuwangi
+                    </p>
+                </div>
             </div>
 
-            <!-- BAGIAN 2: DESKRIPSI APLIKASI -->
+            <!-- DESKRIPSI APLIKASI -->
             <div class="max-w-3xl">
                 <p class="text-xs sm:text-sm text-slate-300/90 leading-relaxed">
-                    Platform digital terintegrasi untuk pengelolaan, penyimpanan, pengorganisasian, dan pemantauan dokumen administrasi serta Akuntabilitas Kinerja Instansi Pemerintah (AKIP) di lingkungan Badan Pusat Statistik Kabupaten Banyuwangi.
+                    Repositori digital terintegrasi untuk penyimpanan, pengorganisasian, serta pemantauan seluruh dokumen perencanaan, pengukuran, pelaporan, evaluasi, dan kelengkapan Sistem Akuntabilitas Kinerja Instansi Pemerintah (SAKIP).
                 </p>
             </div>
 
-            <!-- BAGIAN 3: BAGIAN BAWAH (TAGLINE, LOGIN, & STATUS ARSIP) -->
+            <!-- BAGIAN BAWAH (TAGLINE, USER LOGIN, & STATUS ARSIP) -->
             <div class="pt-4 border-t border-white/10 flex flex-col md:flex-row md:items-center justify-between gap-4">
-                <!-- Tagline ditaruh di bawah -->
                 <div class="flex items-center gap-2 text-xs sm:text-sm text-orange-300 font-medium italic">
                     <i data-lucide="quote" class="w-4 h-4 text-orange-400 flex-shrink-0"></i>
-                    <span>"{{ app_tagline }}"</span>
+                    <span>&ldquo;Menerangi Langkah Kinerja, Menata Arsip Akuntabilitas Banyuwangi.&rdquo;</span>
                 </div>
 
-                <!-- Info Login & Status Arsip di bagian bawah -->
                 <div class="flex flex-wrap items-center gap-3 text-xs text-slate-300 bg-white/5 px-4 py-2.5 rounded-xl border border-white/10 backdrop-blur-sm self-start md:self-auto">
                     <div class="flex items-center gap-1.5">
                         <i data-lucide="user-check" class="w-4 h-4 text-orange-400"></i>
-                        <span>Login sebagai: <strong class="text-white">{{ current_user.full_name }}</strong> ({{ current_user.role|capitalize }})</span>
+                        <span>Login: <strong class="text-white">{{ current_user.full_name }}</strong></span>
                     </div>
                     <span class="text-slate-500">&bull;</span>
                     <div class="flex items-center gap-1.5">
                         <i data-lucide="database" class="w-4 h-4 text-emerald-400"></i>
-                        <span>Status Arsip: <strong class="text-emerald-300">{{ total_docs }} Dokumen Terdata</strong></span>
+                        <span>Status: <strong class="text-emerald-300">{{ total_docs }} Dokumen Terhubung</strong></span>
                     </div>
                 </div>
             </div>
@@ -62,14 +66,14 @@
         </div>
     </div>
 
-    <!-- 2. Dokumen Statistik 7 Metrik Grid -->
+    <!-- 2. Dokumen Statistik Metrik Grid -->
     <div>
         <div class="flex items-center justify-between mb-3">
             <h3 class="text-base font-bold text-slate-800 flex items-center gap-2">
-                <i data-lucide="bar-chart-2" class="w-5 h-5 text-orange-prima"></i>
-                <span>Statistik Dokumen AKIP</span>
+                <i data-lucide="bar-chart-2" class="w-5 h-5 text-orange-500"></i>
+                <span>Statistik Dokumen Kinerja Terhubung</span>
             </h3>
-            <span class="text-xs text-slate-500">Pembaruan real-time dari database</span>
+            <span class="text-xs text-slate-500">Pembaruan real-time terhubung ke Google Drive</span>
         </div>
 
         <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-7 gap-3 sm:gap-4">
@@ -90,12 +94,12 @@
             <div class="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-soft hover-lift">
                 <div class="flex items-center justify-between mb-2">
                     <span class="text-[11px] font-bold uppercase tracking-wider text-slate-500">Perencanaan</span>
-                    <div class="w-8 h-8 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center">
+                    <div class="w-8 h-8 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center">
                         <i data-lucide="compass" class="w-4 h-4"></i>
                     </div>
                 </div>
-                <div class="text-2xl font-black text-indigo-900">{{ docs_perencanaan }}</div>
-                <p class="text-[10px] text-slate-400 mt-0.5">Renstra, RKT, PK, IKU</p>
+                <div class="text-2xl font-black text-blue-900">{{ docs_perencanaan }}</div>
+                <p class="text-[10px] text-slate-400 mt-0.5">Renstra & PK</p>
             </div>
 
             <!-- Pengukuran -->
@@ -107,7 +111,7 @@
                     </div>
                 </div>
                 <div class="text-2xl font-black text-emerald-900">{{ docs_pengukuran }}</div>
-                <p class="text-[10px] text-slate-400 mt-0.5">Metrik & Capaian</p>
+                <p class="text-[10px] text-slate-400 mt-0.5">KKPK, DAHA, Proksi</p>
             </div>
 
             <!-- Pelaporan -->
@@ -119,46 +123,43 @@
                     </div>
                 </div>
                 <div class="text-2xl font-black text-amber-900">{{ docs_pelaporan }}</div>
-                <p class="text-[10px] text-slate-400 mt-0.5">LAKIP & Evaluasi</p>
+                <p class="text-[10px] text-slate-400 mt-0.5">LAKIP Tahunan</p>
             </div>
 
-            <!-- Dokumen Penting -->
+            <!-- Evaluasi -->
             <div class="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-soft hover-lift">
                 <div class="flex items-center justify-between mb-2">
-                    <span class="text-[11px] font-bold uppercase tracking-wider text-slate-500">Penting</span>
+                    <span class="text-[11px] font-bold uppercase tracking-wider text-slate-500">Evaluasi</span>
+                    <div class="w-8 h-8 rounded-xl bg-teal-50 text-teal-600 flex items-center justify-center">
+                        <i data-lucide="clipboard-check" class="w-4 h-4"></i>
+                    </div>
+                </div>
+                <div class="text-2xl font-black text-teal-900">{{ docs_evaluasi }}</div>
+                <p class="text-[10px] text-slate-400 mt-0.5">PERMINDOK & LHE</p>
+            </div>
+
+            <!-- Kelengkapan SAKIP -->
+            <div class="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-soft hover-lift">
+                <div class="flex items-center justify-between mb-2">
+                    <span class="text-[11px] font-bold uppercase tracking-wider text-slate-500">Kelengkapan</span>
+                    <div class="w-8 h-8 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center">
+                        <i data-lucide="check-square" class="w-4 h-4"></i>
+                    </div>
+                </div>
+                <div class="text-2xl font-black text-purple-900">{{ docs_kelengkapan }}</div>
+                <p class="text-[10px] text-slate-400 mt-0.5">SK, MPH, SKP</p>
+            </div>
+
+            <!-- Portal Penting -->
+            <a href="#section-akses-cepat" class="bg-white p-4 rounded-2xl border border-orange-200/80 shadow-soft hover-lift block col-span-2 sm:col-span-1">
+                <div class="flex items-center justify-between mb-2">
+                    <span class="text-[11px] font-bold uppercase tracking-wider text-orange-600">Portal</span>
                     <div class="w-8 h-8 rounded-xl bg-orange-50 text-orange-600 flex items-center justify-center">
                         <i data-lucide="star" class="w-4 h-4"></i>
                     </div>
                 </div>
-                <div class="text-2xl font-black text-orange-900">{{ total_important_links }}</div>
-                <p class="text-[10px] text-slate-400 mt-0.5">8 Portal Utama</p>
-            </div>
-
-            <!-- Dokumen Lengkap -->
-            <div class="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-soft hover-lift">
-                <div class="flex items-center justify-between mb-2">
-                    <span class="text-[11px] font-bold uppercase tracking-wider text-slate-500">Lengkap</span>
-                    <div class="w-8 h-8 rounded-xl bg-teal-50 text-teal-600 flex items-center justify-center">
-                        <i data-lucide="check-circle-2" class="w-4 h-4"></i>
-                    </div>
-                </div>
-                <div class="text-2xl font-black text-teal-700">{{ docs_lengkap }}</div>
-                <p class="text-[10px] text-teal-600 mt-0.5 font-semibold">{{ completion_percentage }}% Lengkap</p>
-            </div>
-
-            <!-- Dokumen Belum Lengkap -->
-            <a href="{{ url_for('completeness.belum_lengkap') }}" class="bg-white p-4 rounded-2xl border border-amber-200/80 shadow-soft hover-lift group block col-span-2 sm:col-span-1">
-                <div class="flex items-center justify-between mb-2">
-                    <span class="text-[11px] font-bold uppercase tracking-wider text-amber-600">Perlu Tindak</span>
-                    <div class="w-8 h-8 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center group-hover:scale-110 transition">
-                        <i data-lucide="alert-circle" class="w-4 h-4"></i>
-                    </div>
-                </div>
-                <div class="text-2xl font-black text-amber-600">{{ docs_belum_lengkap }}</div>
-                <p class="text-[10px] text-amber-700 font-semibold mt-0.5 flex items-center gap-1">
-                    <span>Belum Lengkap</span>
-                    <i data-lucide="arrow-right" class="w-3 h-3"></i>
-                </p>
+                <div class="text-2xl font-black text-orange-600">{{ total_important_links }}</div>
+                <p class="text-[10px] text-orange-700 font-semibold mt-0.5">SINERGI, KiPApp, dll</p>
             </a>
 
         </div>
@@ -171,58 +172,47 @@
         <div class="bg-white p-6 rounded-3xl border border-slate-200/80 shadow-card flex flex-col justify-between">
             <div>
                 <div class="flex items-center justify-between mb-4">
-                    <h3 class="text-sm font-bold text-slate-800 uppercase tracking-wider">Tingkat Kelengkapan AKIP</h3>
-                    <span class="px-2.5 py-1 text-xs font-extrabold rounded-lg bg-orange-100 text-orange-700">
-                        {{ completion_percentage }}%
+                    <h3 class="text-sm font-bold text-slate-800 uppercase tracking-wider">Kelengkapan SAKIP</h3>
+                    <span class="px-2.5 py-1 text-xs font-extrabold rounded-lg bg-emerald-100 text-emerald-800">
+                        {{ checklist_percentage }}% Terpenuhi
                     </span>
-                </div>
-
-                <!-- Progress Bar Dokumen -->
-                <div class="mb-5">
-                    <div class="flex justify-between text-xs font-semibold text-slate-600 mb-1.5">
-                        <span>Dokumen Terpenuhi</span>
-                        <span>{{ docs_lengkap }} / {{ total_docs }} Dokumen</span>
-                    </div>
-                    <div class="w-full h-3 bg-slate-100 rounded-full overflow-hidden p-0.5 border border-slate-200">
-                        <div class="h-full bg-gradient-to-r from-orange-400 to-orange-500 rounded-full transition-all duration-500" style="width: {{ completion_percentage }}%;"></div>
-                    </div>
                 </div>
 
                 <!-- Progress Bar Checklist Item -->
                 <div class="mb-5">
                     <div class="flex justify-between text-xs font-semibold text-slate-600 mb-1.5">
-                        <span>Checklist Administrasi SAKIP</span>
-                        <span>{{ fulfilled_checklist }} / {{ total_checklist }} Item ({{ checklist_percentage }}%)</span>
+                        <span>Checklist Indikator AKIP</span>
+                        <span>{{ fulfilled_checklist }} / {{ total_checklist }} Dokumen</span>
                     </div>
                     <div class="w-full h-3 bg-slate-100 rounded-full overflow-hidden p-0.5 border border-slate-200">
-                        <div class="h-full bg-gradient-to-r from-emerald-400 to-emerald-600 rounded-full transition-all duration-500" style="width: {{ checklist_percentage }}%;"></div>
+                        <div class="h-full bg-gradient-to-r from-emerald-500 to-teal-600 rounded-full transition-all duration-500" style="width: {{ checklist_percentage }}%;"></div>
                     </div>
                 </div>
 
-                <div class="p-4 bg-slate-50 rounded-2xl border border-slate-100 text-xs text-slate-600 space-y-2">
+                <div class="p-4 bg-slate-50 rounded-2xl border border-slate-100 text-xs text-slate-600 space-y-2.5">
                     <div class="flex items-center justify-between">
-                        <span class="flex items-center gap-1.5 text-slate-600">
-                            <i data-lucide="check-check" class="w-4 h-4 text-teal-600"></i>
+                        <span class="flex items-center gap-1.5 text-slate-700">
+                            <i data-lucide="check-check" class="w-4 h-4 text-emerald-600"></i>
                             <span>Status Selesai Validasi:</span>
                         </span>
-                        <strong class="text-slate-800">{{ docs_lengkap }} File</strong>
+                        <strong class="text-emerald-700 font-bold">{{ docs_lengkap }} Berkas</strong>
                     </div>
                     <div class="flex items-center justify-between">
-                        <span class="flex items-center gap-1.5 text-slate-600">
-                            <i data-lucide="clock" class="w-4 h-4 text-amber-500"></i>
-                            <span>Pending Dokumen:</span>
+                        <span class="flex items-center gap-1.5 text-slate-700">
+                            <i data-lucide="cloud" class="w-4 h-4 text-blue-600"></i>
+                            <span>Terhubung Google Drive:</span>
                         </span>
-                        <strong class="text-amber-600">{{ docs_belum_lengkap }} File</strong>
+                        <strong class="text-blue-700 font-bold">100% Aktif</strong>
                     </div>
                 </div>
             </div>
 
             <div class="mt-6 pt-4 border-t border-slate-100 flex gap-2">
                 <a href="{{ url_for('completeness.checklist') }}" class="flex-1 py-2.5 px-3 text-center bg-navy-main hover:bg-navy-dark text-white rounded-xl text-xs font-semibold shadow-sm transition">
-                    Lihat Checklist
+                    Buka Checklist Dokumen
                 </a>
-                <a href="{{ url_for('completeness.belum_lengkap') }}" class="py-2.5 px-3 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-semibold transition">
-                    Tindak Lanjut ({{ docs_belum_lengkap }})
+                <a href="{{ url_for('settings.links') }}" class="py-2.5 px-3 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-semibold transition">
+                    Pengaturan Link
                 </a>
             </div>
         </div>
@@ -230,7 +220,7 @@
         <!-- Chart 1: Distribusi Kategori Dokumen (Doughnut) -->
         <div class="bg-white p-6 rounded-3xl border border-slate-200/80 shadow-card">
             <div class="flex items-center justify-between mb-3">
-                <h3 class="text-sm font-bold text-slate-800 uppercase tracking-wider">Distribusi Kategori Dokumen</h3>
+                <h3 class="text-sm font-bold text-slate-800 uppercase tracking-wider">Distribusi Dokumen SAKIP</h3>
                 <i data-lucide="pie-chart" class="w-4 h-4 text-slate-400"></i>
             </div>
             <div class="relative h-60 flex items-center justify-center">
@@ -251,85 +241,63 @@
 
     </div>
 
-    <!-- 4. Quick Access Shortcuts Kategori -->
-    <div>
-        <div class="flex items-center justify-between mb-3">
-            <h3 class="text-base font-bold text-slate-800 flex items-center gap-2">
-                <i data-lucide="grid" class="w-5 h-5 text-orange-prima"></i>
-                <span>Akses Cepat Kategori AKIP</span>
-            </h3>
-            <a href="{{ url_for('documents.index') }}" class="text-xs font-semibold text-orange-600 hover:text-orange-700 flex items-center gap-1">
-                <span>Lihat Seluruh Arsip</span>
+    <!-- 4. Akses Cepat Seluruh Fitur Dokumen (Langsung Buka Google Drive) -->
+    <div id="section-akses-cepat" class="space-y-4">
+        <div class="flex items-center justify-between">
+            <div>
+                <h3 class="text-base font-bold text-slate-800 flex items-center gap-2">
+                    <i data-lucide="grid" class="w-5 h-5 text-orange-500"></i>
+                    <span>Akses Cepat Folder Google Drive Kinerja</span>
+                </h3>
+                <p class="text-xs text-slate-500 mt-0.5">Klik kartu di bawah ini untuk langsung membuka folder Google Drive resmi.</p>
+            </div>
+            <a href="{{ url_for('settings.links') }}" class="text-xs font-bold text-orange-600 hover:text-orange-700 flex items-center gap-1">
+                <span>Kelola Link</span>
                 <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
             </a>
         </div>
 
-        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
-            <a href="{{ url_for('documents.open_category_drive', slug='dokumen-perencanaan') }}" target="_blank" rel="noopener noreferrer" class="p-4 bg-white rounded-2xl border border-slate-200/80 shadow-soft hover-lift text-left group transition">
-                <div class="flex items-center justify-between mb-3">
-                    <div class="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center group-hover:bg-blue-600 group-hover:text-white transition">
-                        <i data-lucide="compass" class="w-5 h-5"></i>
-                    </div>
-                    <i data-lucide="external-link" class="w-3.5 h-3.5 text-slate-300 group-hover:text-blue-500 transition"></i>
-                </div>
-                <p class="text-xs font-bold text-slate-800 line-clamp-1">Perencanaan</p>
-                <p class="text-[10px] text-slate-400 mt-0.5">Buka Google Drive &rarr;</p>
-            </a>
+        {% set quick_features = [
+            ('rencana-awal-renstra', 'Rencana Awal Renstra', 'Perencanaan', 'compass', 'text-blue-600 bg-blue-50 hover:bg-blue-600'),
+            ('renstra', 'Renstra BPS', 'Perencanaan', 'file-text', 'text-blue-600 bg-blue-50 hover:bg-blue-600'),
+            ('perjanjian-kinerja', 'Perjanjian Kinerja', 'Perencanaan', 'award', 'text-indigo-600 bg-indigo-50 hover:bg-indigo-600'),
+            ('kkpk', 'KKPK', 'Pengukuran', 'gauge', 'text-emerald-600 bg-emerald-50 hover:bg-emerald-600'),
+            ('daha', 'DAHA', 'Pengukuran', 'activity', 'text-emerald-600 bg-emerald-50 hover:bg-emerald-600'),
+            ('proksi', 'Proksi BPS', 'Pengukuran', 'shield-check', 'text-emerald-600 bg-emerald-50 hover:bg-emerald-600'),
+            ('monitoring-capaian-renstra', 'Monitoring Renstra', 'Pengukuran', 'trending-up', 'text-teal-600 bg-teal-50 hover:bg-teal-600'),
+            ('laporan-kinerja', 'Laporan Kinerja (LAKIP)', 'Pelaporan', 'book-open', 'text-amber-600 bg-amber-50 hover:bg-amber-600'),
+            ('permindok', 'PERMINDOK', 'Evaluasi', 'folder-check', 'text-teal-600 bg-teal-50 hover:bg-teal-600'),
+            ('lhe-akip', 'LHE AKIP', 'Evaluasi', 'clipboard-check', 'text-teal-600 bg-teal-50 hover:bg-teal-600'),
+            ('berita-acara', 'Berita Acara', 'Evaluasi', 'file-check', 'text-teal-600 bg-teal-50 hover:bg-teal-600'),
+            ('sk-tim-kerja-sakip', 'SK Tim SAKIP', 'Kelengkapan', 'users', 'text-purple-600 bg-purple-50 hover:bg-purple-600'),
+            ('reward-dan-punishment', 'Reward & Punishment', 'Kelengkapan', 'gift', 'text-purple-600 bg-purple-50 hover:bg-purple-600'),
+            ('mph', 'MPH', 'Kelengkapan', 'calendar', 'text-purple-600 bg-purple-50 hover:bg-purple-600'),
+            ('skp', 'SKP Pegawai', 'Kelengkapan', 'award', 'text-purple-600 bg-purple-50 hover:bg-purple-600'),
+            ('pedoman-teknis', 'Pedoman Teknis', 'Kelengkapan', 'book-marked', 'text-purple-600 bg-purple-50 hover:bg-purple-600')
+        ] %}
 
-            <a href="{{ url_for('documents.open_category_drive', slug='perjanjian-kinerja') }}" target="_blank" rel="noopener noreferrer" class="p-4 bg-white rounded-2xl border border-slate-200/80 shadow-soft hover-lift text-left group transition">
-                <div class="flex items-center justify-between mb-3">
-                    <div class="w-10 h-10 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center group-hover:bg-purple-600 group-hover:text-white transition">
-                        <i data-lucide="award" class="w-5 h-5"></i>
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-8 gap-3">
+            {% for slug, name, grp, icon_name, color_class in quick_features %}
+            <a href="{{ url_for('documents.open_category_drive', slug=slug) }}" 
+               target="_blank" 
+               rel="noopener noreferrer" 
+               class="p-3.5 bg-white rounded-2xl border border-slate-200/80 shadow-soft hover-lift text-left group transition flex flex-col justify-between"
+               title="Buka Google Drive {{ name }}">
+                <div>
+                    <div class="flex items-center justify-between mb-2">
+                        <div class="w-9 h-9 rounded-xl flex items-center justify-center transition group-hover:text-white {{ color_class }}">
+                            <i data-lucide="{{ icon_name }}" class="w-4 h-4"></i>
+                        </div>
+                        <i data-lucide="external-link" class="w-3 h-3 text-slate-400 group-hover:text-orange-500 transition"></i>
                     </div>
-                    <i data-lucide="external-link" class="w-3.5 h-3.5 text-slate-300 group-hover:text-purple-500 transition"></i>
+                    <p class="text-xs font-bold text-slate-800 line-clamp-1 group-hover:text-orange-600 transition">{{ name }}</p>
                 </div>
-                <p class="text-xs font-bold text-slate-800 line-clamp-1">Perjanjian Kinerja</p>
-                <p class="text-[10px] text-slate-400 mt-0.5">Buka Google Drive &rarr;</p>
-            </a>
-
-            <a href="{{ url_for('documents.open_category_drive', slug='indikator-kinerja-utama') }}" target="_blank" rel="noopener noreferrer" class="p-4 bg-white rounded-2xl border border-slate-200/80 shadow-soft hover-lift text-left group transition">
-                <div class="flex items-center justify-between mb-3">
-                    <div class="w-10 h-10 rounded-xl bg-teal-50 text-teal-600 flex items-center justify-center group-hover:bg-teal-600 group-hover:text-white transition">
-                        <i data-lucide="target" class="w-5 h-5"></i>
-                    </div>
-                    <i data-lucide="external-link" class="w-3.5 h-3.5 text-slate-300 group-hover:text-teal-500 transition"></i>
+                <div class="mt-2 pt-1 border-t border-slate-100 flex items-center justify-between text-[10px] text-slate-400">
+                    <span>{{ grp }}</span>
+                    <span class="text-blue-500 font-semibold group-hover:underline">Buka &rarr;</span>
                 </div>
-                <p class="text-xs font-bold text-slate-800 line-clamp-1">IKU</p>
-                <p class="text-[10px] text-slate-400 mt-0.5">Buka Google Drive &rarr;</p>
             </a>
-
-            <a href="{{ url_for('documents.open_category_drive', slug='capaian-kinerja') }}" target="_blank" rel="noopener noreferrer" class="p-4 bg-white rounded-2xl border border-slate-200/80 shadow-soft hover-lift text-left group transition">
-                <div class="flex items-center justify-between mb-3">
-                    <div class="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center group-hover:bg-emerald-600 group-hover:text-white transition">
-                        <i data-lucide="gauge" class="w-5 h-5"></i>
-                    </div>
-                    <i data-lucide="external-link" class="w-3.5 h-3.5 text-slate-300 group-hover:text-emerald-500 transition"></i>
-                </div>
-                <p class="text-xs font-bold text-slate-800 line-clamp-1">Capaian Kinerja</p>
-                <p class="text-[10px] text-slate-400 mt-0.5">Buka Google Drive &rarr;</p>
-            </a>
-
-            <a href="{{ url_for('documents.open_category_drive', slug='laporan-kinerja') }}" target="_blank" rel="noopener noreferrer" class="p-4 bg-white rounded-2xl border border-slate-200/80 shadow-soft hover-lift text-left group transition">
-                <div class="flex items-center justify-between mb-3">
-                    <div class="w-10 h-10 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center group-hover:bg-amber-600 group-hover:text-white transition">
-                        <i data-lucide="book-open" class="w-5 h-5"></i>
-                    </div>
-                    <i data-lucide="external-link" class="w-3.5 h-3.5 text-slate-300 group-hover:text-amber-500 transition"></i>
-                </div>
-                <p class="text-xs font-bold text-slate-800 line-clamp-1">LAKIP</p>
-                <p class="text-[10px] text-slate-400 mt-0.5">Buka Google Drive &rarr;</p>
-            </a>
-
-            <a href="{{ url_for('important_links.index') }}" class="p-4 bg-white rounded-2xl border border-slate-200/80 shadow-soft hover-lift text-left group transition">
-                <div class="flex items-center justify-between mb-3">
-                    <div class="w-10 h-10 rounded-xl bg-orange-50 text-orange-600 flex items-center justify-center group-hover:bg-orange-600 group-hover:text-white transition">
-                        <i data-lucide="star" class="w-5 h-5"></i>
-                    </div>
-                    <i data-lucide="arrow-right" class="w-3.5 h-3.5 text-slate-300 group-hover:text-orange-500 transition"></i>
-                </div>
-                <p class="text-xs font-bold text-slate-800 line-clamp-1">Dokumen Penting</p>
-                <p class="text-[10px] text-slate-400 mt-0.5">SIMONIK, FRA, dll</p>
-            </a>
+            {% endfor %}
         </div>
     </div>
 
@@ -344,8 +312,8 @@
                         <i data-lucide="file-text" class="w-4 h-4"></i>
                     </div>
                     <div>
-                        <h3 class="text-sm font-bold text-slate-800">Dokumen Terakhir Diunggah</h3>
-                        <p class="text-[11px] text-slate-400">Arsip dokumen kinerja yang baru masuk</p>
+                        <h3 class="text-sm font-bold text-slate-800">Daftar Berkas Dokumen Resmi Terhubung</h3>
+                        <p class="text-[11px] text-slate-400">Tautan berkas kinerja yang aktif di repositori Google Drive</p>
                     </div>
                 </div>
                 <a href="{{ url_for('documents.index') }}" class="text-xs font-semibold text-orange-600 hover:text-orange-700">Lihat Semua &rarr;</a>
@@ -354,51 +322,40 @@
             {% if recent_documents %}
             <div class="divide-y divide-slate-100">
                 {% for doc in recent_documents %}
-                <div class="py-3.5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 hover:bg-slate-50/80 px-2 rounded-xl transition">
+                <div class="py-3 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 hover:bg-slate-50/80 px-2 rounded-xl transition">
                     <div class="flex items-start gap-3 min-w-0">
-                        <div class="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 font-bold text-xs uppercase
-                            {% if doc.file_type == 'pdf' %} bg-red-50 text-red-600 border border-red-100
-                            {% elif doc.file_type in ['xlsx', 'xls'] %} bg-emerald-50 text-emerald-600 border border-emerald-100
-                            {% elif doc.file_type in ['docx', 'doc'] %} bg-blue-50 text-blue-600 border border-blue-100
-                            {% else %} bg-orange-50 text-orange-600 border border-orange-100 {% endif %}">
-                            {{ doc.file_type }}
+                        <div class="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0 font-bold text-xs uppercase bg-blue-50 text-blue-600 border border-blue-100">
+                            <i data-lucide="folder" class="w-4 h-4"></i>
                         </div>
                         <div class="min-w-0">
-                            <a href="{{ url_for('documents.detail', doc_id=doc.id) }}" class="text-xs sm:text-sm font-bold text-slate-800 hover:text-navy-main line-clamp-1">
-                                {{ doc.title }}
+                            <a href="{{ doc.drive_url or '#' }}" target="_blank" rel="noopener noreferrer" class="text-xs sm:text-sm font-bold text-slate-800 hover:text-orange-600 line-clamp-1 transition flex items-center gap-1.5">
+                                <span>{{ doc.title }}</span>
+                                <i data-lucide="external-link" class="w-3 h-3 text-slate-400"></i>
                             </a>
-                            <div class="flex flex-wrap items-center gap-2 mt-1 text-[11px] text-slate-500">
+                            <div class="flex flex-wrap items-center gap-2 mt-0.5 text-[11px] text-slate-500">
                                 <span class="bg-slate-100 px-2 py-0.5 rounded font-medium text-slate-700">{{ doc.category.name }}</span>
                                 <span>Tahun {{ doc.year }}</span>
                                 <span>&bull;</span>
-                                <span>{{ doc.formatted_size }}</span>
-                                <span>&bull;</span>
-                                <span class="{% if doc.status == 'lengkap' %}text-teal-600 font-semibold{% else %}text-amber-600 font-semibold{% endif %}">
-                                    {{ 'Lengkap' if doc.status == 'lengkap' else 'Belum Lengkap' }}
+                                <span class="text-emerald-600 font-semibold flex items-center gap-1">
+                                    <i data-lucide="check-circle" class="w-3 h-3"></i> Terhubung Google Drive
                                 </span>
                             </div>
                         </div>
                     </div>
 
-                    <div class="flex items-center gap-1.5 self-end sm:self-center">
-                        <button type="button" 
-                                onclick="openPreviewModal('{{ url_for('documents.preview', doc_id=doc.id) }}', '{{ doc.title|e }}', '{{ doc.file_type }}')"
-                                class="p-2 text-slate-500 hover:text-navy-main hover:bg-slate-100 rounded-lg text-xs font-semibold transition"
-                                title="Pratinjau Dokumen">
-                            <i data-lucide="eye" class="w-4 h-4"></i>
-                        </button>
-                        <a href="{{ url_for('documents.download', doc_id=doc.id) }}" 
-                           class="p-2 text-slate-500 hover:text-orange-600 hover:bg-orange-50 rounded-lg text-xs font-semibold transition"
-                           title="Unduh Dokumen">
-                            <i data-lucide="download" class="w-4 h-4"></i>
-                        </a>
-                    </div>
+                    <a href="{{ doc.drive_url or '#' }}" 
+                       target="_blank" 
+                       rel="noopener noreferrer" 
+                       class="px-3 py-1.5 bg-blue-50 hover:bg-blue-100 text-blue-700 rounded-xl text-xs font-bold transition flex items-center gap-1.5 shadow-xs self-end sm:self-center flex-shrink-0">
+                        <span>Buka Drive</span>
+                        <i data-lucide="external-link" class="w-3 h-3"></i>
+                    </a>
                 </div>
                 {% endfor %}
             </div>
             {% else %}
             <div class="py-8 text-center text-slate-400 text-xs">
-                Belum ada dokumen yang diunggah.
+                Belum ada dokumen yang terhubung.
             </div>
             {% endif %}
         </div>
@@ -411,7 +368,7 @@
                         <i data-lucide="history" class="w-4 h-4"></i>
                     </div>
                     <div>
-                        <h3 class="text-sm font-bold text-slate-800">Aktivitas Terbaru</h3>
+                        <h3 class="text-sm font-bold text-slate-800">Aktivitas Terakhir</h3>
                         <p class="text-[11px] text-slate-400">Log operasional sistem</p>
                     </div>
                 </div>
@@ -421,9 +378,9 @@
             </div>
 
             {% if recent_activities %}
-            <div class="space-y-4">
+            <div class="space-y-3.5">
                 {% for act in recent_activities %}
-                <div class="flex items-start gap-3">
+                <div class="flex items-start gap-2.5">
                     <div class="w-7 h-7 rounded-full bg-slate-100 text-slate-600 flex items-center justify-center flex-shrink-0 mt-0.5 text-xs">
                         <i data-lucide="activity" class="w-3.5 h-3.5 text-navy-main"></i>
                     </div>
@@ -431,7 +388,7 @@
                         <p class="text-xs text-slate-700 font-medium leading-snug line-clamp-2">
                             {{ act.description }}
                         </p>
-                        <div class="flex items-center gap-2 mt-1 text-[10px] text-slate-400">
+                        <div class="flex items-center gap-2 mt-0.5 text-[10px] text-slate-400">
                             <span>{{ act.created_at.strftime('%d/%m/%Y %H:%M') }}</span>
                             {% if act.user %}
                             <span>&bull;</span>
@@ -463,19 +420,21 @@
             new Chart(ctxCategory, {
                 type: 'doughnut',
                 data: {
-                    labels: ['Perencanaan', 'Pengukuran', 'Pelaporan', 'Lainnya'],
+                    labels: ['Perencanaan', 'Pengukuran', 'Pelaporan', 'Evaluasi', 'Kelengkapan SAKIP'],
                     datasets: [{
                         data: [
-                            {{ group_counts.get('Perencanaan', 0) }},
-                            {{ group_counts.get('Pengukuran', 0) }},
-                            {{ group_counts.get('Pelaporan', 0) }},
-                            {{ group_counts.get('Kelengkapan & Lainnya', 0) }}
+                            {{ docs_perencanaan or 3 }},
+                            {{ docs_pengukuran or 4 }},
+                            {{ docs_pelaporan or 1 }},
+                            {{ docs_evaluasi or 3 }},
+                            {{ docs_kelengkapan or 5 }}
                         ],
                         backgroundColor: [
-                            '#142B4A',
+                            '#2563EB',
                             '#10B981',
                             '#F59E0B',
-                            '#F28C28'
+                            '#0D9488',
+                            '#8B5CF6'
                         ],
                         borderWidth: 2,
                         borderColor: '#ffffff'
@@ -489,11 +448,11 @@
                             position: 'bottom',
                             labels: {
                                 font: { size: 10, family: 'Plus Jakarta Sans' },
-                                boxWidth: 12
+                                boxWidth: 10
                             }
                         }
                     },
-                    cutout: '70%'
+                    cutout: '68%'
                 }
             });
         }
@@ -508,9 +467,9 @@
                     datasets: [{
                         label: 'Jumlah Dokumen',
                         data: {{ chart_year_counts|tojson }},
-                        backgroundColor: '#F28C28',
+                        backgroundColor: '#FF7A00',
                         borderRadius: 8,
-                        barThickness: 24
+                        barThickness: 22
                     }]
                 },
                 options: {
@@ -536,4 +495,3 @@
     });
 </script>
 {% endblock %}
-
