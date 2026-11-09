@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash, current_app
 from flask_login import login_required
-from app.models import db, ImportantLink, Activity, User
+from app.models import db, ImportantLink, Activity, User, Category
 from app.utils import admin_required, log_activity
 
 settings_bp = Blueprint('settings', __name__)
@@ -10,7 +10,23 @@ settings_bp = Blueprint('settings', __name__)
 @admin_required
 def links():
     links_list = ImportantLink.query.order_by(ImportantLink.id.asc()).all()
-    return render_template('settings/links.html', links=links_list)
+    categories_list = Category.query.order_by(Category.group, Category.name).all()
+    return render_template('settings/links.html', links=links_list, categories=categories_list)
+
+@settings_bp.route('/category/<int:category_id>/edit-drive', methods=['POST'])
+@login_required
+@admin_required
+def edit_category_drive(category_id):
+    category = Category.query.get_or_404(category_id)
+    drive_url = request.form.get('drive_url', '').strip()
+    if not drive_url:
+        flash('Link Google Drive tidak boleh kosong.', 'danger')
+        return redirect(url_for('settings.links'))
+    category.drive_url = drive_url
+    db.session.commit()
+    log_activity('UPDATE_CATEGORY_DRIVE', f"Memperbarui link Google Drive kategori '{category.name}' -> {drive_url}")
+    flash(f"Link Google Drive untuk kategori '{category.name}' berhasil disimpan.", 'success')
+    return redirect(url_for('settings.links'))
 
 @settings_bp.route('/links/<int:link_id>/edit', methods=['POST'])
 @login_required

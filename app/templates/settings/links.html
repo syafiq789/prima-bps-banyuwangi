@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}Pengaturan Tautan Dokumen Penting - PRIMA BPS Kabupaten Banyuwangi{% endblock %}
+{% block title %}Pengaturan Tautan Google Drive & Dokumen Penting - PRIMA BPS Kabupaten Banyuwangi{% endblock %}
 
 {% block content %}
 <div class="space-y-6">
@@ -10,73 +10,172 @@
         <div class="flex items-center gap-2 text-xs text-slate-500 mb-1.5">
             <span>Manajemen Admin</span>
             <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
-            <span class="text-orange-600 font-bold">Pengaturan Tautan Dokumen Penting</span>
+            <span class="text-orange-600 font-bold">Pengaturan Link Google Drive</span>
         </div>
-        <h1 class="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
-            Konfigurasi Tautan Eksternal & Dokumen Penting
-        </h1>
-        <p class="text-xs text-slate-500 mt-0.5">
-            Kelola URL rujukan resmi untuk SIMONIK, SINERGI, FRA, LINK AKIP JATIM, PROKSI, PERMINDOK, dan JANJIKU.
-        </p>
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <div>
+                <h1 class="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
+                    Pengaturan Link Google Drive & Dokumen Penting
+                </h1>
+                <p class="text-xs text-slate-500 mt-1">
+                    Atur URL folder/berkas Google Drive untuk setiap fitur dokumen AKIP dan portal penting resmi BPS Banyuwangi.
+                </p>
+            </div>
+            <a href="https://drive.google.com" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-4 py-2.5 bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-200 rounded-2xl text-xs font-bold transition shadow-sm self-start sm:self-auto">
+                <i data-lucide="folder-open" class="w-4 h-4 text-blue-600"></i>
+                <span>Buka Google Drive BPS</span>
+                <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+            </a>
+        </div>
+
+        <!-- Info Box Petunjuk -->
+        <div class="mt-4 p-4 bg-amber-50/70 border border-amber-200/80 rounded-2xl flex items-start gap-3 text-xs text-amber-900">
+            <i data-lucide="help-circle" class="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5"></i>
+            <div class="space-y-1">
+                <p class="font-bold">Cara Menaruh Link Google Drive:</p>
+                <ol class="list-decimal list-inside text-amber-800 space-y-0.5 text-[11px]">
+                    <li>Buka folder kategori di <strong>Google Drive</strong> Anda.</li>
+                    <li>Klik kanan folder &rarr; pilih <strong>Bagikan (Share)</strong> &rarr; pastikan akses disetel sesuai kebutuhan (misal <em>"Siapa saja dengan tautan"</em> atau <em>"Khusus akun internal BPS"</em>).</li>
+                    <li>Klik <strong>Salin Tautan (Copy Link)</strong>, lalu paste ke kotak isian kategori di bawah ini dan klik <strong>Simpan Link Drive</strong>.</li>
+                    <li>Saat menu fitur tersebut diklik di sidebar atau dashboard, pengguna akan langsung dialihkan ke Google Drive tersebut.</li>
+                </ol>
+            </div>
+        </div>
     </div>
 
-    <!-- Links List -->
-    <div class="space-y-4">
-        {% for link in links %}
-        <div class="bg-white rounded-3xl border border-slate-200/80 shadow-soft p-6">
-            <form action="{{ url_for('settings.edit_link', link_id=link.id) }}" method="POST" class="space-y-4">
-                <div class="flex items-center justify-between pb-3 border-b border-slate-100">
-                    <div class="flex items-center gap-3">
-                        <div class="w-9 h-9 rounded-xl bg-orange-100 text-orange-600 flex items-center justify-center font-bold">
-                            <i data-lucide="{{ link.icon or 'link' }}" class="w-4 h-4"></i>
+    <!-- Section 1: Kategori Dokumen AKIP (Perencanaan, Pengukuran, Pelaporan, Kelengkapan) -->
+    <div class="bg-white p-6 rounded-3xl border border-slate-200/80 shadow-soft space-y-5">
+        <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+            <div>
+                <h2 class="text-base font-black text-slate-900 flex items-center gap-2">
+                    <i data-lucide="cloud" class="w-5 h-5 text-blue-600"></i>
+                    <span>Tautan Google Drive Fitur Dokumen AKIP</span>
+                </h2>
+                <p class="text-xs text-slate-500 mt-0.5">
+                    Tautan ini langsung terbuka ketika fitur di sidebar (Perencanaan, Pengukuran, Pelaporan) diklik.
+                </p>
+            </div>
+            <span class="text-xs font-bold px-2.5 py-1 bg-slate-100 text-slate-600 rounded-full">
+                {{ categories|length }} Kategori
+            </span>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            {% for cat in categories %}
+            <div class="p-4 rounded-2xl border border-slate-200 bg-slate-50/50 hover:bg-white hover:border-blue-300 transition shadow-sm space-y-3">
+                <div class="flex items-start justify-between gap-2">
+                    <div class="flex items-center gap-2.5 min-w-0">
+                        <div class="w-8 h-8 rounded-xl bg-blue-100 text-blue-700 flex items-center justify-center font-bold flex-shrink-0">
+                            <i data-lucide="{{ cat.icon or 'folder' }}" class="w-4 h-4"></i>
+                        </div>
+                        <div class="min-w-0">
+                            <h3 class="text-xs font-black text-slate-900 truncate">{{ cat.name }}</h3>
+                            <div class="flex items-center gap-1.5 mt-0.5">
+                                <span class="text-[9px] uppercase font-bold tracking-wider px-1.5 py-0.2 rounded bg-slate-200 text-slate-600">{{ cat.group }}</span>
+                                <span class="text-[10px] text-slate-400 font-mono truncate">slug: {{ cat.slug }}</span>
+                            </div>
+                        </div>
+                    </div>
+                    {% if cat.drive_url %}
+                    <a href="{{ cat.drive_url }}" target="_blank" rel="noopener noreferrer" class="px-2 py-1 bg-white border border-slate-200 text-blue-600 hover:text-blue-700 rounded-lg text-[10px] font-bold flex items-center gap-1 transition" title="Buka Link Google Drive Saat Ini">
+                        <span>Buka</span>
+                        <i data-lucide="external-link" class="w-2.5 h-2.5"></i>
+                    </a>
+                    {% endif %}
+                </div>
+
+                <form action="{{ url_for('settings.edit_category_drive', category_id=cat.id) }}" method="POST" class="space-y-2">
+                    <div>
+                        <label class="block text-[10px] font-bold uppercase tracking-wider text-slate-600 mb-1">
+                            Link Folder Google Drive:
+                        </label>
+                        <div class="flex items-center gap-2">
+                            <input type="url" 
+                                   name="drive_url" 
+                                   value="{{ cat.drive_url or '' }}" 
+                                   placeholder="https://drive.google.com/drive/folders/..." 
+                                   required 
+                                   class="flex-1 px-3 py-2 text-xs bg-white border border-slate-200 rounded-xl focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none font-mono">
+                            <button type="submit" class="px-3 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-xs font-bold transition flex items-center gap-1 shadow-sm flex-shrink-0">
+                                <i data-lucide="save" class="w-3.5 h-3.5"></i>
+                                <span>Simpan</span>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Section 2: Dokumen Penting (SIMONIK, SINERGI, FRA, dll) -->
+    <div class="bg-white p-6 rounded-3xl border border-slate-200/80 shadow-soft space-y-5">
+        <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+            <div>
+                <h2 class="text-base font-black text-slate-900 flex items-center gap-2">
+                    <i data-lucide="star" class="w-5 h-5 text-orange-500"></i>
+                    <span>Tautan Dokumen Penting & Portal Eksternal</span>
+                </h2>
+                <p class="text-xs text-slate-500 mt-0.5">
+                    Kelola tautan portal rujukan resmi SIMONIK, SINERGI, FRA, LINK AKIP JATIM, PROKSI, PERMINDOK, dan JANJIKU.
+                </p>
+            </div>
+            <span class="text-xs font-bold px-2.5 py-1 bg-orange-100 text-orange-700 rounded-full">
+                {{ links|length }} Portal
+            </span>
+        </div>
+
+        <div class="space-y-4">
+            {% for link in links %}
+            <div class="p-5 rounded-2xl border border-slate-200 bg-slate-50/50 hover:bg-white hover:border-orange-300 transition shadow-sm">
+                <form action="{{ url_for('settings.edit_link', link_id=link.id) }}" method="POST" class="space-y-3">
+                    <div class="flex items-center justify-between pb-2 border-b border-slate-200/60">
+                        <div class="flex items-center gap-3">
+                            <div class="w-9 h-9 rounded-xl bg-orange-100 text-orange-600 flex items-center justify-center font-bold">
+                                <i data-lucide="{{ link.icon or 'link' }}" class="w-4 h-4"></i>
+                            </div>
+                            <div>
+                                <span class="text-sm font-black text-slate-900">{{ link.title }}</span>
+                                <span class="text-[10px] text-slate-400 font-mono ml-2">code: {{ link.code }}</span>
+                            </div>
+                        </div>
+                        <label class="flex items-center gap-2 cursor-pointer text-xs">
+                            <input type="checkbox" name="is_active" {% if link.is_active %}checked{% endif %} class="w-4 h-4 text-orange-500 rounded border-slate-300">
+                            <span class="font-bold text-slate-700">Tampilkan di Navigasi</span>
+                        </label>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <div>
+                            <label class="block text-[10px] font-bold uppercase tracking-wider text-slate-600 mb-1">Judul Menu</label>
+                            <input type="text" name="title" value="{{ link.title }}" required class="w-full px-3 py-1.5 text-xs bg-white border border-slate-200 rounded-xl focus:border-orange-500 outline-none">
                         </div>
                         <div>
-                            <span class="text-sm font-black text-slate-900">{{ link.title }}</span>
-                            <span class="text-[10px] text-slate-400 font-mono ml-2">code: {{ link.code }}</span>
+                            <label class="block text-[10px] font-bold uppercase tracking-wider text-slate-600 mb-1">Label Badge</label>
+                            <input type="text" name="badge_text" value="{{ link.badge_text }}" class="w-full px-3 py-1.5 text-xs bg-white border border-slate-200 rounded-xl focus:border-orange-500 outline-none">
                         </div>
                     </div>
-                    <label class="flex items-center gap-2 cursor-pointer text-xs">
-                        <input type="checkbox" name="is_active" {% if link.is_active %}checked{% endif %} class="w-4 h-4 text-orange-500 rounded border-slate-300">
-                        <span class="font-bold text-slate-700">Tampilkan di Navigasi</span>
-                    </label>
-                </div>
 
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                        <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">Judul Menu</label>
-                        <input type="text" name="title" value="{{ link.title }}" required class="w-full px-3 py-2 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-navy-main outline-none">
+                        <label class="block text-[10px] font-bold uppercase tracking-wider text-slate-600 mb-1">Alamat Tautan URL (Google Drive / Website)</label>
+                        <input type="url" name="url" value="{{ link.url }}" required class="w-full px-3 py-1.5 text-xs bg-white border border-slate-200 rounded-xl focus:border-orange-500 outline-none font-mono">
                     </div>
-                    <div>
-                        <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">Label Badge</label>
-                        <input type="text" name="badge_text" value="{{ link.badge_text }}" class="w-full px-3 py-2 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-navy-main outline-none">
+
+                    <div class="flex items-center justify-between pt-1">
+                        <a href="{{ link.url }}" target="_blank" rel="noopener noreferrer" class="text-xs text-orange-600 hover:underline flex items-center gap-1 font-bold">
+                            <span>Uji Buka URL</span>
+                            <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+                        </a>
+                        <button type="submit" class="px-4 py-2 bg-navy-main hover:bg-navy-dark text-white rounded-xl text-xs font-bold transition flex items-center gap-1.5 shadow-sm">
+                            <i data-lucide="save" class="w-3.5 h-3.5"></i>
+                            <span>Simpan Pengaturan</span>
+                        </button>
                     </div>
-                </div>
-
-                <div>
-                    <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">Alamat Tautan URL Eksternal</label>
-                    <input type="url" name="url" value="{{ link.url }}" required class="w-full px-3 py-2 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-navy-main outline-none font-mono">
-                </div>
-
-                <div>
-                    <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">Deskripsi Singkat</label>
-                    <textarea name="description" rows="2" class="w-full px-3 py-2 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-navy-main outline-none">{{ link.description }}</textarea>
-                </div>
-
-                <div class="flex items-center justify-between pt-2">
-                    <a href="{{ link.url }}" target="_blank" rel="noopener noreferrer" class="text-xs text-navy-main hover:underline flex items-center gap-1">
-                        <span>Uji Buka URL</span>
-                        <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
-                    </a>
-                    <button type="submit" class="px-4 py-2 bg-navy-main hover:bg-navy-dark text-white rounded-xl text-xs font-bold transition flex items-center gap-1.5 shadow-sm">
-                        <i data-lucide="save" class="w-3.5 h-3.5"></i>
-                        <span>Simpan Pengaturan</span>
-                    </button>
-                </div>
-            </form>
+                </form>
+            </div>
+            {% endfor %}
         </div>
-        {% endfor %}
     </div>
 
 </div>
 {% endblock %}
-
