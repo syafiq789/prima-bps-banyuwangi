@@ -54,7 +54,7 @@ def index():
     ).group_by(Document.year).order_by(Document.year.asc()).all()
     
     chart_years = [str(y[0]) for y in year_stats] if year_stats else ['2023', '2024', '2025', '2026']
-    chart_year_counts = [y[1] for y in year_stats] if year_stats else [1, 2, 4, 3]
+    chart_year_counts = [y[1] for y in year_stats] if year_stats else [0, 0, 0, 0]
 
     # Quick links to categories
     categories = Category.query.order_by(Category.group, Category.name).all()

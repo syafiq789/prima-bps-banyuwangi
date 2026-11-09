@@ -58,7 +58,7 @@
                     <span class="text-slate-500">&bull;</span>
                     <div class="flex items-center gap-1.5">
                         <i data-lucide="database" class="w-4 h-4 text-emerald-400"></i>
-                        <span>Status: <strong class="text-emerald-300">{{ total_docs }} Dokumen Terhubung</strong></span>
+                        <span>Status: <strong class="{% if total_docs > 0 %}text-emerald-300{% else %}text-slate-300{% endif %}">{{ total_docs }} Dokumen Diunggah</strong></span>
                     </div>
                 </div>
             </div>
@@ -71,9 +71,9 @@
         <div class="flex items-center justify-between mb-3">
             <h3 class="text-base font-bold text-slate-800 flex items-center gap-2">
                 <i data-lucide="bar-chart-2" class="w-5 h-5 text-orange-500"></i>
-                <span>Statistik Dokumen Kinerja Terhubung</span>
+                <span>Statistik Dokumen Kinerja (Upload Riil)</span>
             </h3>
-            <span class="text-xs text-slate-500">Pembaruan real-time terhubung ke Google Drive</span>
+            <span class="text-xs text-slate-500">Pembaruan real-time dokumen terunggah</span>
         </div>
 
         <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-7 gap-3 sm:gap-4">
@@ -354,8 +354,18 @@
                 {% endfor %}
             </div>
             {% else %}
-            <div class="py-8 text-center text-slate-400 text-xs">
-                Belum ada dokumen yang terhubung.
+            <div class="py-10 text-center flex flex-col items-center justify-center">
+                <div class="w-12 h-12 rounded-2xl bg-slate-50 text-slate-400 flex items-center justify-center mb-2.5 border border-slate-100">
+                    <i data-lucide="file-plus" class="w-6 h-6"></i>
+                </div>
+                <p class="text-xs font-bold text-slate-600">Belum Ada Dokumen yang Diunggah</p>
+                <p class="text-[11px] text-slate-400 mt-0.5 max-w-xs">Gunakan tombol &ldquo;Unggah Dokumen&rdquo; untuk menambahkan arsip dokumen kinerja baru.</p>
+                {% if current_user.can_manage_documents %}
+                <a href="{{ url_for('documents.upload') }}" class="mt-3 px-3 py-1.5 bg-orange-500 hover:bg-orange-600 text-white rounded-xl text-xs font-semibold shadow-xs transition flex items-center gap-1.5">
+                    <i data-lucide="upload" class="w-3.5 h-3.5"></i>
+                    <span>Unggah Dokumen Pertama</span>
+                </a>
+                {% endif %}
             </div>
             {% endif %}
         </div>
@@ -417,25 +427,26 @@
         // Chart 1: Kategori Dokumen (Doughnut)
         const ctxCategory = document.getElementById('categoryChart');
         if (ctxCategory) {
+            const hasData = {{ total_docs }} > 0;
             new Chart(ctxCategory, {
                 type: 'doughnut',
                 data: {
-                    labels: ['Perencanaan', 'Pengukuran', 'Pelaporan', 'Evaluasi', 'Kelengkapan SAKIP'],
+                    labels: hasData 
+                        ? ['Perencanaan', 'Pengukuran', 'Pelaporan', 'Evaluasi', 'Kelengkapan SAKIP']
+                        : ['Belum Ada Dokumen'],
                     datasets: [{
-                        data: [
-                            {{ docs_perencanaan or 3 }},
-                            {{ docs_pengukuran or 4 }},
-                            {{ docs_pelaporan or 1 }},
-                            {{ docs_evaluasi or 3 }},
-                            {{ docs_kelengkapan or 5 }}
-                        ],
-                        backgroundColor: [
-                            '#2563EB',
-                            '#10B981',
-                            '#F59E0B',
-                            '#0D9488',
-                            '#8B5CF6'
-                        ],
+                        data: hasData 
+                            ? [
+                                {{ docs_perencanaan }},
+                                {{ docs_pengukuran }},
+                                {{ docs_pelaporan }},
+                                {{ docs_evaluasi }},
+                                {{ docs_kelengkapan }}
+                              ]
+                            : [1],
+                        backgroundColor: hasData
+                            ? ['#2563EB', '#10B981', '#F59E0B', '#0D9488', '#8B5CF6']
+                            : ['#E2E8F0'],
                         borderWidth: 2,
                         borderColor: '#ffffff'
                     }]
@@ -449,6 +460,14 @@
                             labels: {
                                 font: { size: 10, family: 'Plus Jakarta Sans' },
                                 boxWidth: 10
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    if (!hasData) return ' Belum ada dokumen yang diunggah';
+                                    return ` ${context.label}: ${context.raw} Dokumen`;
+                                }
                             }
                         }
                     },

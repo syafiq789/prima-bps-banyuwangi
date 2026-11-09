@@ -425,64 +425,12 @@ def seed_initial_data():
 
         db.session.commit()
 
-        # 4. Inisialisasi Data Dokumen Resmi BPS Banyuwangi Terhubung ke Google Drive
-        official_docs = [
-            # Perencanaan
-            {"title": "Dokumen Rancangan Awal Renstra BPS Banyuwangi", "cat_slug": "rencana-awal-renstra", "year": 2024, "drive_url": "https://drive.google.com/drive/folders/13z-GsSIqqSXNa4QbdAj9ezuYQ-K0V89y?usp=sharing", "status": "lengkap", "notes": "Rancangan baseline indikator strategis"},
-            {"title": "Dokumen Rencana Strategis (Renstra) Resmi BPS Banyuwangi", "cat_slug": "renstra", "year": 2025, "drive_url": "https://drive.google.com/drive/folders/1tG_Z7uqrJQ0B8EJxbgsN-NgfgSocK1uJ?usp=sharing", "status": "lengkap", "notes": "Renstra BPS periode berjalan"},
-            {"title": "Perjanjian Kinerja (PK) Kepala BPS Kabupaten Banyuwangi", "cat_slug": "perjanjian-kinerja", "year": 2025, "drive_url": "https://drive.google.com/drive/folders/1sPNbUk3DsKIPL4XS6ZWagtCp7Oxyp7Sy?usp=sharing", "status": "lengkap", "notes": "Komitmen target kinerja pimpinan & koordinator"},
-
-            # Pengukuran (Monitoring Capaian Kinerja)
-            {"title": "Kertas Kerja Pengukuran Kinerja (KKPK) BPS Banyuwangi", "cat_slug": "kkpk", "year": 2025, "drive_url": "https://drive.google.com/drive/folders/1X3YlxX-Y9MHur9xvSxwktSHXeYeD7qY6?usp=sharing", "status": "lengkap", "notes": "Instrumen kertas kerja validasi capaian triwulanan"},
-            {"title": "Data & Arsip Hasil Analisis (DAHA) Kinerja Statistik", "cat_slug": "daha", "year": 2025, "drive_url": "https://drive.google.com/drive/folders/1ZXCDu6HCLKHx-PwuGlhzsDQj1ck2UQpE?usp=sharing", "status": "lengkap", "notes": "Data dukung hasil analisis statistik"},
-            {"title": "Laporan Pengawasan & Pengendalian Kinerja Internal (Proksi)", "cat_slug": "proksi", "year": 2025, "drive_url": "https://drive.google.com/drive/folders/1dKKWp8QvaBSOwQitaADRup27ktVdu485?usp=sharing", "status": "lengkap", "notes": "Pemantauan integritas dan kepatuhan jadwal sensus/survei"},
-            {"title": "Laporan Monitoring Capaian Target Indikator Renstra", "cat_slug": "monitoring-capaian-renstra", "year": 2024, "drive_url": "https://drive.google.com/drive/folders/1BYW2BPyeDHEGI7AbcmkywUaaHdguZbe-?usp=sharing", "status": "lengkap", "notes": "Evaluasi pencapaian target sasaran strategis"},
-
-            # Pelaporan
-            {"title": "Laporan Kinerja Instansi Pemerintah (LAKIP) BPS Banyuwangi", "cat_slug": "laporan-kinerja", "year": 2024, "drive_url": "https://drive.google.com/drive/folders/1APuhRzJikTUZVLujq34rhQ-z1KAzmAQ3?usp=sharing", "status": "lengkap", "notes": "LAKIP / LKjIP resmi tahunan"},
-
-            # Evaluasi
-            {"title": "Permintaan Dokumen dan Penataan Kelengkapan (PERMINDOK)", "cat_slug": "permindok", "year": 2025, "drive_url": "https://drive.google.com/drive/folders/1MZNZ5ybRGqwKP16L-ZcJNaYTb2Wkvu5Y?usp=sharing", "status": "lengkap", "notes": "Pedoman pemenuhan administrasi evaluasi SAKIP"},
-            {"title": "Laporan Hasil Evaluasi (LHE) AKIP Inspektorat Utama BPS RI", "cat_slug": "lhe-akip", "year": 2024, "drive_url": "https://drive.google.com/drive/folders/1qafMSDY-mGhsAsC1IhNWZ1PLDbdDBRxl?usp=sharing", "status": "lengkap", "notes": "LHE dan rekomendasi tindak lanjut akuntabilitas"},
-            {"title": "Berita Acara Rapat Evaluasi & Rekonsiliasi Kinerja", "cat_slug": "berita-acara", "year": 2025, "drive_url": "https://drive.google.com/drive/folders/1EvOLIDXtA-2p9Y1Uz2rJwUEtZV7THPcG?usp=sharing", "status": "lengkap", "notes": "Notula kesepakatan dan rekonsiliasi data"},
-
-            # Kelengkapan SAKIP
-            {"title": "SK Tim Kerja Pengelola SAKIP BPS Kabupaten Banyuwangi", "cat_slug": "sk-tim-kerja-sakip", "year": 2025, "drive_url": "https://drive.google.com/drive/folders/1CNCg7oMRIuZLiYzs0h_Bju3EVhsfZPPV?usp=sharing", "status": "lengkap", "notes": "SK penetapan tim pelaksana dan pengawas akuntabilitas"},
-            {"title": "Pedoman & Laporan Pelaksanaan Reward and Punishment", "cat_slug": "reward-dan-punishment", "year": 2025, "drive_url": "https://drive.google.com/drive/folders/1nMcUg8C6FiVyMRRFqiQCUmaspezWYzQ3?usp=sharing", "status": "lengkap", "notes": "Kebijakan dan bukti penghargaan prestasi pegawai"},
-            {"title": "Matriks Pengelolaan Hari (MPH) Beban Kerja Operasional", "cat_slug": "mph", "year": 2025, "drive_url": "https://drive.google.com/drive/folders/1Q4Fyhv6MGXEGVHwg9NQ5SQgTRvr4eCki?usp=sharing", "status": "lengkap", "notes": "Matriks alokasi pembagian waktu kegiatan harian"},
-            {"title": "Dokumen Sasaran Kinerja Pegawai (SKP) Seluruh Aparatur", "cat_slug": "skp", "year": 2025, "drive_url": "https://drive.google.com/drive/folders/13MaRpuGKJqjLFbkYpdrVwo5PfQUI8pRA?usp=sharing", "status": "lengkap", "notes": "Kompilasi SKP dan penilaian kinerja individu"},
-            {"title": "Buku Pedoman Teknis & Standar Operasional AKIP BPS", "cat_slug": "pedoman-teknis", "year": 2024, "drive_url": "https://drive.google.com/drive/folders/1WNZs2D4AeNCrYv6wOtS3qHWPvS7-xLHy?usp=sharing", "status": "lengkap", "notes": "Juklak dan SOP pelaksanaan sistem akuntabilitas"}
-        ]
-
-        admin_user = User.query.filter_by(username='admin').first()
-        admin_id = admin_user.id if admin_user else 1
-
-        for doc_item in official_docs:
-            cat = Category.query.filter_by(slug=doc_item['cat_slug']).first()
-            if cat:
-                existing_doc = Document.query.filter_by(category_id=cat.id, title=doc_item['title']).first()
-                if not existing_doc:
-                    new_doc = Document(
-                        title=doc_item['title'],
-                        category_id=cat.id,
-                        year=doc_item['year'],
-                        description=doc_item['notes'],
-                        drive_url=doc_item['drive_url'],
-                        filename=f"gdrive_{cat.slug}_{doc_item['year']}.url",
-                        original_filename=f"{cat.name}.gdrive",
-                        file_type="gdrive",
-                        file_size=1024,
-                        uploaded_by=admin_id,
-                        status=doc_item['status'],
-                        notes=doc_item['notes']
-                    )
-                    db.session.add(new_doc)
-                elif not existing_doc.drive_url:
-                    existing_doc.drive_url = doc_item['drive_url']
-
+        # 4. Tabel Document dikosongkan (0 dokumen diupload secara awal)
+        # Menghapus dokumen bawaan awal agar data mencerminkan unggahan riil pengguna
+        db.session.query(Document).delete()
         db.session.commit()
 
-        # 5. Checklist Kelengkapan Dokumen Standard AKIP (Terkoneksi Real-Time)
+        # 5. Checklist Kelengkapan Dokumen Standard AKIP (Status Awal: Belum Lengkap / 0 Terpenuhi)
         checklist_templates = [
             {"cat_slug": "renstra", "year": 2025, "item": "Rencana Strategis (Renstra) BPS Banyuwangi 2025-2029"},
             {"cat_slug": "rencana-awal-renstra", "year": 2024, "item": "Dokumen Rancangan Awal Renstra"},
@@ -508,17 +456,18 @@ def seed_initial_data():
                         year=chk_item['year'],
                         item_name=chk_item['item'],
                         is_required=True,
-                        is_fulfilled=True,
-                        notes="Dokumen resmi BPS Banyuwangi telah terhubung ke Google Drive."
+                        is_fulfilled=False,
+                        notes="Belum ada dokumen yang diunggah."
                     )
                     db.session.add(c_item)
                 else:
-                    c_item.is_fulfilled = True
+                    c_item.is_fulfilled = False
                     c_item.category_id = cat.id
+                    c_item.notes = "Belum ada dokumen yang diunggah."
 
         db.session.commit()
 
-        logger.info("Database initialization and initial data seeding completed.")
+        logger.info("Database initialization completed with 0 initial uploaded documents.")
     except Exception as e:
         logger.error(f"Error during seeding initial data: {e}")
         db.session.rollback()
