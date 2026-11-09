@@ -53,6 +53,15 @@
 
             <!-- Action buttons -->
             <div class="flex flex-wrap items-center gap-2">
+                {% if document.drive_url %}
+                <a href="{{ document.drive_url }}" 
+                   target="_blank" 
+                   rel="noopener noreferrer" 
+                   class="px-5 py-2.5 bg-gradient-to-r from-blue-600 to-navy-main hover:from-blue-700 hover:to-navy-dark text-white rounded-xl text-xs sm:text-sm font-bold shadow-md shadow-blue-500/20 transition flex items-center gap-2 hover:scale-[1.02]">
+                    <i data-lucide="external-link" class="w-4 h-4 text-orange-400"></i>
+                    <span>Buka di Google Drive</span>
+                </a>
+                {% else %}
                 <button type="button" 
                         onclick="openPreviewModal('{{ url_for('documents.preview', doc_id=document.id) }}', '{{ document.title|e }}', '{{ document.file_type }}')"
                         class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-bold transition flex items-center gap-1.5 shadow-sm">
@@ -65,8 +74,9 @@
                     <i data-lucide="download" class="w-4 h-4"></i>
                     <span>Unduh File</span>
                 </a>
+                {% endif %}
 
-                {% if current_user.is_admin %}
+                {% if current_user.can_manage_documents %}
                 <a href="{{ url_for('documents.edit', doc_id=document.id) }}" 
                    class="px-3.5 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-bold transition flex items-center gap-1" title="Edit Informasi">
                     <i data-lucide="edit-3" class="w-4 h-4"></i>

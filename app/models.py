@@ -80,11 +80,16 @@ class Category(db.Model):
     group = db.Column(db.String(50), nullable=False) # 'perencanaan', 'pengukuran', 'pelaporan', 'dokumen_penting', 'kelengkapan'
     description = db.Column(db.Text, nullable=True)
     icon = db.Column(db.String(50), default='folder')
+    drive_url = db.Column(db.String(500), nullable=True) # Link Folder Google Drive
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
     # Relationships
     documents = db.relationship('Document', backref='category', lazy='dynamic', cascade='all, delete-orphan')
     checklist_items = db.relationship('DocumentCompleteness', backref='category', lazy='dynamic', cascade='all, delete-orphan')
+
+    @property
+    def gdrive_link(self):
+        return self.drive_url or f"https://drive.google.com/drive/search?q={self.slug}"
 
     def __repr__(self):
         return f'<Category {self.name}>'
@@ -98,16 +103,25 @@ class Document(db.Model):
     category_id = db.Column(db.Integer, db.ForeignKey('categories.id', ondelete='CASCADE'), nullable=False)
     year = db.Column(db.Integer, nullable=False, index=True)
     description = db.Column(db.Text, nullable=True)
-    filename = db.Column(db.String(255), nullable=False)
-    original_filename = db.Column(db.String(255), nullable=False)
+    drive_url = db.Column(db.String(500), nullable=True) # Link Berkas / Folder Google Drive
+    filename = db.Column(db.String(255), nullable=True)
+    original_filename = db.Column(db.String(255), nullable=True)
     file_size = db.Column(db.Integer, default=0) # in bytes
-    file_type = db.Column(db.String(20), nullable=False) # pdf, docx, xlsx, pptx
+    file_type = db.Column(db.String(50), default='gdrive', nullable=False) # gdrive, folder, pdf, docx, xlsx, pptx
     uploaded_by = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='CASCADE'), nullable=False)
     status = db.Column(db.String(20), default='lengkap', nullable=False) # 'lengkap', 'belum_lengkap'
     notes = db.Column(db.Text, nullable=True)
     download_count = db.Column(db.Integer, default=0)
     created_at = db.Column(db.DateTime, default=datetime.utcnow, index=True)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+
+    @property
+    def is_gdrive(self):
+        return bool(self.drive_url)
+
+    @property
+    def access_url(self):
+        return self.drive_url or f"/documents/{self.id}/download"
 
     @property
     def formatted_size(self):

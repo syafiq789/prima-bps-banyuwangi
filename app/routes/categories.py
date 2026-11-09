@@ -23,6 +23,7 @@ def create():
     group = request.form.get('group', 'perencanaan')
     description = request.form.get('description', '').strip()
     icon = request.form.get('icon', 'folder').strip()
+    drive_url = request.form.get('drive_url', '').strip()
 
     if not name or not slug:
         flash('Nama kategori dan slug wajib diisi.', 'danger')
@@ -38,7 +39,8 @@ def create():
         slug=slug,
         group=group,
         description=description,
-        icon=icon
+        icon=icon,
+        drive_url=drive_url if drive_url else None
     )
     db.session.add(new_cat)
     db.session.commit()
@@ -65,6 +67,8 @@ def edit(cat_id):
     cat.group = group
     cat.description = description
     cat.icon = icon
+    drive_url = request.form.get('drive_url', '').strip()
+    cat.drive_url = drive_url if drive_url else None
 
     db.session.commit()
     log_activity('EDIT_CATEGORY', f"Memperbarui kategori ID #{cat_id}: '{name}'")

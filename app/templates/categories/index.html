@@ -73,6 +73,12 @@
 
                         <td class="py-4 px-6 text-right">
                             <div class="flex items-center justify-end gap-2">
+                                {% if cat.drive_url %}
+                                <a href="{{ cat.drive_url }}" target="_blank" rel="noopener noreferrer" class="p-1.5 text-blue-600 hover:text-blue-800 hover:bg-blue-50 rounded-lg transition" title="Buka Folder Google Drive">
+                                    <i data-lucide="external-link" class="w-4 h-4"></i>
+                                </a>
+                                {% endif %}
+
                                 <a href="{{ url_for('documents.category_view', slug=cat.slug) }}" class="p-1.5 text-slate-500 hover:text-navy-main hover:bg-slate-100 rounded-lg transition" title="Lihat Berkas">
                                     <i data-lucide="eye" class="w-4 h-4"></i>
                                 </a>
@@ -123,6 +129,10 @@
                         <option value="kelengkapan">Kelengkapan</option>
                         <option value="lainnya">Lainnya</option>
                     </select>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">Tautan / Link Google Drive Folder</label>
+                    <input type="url" name="drive_url" placeholder="https://drive.google.com/drive/folders/..." class="w-full px-3 py-2 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-navy-main outline-none font-mono">
                 </div>
                 <div>
                     <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">Deskripsi</label>

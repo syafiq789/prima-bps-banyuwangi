@@ -5,56 +5,94 @@
 {% block content %}
 <div class="space-y-6">
 
-    <!-- Header Section with Category Info -->
-    <div class="bg-white p-6 rounded-3xl border border-slate-200/80 shadow-soft">
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-            <div>
-                <div class="flex items-center gap-2 text-xs text-slate-500 mb-1.5">
-                    <a href="{{ url_for('dashboard.index') }}" class="hover:text-navy-main">PRIMA</a>
-                    <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
-                    <span class="uppercase tracking-wider font-semibold text-slate-400">{{ category.group }}</span>
-                    <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
-                    <span class="text-orange-600 font-bold">{{ category.name }}</span>
+    <!-- Top Breadcrumb & Status -->
+    <div class="flex items-center justify-between">
+        <div class="flex items-center gap-2 text-xs text-slate-500">
+            <a href="{{ url_for('dashboard.index') }}" class="hover:text-navy-main">PRIMA</a>
+            <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+            <span class="uppercase tracking-wider font-semibold text-slate-400">{{ category.group }}</span>
+            <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+            <span class="text-orange-600 font-bold">{{ category.name }}</span>
+        </div>
+        <span class="text-xs text-slate-400 font-medium">BPS Kabupaten Banyuwangi</span>
+    </div>
+
+    <!-- GOOGLE DRIVE DIRECT ACCESS HERO BANNER -->
+    <div class="bg-gradient-to-br from-[#0D1B2A] via-[#142B4A] to-[#1E3E66] text-white p-6 sm:p-7 rounded-3xl border border-blue-500/25 shadow-xl relative overflow-hidden">
+        <!-- Ambient lighting -->
+        <div class="absolute -top-20 -right-20 w-60 h-60 bg-orange-500/15 rounded-full blur-3xl pointer-events-none"></div>
+
+        <div class="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-5">
+            <div class="flex items-start gap-4">
+                <div class="w-13 h-13 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 p-3 flex items-center justify-center text-blue-300 shadow-md flex-shrink-0">
+                    <i data-lucide="folder-symlink" class="w-7 h-7 text-orange-400"></i>
                 </div>
-                <div class="flex items-center gap-3">
-                    <div class="w-12 h-12 rounded-2xl bg-orange-50 text-orange-600 flex items-center justify-center font-bold">
-                        <i data-lucide="{{ category.icon or 'folder' }}" class="w-6 h-6"></i>
+                <div>
+                    <div class="flex items-center gap-2 mb-1">
+                        <span class="text-[10px] font-extrabold uppercase tracking-widest text-orange-400 bg-orange-500/20 px-2.5 py-0.5 rounded-full border border-orange-500/30">
+                            Penyimpanan Terintegrasi Google Drive
+                        </span>
                     </div>
-                    <div>
-                        <h1 class="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
-                            {{ category.name }}
-                        </h1>
-                        <p class="text-xs text-slate-500 mt-0.5">
-                            {{ category.description or 'Pengelolaan arsip dan dokumen AKIP BPS Kabupaten Banyuwangi.' }}
-                        </p>
+                    <h1 class="text-xl sm:text-2xl font-black text-white tracking-tight">
+                        {{ category.name }}
+                    </h1>
+                    <p class="text-xs text-slate-300 mt-1 max-w-2xl leading-relaxed">
+                        {{ category.description or 'Folder arsip dan dokumen akuntabilitas kinerja BPS Kabupaten Banyuwangi.' }}
+                    </p>
+                    <div class="mt-2.5 flex items-center gap-2 text-[11px] text-blue-200 font-mono bg-white/5 px-3 py-1.5 rounded-xl border border-white/10 max-w-xl truncate">
+                        <i data-lucide="link" class="w-3.5 h-3.5 flex-shrink-0 text-orange-400"></i>
+                        <span class="truncate">{{ category.gdrive_link }}</span>
                     </div>
                 </div>
             </div>
 
-            {% if current_user.is_admin %}
-            <a href="{{ url_for('documents.upload', category_id=category.id) }}" 
-               class="inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white text-xs sm:text-sm font-bold rounded-xl shadow-md shadow-orange-500/20 transition hover:scale-[1.02] active:scale-[0.98]">
-                <i data-lucide="upload" class="w-4 h-4"></i>
-                <span>Unggah Dokumen {{ category.name }}</span>
-            </a>
-            {% endif %}
+            <!-- Primary Action Buttons: Direct Google Drive Access -->
+            <div class="flex flex-wrap items-center gap-2.5 lg:flex-col lg:items-end">
+                <!-- Tombol Buka Langsung Google Drive -->
+                <a href="{{ category.gdrive_link }}" 
+                   target="_blank" 
+                   rel="noopener noreferrer" 
+                   class="inline-flex items-center gap-2.5 px-5 py-3 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white rounded-xl text-xs sm:text-sm font-bold shadow-lg shadow-orange-500/30 transition-all hover:scale-[1.02] active:scale-[0.98]">
+                    <i data-lucide="external-link" class="w-4 h-4"></i>
+                    <span>Buka Folder di Google Drive</span>
+                </a>
+
+                <div class="flex items-center gap-2">
+                    {% if current_user.can_manage_documents %}
+                    <!-- Tombol Ubah Link Drive -->
+                    <button type="button" 
+                            onclick="document.getElementById('edit-drive-modal').classList.remove('hidden')" 
+                            class="inline-flex items-center gap-1.5 px-3.5 py-2 bg-white/10 hover:bg-white/20 border border-white/20 text-white rounded-xl text-xs font-semibold transition">
+                        <i data-lucide="settings-2" class="w-3.5 h-3.5"></i>
+                        <span>Ubah Link Drive</span>
+                    </button>
+
+                    <!-- Tombol Tambah Dokumen Drive -->
+                    <a href="{{ url_for('documents.upload', category_id=category.id) }}" 
+                       class="inline-flex items-center gap-1.5 px-3.5 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-xs font-semibold transition shadow-sm">
+                        <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+                        <span>Tambah Dokumen</span>
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
         </div>
 
         <!-- Mini Stats for this Category -->
-        <div class="grid grid-cols-3 gap-3 mt-6 pt-5 border-t border-slate-100">
-            <div class="bg-slate-50 p-3 rounded-2xl text-center">
-                <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Total Arsip</span>
-                <p class="text-lg font-black text-slate-800">{{ pagination.total }}</p>
+        <div class="grid grid-cols-3 gap-3 mt-6 pt-5 border-t border-white/10">
+            <div class="bg-white/5 backdrop-blur-sm p-3 rounded-2xl text-center border border-white/10">
+                <span class="text-[10px] font-bold uppercase tracking-wider text-slate-300">Total Berkas / Folder</span>
+                <p class="text-lg font-black text-white">{{ pagination.total }}</p>
             </div>
-            <div class="bg-teal-50 p-3 rounded-2xl text-center">
-                <span class="text-[10px] font-bold uppercase tracking-wider text-teal-600">Lengkap</span>
-                <p class="text-lg font-black text-teal-700">
+            <div class="bg-emerald-500/10 p-3 rounded-2xl text-center border border-emerald-500/20">
+                <span class="text-[10px] font-bold uppercase tracking-wider text-emerald-300">Lengkap</span>
+                <p class="text-lg font-black text-emerald-400">
                     {{ documents | selectattr('status', 'equalto', 'lengkap') | list | length }}
                 </p>
             </div>
-            <div class="bg-amber-50 p-3 rounded-2xl text-center">
-                <span class="text-[10px] font-bold uppercase tracking-wider text-amber-600">Perlu Dilengkapi</span>
-                <p class="text-lg font-black text-amber-700">
+            <div class="bg-amber-500/10 p-3 rounded-2xl text-center border border-amber-500/20">
+                <span class="text-[10px] font-bold uppercase tracking-wider text-amber-300">Perlu Dilengkapi</span>
+                <p class="text-lg font-black text-amber-400">
                     {{ documents | selectattr('status', 'equalto', 'belum_lengkap') | list | length }}
                 </p>
             </div>
@@ -73,7 +111,7 @@
                     <input type="text" 
                            name="q" 
                            value="{{ search_query }}"
-                           placeholder="Cari judul atau kata kunci..." 
+                           placeholder="Cari judul dokumen atau link..." 
                            class="w-full pl-9 pr-3 py-2 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-navy-main outline-none">
                 </div>
             </div>
@@ -115,9 +153,9 @@
             <table class="w-full text-left border-collapse">
                 <thead>
                     <tr class="bg-slate-50 border-b border-slate-200/80 text-[11px] font-bold uppercase tracking-wider text-slate-600">
-                        <th class="py-3.5 px-4 sm:px-6">Nama Dokumen</th>
+                        <th class="py-3.5 px-4 sm:px-6">Nama Dokumen / Folder</th>
                         <th class="py-3.5 px-4 text-center">Tahun</th>
-                        <th class="py-3.5 px-4">Format & Ukuran</th>
+                        <th class="py-3.5 px-4">Tipe Berkas</th>
                         <th class="py-3.5 px-4">Pengunggah</th>
                         <th class="py-3.5 px-4 text-center">Status</th>
                         <th class="py-3.5 px-4 text-right">Aksi</th>
@@ -130,15 +168,23 @@
                             <td class="py-4 px-4 sm:px-6">
                                 <div class="flex items-start gap-3">
                                     <div class="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0 font-bold text-[11px] uppercase
-                                        {% if doc.file_type == 'pdf' %} bg-red-50 text-red-600 border border-red-100
-                                        {% elif doc.file_type in ['xlsx', 'xls'] %} bg-emerald-50 text-emerald-600 border border-emerald-100
-                                        {% elif doc.file_type in ['docx', 'doc'] %} bg-blue-50 text-blue-600 border border-blue-100
-                                        {% else %} bg-orange-50 text-orange-600 border border-orange-100 {% endif %}">
-                                        {{ doc.file_type }}
+                                        {% if doc.file_type == 'folder' %} bg-amber-50 text-amber-600 border border-amber-200
+                                        {% elif doc.file_type == 'pdf' %} bg-red-50 text-red-600 border border-red-200
+                                        {% elif doc.file_type in ['xlsx', 'xls'] %} bg-emerald-50 text-emerald-600 border border-emerald-200
+                                        {% elif doc.file_type in ['docx', 'doc'] %} bg-blue-50 text-blue-600 border border-blue-200
+                                        {% else %} bg-orange-50 text-orange-600 border border-orange-200 {% endif %}">
+                                        {% if doc.file_type == 'folder' %}
+                                            <i data-lucide="folder" class="w-4 h-4"></i>
+                                        {% else %}
+                                            {{ doc.file_type[:4] }}
+                                        {% endif %}
                                     </div>
                                     <div class="min-w-0">
-                                        <a href="{{ url_for('documents.detail', doc_id=doc.id) }}" class="font-bold text-slate-900 hover:text-orange-600 transition line-clamp-1">
-                                            {{ doc.title }}
+                                        <a href="{{ doc.access_url }}" target="_blank" class="font-bold text-slate-900 hover:text-orange-600 transition flex items-center gap-1.5">
+                                            <span>{{ doc.title }}</span>
+                                            {% if doc.drive_url %}
+                                            <i data-lucide="external-link" class="w-3 h-3 text-blue-500"></i>
+                                            {% endif %}
                                         </a>
                                         <p class="text-[11px] text-slate-500 line-clamp-1 mt-0.5">
                                             {{ doc.description or 'Tidak ada deskripsi tambahan.' }}
@@ -154,8 +200,17 @@
                             </td>
 
                             <td class="py-4 px-4">
-                                <span class="font-semibold text-slate-700 block">{{ doc.formatted_size }}</span>
-                                <span class="text-[10px] text-slate-400 uppercase font-mono">{{ doc.file_type }}</span>
+                                {% if doc.file_type == 'folder' %}
+                                    <span class="inline-flex items-center gap-1 text-[11px] font-bold text-amber-700 bg-amber-50 px-2 py-0.5 rounded border border-amber-200">
+                                        📁 Folder Drive
+                                    </span>
+                                {% elif doc.drive_url %}
+                                    <span class="inline-flex items-center gap-1 text-[11px] font-bold text-blue-700 bg-blue-50 px-2 py-0.5 rounded border border-blue-200">
+                                        🌐 Link Drive ({{ doc.file_type|upper }})
+                                    </span>
+                                {% else %}
+                                    <span class="text-slate-700 uppercase font-mono">{{ doc.file_type }}</span>
+                                {% endif %}
                             </td>
 
                             <td class="py-4 px-4">
@@ -178,35 +233,37 @@
                             </td>
 
                             <td class="py-4 px-4 text-right">
-                                <div class="flex items-center justify-end gap-1">
-                                    <button type="button" 
-                                            onclick="openPreviewModal('{{ url_for('documents.preview', doc_id=doc.id) }}', '{{ doc.title|e }}', '{{ doc.file_type }}')"
-                                            class="p-1.5 text-slate-500 hover:text-navy-main hover:bg-slate-100 rounded-lg transition" 
-                                            title="Pratinjau">
-                                        <i data-lucide="eye" class="w-4 h-4"></i>
-                                    </button>
-
-                                    <a href="{{ url_for('documents.download', doc_id=doc.id) }}" 
-                                       class="p-1.5 text-slate-500 hover:text-orange-600 hover:bg-orange-50 rounded-lg transition" 
-                                       title="Unduh">
-                                        <i data-lucide="download" class="w-4 h-4"></i>
+                                <div class="flex items-center justify-end gap-1.5">
+                                    <!-- Tombol Buka Link Google Drive -->
+                                    <a href="{{ doc.access_url }}" 
+                                       target="_blank" 
+                                       rel="noopener noreferrer" 
+                                       class="px-2.5 py-1.5 bg-blue-50 hover:bg-blue-100 text-blue-700 rounded-lg text-xs font-bold transition flex items-center gap-1 border border-blue-200/80" 
+                                       title="Buka di Google Drive">
+                                        <span>Buka Drive</span>
+                                        <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
                                     </a>
 
                                     <a href="{{ url_for('documents.detail', doc_id=doc.id) }}" 
-                                       class="p-1.5 text-slate-500 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition" 
-                                       title="Detail">
+                                       class="p-1.5 text-slate-500 hover:text-navy-main hover:bg-slate-100 rounded-lg transition" 
+                                       title="Detail Dokumen">
                                         <i data-lucide="info" class="w-4 h-4"></i>
                                     </a>
 
-                                    {% if current_user.is_admin %}
+                                    {% if current_user.can_manage_documents %}
                                     <a href="{{ url_for('documents.edit', doc_id=doc.id) }}" 
-                                       class="p-1.5 text-slate-500 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition" 
+                                       class="p-1.5 text-slate-500 hover:text-amber-600 hover:bg-amber-50 rounded-lg transition" 
                                        title="Edit">
-                                        <i data-lucide="edit-3" class="w-4 h-4"></i>
+                                        <i data-lucide="edit" class="w-4 h-4"></i>
                                     </a>
 
-                                    <form action="{{ url_for('documents.delete', doc_id=doc.id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus dokumen ini secara permanen?');" class="inline">
-                                        <button type="submit" class="p-1.5 text-slate-500 hover:text-red-600 hover:bg-red-50 rounded-lg transition" title="Hapus">
+                                    <form action="{{ url_for('documents.delete', doc_id=doc.id) }}" 
+                                          method="POST" 
+                                          onsubmit="return confirm('Apakah Anda yakin ingin menghapus tautan dokumen {{ doc.title }}?');" 
+                                          class="inline">
+                                        <button type="submit" 
+                                                class="p-1.5 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition" 
+                                                title="Hapus">
                                             <i data-lucide="trash-2" class="w-4 h-4"></i>
                                         </button>
                                     </form>
@@ -217,16 +274,19 @@
                         {% endfor %}
                     {% else %}
                         <tr>
-                            <td colspan="6" class="py-12 text-center text-slate-400">
-                                <div class="flex flex-col items-center justify-center">
-                                    <i data-lucide="folder-open" class="w-12 h-12 text-slate-300 mb-2"></i>
-                                    <p class="text-sm font-semibold text-slate-600">Belum ada dokumen dalam kategori ini</p>
-                                    {% if current_user.is_admin %}
-                                    <a href="{{ url_for('documents.upload', category_id=category.id) }}" class="mt-3 px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white text-xs font-bold rounded-xl transition inline-flex items-center gap-1.5">
-                                        <i data-lucide="upload" class="w-3.5 h-3.5"></i>
-                                        <span>Unggah Dokumen Pertama</span>
+                            <td colspan="6" class="py-12 text-center">
+                                <div class="w-14 h-14 bg-orange-50 text-orange-500 rounded-2xl flex items-center justify-center mx-auto mb-3">
+                                    <i data-lucide="folder-search" class="w-7 h-7"></i>
+                                </div>
+                                <h3 class="text-sm font-bold text-slate-800">Belum ada dokumen yang ditautkan</h3>
+                                <p class="text-xs text-slate-400 mt-1 max-w-sm mx-auto">
+                                    Dokumen untuk kategori {{ category.name }} dapat dibuka langsung di Google Drive atau ditambahkan link-nya ke daftar ini.
+                                </p>
+                                <div class="mt-4 flex items-center justify-center gap-2">
+                                    <a href="{{ category.gdrive_link }}" target="_blank" class="inline-flex items-center gap-1.5 px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white rounded-xl text-xs font-bold transition">
+                                        <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+                                        <span>Buka Google Drive Langsung</span>
                                     </a>
-                                    {% endif %}
                                 </div>
                             </td>
                         </tr>
@@ -234,45 +294,58 @@
                 </tbody>
             </table>
         </div>
-
-        <!-- Pagination -->
-        {% if pagination.pages > 1 %}
-        <div class="px-6 py-4 border-t border-slate-100 flex items-center justify-between text-xs">
-            <span class="text-slate-500">
-                Halaman {{ pagination.page }} dari {{ pagination.pages }}
-            </span>
-            <div class="flex items-center gap-1.5">
-                {% if pagination.has_prev %}
-                <a href="{{ url_for('documents.category_view', slug=category.slug, page=pagination.prev_num, q=search_query, year=year_filter, status=status_filter) }}" 
-                   class="px-3 py-1.5 rounded-lg border border-slate-200 text-slate-700 hover:bg-slate-50 font-semibold transition">
-                    &larr; Sebelumnya
-                </a>
-                {% endif %}
-
-                {% for p in pagination.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
-                    {% if p %}
-                        {% if p == pagination.page %}
-                        <span class="px-3 py-1.5 rounded-lg bg-orange-500 text-white font-bold">{{ p }}</span>
-                        {% else %}
-                        <a href="{{ url_for('documents.category_view', slug=category.slug, page=p, q=search_query, year=year_filter, status=status_filter) }}" 
-                           class="px-3 py-1.5 rounded-lg border border-slate-200 text-slate-700 hover:bg-slate-50 font-semibold transition">
-                            {{ p }}
-                        </a>
-                        {% endif %}
-                    {% endif %}
-                {% endfor %}
-
-                {% if pagination.has_next %}
-                <a href="{{ url_for('documents.category_view', slug=category.slug, page=pagination.next_num, q=search_query, year=year_filter, status=status_filter) }}" 
-                   class="px-3 py-1.5 rounded-lg border border-slate-200 text-slate-700 hover:bg-slate-50 font-semibold transition">
-                    Berikutnya &rarr;
-                </a>
-                {% endif %}
-            </div>
-        </div>
-        {% endif %}
     </div>
 
 </div>
-{% endblock %}
 
+<!-- Modal Ubah Link Google Drive Kategori -->
+{% if current_user.can_manage_documents %}
+<div id="edit-drive-modal" class="fixed inset-0 z-50 hidden overflow-y-auto">
+    <div class="fixed inset-0 modal-backdrop" onclick="document.getElementById('edit-drive-modal').classList.add('hidden')"></div>
+    <div class="flex min-h-screen items-center justify-center p-4">
+        <div class="relative w-full max-w-lg bg-white rounded-3xl shadow-2xl p-6 sm:p-7 border border-slate-200">
+            <div class="flex items-center justify-between pb-4 border-b border-slate-100 mb-4">
+                <div class="flex items-center gap-2.5">
+                    <div class="w-9 h-9 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center">
+                        <i data-lucide="folder-cog" class="w-5 h-5"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-base font-bold text-slate-900">Ubah Tautan Google Drive</h3>
+                        <p class="text-xs text-slate-500">Kategori: {{ category.name }}</p>
+                    </div>
+                </div>
+                <button type="button" onclick="document.getElementById('edit-drive-modal').classList.add('hidden')" class="p-1 text-slate-400 hover:text-slate-600">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <form action="{{ url_for('documents.update_category_drive', slug=category.slug) }}" method="POST" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+                        Tautan / URL Folder Google Drive
+                    </label>
+                    <input type="url" 
+                           name="drive_url" 
+                           required 
+                           value="{{ category.drive_url or '' }}" 
+                           placeholder="https://drive.google.com/drive/folders/..." 
+                           class="w-full px-3.5 py-2.5 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-navy-main focus:ring-2 focus:ring-navy-main/20 font-mono outline-none">
+                    <p class="text-[11px] text-slate-500 mt-1.5">
+                        Masukkan link folder Google Drive resmi BPS Banyuwangi untuk kategori ini.
+                    </p>
+                </div>
+
+                <div class="pt-4 flex justify-end gap-2 border-t border-slate-100">
+                    <button type="button" onclick="document.getElementById('edit-drive-modal').classList.add('hidden')" class="px-4 py-2 border border-slate-200 text-slate-600 rounded-xl text-xs font-semibold hover:bg-slate-50">
+                        Batal
+                    </button>
+                    <button type="submit" class="px-5 py-2 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white rounded-xl text-xs font-bold shadow-sm">
+                        Simpan Link Drive
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

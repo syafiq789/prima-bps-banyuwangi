@@ -1,4 +1,5 @@
 import os
+import uuid
 from flask import (
     Blueprint, render_template, request, redirect, url_for, 
     flash, current_app, send_from_directory, abort
@@ -128,13 +129,37 @@ def category_view(slug):
         page_title=f"{category.name} - BPS Banyuwangi"
     )
 
+@documents_bp.route('/category/<slug>/update-drive', methods=['POST'])
+@login_required
+@roles_required('admin', 'staf_umum', 'ppk')
+def update_category_drive(slug):
+    """Memperbarui tautan Google Drive untuk kategori AKIP tertentu."""
+    category = Category.query.filter_by(slug=slug).first_or_404()
+    drive_url = request.form.get('drive_url', '').strip()
+    if not drive_url:
+        flash('Link Google Drive tidak boleh kosong.', 'danger')
+        return redirect(url_for('documents.category_view', slug=slug))
+    category.drive_url = drive_url
+    db.session.commit()
+    log_activity('UPDATE_CATEGORY_DRIVE', f"Memperbarui link Google Drive kategori '{category.name}' -> {drive_url}")
+    flash(f"Link Google Drive untuk kategori '{category.name}' berhasil diperbarui.", 'success')
+    return redirect(url_for('documents.category_view', slug=slug))
+
+@documents_bp.route('/category/<slug>/open-drive')
+@login_required
+def open_category_drive(slug):
+    """Direct redirect langsung membuka folder Google Drive kategori."""
+    category = Category.query.filter_by(slug=slug).first_or_404()
+    target_url = category.drive_url or "https://drive.google.com"
+    return redirect(target_url)
+
 @documents_bp.route('/upload', methods=['GET', 'POST'])
 @login_required
 @roles_required('admin', 'staf_umum', 'ppk')
 def upload():
     """
-    Formulir & aksi pengunggahan dokumen baru (Admin, Staf Umum, PPK).
-    File fisik disimpan di server, metadata disimpan ke MySQL.
+    Formulir & aksi penambahan dokumen baru berbasis Link Google Drive (Folder/File)
+    atau unggahan berkas (Admin, Staf Umum, PPK).
     """
     categories = Category.query.order_by(Category.group, Category.name).all()
 
@@ -142,13 +167,15 @@ def upload():
         title = request.form.get('title', '').strip()
         category_id = request.form.get('category_id', type=int)
         year = request.form.get('year', type=int)
+        drive_url = request.form.get('drive_url', '').strip()
+        file_type = request.form.get('file_type', 'gdrive').strip()
         description = request.form.get('description', '').strip()
         status = request.form.get('status', 'lengkap')
         notes = request.form.get('notes', '').strip()
         file = request.files.get('file')
 
         if not title:
-            flash('Judul dokumen wajib diisi.', 'danger')
+            flash('Nama / Judul dokumen wajib diisi.', 'danger')
             return render_template('documents/upload.html', categories=categories)
 
         if not category_id or not Category.query.get(category_id):
@@ -159,28 +186,39 @@ def upload():
             flash('Tahun dokumen tidak valid.', 'danger')
             return render_template('documents/upload.html', categories=categories)
 
-        if not file or file.filename == '':
-            flash('File dokumen wajib dipilih.', 'danger')
-            return render_template('documents/upload.html', categories=categories)
-
-        if not allowed_file(file.filename):
-            flash('Format file tidak didukung. Format yang diperbolehkan: PDF, DOC, DOCX, XLS, XLSX, PPTX.', 'danger')
+        # Validasi: Minimal link Google Drive atau file fisik
+        if not drive_url and (not file or file.filename == ''):
+            flash('Mohon masukkan Link Google Drive atau unggah file dokumen.', 'danger')
             return render_template('documents/upload.html', categories=categories)
 
         try:
-            # 1. Simpan fisik file ke folder uploads
-            filename, orig_name, file_size, file_type = save_document_file(file)
+            filename = None
+            orig_name = title
+            file_size = 0
 
-            # 2. Simpan metadata ke tabel documents MySQL
+            # Jika mengunggah file fisik lokal
+            if file and file.filename != '':
+                if not allowed_file(file.filename):
+                    flash('Format file tidak didukung. Format yang diperbolehkan: PDF, DOC, DOCX, XLS, XLSX, PPTX.', 'danger')
+                    return render_template('documents/upload.html', categories=categories)
+                filename, orig_name, file_size, detected_type = save_document_file(file)
+                if not file_type or file_type == 'gdrive':
+                    file_type = detected_type
+
+            # Simpan metadata dokumen (termasuk Link Google Drive)
+            if not filename:
+                filename = f"gdrive_{uuid.uuid4().hex[:12]}"
+
             new_doc = Document(
                 title=title,
                 category_id=category_id,
                 year=year,
                 description=description,
+                drive_url=drive_url if drive_url else None,
                 filename=filename,
                 original_filename=orig_name,
                 file_size=file_size,
-                file_type=file_type,
+                file_type=file_type or 'gdrive',
                 uploaded_by=current_user.id,
                 status=status,
                 notes=notes
@@ -188,15 +226,15 @@ def upload():
             db.session.add(new_doc)
             db.session.commit()
 
-            # 3. Rekam audit trail log aktivitas
-            log_activity('UPLOAD_DOCUMENT', f"Mengunggah dokumen baru: '{title}' ({new_doc.category.name})")
-            flash(f"Dokumen '{title}' berhasil diunggah ke sistem PRIMA.", 'success')
-            return redirect(url_for('documents.detail', doc_id=new_doc.id))
+            # Rekam audit trail
+            log_activity('UPLOAD_DOCUMENT', f"Menambahkan dokumen '{title}' ({new_doc.category.name}) dengan link Drive: {bool(drive_url)}")
+            flash(f"Dokumen / Folder '{title}' berhasil disimpan ke sistem PRIMA.", 'success')
+            return redirect(url_for('documents.category_view', slug=new_doc.category.slug))
 
         except Exception as e:
             db.session.rollback()
-            current_app.logger.error(f"Error upload dokumen: {e}")
-            flash(f"Terjadi kesalahan saat mengunggah file: {str(e)}", 'danger')
+            current_app.logger.error(f"Error simpan dokumen: {e}")
+            flash(f"Terjadi kesalahan saat menyimpan dokumen: {str(e)}", 'danger')
 
     selected_cat_id = request.args.get('category_id', type=int)
     return render_template('documents/upload.html', categories=categories, selected_cat_id=selected_cat_id)
@@ -222,6 +260,8 @@ def edit(doc_id):
         title = request.form.get('title', '').strip()
         category_id = request.form.get('category_id', type=int)
         year = request.form.get('year', type=int)
+        drive_url = request.form.get('drive_url', '').strip()
+        file_type = request.form.get('file_type', '').strip()
         description = request.form.get('description', '').strip()
         status = request.form.get('status', 'lengkap')
         notes = request.form.get('notes', '').strip()
@@ -238,6 +278,9 @@ def edit(doc_id):
         document.title = title
         document.category_id = category_id
         document.year = year
+        document.drive_url = drive_url if drive_url else None
+        if file_type:
+            document.file_type = file_type
         document.description = description
         document.status = status
         document.notes = notes
@@ -292,14 +335,18 @@ def delete(doc_id):
 @login_required
 def download(doc_id):
     """
-    Mengunduh file dokumen dengan nama file asli saat diunggah.
+    Mengunduh atau membuka link Google Drive dokumen.
     Secara otomatis mencatat counter download dan log aktivitas.
     """
     document = Document.query.get_or_404(doc_id)
     document.download_count += 1
     db.session.commit()
 
-    log_activity('DOWNLOAD_DOCUMENT', f"Mengunduh dokumen: '{document.title}'")
+    log_activity('DOWNLOAD_DOCUMENT', f"Mengakses/mengunduh dokumen: '{document.title}'")
+
+    # Jika dokumen berbasis link Google Drive
+    if document.drive_url:
+        return redirect(document.drive_url)
 
     file_path = get_document_file_path(document.filename)
     if not os.path.exists(file_path):
@@ -318,17 +365,19 @@ def download(doc_id):
 @login_required
 def preview(doc_id):
     """
-    Melayani file untuk pratinjau langsung di dalam peramban / modal viewer.
+    Menampilkan pratinjau dokumen inline di browser atau direct ke Google Drive.
     """
     document = Document.query.get_or_404(doc_id)
+    if document.drive_url:
+        return redirect(document.drive_url)
+
     file_path = get_document_file_path(document.filename)
-    
     if not os.path.exists(file_path):
-        with open(file_path, 'w', encoding='utf-8') as f:
-            f.write(f"PRIMA BPS Banyuwangi Document: {document.title}\nCategory: {document.category.name}\nYear: {document.year}")
+        abort(404)
 
     return send_from_directory(
         current_app.config['UPLOAD_FOLDER'],
         document.filename,
-        as_attachment=False
+        as_attachment=False,
+        download_name=document.original_filename
     )

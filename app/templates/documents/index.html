@@ -21,11 +21,11 @@
             </p>
         </div>
 
-        {% if current_user.is_admin %}
+        {% if current_user.can_manage_documents %}
         <a href="{{ url_for('documents.upload') }}" 
            class="inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white text-xs sm:text-sm font-bold rounded-xl shadow-md shadow-orange-500/20 transition hover:scale-[1.02] active:scale-[0.98]">
             <i data-lucide="plus-circle" class="w-4 h-4"></i>
-            <span>Unggah Dokumen Baru</span>
+            <span>Tambah Dokumen / Link Drive</span>
         </a>
         {% endif %}
     </div>
@@ -175,6 +175,16 @@
 
                             <td class="py-4 px-4 text-right">
                                 <div class="flex items-center justify-end gap-1">
+                                    {% if doc.drive_url %}
+                                    <a href="{{ doc.drive_url }}" 
+                                       target="_blank" 
+                                       rel="noopener noreferrer" 
+                                       class="px-2.5 py-1 bg-blue-50 hover:bg-blue-100 text-blue-700 rounded-lg text-xs font-bold transition flex items-center gap-1 border border-blue-200/80" 
+                                       title="Buka di Google Drive">
+                                        <span>Drive</span>
+                                        <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+                                    </a>
+                                    {% else %}
                                     <button type="button" 
                                             onclick="openPreviewModal('{{ url_for('documents.preview', doc_id=doc.id) }}', '{{ doc.title|e }}', '{{ doc.file_type }}')"
                                             class="p-1.5 text-slate-500 hover:text-navy-main hover:bg-slate-100 rounded-lg transition" 
@@ -187,6 +197,7 @@
                                        title="Unduh">
                                         <i data-lucide="download" class="w-4 h-4"></i>
                                     </a>
+                                    {% endif %}
 
                                     <a href="{{ url_for('documents.detail', doc_id=doc.id) }}" 
                                        class="p-1.5 text-slate-500 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition" 
@@ -194,7 +205,7 @@
                                         <i data-lucide="info" class="w-4 h-4"></i>
                                     </a>
 
-                                    {% if current_user.is_admin %}
+                                    {% if current_user.can_manage_documents %}
                                     <a href="{{ url_for('documents.edit', doc_id=doc.id) }}" 
                                        class="p-1.5 text-slate-500 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition" 
                                        title="Edit">

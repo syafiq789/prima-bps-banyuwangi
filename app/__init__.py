@@ -129,6 +129,21 @@ def create_app(config_name=None):
     # Initialize tables and seed initial data
     with app.app_context():
         db.create_all()
+        # Auto-migrate drive_url columns if table already existed without them
+        try:
+            with db.engine.connect() as conn:
+                try:
+                    conn.execute(text("SELECT drive_url FROM categories LIMIT 1"))
+                except Exception:
+                    conn.execute(text("ALTER TABLE categories ADD COLUMN drive_url VARCHAR(500)"))
+                    conn.commit()
+                try:
+                    conn.execute(text("SELECT drive_url FROM documents LIMIT 1"))
+                except Exception:
+                    conn.execute(text("ALTER TABLE documents ADD COLUMN drive_url VARCHAR(500)"))
+                    conn.commit()
+        except Exception as e:
+            logger.info(f"Database schema auto-check notice: {e}")
         seed_initial_data()
 
     return app
@@ -223,6 +238,7 @@ def seed_initial_data():
         ]
 
         for cat in categories_data:
+            drive_folder_url = f"https://drive.google.com/drive/folders/bps-banyuwangi-{cat['slug']}"
             existing = Category.query.filter_by(slug=cat['slug']).first()
             if not existing:
                 new_cat = Category(
@@ -230,9 +246,12 @@ def seed_initial_data():
                     slug=cat['slug'],
                     group=cat['group'],
                     icon=cat['icon'],
-                    description=cat['desc']
+                    description=cat['desc'],
+                    drive_url=drive_folder_url
                 )
                 db.session.add(new_cat)
+            elif not existing.drive_url:
+                existing.drive_url = drive_folder_url
 
         # 3. Important Links sesuai spesifikasi prompt
         important_links_data = [
