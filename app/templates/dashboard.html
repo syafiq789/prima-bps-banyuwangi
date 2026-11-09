@@ -152,7 +152,7 @@
             </div>
 
             <!-- Portal Penting -->
-            <a href="#section-akses-cepat" class="bg-white p-4 rounded-2xl border border-orange-200/80 shadow-soft hover-lift block col-span-2 sm:col-span-1">
+            <a href="{{ url_for('important_links.index') }}" class="bg-white p-4 rounded-2xl border border-orange-200/80 shadow-soft hover-lift block col-span-2 sm:col-span-1">
                 <div class="flex items-center justify-between mb-2">
                     <span class="text-[11px] font-bold uppercase tracking-wider text-orange-600">Portal</span>
                     <div class="w-8 h-8 rounded-xl bg-orange-50 text-orange-600 flex items-center justify-center">
@@ -242,67 +242,7 @@
 
     </div>
 
-    <!-- 4. Akses Cepat Seluruh Fitur Dokumen (Langsung Buka Google Drive) -->
-    <div id="section-akses-cepat" class="space-y-4">
-        <div class="flex items-center justify-between">
-            <div>
-                <h3 class="text-base font-bold text-slate-800 flex items-center gap-2">
-                    <i data-lucide="grid" class="w-5 h-5 text-orange-500"></i>
-                    <span>Akses Cepat Folder Google Drive Kinerja</span>
-                </h3>
-                <p class="text-xs text-slate-500 mt-0.5">Klik kartu di bawah ini untuk langsung membuka folder Google Drive resmi.</p>
-            </div>
-            <a href="{{ url_for('settings.links') }}" class="text-xs font-bold text-orange-600 hover:text-orange-700 flex items-center gap-1">
-                <span>Kelola Link</span>
-                <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
-            </a>
-        </div>
-
-        {% set quick_features = [
-            ('rencana-awal-renstra', 'Rencana Awal Renstra', 'Perencanaan', 'compass', 'text-blue-600 bg-blue-50 hover:bg-blue-600'),
-            ('renstra', 'Renstra BPS', 'Perencanaan', 'file-text', 'text-blue-600 bg-blue-50 hover:bg-blue-600'),
-            ('perjanjian-kinerja', 'Perjanjian Kinerja', 'Perencanaan', 'award', 'text-indigo-600 bg-indigo-50 hover:bg-indigo-600'),
-            ('kkpk', 'KKPK', 'Pengukuran', 'gauge', 'text-emerald-600 bg-emerald-50 hover:bg-emerald-600'),
-            ('daha', 'DAHA', 'Pengukuran', 'activity', 'text-emerald-600 bg-emerald-50 hover:bg-emerald-600'),
-            ('proksi', 'Proksi BPS', 'Pengukuran', 'shield-check', 'text-emerald-600 bg-emerald-50 hover:bg-emerald-600'),
-            ('monitoring-capaian-renstra', 'Monitoring Renstra', 'Pengukuran', 'trending-up', 'text-teal-600 bg-teal-50 hover:bg-teal-600'),
-            ('laporan-kinerja', 'Laporan Kinerja (LAKIP)', 'Pelaporan', 'book-open', 'text-amber-600 bg-amber-50 hover:bg-amber-600'),
-            ('permindok', 'PERMINDOK', 'Evaluasi', 'folder-check', 'text-teal-600 bg-teal-50 hover:bg-teal-600'),
-            ('lhe-akip', 'LHE AKIP', 'Evaluasi', 'clipboard-check', 'text-teal-600 bg-teal-50 hover:bg-teal-600'),
-            ('berita-acara', 'Berita Acara', 'Evaluasi', 'file-check', 'text-teal-600 bg-teal-50 hover:bg-teal-600'),
-            ('sk-tim-kerja-sakip', 'SK Tim SAKIP', 'Kelengkapan', 'users', 'text-purple-600 bg-purple-50 hover:bg-purple-600'),
-            ('reward-dan-punishment', 'Reward & Punishment', 'Kelengkapan', 'gift', 'text-purple-600 bg-purple-50 hover:bg-purple-600'),
-            ('mph', 'MPH', 'Kelengkapan', 'calendar', 'text-purple-600 bg-purple-50 hover:bg-purple-600'),
-            ('skp', 'SKP Pegawai', 'Kelengkapan', 'award', 'text-purple-600 bg-purple-50 hover:bg-purple-600'),
-            ('pedoman-teknis', 'Pedoman Teknis', 'Kelengkapan', 'book-marked', 'text-purple-600 bg-purple-50 hover:bg-purple-600')
-        ] %}
-
-        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-8 gap-3">
-            {% for slug, name, grp, icon_name, color_class in quick_features %}
-            <a href="{{ url_for('documents.open_category_drive', slug=slug) }}" 
-               target="_blank" 
-               rel="noopener noreferrer" 
-               class="p-3.5 bg-white rounded-2xl border border-slate-200/80 shadow-soft hover-lift text-left group transition flex flex-col justify-between"
-               title="Buka Google Drive {{ name }}">
-                <div>
-                    <div class="flex items-center justify-between mb-2">
-                        <div class="w-9 h-9 rounded-xl flex items-center justify-center transition group-hover:text-white {{ color_class }}">
-                            <i data-lucide="{{ icon_name }}" class="w-4 h-4"></i>
-                        </div>
-                        <i data-lucide="external-link" class="w-3 h-3 text-slate-400 group-hover:text-orange-500 transition"></i>
-                    </div>
-                    <p class="text-xs font-bold text-slate-800 line-clamp-1 group-hover:text-orange-600 transition">{{ name }}</p>
-                </div>
-                <div class="mt-2 pt-1 border-t border-slate-100 flex items-center justify-between text-[10px] text-slate-400">
-                    <span>{{ grp }}</span>
-                    <span class="text-blue-500 font-semibold group-hover:underline">Buka &rarr;</span>
-                </div>
-            </a>
-            {% endfor %}
-        </div>
-    </div>
-
-    <!-- 5. Dokumen Terakhir & Aktivitas Terbaru Grid -->
+    <!-- 4. Dokumen Terakhir & Aktivitas Terbaru Grid -->
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
         
         <!-- Dokumen Terakhir Diunggah (2 cols) -->
@@ -313,8 +253,8 @@
                         <i data-lucide="file-text" class="w-4 h-4"></i>
                     </div>
                     <div>
-                        <h3 class="text-sm font-bold text-slate-800">Daftar Berkas Dokumen Resmi Terhubung</h3>
-                        <p class="text-[11px] text-slate-400">Tautan berkas kinerja yang aktif di repositori Google Drive</p>
+                        <h3 class="text-sm font-bold text-slate-800">Daftar Dokumen Kinerja Terakhir</h3>
+                        <p class="text-[11px] text-slate-400">Berkas dan dokumen yang baru diunggah ke sistem</p>
                     </div>
                 </div>
                 <a href="{{ url_for('documents.index') }}" class="text-xs font-semibold text-orange-600 hover:text-orange-700">Lihat Semua &rarr;</a>
