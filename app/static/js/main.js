@@ -256,4 +256,24 @@ document.addEventListener('DOMContentLoaded', () => {
             document.body.classList.remove('overflow-hidden');
         }
     };
+
+    // 10. Navbar Quick Drive Menu Toggle (Titik 3 Akses Cepat Folder Google Drive)
+    window.toggleQuickDriveNavbar = function(e) {
+        if (e) e.stopPropagation();
+        const dropdown = document.getElementById('quick-drive-dropdown');
+        if (dropdown) {
+            dropdown.classList.toggle('hidden');
+            if (window.lucide) lucide.createIcons();
+        }
+    };
+
+    document.addEventListener('click', function(e) {
+        const dropdown = document.getElementById('quick-drive-dropdown');
+        const btn = document.getElementById('btn-quick-drive-menu');
+        if (dropdown && !dropdown.classList.contains('hidden')) {
+            if (!dropdown.contains(e.target) && (!btn || !btn.contains(e.target))) {
+                dropdown.classList.add('hidden');
+            }
+        }
+    });
 });

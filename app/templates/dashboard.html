@@ -17,59 +17,8 @@
             
             <!-- HEADER JUDUL LENTERA -->
             <div class="flex flex-col sm:flex-row sm:items-center gap-4 pb-4 border-b border-white/10">
-                <div class="flex items-center gap-2.5 flex-shrink-0">
-                    <div class="w-16 h-16 rounded-2xl bg-white p-1.5 flex items-center justify-center shadow-lg shadow-black/30 border border-white/30 flex-shrink-0">
-                        <img src="{{ url_for('static', filename='images/logo_lentera.jpg') }}" alt="Logo LENTERA" class="w-full h-full object-contain">
-                    </div>
-
-                    <!-- Tombol Menu Titik 3 di samping logo LENTERA -->
-                    <div class="relative">
-                        <button type="button" 
-                                id="btn-hero-menu"
-                                onclick="toggleHeroMenu(event)"
-                                class="w-8 h-8 rounded-xl bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition border border-white/15 backdrop-blur-sm cursor-pointer shadow-xs focus:outline-none focus:ring-2 focus:ring-orange-500/50"
-                                title="Menu Cepat LENTERA">
-                            <i data-lucide="more-vertical" class="w-4 h-4"></i>
-                        </button>
-
-                        <!-- Dropdown Menu Titik 3 -->
-                        <div id="hero-menu-dropdown" 
-                             class="hidden absolute left-0 top-full mt-2 w-56 bg-white text-slate-800 rounded-2xl shadow-2xl border border-slate-200 py-2 z-50">
-                            <div class="px-3.5 py-1.5 border-b border-slate-100 text-[10px] font-bold uppercase tracking-wider text-slate-400">
-                                Menu Cepat LENTERA
-                            </div>
-                            <a href="{{ url_for('info.guide') }}" 
-                               class="flex items-center gap-2.5 px-3.5 py-2 text-xs font-semibold text-slate-700 hover:bg-orange-50 hover:text-orange-600 transition">
-                                <i data-lucide="book-marked" class="w-4 h-4 text-orange-500"></i>
-                                <span>Panduan Penggunaan</span>
-                            </a>
-                            <a href="{{ url_for('info.about') }}" 
-                               class="flex items-center gap-2.5 px-3.5 py-2 text-xs font-semibold text-slate-700 hover:bg-blue-50 hover:text-blue-600 transition">
-                                <i data-lucide="info" class="w-4 h-4 text-blue-500"></i>
-                                <span>Tentang LENTERA</span>
-                            </a>
-                            <a href="https://drive.google.com/drive/folders/13z-GsSIqqSXNa4QbdAj9ezuYQ-K0V89y?usp=sharing" 
-                               target="_blank" 
-                               rel="noopener noreferrer"
-                               class="flex items-center gap-2.5 px-3.5 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50 transition">
-                                <i data-lucide="external-link" class="w-4 h-4 text-slate-500"></i>
-                                <span>Buka Google Drive</span>
-                            </a>
-                            {% if current_user.can_manage_documents %}
-                            <div class="my-1 border-t border-slate-100"></div>
-                            <a href="{{ url_for('documents.upload') }}" 
-                               class="flex items-center gap-2.5 px-3.5 py-2 text-xs font-semibold text-emerald-700 hover:bg-emerald-50 transition">
-                                <i data-lucide="upload-cloud" class="w-4 h-4 text-emerald-600"></i>
-                                <span>Unggah Dokumen</span>
-                            </a>
-                            <a href="{{ url_for('settings.links') }}" 
-                               class="flex items-center gap-2.5 px-3.5 py-2 text-xs font-semibold text-purple-700 hover:bg-purple-50 transition">
-                                <i data-lucide="link-2" class="w-4 h-4 text-purple-600"></i>
-                                <span>Kelola Tautan & Kategori</span>
-                            </a>
-                            {% endif %}
-                        </div>
-                    </div>
+                <div class="w-16 h-16 rounded-2xl bg-white p-1.5 flex items-center justify-center shadow-lg shadow-black/30 border border-white/30 flex-shrink-0">
+                    <img src="{{ url_for('static', filename='images/logo_lentera.jpg') }}" alt="Logo LENTERA" class="w-full h-full object-contain">
                 </div>
 
                 <div class="space-y-1">
@@ -562,33 +511,6 @@
                     }
                 }
             });
-        }
-        // Refresh Lucide Icons in hero dropdown if needed
-        if (typeof lucide !== 'undefined') {
-            lucide.createIcons();
-        }
-    });
-
-    // Toggle Dropdown Menu Titik 3 di samping logo LENTERA
-    function toggleHeroMenu(e) {
-        if (e) e.stopPropagation();
-        const dropdown = document.getElementById('hero-menu-dropdown');
-        if (dropdown) {
-            dropdown.classList.toggle('hidden');
-            if (typeof lucide !== 'undefined') {
-                lucide.createIcons();
-            }
-        }
-    }
-
-    // Tutup dropdown jika klik di luar
-    document.addEventListener('click', function(e) {
-        const dropdown = document.getElementById('hero-menu-dropdown');
-        const btn = document.getElementById('btn-hero-menu');
-        if (dropdown && !dropdown.classList.contains('hidden')) {
-            if (!dropdown.contains(e.target) && (!btn || !btn.contains(e.target))) {
-                dropdown.classList.add('hidden');
-            }
         }
     });
 </script>
