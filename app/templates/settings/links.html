@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}Pengaturan Tautan Google Drive & Dokumen Penting - PRIMA BPS Kabupaten Banyuwangi{% endblock %}
+{% block title %}Pengaturan Link Google Drive Sesuai Menu Sidebar - PRIMA BPS Kabupaten Banyuwangi{% endblock %}
 
 {% block content %}
 <div class="space-y-6">
@@ -12,308 +12,564 @@
             <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
             <span class="text-orange-600 font-bold">Pengaturan Link Google Drive</span>
         </div>
-        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
             <div>
                 <h1 class="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
-                    Pengaturan Link Google Drive & Dokumen Penting
+                    Pengaturan Link Google Drive per Menu Sidebar
                 </h1>
                 <p class="text-xs text-slate-500 mt-1">
-                    Atur URL folder Google Drive untuk seluruh fitur dokumen AKIP dan portal eksternal resmi BPS Kabupaten Banyuwangi.
+                    Ganti link di bawah ini sesuai nama menu di sidebar. Setiap kali menu di sidebar diklik, sistem akan langsung membuka tautan yang Anda simpan di sini.
                 </p>
             </div>
-            <a href="https://drive.google.com" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-4 py-2.5 bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-200 rounded-2xl text-xs font-bold transition shadow-sm self-start sm:self-auto">
+            <a href="https://drive.google.com" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-4 py-2.5 bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-200 rounded-2xl text-xs font-bold transition shadow-sm self-start lg:self-auto">
                 <i data-lucide="folder-open" class="w-4 h-4 text-blue-600"></i>
                 <span>Buka Google Drive</span>
                 <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
             </a>
         </div>
 
-        <!-- Info Box Panduan -->
-        <div class="mt-4 p-4 bg-blue-50/70 border border-blue-200/80 rounded-2xl flex items-start gap-3 text-xs text-blue-950">
-            <i data-lucide="info" class="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5"></i>
-            <div class="space-y-1">
-                <p class="font-bold text-blue-900">Petunjuk Pengisian Link Google Drive:</p>
-                <ul class="list-disc list-inside text-blue-800 space-y-0.5 text-[11px]">
-                    <li>Setiap fitur dokumen di sidebar/dashboard mengarah langsung ke folder Google Drive yang Anda daftarkan di bawah ini.</li>
-                    <li>Pastikan pengaturan izin akses folder di Google Drive disetel ke <strong>"Siapa saja yang memiliki tautan dapat melihat"</strong> atau akun instansi BPS agar dapat diakses oleh seluruh pegawai.</li>
-                    <li>Salin URL folder dari browser lalu tempelkan (paste) ke kotak isian dan klik tombol <strong>Simpan</strong>.</li>
-                </ul>
+        <!-- Tombol Pintas Lompat ke Grup Menu Sidebar -->
+        <div class="mt-5 pt-4 border-t border-slate-100">
+            <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400 block mb-2">Lompat Cepat ke Grup Menu Sidebar:</span>
+            <div class="flex flex-wrap gap-2">
+                <a href="#grup-perencanaan" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold bg-blue-50 text-blue-700 border border-blue-200 hover:bg-blue-100 transition">
+                    <i data-lucide="compass" class="w-3.5 h-3.5 text-blue-600"></i>
+                    <span>1. Perencanaan (5 Menu)</span>
+                </a>
+                <a href="#grup-pengukuran" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-200 hover:bg-emerald-100 transition">
+                    <i data-lucide="gauge" class="w-3.5 h-3.5 text-emerald-600"></i>
+                    <span>2. Pengukuran (3 Menu)</span>
+                </a>
+                <a href="#grup-pelaporan" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold bg-amber-50 text-amber-700 border border-amber-200 hover:bg-amber-100 transition">
+                    <i data-lucide="file-check-2" class="w-3.5 h-3.5 text-amber-600"></i>
+                    <span>3. Pelaporan (3 Menu)</span>
+                </a>
+                <a href="#grup-dokumen-penting" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold bg-orange-50 text-orange-700 border border-orange-200 hover:bg-orange-100 transition">
+                    <i data-lucide="star" class="w-3.5 h-3.5 text-orange-600"></i>
+                    <span>4. Dokumen Penting (8 Portal)</span>
+                </a>
+                <a href="#grup-kelengkapan" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold bg-purple-50 text-purple-700 border border-purple-200 hover:bg-purple-100 transition">
+                    <i data-lucide="check-square" class="w-3.5 h-3.5 text-purple-600"></i>
+                    <span>5. Kelengkapan (Arsip Dokumen)</span>
+                </a>
             </div>
         </div>
     </div>
 
-    <!-- Section 1: Fitur Dokumen AKIP (Perencanaan, Pengukuran, Pelaporan, Kelengkapan) -->
-    <div class="bg-white p-6 rounded-3xl border border-slate-200/80 shadow-soft space-y-6">
-        <div class="flex items-center justify-between pb-3 border-b border-slate-100">
-            <div>
-                <h2 class="text-base font-black text-slate-900 flex items-center gap-2">
-                    <i data-lucide="hard-drive" class="w-5 h-5 text-blue-600"></i>
-                    <span>Tautan Google Drive Fitur Dokumen AKIP</span>
-                </h2>
-                <p class="text-xs text-slate-500 mt-0.5">
-                    Daftar lengkap seluruh fitur dokumen beserta fungsi, jenis dokumen, dan link Google Drive tujuannya.
-                </p>
+    <!-- Mapping Data Kategori Berdasarkan Slug -->
+    {% set cat_map = {} %}
+    {% for c in categories %}
+        {% set _ = cat_map.update({c.slug: c}) %}
+    {% endfor %}
+
+    <!-- ========================================== -->
+    <!-- 1. GRUP PERENCANAAN                       -->
+    <!-- ========================================== -->
+    <div id="grup-perencanaan" class="bg-white p-6 rounded-3xl border border-slate-200/80 shadow-soft space-y-5">
+        <div class="flex items-center justify-between pb-3 border-b border-blue-100">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center border border-blue-200 font-bold">
+                    <i data-lucide="compass" class="w-5 h-5"></i>
+                </div>
+                <div>
+                    <h2 class="text-base font-black text-slate-900 flex items-center gap-2">
+                        <span>Menu Sidebar: 1. PERENCANAAN</span>
+                    </h2>
+                    <p class="text-xs text-slate-500">Terdapat 5 sub-fitur di bawah dropdown menu "Perencanaan" di sidebar.</p>
+                </div>
             </div>
-            <span class="text-xs font-bold px-3 py-1 bg-blue-50 text-blue-700 border border-blue-200 rounded-full">
-                {{ categories|length }} Fitur Dokumen
+            <span class="px-2.5 py-1 text-xs font-bold rounded-full bg-blue-50 text-blue-700 border border-blue-200">
+                5 Submenu
             </span>
         </div>
 
-        <!-- Mapping Keterangan Fitur -->
-        {% set feature_details = {
-            'dokumen-perencanaan': {
-                'desc': 'Tempat penyimpanan dokumen Rencana Strategis (Renstra), Rencana Kerja Pemerintah (RKP), dan dokumen penetapan perencanaan kinerja 5 tahunan BPS Kabupaten Banyuwangi.',
-                'docs': 'Renstra BPS, Dokumen Penetapan Target Kinerja, Kebijakan Perencanaan Tahunan',
-                'badge_color': 'bg-blue-100 text-blue-700'
+        {% set list_perencanaan = [
+            {
+                'slug': 'dokumen-perencanaan',
+                'name': 'Dokumen Perencanaan',
+                'nav_label': 'Sidebar → Perencanaan → Dokumen Perencanaan',
+                'desc': 'Tempat menyimpan dokumen Rencana Strategis (Renstra) 5 tahunan, Rencana Kerja Pemerintah (RKP), dan SK penetapan arah kebijakan target BPS.',
+                'contoh': 'Renstra BPS Banyuwangi 2020-2024 / 2025-2029, Berkas RKP, Dokumen Sasaran Strategis.'
             },
-            'rencana-kerja': {
-                'desc': 'Berisi dokumen Rencana Kerja Tahunan (RKT), target operasional, jadwal pelaksanaan survei dan sensus, serta alokasi target unit kerja tahun berjalan.',
-                'docs': 'RKT BPS Banyuwangi, Matriks Kegiatan Tahunan, Jadwal Sensus/Survei Lapangan',
-                'badge_color': 'bg-blue-100 text-blue-700'
+            {
+                'slug': 'rencana-kerja',
+                'name': 'Rencana Kerja',
+                'nav_label': 'Sidebar → Perencanaan → Rencana Kerja',
+                'desc': 'Tempat menyimpan Rencana Kerja Tahunan (RKT), rencana kerja operasional bulanan, jadwal sensus/survei, dan alokasi tugas satuan kerja.',
+                'contoh': 'RKT BPS Tahun Berjalan, Matriks Jadwal Kegiatan Statistik, Rencana Operasional Unit Kerja.'
             },
-            'perjanjian-kinerja': {
-                'desc': 'Berisi lembar komitmen Perjanjian Kinerja (PK) antara Kepala BPS Kabupaten Banyuwangi dengan BPS Provinsi Jawa Timur, serta turunan PK internal pegawai.',
-                'docs': 'PK Kepala BPS, PK Pejabat Fungsional/Koordinator, Adendum Perjanjian Kinerja',
-                'badge_color': 'bg-indigo-100 text-indigo-700'
+            {
+                'slug': 'perjanjian-kinerja',
+                'name': 'Perjanjian Kinerja',
+                'nav_label': 'Sidebar → Perencanaan → Perjanjian Kinerja',
+                'desc': 'Tempat menyimpan lembar Perjanjian Kinerja (PK) Kepala BPS dengan Kepala BPS Provinsi, serta lembar PK seluruh koordinator/pegawai.',
+                'contoh': 'PK Kepala Kantor, PK Kasubbag Umum, PK Tim Kerja, Form Perubahan/Adendum PK.'
             },
-            'rencana-aksi': {
-                'desc': 'Dokumen matriks rencana aksi pencapaian target kinerja, strategi percepatan (quick wins), serta mitigasi risiko pelaksanaan tugas operasional statistik.',
-                'docs': 'Matriks Rencana Aksi Triwulanan, Strategi Pencapaian IKU, Rencana Mitigasi Risiko',
-                'badge_color': 'bg-indigo-100 text-indigo-700'
+            {
+                'slug': 'rencana-aksi',
+                'name': 'Rencana Aksi',
+                'nav_label': 'Sidebar → Perencanaan → Rencana Aksi',
+                'desc': 'Tempat menyimpan matriks rencana aksi pencapaian target kinerja, milestone triwulanan, dan program percepatan (quick wins).',
+                'contoh': 'Matriks Rencana Aksi TW I - TW IV, Rencana Mitigasi Risiko Kendala Kegiatan.'
             },
-            'indikator-kinerja-utama': {
-                'desc': 'Berkas penetapan IKU instansi, manual IKU, definisi operasional rumus indikator keberhasilan, dan target capaian statistik sektoral.',
-                'docs': 'SK Penetapan IKU, Buku Manual IKU BPS, Panduan Perhitungan Target Kinerja',
-                'badge_color': 'bg-cyan-100 text-cyan-700'
-            },
-            'pengukuran-kinerja': {
-                'desc': 'Instrumen dan data kertas kerja pengukuran kinerja periodik, form monitoring capaian per triwulan, dan rekapan data kinerja fisik kegiatan.',
-                'docs': 'Kertas Kerja Pengukuran Kinerja, Form Validasi Capaian Bulanan, Bukti Verifikasi Data',
-                'badge_color': 'bg-emerald-100 text-emerald-700'
-            },
-            'capaian-kinerja': {
-                'desc': 'Laporan realisasi kinerja triwulanan dan semesteran, analisis deviasi antara target dan realisasi, serta data dukung capaian target output.',
-                'docs': 'Laporan Capaian Triwulan I-IV, Analisis Efektivitas Program, Rekap Indikator Capaian',
-                'badge_color': 'bg-emerald-100 text-emerald-700'
-            },
-            'evaluasi-kinerja': {
-                'desc': 'Hasil evaluasi dan review capaian target kinerja, rekomendasi perbaikan pelaksanaan kegiatan, serta evaluasi kemajuan triwulanan dari pimpinan.',
-                'docs': 'Laporan Evaluasi Internal AKIP, Catatan Review Pimpinan, Rekomendasi Tindak Lanjut',
-                'badge_color': 'bg-teal-100 text-teal-700'
-            },
-            'laporan-kinerja': {
-                'desc': 'Laporan Kinerja Instansi Pemerintah (LAKIP / LKjIP) tahunan BPS Kabupaten Banyuwangi sebagai wujud pertanggungjawaban keberhasilan instansi.',
-                'docs': 'LAKIP / LKjIP BPS Banyuwangi Tahunan, Executive Summary, Ringkasan Eksekutif Kinerja',
-                'badge_color': 'bg-amber-100 text-amber-700'
-            },
-            'laporan-evaluasi': {
-                'desc': 'Rekapitulasi laporan evaluasi akuntabilitas kinerja dari Inspektorat Utama BPS RI atau KemenPAN-RB serta matriks tindak lanjut rekomendasi.',
-                'docs': 'Laporan Hasil Evaluasi (LHE) AKIP, Lembar Kerja Evaluasi Mandiri, Progress Tindak Lanjut LHE',
-                'badge_color': 'bg-amber-100 text-amber-700'
-            },
-            'dokumen-pendukung-pelaporan': {
-                'desc': 'Bukti dukung verifikasi (evidence), notula rapat koordinasi kinerja, daftar hadir/presensi kegiatan, dokumentasi foto, dan SK penunjukan tim kerja.',
-                'docs': 'Evidence Kegiatan, Notula Rapat & Presensi, Dokumentasi Foto, SK Tim Pengelola SAKIP',
-                'badge_color': 'bg-yellow-100 text-yellow-800'
-            },
-            'arsip-dokumen': {
-                'desc': 'Koleksi arsip digital seluruh berkas akuntabilitas kinerja BPS Kabupaten Banyuwangi periode tahun-tahun sebelumnya untuk kebutuhan audit dan referensi.',
-                'docs': 'Arsip LAKIP Periode Sebelumnya, Berkas SAKIP Historis, Dokumen Audit Eksternal/Internal',
-                'badge_color': 'bg-purple-100 text-purple-700'
+            {
+                'slug': 'indikator-kinerja-utama',
+                'name': 'Indikator Kinerja Utama',
+                'nav_label': 'Sidebar → Perencanaan → Indikator Kinerja Utama',
+                'desc': 'Tempat menyimpan berkas penetapan IKU instansi, buku manual IKU, formula perhitungan, dan sumber data rujukan target capaian.',
+                'contoh': 'SK Penetapan IKU, Manual Definisi Operasional IKU, Formula Rumus Capaian Statistik.'
             }
-        } %}
+        ] %}
 
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
-            {% for cat in categories %}
-            {% set detail = feature_details.get(cat.slug, {}) %}
-            <div class="p-5 rounded-2xl border border-slate-200/90 bg-white hover:border-blue-400 hover:shadow-card transition duration-200 flex flex-col justify-between space-y-4">
-                
-                <!-- Info Header Fitur -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            {% for item in list_perencanaan %}
+            {% set c = cat_map.get(item.slug) %}
+            <div class="p-5 rounded-2xl border border-slate-200 bg-slate-50/40 hover:bg-white hover:border-blue-400 hover:shadow-card transition duration-200 flex flex-col justify-between space-y-4">
                 <div class="space-y-3">
-                    <div class="flex items-start justify-between gap-3">
-                        <div class="flex items-center gap-3 min-w-0">
-                            <div class="w-10 h-10 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center font-bold flex-shrink-0 border border-blue-100">
-                                <i data-lucide="{{ cat.icon or 'folder' }}" class="w-5 h-5"></i>
-                            </div>
-                            <div class="min-w-0">
-                                <h3 class="text-sm font-black text-slate-900 leading-snug truncate">{{ cat.name }}</h3>
-                                <div class="flex items-center gap-2 mt-0.5">
-                                    <span class="text-[9px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full {{ detail.get('badge_color', 'bg-slate-100 text-slate-600') }}">
-                                        {{ cat.group }}
-                                    </span>
-                                    <span class="text-[10px] text-slate-400 font-mono">slug: {{ cat.slug }}</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        {% if cat.drive_url %}
-                        <a href="{{ cat.drive_url }}" target="_blank" rel="noopener noreferrer" class="px-2.5 py-1.5 bg-blue-50 hover:bg-blue-100 border border-blue-200 text-blue-700 rounded-xl text-xs font-bold flex items-center gap-1.5 transition flex-shrink-0" title="Uji buka link Google Drive">
-                            <span>Buka Folder</span>
+                    <!-- Nav Label Badge -->
+                    <div class="flex items-center justify-between">
+                        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[10px] font-bold bg-blue-100 text-blue-800">
+                            <i data-lucide="map-pin" class="w-3 h-3 text-blue-600"></i>
+                            <span>{{ item.nav_label }}</span>
+                        </span>
+                        {% if c and c.drive_url %}
+                        <a href="{{ c.drive_url }}" target="_blank" rel="noopener noreferrer" class="px-2 py-1 bg-white border border-slate-200 text-blue-600 hover:text-blue-800 rounded-lg text-[11px] font-bold flex items-center gap-1 transition" title="Uji buka link saat ini">
+                            <span>Tes Buka</span>
                             <i data-lucide="external-link" class="w-3 h-3"></i>
                         </a>
                         {% endif %}
                     </div>
 
-                    <!-- Kotak Keterangan Fitur -->
-                    <div class="p-3 bg-slate-50/80 border border-slate-100 rounded-xl space-y-1.5">
-                        <div class="flex items-start gap-1.5 text-xs text-slate-700">
-                            <i data-lucide="file-text" class="w-3.5 h-3.5 text-blue-500 flex-shrink-0 mt-0.5"></i>
-                            <div>
-                                <strong class="text-[11px] uppercase tracking-wider text-slate-500 block mb-0.5">Fungsi Fitur:</strong>
-                                <p class="text-xs text-slate-600 leading-relaxed">
-                                    {{ detail.get('desc', cat.description or 'Dokumen kinerja instansi BPS Kabupaten Banyuwangi.') }}
-                                </p>
-                            </div>
-                        </div>
-                        {% if detail.get('docs') %}
-                        <div class="pt-1.5 border-t border-slate-200/60 flex items-start gap-1.5 text-[11px] text-slate-500">
-                            <i data-lucide="layers" class="w-3 h-3 text-emerald-500 flex-shrink-0 mt-0.5"></i>
-                            <span><strong class="text-slate-700">Contoh Berkas:</strong> {{ detail.get('docs') }}</span>
-                        </div>
-                        {% endif %}
+                    <div>
+                        <h3 class="text-sm font-black text-slate-900">{{ item.name }}</h3>
+                        <p class="text-xs text-slate-600 mt-1 leading-relaxed">{{ item.desc }}</p>
+                    </div>
+
+                    <div class="p-2.5 bg-blue-50/60 border border-blue-100 rounded-xl text-[11px] text-blue-900 flex items-start gap-1.5">
+                        <i data-lucide="layers" class="w-3.5 h-3.5 text-blue-600 flex-shrink-0 mt-0.5"></i>
+                        <span><strong>Dokumen yang ditaruh:</strong> {{ item.contoh }}</span>
                     </div>
                 </div>
 
-                <!-- Form Ubah Link Drive -->
-                <form action="{{ url_for('settings.edit_category_drive', category_id=cat.id) }}" method="POST" class="pt-2 border-t border-slate-100">
-                    <label class="block text-[10px] font-bold uppercase tracking-wider text-slate-600 mb-1">
-                        URL Folder Google Drive:
+                {% if c %}
+                <form action="{{ url_for('settings.edit_category_drive', category_id=c.id) }}" method="POST" class="pt-3 border-t border-slate-200/80">
+                    <label class="block text-[10px] font-bold uppercase tracking-wider text-slate-700 mb-1">
+                        👉 Masukkan Link Folder Google Drive:
                     </label>
                     <div class="flex items-center gap-2">
                         <input type="url" 
                                name="drive_url" 
-                               value="{{ cat.drive_url or '' }}" 
+                               value="{{ c.drive_url or '' }}" 
                                placeholder="https://drive.google.com/drive/folders/..." 
                                required 
-                               class="flex-1 px-3 py-2 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none font-mono">
+                               class="flex-1 px-3 py-2 text-xs bg-white border border-slate-300 rounded-xl focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none font-mono">
                         <button type="submit" class="px-3.5 py-2 bg-navy-main hover:bg-navy-dark text-white rounded-xl text-xs font-bold transition flex items-center gap-1.5 shadow-sm flex-shrink-0">
                             <i data-lucide="save" class="w-3.5 h-3.5"></i>
                             <span>Simpan</span>
                         </button>
                     </div>
                 </form>
-
+                {% endif %}
             </div>
             {% endfor %}
         </div>
     </div>
 
-    <!-- Section 2: Dokumen Penting (8 Portal Utama BPS) -->
-    <div class="bg-white p-6 rounded-3xl border border-slate-200/80 shadow-soft space-y-6">
-        <div class="flex items-center justify-between pb-3 border-b border-slate-100">
-            <div>
-                <h2 class="text-base font-black text-slate-900 flex items-center gap-2">
-                    <i data-lucide="star" class="w-5 h-5 text-orange-500"></i>
-                    <span>Tautan Dokumen Penting & Portal Eksternal</span>
-                </h2>
-                <p class="text-xs text-slate-500 mt-0.5">
-                    Konfigurasi tautan dan penjelasan fungsi 8 portal resmi rujukan kinerja BPS.
-                </p>
+    <!-- ========================================== -->
+    <!-- 2. GRUP PENGUKURAN                        -->
+    <!-- ========================================== -->
+    <div id="grup-pengukuran" class="bg-white p-6 rounded-3xl border border-slate-200/80 shadow-soft space-y-5">
+        <div class="flex items-center justify-between pb-3 border-b border-emerald-100">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center border border-emerald-200 font-bold">
+                    <i data-lucide="gauge" class="w-5 h-5"></i>
+                </div>
+                <div>
+                    <h2 class="text-base font-black text-slate-900 flex items-center gap-2">
+                        <span>Menu Sidebar: 2. PENGUKURAN</span>
+                    </h2>
+                    <p class="text-xs text-slate-500">Terdapat 3 sub-fitur di bawah dropdown menu "Pengukuran" di sidebar.</p>
+                </div>
             </div>
-            <span class="text-xs font-bold px-3 py-1 bg-orange-50 text-orange-700 border border-orange-200 rounded-full">
-                {{ links|length }} Portal
+            <span class="px-2.5 py-1 text-xs font-bold rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200">
+                3 Submenu
             </span>
         </div>
 
-        <!-- Mapping Keterangan Portal -->
-        {% set portal_details = {
-            'simonik': {
-                'desc': 'Sistem Informasi Monitoring Kinerja BPS untuk pemantauan capaian realisasi output kegiatan statistik dan penyerapan anggaran satuan kerja secara terstruktur.',
-                'target': 'https://simonik.bps.go.id'
+        {% set list_pengukuran = [
+            {
+                'slug': 'pengukuran-kinerja',
+                'name': 'Pengukuran Kinerja',
+                'nav_label': 'Sidebar → Pengukuran → Pengukuran Kinerja',
+                'desc': 'Tempat menyimpan formulir kertas kerja pengukuran kinerja periodik, form monitoring capaian per triwulan, dan rekapan data kinerja fisik kegiatan.',
+                'contoh': 'Kertas Kerja Pengukuran Kinerja, Form Validasi Capaian Bulanan, Bukti Verifikasi Data.'
             },
-            'sinergi': {
-                'desc': 'Aplikasi Sistem Informasi Penilaian Kinerja Terintegrasi BPS untuk pengelolaan Sasaran Kinerja Pegawai (SKP), umpan balik berkelanjutan, dan penilaian perilaku kerja ASN BPS.',
-                'target': 'https://sinergi.bps.go.id'
+            {
+                'slug': 'capaian-kinerja',
+                'name': 'Capaian Kinerja',
+                'nav_label': 'Sidebar → Pengukuran → Capaian Kinerja',
+                'desc': 'Tempat menyimpan laporan realisasi kinerja triwulanan dan semesteran, analisis deviasi antara target dan realisasi, serta data dukung capaian output.',
+                'contoh': 'Laporan Capaian Triwulan I-IV, Analisis Efektivitas Program, Rekap Indikator Capaian Kinerja.'
             },
-            'fra': {
-                'desc': 'Formulir Rekomendasi Akuntabilitas Kinerja Instansi Pemerintah untuk pemenuhan lembar evaluasi mandiri AKIP dan rekomendasi peningkatan nilai akuntabilitas.',
-                'target': 'https://fra.bps.go.id'
-            },
-            'link-akip-jatim': {
-                'desc': 'Portal repositori terpusat dan kompilasi data SAKIP seluruh BPS Kabupaten/Kota di lingkungan BPS Provinsi Jawa Timur.',
-                'target': 'https://jatim.bps.go.id/akip'
-            },
-            'proksi': {
-                'desc': 'Aplikasi Pengawasan dan Pengendalian Kinerja Statistik Internal untuk mengukur integritas data, kepatuhan jadwal, dan penjaminan kualitas proses bisnis statistik.',
-                'target': 'https://proksi.bps.go.id'
-            },
-            'permindok-2025': {
-                'desc': 'Pedoman Peraturan Tata Naskah, Standar Operasional Prosedur, dan Permintaan Dokumen Administrasi Kinerja BPS untuk Tahun Anggaran 2025.',
-                'target': 'https://drive.google.com/drive/folders/bps-permindok-2025'
-            },
-            'permindok-2026': {
-                'desc': 'Panduan Peraturan Tata Kelola Dokumen, Standar Format SAKIP, dan Permintaan Dokumen Akuntabilitas Kinerja BPS untuk Tahun Anggaran 2026.',
-                'target': 'https://drive.google.com/drive/folders/bps-permindok-2026'
-            },
-            'janjiku': {
-                'desc': 'Janji Layanan Kinerja, Maklumat Standar Pelayanan Publik, dan Komitmen Integritas Pegawai BPS Kabupaten Banyuwangi kepada masyarakat.',
-                'target': 'https://banyuwangikab.bps.go.id/janjiku'
+            {
+                'slug': 'evaluasi-kinerja',
+                'name': 'Evaluasi Kinerja',
+                'nav_label': 'Sidebar → Pengukuran → Evaluasi Kinerja',
+                'desc': 'Tempat menyimpan hasil evaluasi dan review capaian target kinerja, rekomendasi perbaikan pelaksanaan kegiatan, serta evaluasi kemajuan dari pimpinan.',
+                'contoh': 'Laporan Evaluasi Internal AKIP, Catatan Review Pimpinan, Rekomendasi Tindak Lanjut.'
             }
-        } %}
+        ] %}
 
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
-            {% for link in links %}
-            {% set pdetail = portal_details.get(link.code, {}) %}
-            <div class="p-5 rounded-2xl border border-slate-200/90 bg-white hover:border-orange-400 hover:shadow-card transition duration-200 flex flex-col justify-between space-y-4">
-                
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+            {% for item in list_pengukuran %}
+            {% set c = cat_map.get(item.slug) %}
+            <div class="p-5 rounded-2xl border border-slate-200 bg-slate-50/40 hover:bg-white hover:border-emerald-400 hover:shadow-card transition duration-200 flex flex-col justify-between space-y-4">
                 <div class="space-y-3">
-                    <div class="flex items-center justify-between pb-2 border-b border-slate-100">
-                        <div class="flex items-center gap-3">
-                            <div class="w-10 h-10 rounded-2xl bg-orange-50 text-orange-600 flex items-center justify-center font-bold border border-orange-100">
-                                <i data-lucide="{{ link.icon or 'external-link' }}" class="w-5 h-5"></i>
-                            </div>
-                            <div>
-                                <span class="text-sm font-black text-slate-900">{{ link.title }}</span>
-                                <span class="text-[10px] text-slate-400 font-mono ml-2">code: {{ link.code }}</span>
-                            </div>
-                        </div>
-                        <a href="{{ link.url }}" target="_blank" rel="noopener noreferrer" class="px-2.5 py-1 bg-orange-50 hover:bg-orange-100 border border-orange-200 text-orange-700 rounded-xl text-xs font-bold flex items-center gap-1 transition">
-                            <span>Uji Buka URL</span>
+                    <div class="flex items-center justify-between">
+                        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[10px] font-bold bg-emerald-100 text-emerald-800">
+                            <i data-lucide="map-pin" class="w-3 h-3 text-emerald-600"></i>
+                            <span>{{ item.nav_label }}</span>
+                        </span>
+                        {% if c and c.drive_url %}
+                        <a href="{{ c.drive_url }}" target="_blank" rel="noopener noreferrer" class="px-2 py-1 bg-white border border-slate-200 text-emerald-600 hover:text-emerald-800 rounded-lg text-[11px] font-bold flex items-center gap-1 transition" title="Uji buka link saat ini">
+                            <span>Tes Buka</span>
                             <i data-lucide="external-link" class="w-3 h-3"></i>
                         </a>
-                    </div>
-
-                    <!-- Keterangan Fungsi Portal -->
-                    <div class="p-3 bg-amber-50/50 border border-amber-100 rounded-xl text-xs text-slate-700 space-y-1">
-                        <strong class="text-[10px] uppercase font-bold tracking-wider text-amber-800 block">Keterangan Portal:</strong>
-                        <p class="text-slate-600 leading-relaxed text-xs">
-                            {{ pdetail.get('desc', link.description or 'Portal dokumen penting pendukung kinerja BPS.') }}
-                        </p>
-                    </div>
-                </div>
-
-                <!-- Form Edit Link Portal -->
-                <form action="{{ url_for('settings.edit_link', link_id=link.id) }}" method="POST" class="space-y-3 pt-2 border-t border-slate-100">
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                        <div>
-                            <label class="block text-[10px] font-bold uppercase tracking-wider text-slate-600 mb-1">Judul Menu</label>
-                            <input type="text" name="title" value="{{ link.title }}" required class="w-full px-3 py-1.5 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-orange-500 outline-none">
-                        </div>
-                        <div>
-                            <label class="block text-[10px] font-bold uppercase tracking-wider text-slate-600 mb-1">Label Badge</label>
-                            <input type="text" name="badge_text" value="{{ link.badge_text }}" class="w-full px-3 py-1.5 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-orange-500 outline-none">
-                        </div>
+                        {% endif %}
                     </div>
 
                     <div>
-                        <label class="block text-[10px] font-bold uppercase tracking-wider text-slate-600 mb-1">Alamat Tautan URL (Google Drive / Website)</label>
-                        <input type="url" name="url" value="{{ link.url }}" required class="w-full px-3 py-1.5 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-orange-500 outline-none font-mono">
+                        <h3 class="text-sm font-black text-slate-900">{{ item.name }}</h3>
+                        <p class="text-xs text-slate-600 mt-1 leading-relaxed">{{ item.desc }}</p>
                     </div>
 
-                    <div class="flex items-center justify-between pt-1">
-                        <label class="flex items-center gap-2 cursor-pointer text-xs">
-                            <input type="checkbox" name="is_active" {% if link.is_active %}checked{% endif %} class="w-4 h-4 text-orange-500 rounded border-slate-300">
-                            <span class="text-xs font-semibold text-slate-600">Aktif di Navigasi</span>
-                        </label>
-                        <button type="submit" class="px-4 py-2 bg-navy-main hover:bg-navy-dark text-white rounded-xl text-xs font-bold transition flex items-center gap-1.5 shadow-sm">
+                    <div class="p-2.5 bg-emerald-50/60 border border-emerald-100 rounded-xl text-[11px] text-emerald-900 flex items-start gap-1.5">
+                        <i data-lucide="layers" class="w-3.5 h-3.5 text-emerald-600 flex-shrink-0 mt-0.5"></i>
+                        <span><strong>Dokumen:</strong> {{ item.contoh }}</span>
+                    </div>
+                </div>
+
+                {% if c %}
+                <form action="{{ url_for('settings.edit_category_drive', category_id=c.id) }}" method="POST" class="pt-3 border-t border-slate-200/80">
+                    <label class="block text-[10px] font-bold uppercase tracking-wider text-slate-700 mb-1">
+                        👉 Masukkan Link Folder Google Drive:
+                    </label>
+                    <div class="flex items-center gap-2">
+                        <input type="url" 
+                               name="drive_url" 
+                               value="{{ c.drive_url or '' }}" 
+                               placeholder="https://drive.google.com/drive/folders/..." 
+                               required 
+                               class="flex-1 px-3 py-2 text-xs bg-white border border-slate-300 rounded-xl focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 outline-none font-mono">
+                        <button type="submit" class="px-3.5 py-2 bg-navy-main hover:bg-navy-dark text-white rounded-xl text-xs font-bold transition flex items-center gap-1.5 shadow-sm flex-shrink-0">
                             <i data-lucide="save" class="w-3.5 h-3.5"></i>
                             <span>Simpan</span>
                         </button>
                     </div>
                 </form>
-
+                {% endif %}
             </div>
             {% endfor %}
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- 3. GRUP PELAPORAN                         -->
+    <!-- ========================================== -->
+    <div id="grup-pelaporan" class="bg-white p-6 rounded-3xl border border-slate-200/80 shadow-soft space-y-5">
+        <div class="flex items-center justify-between pb-3 border-b border-amber-100">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center border border-amber-200 font-bold">
+                    <i data-lucide="file-check-2" class="w-5 h-5"></i>
+                </div>
+                <div>
+                    <h2 class="text-base font-black text-slate-900 flex items-center gap-2">
+                        <span>Menu Sidebar: 3. PELAPORAN</span>
+                    </h2>
+                    <p class="text-xs text-slate-500">Terdapat 3 sub-fitur di bawah dropdown menu "Pelaporan" di sidebar.</p>
+                </div>
+            </div>
+            <span class="px-2.5 py-1 text-xs font-bold rounded-full bg-amber-50 text-amber-700 border border-amber-200">
+                3 Submenu
+            </span>
+        </div>
+
+        {% set list_pelaporan = [
+            {
+                'slug': 'laporan-kinerja',
+                'name': 'Laporan Kinerja',
+                'nav_label': 'Sidebar → Pelaporan → Laporan Kinerja',
+                'desc': 'Tempat menyimpan Laporan Kinerja Instansi Pemerintah (LAKIP / LKjIP) tahunan BPS Kabupaten Banyuwangi sebagai wujud pertanggungjawaban publik.',
+                'contoh': 'Dokumen LAKIP Tahunan Lengkap, Executive Summary Kinerja, Laporan Ringkas Pimpinan.'
+            },
+            {
+                'slug': 'laporan-evaluasi',
+                'name': 'Laporan Evaluasi',
+                'nav_label': 'Sidebar → Pelaporan → Laporan Evaluasi',
+                'desc': 'Tempat menyimpan rekapitulasi hasil evaluasi akuntabilitas kinerja dari Inspektorat Utama BPS RI atau KemenPAN-RB serta matriks rekomendasi.',
+                'contoh': 'Laporan Hasil Evaluasi (LHE) AKIP, Lembar Kerja Evaluasi Mandiri, Progress Rekomendasi.'
+            },
+            {
+                'slug': 'dokumen-pendukung-pelaporan',
+                'name': 'Dokumen Pendukung',
+                'nav_label': 'Sidebar → Pelaporan → Dokumen Pendukung',
+                'desc': 'Tempat menyimpan bukti dukung verifikasi (evidence), notula rapat koordinasi, daftar hadir kegiatan, foto dokumentasi, dan SK tim.',
+                'contoh': 'Evidence Pelaksanaan Tugas, Notula Rapat & Presensi, Foto Dokumentasi, SK Tim Kerja.'
+            }
+        ] %}
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+            {% for item in list_pelaporan %}
+            {% set c = cat_map.get(item.slug) %}
+            <div class="p-5 rounded-2xl border border-slate-200 bg-slate-50/40 hover:bg-white hover:border-amber-400 hover:shadow-card transition duration-200 flex flex-col justify-between space-y-4">
+                <div class="space-y-3">
+                    <div class="flex items-center justify-between">
+                        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[10px] font-bold bg-amber-100 text-amber-800">
+                            <i data-lucide="map-pin" class="w-3 h-3 text-amber-600"></i>
+                            <span>{{ item.nav_label }}</span>
+                        </span>
+                        {% if c and c.drive_url %}
+                        <a href="{{ c.drive_url }}" target="_blank" rel="noopener noreferrer" class="px-2 py-1 bg-white border border-slate-200 text-amber-600 hover:text-amber-800 rounded-lg text-[11px] font-bold flex items-center gap-1 transition" title="Uji buka link saat ini">
+                            <span>Tes Buka</span>
+                            <i data-lucide="external-link" class="w-3 h-3"></i>
+                        </a>
+                        {% endif %}
+                    </div>
+
+                    <div>
+                        <h3 class="text-sm font-black text-slate-900">{{ item.name }}</h3>
+                        <p class="text-xs text-slate-600 mt-1 leading-relaxed">{{ item.desc }}</p>
+                    </div>
+
+                    <div class="p-2.5 bg-amber-50/60 border border-amber-100 rounded-xl text-[11px] text-amber-900 flex items-start gap-1.5">
+                        <i data-lucide="layers" class="w-3.5 h-3.5 text-amber-600 flex-shrink-0 mt-0.5"></i>
+                        <span><strong>Dokumen:</strong> {{ item.contoh }}</span>
+                    </div>
+                </div>
+
+                {% if c %}
+                <form action="{{ url_for('settings.edit_category_drive', category_id=c.id) }}" method="POST" class="pt-3 border-t border-slate-200/80">
+                    <label class="block text-[10px] font-bold uppercase tracking-wider text-slate-700 mb-1">
+                        👉 Masukkan Link Folder Google Drive:
+                    </label>
+                    <div class="flex items-center gap-2">
+                        <input type="url" 
+                               name="drive_url" 
+                               value="{{ c.drive_url or '' }}" 
+                               placeholder="https://drive.google.com/drive/folders/..." 
+                               required 
+                               class="flex-1 px-3 py-2 text-xs bg-white border border-slate-300 rounded-xl focus:border-amber-500 focus:ring-1 focus:ring-amber-500 outline-none font-mono">
+                        <button type="submit" class="px-3.5 py-2 bg-navy-main hover:bg-navy-dark text-white rounded-xl text-xs font-bold transition flex items-center gap-1.5 shadow-sm flex-shrink-0">
+                            <i data-lucide="save" class="w-3.5 h-3.5"></i>
+                            <span>Simpan</span>
+                        </button>
+                    </div>
+                </form>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- 4. GRUP DOKUMEN PENTING (8 Portal)        -->
+    <!-- ========================================== -->
+    <div id="grup-dokumen-penting" class="bg-white p-6 rounded-3xl border border-slate-200/80 shadow-soft space-y-5">
+        <div class="flex items-center justify-between pb-3 border-b border-orange-100">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-2xl bg-orange-50 text-orange-600 flex items-center justify-center border border-orange-200 font-bold">
+                    <i data-lucide="star" class="w-5 h-5"></i>
+                </div>
+                <div>
+                    <h2 class="text-base font-black text-slate-900 flex items-center gap-2">
+                        <span>Menu Sidebar: 4. DOKUMEN PENTING</span>
+                    </h2>
+                    <p class="text-xs text-slate-500">Terdapat 8 portal eksternal / dokumen rujukan penting di bawah dropdown menu "Dokumen Penting" di sidebar.</p>
+                </div>
+            </div>
+            <span class="px-2.5 py-1 text-xs font-bold rounded-full bg-orange-50 text-orange-700 border border-orange-200">
+                8 Portal
+            </span>
+        </div>
+
+        {% set list_portal = [
+            {
+                'code': 'simonik',
+                'title': 'SIMONIK',
+                'nav_label': 'Sidebar → Dokumen Penting → SIMONIK',
+                'desc': 'Sistem Informasi Monitoring Kinerja BPS untuk pemantauan capaian realisasi output kegiatan statistik dan penyerapan anggaran secara terstruktur.'
+            },
+            {
+                'code': 'sinergi',
+                'title': 'SINERGI',
+                'nav_label': 'Sidebar → Dokumen Penting → SINERGI',
+                'desc': 'Aplikasi Sistem Informasi Penilaian Kinerja Terintegrasi BPS untuk pengelolaan Sasaran Kinerja Pegawai (SKP) dan penilaian kinerja ASN.'
+            },
+            {
+                'code': 'fra',
+                'title': 'FRA',
+                'nav_label': 'Sidebar → Dokumen Penting → FRA',
+                'desc': 'Formulir Rekomendasi Akuntabilitas Kinerja Instansi Pemerintah untuk pemenuhan lembar evaluasi mandiri AKIP BPS Kabupaten Banyuwangi.'
+            },
+            {
+                'code': 'link-akip-jatim',
+                'title': 'LINK AKIP JATIM',
+                'nav_label': 'Sidebar → Dokumen Penting → LINK AKIP JATIM',
+                'desc': 'Portal repositori terpusat dan kompilasi data SAKIP seluruh BPS Kabupaten/Kota di lingkungan BPS Provinsi Jawa Timur.'
+            },
+            {
+                'code': 'proksi',
+                'title': 'PROKSI',
+                'nav_label': 'Sidebar → Dokumen Penting → PROKSI',
+                'desc': 'Aplikasi Pengawasan dan Pengendalian Kinerja Statistik Internal untuk mengukur integritas data dan kepatuhan proses bisnis statistik.'
+            },
+            {
+                'code': 'permindok-2025',
+                'title': 'PERMINDOK 2025',
+                'nav_label': 'Sidebar → Dokumen Penting → PERMINDOK 2025',
+                'desc': 'Pedoman Peraturan Tata Naskah dan Permintaan Dokumen Administrasi Kinerja BPS untuk Tahun Anggaran 2025 (Google Drive Folder).'
+            },
+            {
+                'code': 'permindok-2026',
+                'title': 'PERMINDOK 2026',
+                'nav_label': 'Sidebar → Dokumen Penting → PERMINDOK 2026',
+                'desc': 'Panduan Peraturan Tata Kelola dan Permintaan Dokumen Akuntabilitas Kinerja BPS untuk Tahun Anggaran 2026 (Google Drive Folder).'
+            },
+            {
+                'code': 'janjiku',
+                'title': 'JANJIKU',
+                'nav_label': 'Sidebar → Dokumen Penting → JANJIKU',
+                'desc': 'Janji Layanan Kinerja dan Maklumat Standar Pelayanan Publik Terpadu BPS Kabupaten Banyuwangi kepada masyarakat.'
+            }
+        ] %}
+
+        {% set link_map = {} %}
+        {% for l in links %}
+            {% set _ = link_map.update({l.code: l}) %}
+        {% endfor %}
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            {% for item in list_portal %}
+            {% set l = link_map.get(item.code) %}
+            <div class="p-5 rounded-2xl border border-slate-200 bg-slate-50/40 hover:bg-white hover:border-orange-400 hover:shadow-card transition duration-200 flex flex-col justify-between space-y-4">
+                <div class="space-y-3">
+                    <div class="flex items-center justify-between">
+                        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[10px] font-bold bg-orange-100 text-orange-800">
+                            <i data-lucide="map-pin" class="w-3 h-3 text-orange-600"></i>
+                            <span>{{ item.nav_label }}</span>
+                        </span>
+                        {% if l and l.url %}
+                        <a href="{{ l.url }}" target="_blank" rel="noopener noreferrer" class="px-2 py-1 bg-white border border-slate-200 text-orange-600 hover:text-orange-800 rounded-lg text-[11px] font-bold flex items-center gap-1 transition" title="Uji buka URL saat ini">
+                            <span>Tes Buka</span>
+                            <i data-lucide="external-link" class="w-3 h-3"></i>
+                        </a>
+                        {% endif %}
+                    </div>
+
+                    <div>
+                        <h3 class="text-sm font-black text-slate-900">{{ item.title }}</h3>
+                        <p class="text-xs text-slate-600 mt-1 leading-relaxed">{{ item.desc }}</p>
+                    </div>
+                </div>
+
+                {% if l %}
+                <form action="{{ url_for('settings.edit_link', link_id=l.id) }}" method="POST" class="pt-3 border-t border-slate-200/80 space-y-2">
+                    <input type="hidden" name="title" value="{{ l.title }}">
+                    <input type="hidden" name="badge_text" value="{{ l.badge_text }}">
+                    <input type="hidden" name="description" value="{{ l.description or item.desc }}">
+                    <input type="hidden" name="is_active" value="1">
+                    
+                    <label class="block text-[10px] font-bold uppercase tracking-wider text-slate-700">
+                        👉 Masukkan URL Portal / Link Google Drive:
+                    </label>
+                    <div class="flex items-center gap-2">
+                        <input type="url" 
+                               name="url" 
+                               value="{{ l.url or '' }}" 
+                               placeholder="https://..." 
+                               required 
+                               class="flex-1 px-3 py-2 text-xs bg-white border border-slate-300 rounded-xl focus:border-orange-500 focus:ring-1 focus:ring-orange-500 outline-none font-mono">
+                        <button type="submit" class="px-3.5 py-2 bg-navy-main hover:bg-navy-dark text-white rounded-xl text-xs font-bold transition flex items-center gap-1.5 shadow-sm flex-shrink-0">
+                            <i data-lucide="save" class="w-3.5 h-3.5"></i>
+                            <span>Simpan</span>
+                        </button>
+                    </div>
+                </form>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- 5. GRUP KELENGKAPAN                       -->
+    <!-- ========================================== -->
+    <div id="grup-kelengkapan" class="bg-white p-6 rounded-3xl border border-slate-200/80 shadow-soft space-y-5">
+        <div class="flex items-center justify-between pb-3 border-b border-purple-100">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-2xl bg-purple-50 text-purple-600 flex items-center justify-center border border-purple-200 font-bold">
+                    <i data-lucide="check-square" class="w-5 h-5"></i>
+                </div>
+                <div>
+                    <h2 class="text-base font-black text-slate-900 flex items-center gap-2">
+                        <span>Menu Sidebar: 5. KELENGKAPAN (Arsip Dokumen)</span>
+                    </h2>
+                    <p class="text-xs text-slate-500">Menu tautan Google Drive untuk berkas arsip SAKIP tahun-tahun sebelumnya.</p>
+                </div>
+            </div>
+            <span class="px-2.5 py-1 text-xs font-bold rounded-full bg-purple-50 text-purple-700 border border-purple-200">
+                1 Submenu
+            </span>
+        </div>
+
+        {% set arsip_c = cat_map.get('arsip-dokumen') %}
+        <div class="p-5 rounded-2xl border border-slate-200 bg-slate-50/40 hover:bg-white hover:border-purple-400 hover:shadow-card transition duration-200 flex flex-col justify-between space-y-4">
+            <div class="space-y-3">
+                <div class="flex items-center justify-between">
+                    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[10px] font-bold bg-purple-100 text-purple-800">
+                        <i data-lucide="map-pin" class="w-3 h-3 text-purple-600"></i>
+                        <span>Sidebar → Kelengkapan → Arsip Dokumen</span>
+                    </span>
+                    {% if arsip_c and arsip_c.drive_url %}
+                    <a href="{{ arsip_c.drive_url }}" target="_blank" rel="noopener noreferrer" class="px-2 py-1 bg-white border border-slate-200 text-purple-600 hover:text-purple-800 rounded-lg text-[11px] font-bold flex items-center gap-1 transition" title="Uji buka link saat ini">
+                        <span>Tes Buka</span>
+                        <i data-lucide="external-link" class="w-3 h-3"></i>
+                    </a>
+                    {% endif %}
+                </div>
+
+                <div>
+                    <h3 class="text-sm font-black text-slate-900">Arsip Dokumen AKIP</h3>
+                    <p class="text-xs text-slate-600 mt-1 leading-relaxed">
+                        Koleksi arsip digital seluruh berkas akuntabilitas kinerja BPS Kabupaten Banyuwangi periode tahun-tahun sebelumnya untuk kebutuhan audit dan referensi historis.
+                    </p>
+                </div>
+
+                <div class="p-2.5 bg-purple-50/60 border border-purple-100 rounded-xl text-[11px] text-purple-900 flex items-start gap-1.5">
+                    <i data-lucide="layers" class="w-3.5 h-3.5 text-purple-600 flex-shrink-0 mt-0.5"></i>
+                    <span><strong>Dokumen yang ditaruh:</strong> Berkas LAKIP periode lalu, dokumen SAKIP historis, laporan evaluasi arsip.</span>
+                </div>
+            </div>
+
+            {% if arsip_c %}
+            <form action="{{ url_for('settings.edit_category_drive', category_id=arsip_c.id) }}" method="POST" class="pt-3 border-t border-slate-200/80">
+                <label class="block text-[10px] font-bold uppercase tracking-wider text-slate-700 mb-1">
+                    👉 Masukkan Link Folder Google Drive:
+                </label>
+                <div class="flex items-center gap-2">
+                    <input type="url" 
+                           name="drive_url" 
+                           value="{{ arsip_c.drive_url or '' }}" 
+                           placeholder="https://drive.google.com/drive/folders/..." 
+                           required 
+                           class="flex-1 px-3 py-2 text-xs bg-white border border-slate-300 rounded-xl focus:border-purple-500 focus:ring-1 focus:ring-purple-500 outline-none font-mono">
+                    <button type="submit" class="px-3.5 py-2 bg-navy-main hover:bg-navy-dark text-white rounded-xl text-xs font-bold transition flex items-center gap-1.5 shadow-sm flex-shrink-0">
+                        <i data-lucide="save" class="w-3.5 h-3.5"></i>
+                        <span>Simpan</span>
+                    </button>
+                </div>
+            </form>
+            {% endif %}
         </div>
     </div>
 
