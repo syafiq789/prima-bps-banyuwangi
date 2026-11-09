@@ -136,33 +136,68 @@ def create_app(config_name=None):
 def seed_initial_data():
     """Seed initial categories, important links, default admin, and sample data if database is empty."""
     try:
-        # 1. Default Admin User
-        admin_user = User.query.filter_by(username='admin').first()
-        if not admin_user:
-            admin = User(
-                username='admin',
-                full_name='Administrator PRIMA BPS',
-                nip='198501012010011001',
-                role='admin',
-                is_active=True
-            )
-            admin.set_password('admin123')
-            db.session.add(admin)
-            logger.info("Created default admin user: admin / admin123")
+        # 1. Default Users per Role (RBAC)
+        rbac_seed_users = [
+            {
+                'username': 'admin',
+                'full_name': 'Administrator PRIMA BPS',
+                'nip': '198501012010011001',
+                'role': 'admin',
+                'password': 'admin123'
+            },
+            {
+                'username': 'pegawai',
+                'full_name': 'Pegawai BPS Banyuwangi',
+                'nip': '199203152015021002',
+                'role': 'pegawai',
+                'password': 'pegawai123'
+            },
+            {
+                'username': 'staf_umum',
+                'full_name': 'Staf Subbagian Umum',
+                'nip': '199008202014031003',
+                'role': 'staf_umum',
+                'password': 'umum123'
+            },
+            {
+                'username': 'petugas_ipds',
+                'full_name': 'Petugas Diseminasi IPDS',
+                'nip': '199304122016021004',
+                'role': 'petugas_ipds',
+                'password': 'ipds123'
+            },
+            {
+                'username': 'ppk',
+                'full_name': 'Pejabat Pembuat Komitmen (PPK)',
+                'nip': '198207102008011005',
+                'role': 'ppk',
+                'password': 'ppk123'
+            },
+            {
+                'username': 'kpa',
+                'full_name': 'Kuasa Pengguna Anggaran (KPA)',
+                'nip': '197805152003121006',
+                'role': 'kpa',
+                'password': 'kpa123'
+            }
+        ]
 
-        # Demo Regular User
-        demo_user = User.query.filter_by(username='pegawai').first()
-        if not demo_user:
-            pegawai = User(
-                username='pegawai',
-                full_name='Staf Tim AKIP BPS Banyuwangi',
-                nip='199203152015021002',
-                role='user',
-                is_active=True
-            )
-            pegawai.set_password('pegawai123')
-            db.session.add(pegawai)
-            logger.info("Created demo regular user: pegawai / pegawai123")
+        for udata in rbac_seed_users:
+            u = User.query.filter_by(username=udata['username']).first()
+            if not u:
+                new_u = User(
+                    username=udata['username'],
+                    full_name=udata['full_name'],
+                    nip=udata['nip'],
+                    role=udata['role'],
+                    is_active=True
+                )
+                new_u.set_password(udata['password'])
+                db.session.add(new_u)
+                logger.info(f"Created seed user [{udata['role']}]: {udata['username']} / {udata['password']}")
+            elif u.role == 'user':
+                # Update legacy 'user' role to 'pegawai'
+                u.role = 'pegawai'
 
         # 2. Categories sesuai Struktur Prompt
         categories_data = [

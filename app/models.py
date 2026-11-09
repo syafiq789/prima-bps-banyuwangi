@@ -13,10 +13,20 @@ class User(UserMixin, db.Model):
     password_hash = db.Column(db.String(255), nullable=False)
     full_name = db.Column(db.String(100), nullable=False)
     nip = db.Column(db.String(30), nullable=True)
-    role = db.Column(db.String(20), default='user', nullable=False) # 'admin' or 'user'
+    role = db.Column(db.String(30), default='pegawai', nullable=False) # 'admin', 'pegawai', 'staf_umum', 'petugas_ipds', 'ppk', 'kpa'
     is_active = db.Column(db.Boolean, default=True, nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+
+    # Available Roles Definition
+    ROLES = {
+        'admin': 'Administrator',
+        'pegawai': 'Pegawai',
+        'staf_umum': 'Staf Subbagian Umum',
+        'petugas_ipds': 'Petugas IPDS',
+        'ppk': 'Pejabat Pembuat Komitmen (PPK)',
+        'kpa': 'Kuasa Pengguna Anggaran (KPA)'
+    }
 
     # Relationships
     documents = db.relationship('Document', backref='uploader', lazy='dynamic')
@@ -31,6 +41,31 @@ class User(UserMixin, db.Model):
     @property
     def is_admin(self):
         return self.role == 'admin'
+
+    @property
+    def is_staf_umum(self):
+        return self.role == 'staf_umum'
+
+    @property
+    def is_petugas_ipds(self):
+        return self.role == 'petugas_ipds'
+
+    @property
+    def is_ppk(self):
+        return self.role == 'ppk'
+
+    @property
+    def is_kpa(self):
+        return self.role == 'kpa'
+
+    @property
+    def role_display_name(self):
+        return self.ROLES.get(self.role, self.role.upper())
+
+    @property
+    def can_manage_documents(self):
+        # Admin, Staf Umum, dan PPK memiliki hak upload dan kelola dokumen arsip
+        return self.role in ('admin', 'staf_umum', 'ppk')
 
     def __repr__(self):
         return f'<User {self.username} - {self.role}>'

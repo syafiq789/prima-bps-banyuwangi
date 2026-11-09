@@ -7,7 +7,7 @@ from flask_login import login_required, current_user
 from sqlalchemy import or_
 from app.models import db, Document, Category, User
 from app.utils import (
-    admin_required, log_activity, allowed_file, 
+    admin_required, roles_required, log_activity, allowed_file, 
     save_document_file, delete_document_file, get_document_file_path
 )
 
@@ -130,10 +130,10 @@ def category_view(slug):
 
 @documents_bp.route('/upload', methods=['GET', 'POST'])
 @login_required
-@admin_required
+@roles_required('admin', 'staf_umum', 'ppk')
 def upload():
     """
-    Formulir & aksi pengunggahan dokumen baru (khusus Admin).
+    Formulir & aksi pengunggahan dokumen baru (Admin, Staf Umum, PPK).
     File fisik disimpan di server, metadata disimpan ke MySQL.
     """
     categories = Category.query.order_by(Category.group, Category.name).all()
@@ -210,10 +210,10 @@ def detail(doc_id):
 
 @documents_bp.route('/<int:doc_id>/edit', methods=['GET', 'POST'])
 @login_required
-@admin_required
+@roles_required('admin', 'staf_umum', 'ppk')
 def edit(doc_id):
     """
-    Formulir edit metadata dokumen atau penggantian file fisik (khusus Admin).
+    Formulir edit metadata dokumen atau penggantian file fisik (Admin, Staf Umum, PPK).
     """
     document = Document.query.get_or_404(doc_id)
     categories = Category.query.order_by(Category.group, Category.name).all()
@@ -267,10 +267,10 @@ def edit(doc_id):
 
 @documents_bp.route('/<int:doc_id>/delete', methods=['POST'])
 @login_required
-@admin_required
+@roles_required('admin', 'staf_umum', 'ppk')
 def delete(doc_id):
     """
-    Menghapus dokumen dari database dan menghapus file fisiknya dari server (khusus Admin).
+    Menghapus dokumen dari database dan menghapus file fisiknya dari server (Admin, Staf Umum, PPK).
     """
     document = Document.query.get_or_404(doc_id)
     doc_title = document.title

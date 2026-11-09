@@ -9,17 +9,29 @@ from app.models import db, Activity
 
 logger = logging.getLogger(__name__)
 
+def roles_required(*roles):
+    """
+    Decorator untuk membatasi akses endpoint berdasarkan satu atau lebih peran (RBAC).
+    Contoh: @roles_required('admin', 'staf_umum', 'ppk')
+    """
+    def decorator(f):
+        @wraps(f)
+        def decorated_function(*args, **kwargs):
+            if not current_user.is_authenticated:
+                abort(401)
+            # Admin selalu memiliki hak akses bypass
+            if current_user.role != 'admin' and current_user.role not in roles:
+                abort(403)
+            return f(*args, **kwargs)
+        return decorated_function
+    return decorator
+
 def admin_required(f):
     """
     Decorator untuk membatasi akses endpoint khusus role 'admin'.
     Jika pengguna bukan admin atau belum login, akan menghasilkan abort HTTP 403 (Forbidden).
     """
-    @wraps(f)
-    def decorated_function(*args, **kwargs):
-        if not current_user.is_authenticated or not current_user.is_admin:
-            abort(403)
-        return f(*args, **kwargs)
-    return decorated_function
+    return roles_required('admin')(f)
 
 def log_activity(action, description, user_id=None):
     """

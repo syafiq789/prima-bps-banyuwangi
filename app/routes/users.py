@@ -19,8 +19,11 @@ def create():
     username = request.form.get('username', '').strip().lower()
     full_name = request.form.get('full_name', '').strip()
     nip = request.form.get('nip', '').strip()
-    role = request.form.get('role', 'user')
+    role = request.form.get('role', 'pegawai')
     password = request.form.get('password', '')
+
+    if role not in User.ROLES:
+        role = 'pegawai'
 
     if not username or not full_name or not password:
         flash('Username, Nama Lengkap, dan Password wajib diisi.', 'danger')

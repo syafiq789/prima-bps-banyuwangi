@@ -43,8 +43,8 @@
         <!-- Right Section: Action Buttons, Notification & User Profile -->
         <div class="flex items-center gap-2 sm:gap-2.5">
             
-            <!-- Quick Upload Button (Admin only) -->
-            {% if current_user.is_authenticated and current_user.is_admin %}
+            <!-- Quick Upload Button (Admin, Staf Umum, PPK) -->
+            {% if current_user.is_authenticated and current_user.can_manage_documents %}
             <a href="{{ url_for('documents.upload') }}" 
                class="h-10 px-3.5 sm:px-4 inline-flex items-center gap-2 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white text-xs sm:text-sm font-semibold rounded-xl shadow-xs hover:shadow-md hover:shadow-orange-500/20 active:scale-[0.98] transition-all">
                 <i data-lucide="upload-cloud" class="w-4 h-4"></i>
@@ -84,7 +84,7 @@
                         <span class="text-xs font-bold text-slate-800 truncate max-w-[140px]">{{ current_user.full_name or current_user.username }}</span>
                         <div class="flex items-center gap-1 mt-0.5">
                             <span class="text-[9px] font-black uppercase tracking-wider text-orange-600 bg-orange-50 px-1 py-0.2 rounded border border-orange-200/60 leading-none">
-                                {{ current_user.role }}
+                                {{ current_user.role_display_name }}
                             </span>
                         </div>
                     </div>
