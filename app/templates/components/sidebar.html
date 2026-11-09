@@ -107,15 +107,17 @@
                             ('indikator-kinerja-utama', 'Indikator Kinerja Utama')
                         ] %}
                         {% for slug, label in perenc_items %}
-                        <div class="flex items-center justify-between rounded-lg hover:bg-slate-800/60 group/item transition">
-                            <a href="{{ url_for('documents.category_view', slug=slug) }}" class="nav-subitem flex-1 flex items-center gap-2 px-2.5 py-1.5 text-xs text-slate-400 hover:text-white transition truncate">
-                                <span class="w-1.5 h-1.5 rounded-full bg-slate-500 flex-shrink-0"></span>
+                        <a href="{{ url_for('documents.open_category_drive', slug=slug) }}" 
+                           target="_blank" 
+                           rel="noopener noreferrer" 
+                           class="nav-subitem flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs text-slate-400 hover:text-white hover:bg-slate-800/60 transition group/sub"
+                           title="Buka Google Drive {{ label }}">
+                            <span class="flex items-center gap-2 truncate">
+                                <span class="w-1.5 h-1.5 rounded-full bg-slate-500 group-hover/sub:bg-blue-400 flex-shrink-0 transition"></span>
                                 <span class="truncate">{{ label }}</span>
-                            </a>
-                            <a href="{{ url_for('documents.open_category_drive', slug=slug) }}" target="_blank" rel="noopener noreferrer" class="p-1 mr-1 text-slate-500 hover:text-orange-400 transition" title="Buka Google Drive Langsung">
-                                <i data-lucide="external-link" class="w-3 h-3"></i>
-                            </a>
-                        </div>
+                            </span>
+                            <i data-lucide="external-link" class="w-3 h-3 text-slate-500 group-hover/sub:text-blue-400 opacity-60 group-hover/sub:opacity-100 flex-shrink-0 transition"></i>
+                        </a>
                         {% endfor %}
                     </div>
                 </div>
@@ -139,15 +141,17 @@
                             ('evaluasi-kinerja', 'Evaluasi Kinerja')
                         ] %}
                         {% for slug, label in peng_items %}
-                        <div class="flex items-center justify-between rounded-lg hover:bg-slate-800/60 group/item transition">
-                            <a href="{{ url_for('documents.category_view', slug=slug) }}" class="nav-subitem flex-1 flex items-center gap-2 px-2.5 py-1.5 text-xs text-slate-400 hover:text-white transition truncate">
-                                <span class="w-1.5 h-1.5 rounded-full bg-slate-500 flex-shrink-0"></span>
+                        <a href="{{ url_for('documents.open_category_drive', slug=slug) }}" 
+                           target="_blank" 
+                           rel="noopener noreferrer" 
+                           class="nav-subitem flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs text-slate-400 hover:text-white hover:bg-slate-800/60 transition group/sub"
+                           title="Buka Google Drive {{ label }}">
+                            <span class="flex items-center gap-2 truncate">
+                                <span class="w-1.5 h-1.5 rounded-full bg-slate-500 group-hover/sub:bg-emerald-400 flex-shrink-0 transition"></span>
                                 <span class="truncate">{{ label }}</span>
-                            </a>
-                            <a href="{{ url_for('documents.open_category_drive', slug=slug) }}" target="_blank" rel="noopener noreferrer" class="p-1 mr-1 text-slate-500 hover:text-orange-400 transition" title="Buka Google Drive Langsung">
-                                <i data-lucide="external-link" class="w-3 h-3"></i>
-                            </a>
-                        </div>
+                            </span>
+                            <i data-lucide="external-link" class="w-3 h-3 text-slate-500 group-hover/sub:text-emerald-400 opacity-60 group-hover/sub:opacity-100 flex-shrink-0 transition"></i>
+                        </a>
                         {% endfor %}
                     </div>
                 </div>
@@ -171,15 +175,17 @@
                             ('dokumen-pendukung-pelaporan', 'Dokumen Pendukung')
                         ] %}
                         {% for slug, label in pel_items %}
-                        <div class="flex items-center justify-between rounded-lg hover:bg-slate-800/60 group/item transition">
-                            <a href="{{ url_for('documents.category_view', slug=slug) }}" class="nav-subitem flex-1 flex items-center gap-2 px-2.5 py-1.5 text-xs text-slate-400 hover:text-white transition truncate">
-                                <span class="w-1.5 h-1.5 rounded-full bg-slate-500 flex-shrink-0"></span>
+                        <a href="{{ url_for('documents.open_category_drive', slug=slug) }}" 
+                           target="_blank" 
+                           rel="noopener noreferrer" 
+                           class="nav-subitem flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs text-slate-400 hover:text-white hover:bg-slate-800/60 transition group/sub"
+                           title="Buka Google Drive {{ label }}">
+                            <span class="flex items-center gap-2 truncate">
+                                <span class="w-1.5 h-1.5 rounded-full bg-slate-500 group-hover/sub:bg-amber-400 flex-shrink-0 transition"></span>
                                 <span class="truncate">{{ label }}</span>
-                            </a>
-                            <a href="{{ url_for('documents.open_category_drive', slug=slug) }}" target="_blank" rel="noopener noreferrer" class="p-1 mr-1 text-slate-500 hover:text-orange-400 transition" title="Buka Google Drive Langsung">
-                                <i data-lucide="external-link" class="w-3 h-3"></i>
-                            </a>
-                        </div>
+                            </span>
+                            <i data-lucide="external-link" class="w-3 h-3 text-slate-500 group-hover/sub:text-amber-400 opacity-60 group-hover/sub:opacity-100 flex-shrink-0 transition"></i>
+                        </a>
                         {% endfor %}
                     </div>
                 </div>
@@ -208,15 +214,17 @@
                             ('janjiku', 'JANJIKU')
                         ] %}
                         {% for cslug, clabel in penting_items %}
-                        <div class="flex items-center justify-between rounded-lg hover:bg-slate-800/60 group/item transition">
-                            <a href="{{ url_for('important_links.detail', code_slug=cslug) }}" class="nav-subitem flex-1 flex items-center gap-2 px-2.5 py-1.5 text-xs text-slate-400 hover:text-white transition truncate">
+                        <a href="{{ url_for('important_links.open_link', code_slug=cslug) }}" 
+                           target="_blank" 
+                           rel="noopener noreferrer" 
+                           class="nav-subitem flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs text-slate-400 hover:text-white hover:bg-slate-800/60 transition group/sub"
+                           title="Buka Portal {{ clabel }}">
+                            <span class="flex items-center gap-2 truncate">
                                 <span class="w-1.5 h-1.5 rounded-full bg-orange-400 flex-shrink-0"></span>
                                 <span class="truncate">{{ clabel }}</span>
-                            </a>
-                            <a href="{{ url_for('important_links.detail', code_slug=cslug) }}" class="p-1 mr-1 text-slate-500 hover:text-orange-400 transition" title="Buka Portal">
-                                <i data-lucide="external-link" class="w-3 h-3"></i>
-                            </a>
-                        </div>
+                            </span>
+                            <i data-lucide="external-link" class="w-3 h-3 text-slate-500 group-hover/sub:text-orange-400 opacity-60 group-hover/sub:opacity-100 flex-shrink-0 transition"></i>
+                        </a>
                         {% endfor %}
                     </div>
                 </div>
@@ -249,15 +257,17 @@
                             <span class="w-1.5 h-1.5 rounded-full bg-slate-500"></span>
                             <span>Kelengkapan Administrasi</span>
                         </a>
-                        <div class="flex items-center justify-between rounded-lg hover:bg-slate-800/60 group/item transition">
-                            <a href="{{ url_for('documents.category_view', slug='arsip-dokumen') }}" class="nav-subitem flex-1 flex items-center gap-2 px-2.5 py-1.5 text-xs text-slate-400 hover:text-white transition truncate">
-                                <span class="w-1.5 h-1.5 rounded-full bg-slate-500 flex-shrink-0"></span>
+                        <a href="{{ url_for('documents.open_category_drive', slug='arsip-dokumen') }}" 
+                           target="_blank" 
+                           rel="noopener noreferrer" 
+                           class="nav-subitem flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs text-slate-400 hover:text-white hover:bg-slate-800/60 transition group/sub"
+                           title="Buka Google Drive Arsip Dokumen">
+                            <span class="flex items-center gap-2 truncate">
+                                <span class="w-1.5 h-1.5 rounded-full bg-slate-500 group-hover/sub:bg-purple-400 flex-shrink-0 transition"></span>
                                 <span>Arsip Dokumen</span>
-                            </a>
-                            <a href="{{ url_for('documents.open_category_drive', slug='arsip-dokumen') }}" target="_blank" rel="noopener noreferrer" class="p-1 mr-1 text-slate-500 hover:text-orange-400 transition" title="Buka Google Drive">
-                                <i data-lucide="external-link" class="w-3 h-3"></i>
-                            </a>
-                        </div>
+                            </span>
+                            <i data-lucide="external-link" class="w-3 h-3 text-slate-500 group-hover/sub:text-purple-400 opacity-60 group-hover/sub:opacity-100 flex-shrink-0 transition"></i>
+                        </a>
                         <a href="{{ url_for('completeness.belum_lengkap') }}" class="nav-subitem flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs text-slate-400 hover:text-white hover:bg-slate-800/60 transition">
                             <span class="flex items-center gap-2">
                                 <span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span>

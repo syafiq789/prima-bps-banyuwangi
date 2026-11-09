@@ -265,49 +265,67 @@
         </div>
 
         <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
-            <a href="{{ url_for('documents.category_view', slug='dokumen-perencanaan') }}" class="p-4 bg-white rounded-2xl border border-slate-200/80 shadow-soft hover-lift text-left group">
-                <div class="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center mb-3 group-hover:bg-blue-600 group-hover:text-white transition">
-                    <i data-lucide="compass" class="w-5 h-5"></i>
+            <a href="{{ url_for('documents.open_category_drive', slug='dokumen-perencanaan') }}" target="_blank" rel="noopener noreferrer" class="p-4 bg-white rounded-2xl border border-slate-200/80 shadow-soft hover-lift text-left group transition">
+                <div class="flex items-center justify-between mb-3">
+                    <div class="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center group-hover:bg-blue-600 group-hover:text-white transition">
+                        <i data-lucide="compass" class="w-5 h-5"></i>
+                    </div>
+                    <i data-lucide="external-link" class="w-3.5 h-3.5 text-slate-300 group-hover:text-blue-500 transition"></i>
                 </div>
                 <p class="text-xs font-bold text-slate-800 line-clamp-1">Perencanaan</p>
-                <p class="text-[10px] text-slate-400 mt-0.5">Renstra & RKT</p>
+                <p class="text-[10px] text-slate-400 mt-0.5">Buka Google Drive &rarr;</p>
             </a>
 
-            <a href="{{ url_for('documents.category_view', slug='perjanjian-kinerja') }}" class="p-4 bg-white rounded-2xl border border-slate-200/80 shadow-soft hover-lift text-left group">
-                <div class="w-10 h-10 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center mb-3 group-hover:bg-purple-600 group-hover:text-white transition">
-                    <i data-lucide="award" class="w-5 h-5"></i>
+            <a href="{{ url_for('documents.open_category_drive', slug='perjanjian-kinerja') }}" target="_blank" rel="noopener noreferrer" class="p-4 bg-white rounded-2xl border border-slate-200/80 shadow-soft hover-lift text-left group transition">
+                <div class="flex items-center justify-between mb-3">
+                    <div class="w-10 h-10 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center group-hover:bg-purple-600 group-hover:text-white transition">
+                        <i data-lucide="award" class="w-5 h-5"></i>
+                    </div>
+                    <i data-lucide="external-link" class="w-3.5 h-3.5 text-slate-300 group-hover:text-purple-500 transition"></i>
                 </div>
                 <p class="text-xs font-bold text-slate-800 line-clamp-1">Perjanjian Kinerja</p>
-                <p class="text-[10px] text-slate-400 mt-0.5">PK Pegawai</p>
+                <p class="text-[10px] text-slate-400 mt-0.5">Buka Google Drive &rarr;</p>
             </a>
 
-            <a href="{{ url_for('documents.category_view', slug='indikator-kinerja-utama') }}" class="p-4 bg-white rounded-2xl border border-slate-200/80 shadow-soft hover-lift text-left group">
-                <div class="w-10 h-10 rounded-xl bg-teal-50 text-teal-600 flex items-center justify-center mb-3 group-hover:bg-teal-600 group-hover:text-white transition">
-                    <i data-lucide="target" class="w-5 h-5"></i>
+            <a href="{{ url_for('documents.open_category_drive', slug='indikator-kinerja-utama') }}" target="_blank" rel="noopener noreferrer" class="p-4 bg-white rounded-2xl border border-slate-200/80 shadow-soft hover-lift text-left group transition">
+                <div class="flex items-center justify-between mb-3">
+                    <div class="w-10 h-10 rounded-xl bg-teal-50 text-teal-600 flex items-center justify-center group-hover:bg-teal-600 group-hover:text-white transition">
+                        <i data-lucide="target" class="w-5 h-5"></i>
+                    </div>
+                    <i data-lucide="external-link" class="w-3.5 h-3.5 text-slate-300 group-hover:text-teal-500 transition"></i>
                 </div>
                 <p class="text-xs font-bold text-slate-800 line-clamp-1">IKU</p>
-                <p class="text-[10px] text-slate-400 mt-0.5">Target Kunci</p>
+                <p class="text-[10px] text-slate-400 mt-0.5">Buka Google Drive &rarr;</p>
             </a>
 
-            <a href="{{ url_for('documents.category_view', slug='capaian-kinerja') }}" class="p-4 bg-white rounded-2xl border border-slate-200/80 shadow-soft hover-lift text-left group">
-                <div class="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center mb-3 group-hover:bg-emerald-600 group-hover:text-white transition">
-                    <i data-lucide="gauge" class="w-5 h-5"></i>
+            <a href="{{ url_for('documents.open_category_drive', slug='capaian-kinerja') }}" target="_blank" rel="noopener noreferrer" class="p-4 bg-white rounded-2xl border border-slate-200/80 shadow-soft hover-lift text-left group transition">
+                <div class="flex items-center justify-between mb-3">
+                    <div class="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center group-hover:bg-emerald-600 group-hover:text-white transition">
+                        <i data-lucide="gauge" class="w-5 h-5"></i>
+                    </div>
+                    <i data-lucide="external-link" class="w-3.5 h-3.5 text-slate-300 group-hover:text-emerald-500 transition"></i>
                 </div>
                 <p class="text-xs font-bold text-slate-800 line-clamp-1">Capaian Kinerja</p>
-                <p class="text-[10px] text-slate-400 mt-0.5">Realisasi Triwulan</p>
+                <p class="text-[10px] text-slate-400 mt-0.5">Buka Google Drive &rarr;</p>
             </a>
 
-            <a href="{{ url_for('documents.category_view', slug='laporan-kinerja') }}" class="p-4 bg-white rounded-2xl border border-slate-200/80 shadow-soft hover-lift text-left group">
-                <div class="w-10 h-10 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center mb-3 group-hover:bg-amber-600 group-hover:text-white transition">
-                    <i data-lucide="book-open" class="w-5 h-5"></i>
+            <a href="{{ url_for('documents.open_category_drive', slug='laporan-kinerja') }}" target="_blank" rel="noopener noreferrer" class="p-4 bg-white rounded-2xl border border-slate-200/80 shadow-soft hover-lift text-left group transition">
+                <div class="flex items-center justify-between mb-3">
+                    <div class="w-10 h-10 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center group-hover:bg-amber-600 group-hover:text-white transition">
+                        <i data-lucide="book-open" class="w-5 h-5"></i>
+                    </div>
+                    <i data-lucide="external-link" class="w-3.5 h-3.5 text-slate-300 group-hover:text-amber-500 transition"></i>
                 </div>
                 <p class="text-xs font-bold text-slate-800 line-clamp-1">LAKIP</p>
-                <p class="text-[10px] text-slate-400 mt-0.5">Laporan Tahunan</p>
+                <p class="text-[10px] text-slate-400 mt-0.5">Buka Google Drive &rarr;</p>
             </a>
 
-            <a href="{{ url_for('important_links.index') }}" class="p-4 bg-white rounded-2xl border border-slate-200/80 shadow-soft hover-lift text-left group">
-                <div class="w-10 h-10 rounded-xl bg-orange-50 text-orange-600 flex items-center justify-center mb-3 group-hover:bg-orange-600 group-hover:text-white transition">
-                    <i data-lucide="star" class="w-5 h-5"></i>
+            <a href="{{ url_for('important_links.index') }}" class="p-4 bg-white rounded-2xl border border-slate-200/80 shadow-soft hover-lift text-left group transition">
+                <div class="flex items-center justify-between mb-3">
+                    <div class="w-10 h-10 rounded-xl bg-orange-50 text-orange-600 flex items-center justify-center group-hover:bg-orange-600 group-hover:text-white transition">
+                        <i data-lucide="star" class="w-5 h-5"></i>
+                    </div>
+                    <i data-lucide="arrow-right" class="w-3.5 h-3.5 text-slate-300 group-hover:text-orange-500 transition"></i>
                 </div>
                 <p class="text-xs font-bold text-slate-800 line-clamp-1">Dokumen Penting</p>
                 <p class="text-[10px] text-slate-400 mt-0.5">SIMONIK, FRA, dll</p>

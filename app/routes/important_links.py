@@ -18,6 +18,14 @@ def detail(code_slug):
     all_links = ImportantLink.query.all()
     return render_template('important_links/detail.html', link=link, all_links=all_links)
 
+@important_links_bp.route('/<code_slug>/open')
+@login_required
+def open_link(code_slug):
+    """Langsung mengarahkan ke link eksternal portal/Google Drive."""
+    link = ImportantLink.query.filter_by(code=code_slug).first_or_404()
+    target_url = link.url or "https://drive.google.com"
+    return redirect(target_url)
+
 @important_links_bp.route('/<code_slug>/update', methods=['POST'])
 @login_required
 @admin_required
