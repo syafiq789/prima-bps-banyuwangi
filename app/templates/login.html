@@ -31,8 +31,8 @@
                         sans: ['"Plus Jakarta Sans"', 'Inter', 'sans-serif'],
                     },
                     boxShadow: {
-                        'glow': '0 0 50px -10px rgba(242, 140, 40, 0.25)',
-                        'card-xl': '0 25px 60px -15px rgba(13, 27, 42, 0.4)',
+                        'glow': '0 0 40px -10px rgba(242, 140, 40, 0.25)',
+                        'card-xl': '0 20px 50px -15px rgba(13, 27, 42, 0.45)',
                     }
                 }
             }
@@ -44,114 +44,109 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 
     <style>
-        /* Ambient backdrop patterns */
         .bg-grid-pattern {
             background-image: radial-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px);
-            background-size: 24px 24px;
-        }
-        .bg-radial-glow {
-            background: radial-gradient(circle at 50% 0%, rgba(30, 62, 102, 0.45) 0%, rgba(13, 27, 42, 0.95) 75%);
+            background-size: 20px 20px;
         }
     </style>
 </head>
-<body class="h-full flex items-center justify-center p-4 sm:p-6 lg:p-8 bg-[#0D1B2A] relative overflow-x-hidden selection:bg-orange-500 selection:text-white font-sans">
+<body class="h-full flex items-center justify-center p-3 sm:p-5 lg:p-6 bg-[#0D1B2A] relative overflow-x-hidden selection:bg-orange-500 selection:text-white font-sans">
 
-    <!-- Background Decorative Lighting Effects -->
+    <!-- Background Ambient Glow -->
     <div class="fixed inset-0 bg-grid-pattern opacity-40 pointer-events-none"></div>
-    <div class="fixed top-0 left-1/4 -translate-x-1/2 w-[550px] h-[550px] bg-gradient-to-br from-blue-700/20 to-navy-main/30 rounded-full blur-[140px] pointer-events-none"></div>
-    <div class="fixed bottom-0 right-1/4 translate-x-1/2 w-[500px] h-[500px] bg-gradient-to-tl from-orange-500/15 to-transparent rounded-full blur-[130px] pointer-events-none"></div>
+    <div class="fixed top-0 left-1/4 -translate-x-1/2 w-[450px] h-[450px] bg-gradient-to-br from-blue-700/20 to-navy-main/30 rounded-full blur-[120px] pointer-events-none"></div>
+    <div class="fixed bottom-0 right-1/4 translate-x-1/2 w-[400px] h-[400px] bg-gradient-to-tl from-orange-500/15 to-transparent rounded-full blur-[110px] pointer-events-none"></div>
 
-    <!-- Main Container Card (Modern Split-Layout) -->
-    <main class="w-full max-w-5xl bg-white rounded-[28px] sm:rounded-[32px] shadow-card-xl border border-white/20 overflow-hidden relative z-10 grid lg:grid-cols-12 transition-all">
+    <!-- Main Compact Container Card (Modern Split-Layout) -->
+    <main class="w-full max-w-4xl bg-white rounded-2xl sm:rounded-3xl shadow-card-xl border border-white/20 overflow-hidden relative z-10 grid lg:grid-cols-12 transition-all">
         
         <!-- LEFT PANEL: Institutional Branding & Feature Showcase -->
-        <div class="lg:col-span-5 bg-gradient-to-br from-[#0D1B2A] via-[#142B4A] to-[#1E3E66] p-8 sm:p-10 flex flex-col justify-between relative overflow-hidden border-b lg:border-b-0 lg:border-r border-slate-700/40">
-            <!-- Subtle Radial Glow on Left Panel -->
-            <div class="absolute -top-24 -left-24 w-72 h-72 bg-orange-500/15 rounded-full blur-3xl pointer-events-none"></div>
-            <div class="absolute -bottom-24 -right-24 w-72 h-72 bg-blue-500/20 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="lg:col-span-5 bg-gradient-to-br from-[#0D1B2A] via-[#142B4A] to-[#1E3E66] p-6 sm:p-7 lg:p-8 flex flex-col justify-between relative overflow-hidden border-b lg:border-b-0 lg:border-r border-slate-700/40">
+            <!-- Subtle Ambient Highlights -->
+            <div class="absolute -top-20 -left-20 w-60 h-60 bg-orange-500/15 rounded-full blur-3xl pointer-events-none"></div>
+            <div class="absolute -bottom-20 -right-20 w-60 h-60 bg-blue-500/20 rounded-full blur-3xl pointer-events-none"></div>
             
-            <!-- Top Branding -->
             <div class="relative z-10">
                 <!-- Agency Pill -->
-                <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-slate-200 text-xs font-semibold mb-6">
-                    <span class="w-2 h-2 rounded-full bg-orange-400 animate-pulse"></span>
+                <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-slate-200 text-[11px] font-semibold mb-4">
+                    <span class="w-1.5 h-1.5 rounded-full bg-orange-400 animate-pulse"></span>
                     <span>BPS Kabupaten Banyuwangi</span>
                 </div>
 
                 <!-- Logo & Title -->
-                <div class="flex items-center gap-3.5 mb-4">
-                    <div class="w-14 h-14 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 p-2 flex items-center justify-center shadow-lg shadow-black/20 group hover:scale-105 transition-transform duration-300">
+                <div class="flex items-center gap-3 mb-3">
+                    <div class="w-12 h-12 rounded-xl bg-white/10 backdrop-blur-md border border-white/20 p-1.5 flex items-center justify-center shadow-md shadow-black/20 group hover:scale-105 transition-transform">
                         <img src="{{ url_for('static', filename='images/logo_icon.svg') }}" alt="Logo PRIMA" class="w-full h-full object-contain">
                     </div>
                     <div>
-                        <div class="flex items-center gap-2">
-                            <span class="text-2xl font-black tracking-tight text-white">PRIMA</span>
-                            <span class="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-md bg-orange-500 text-white tracking-wider shadow-xs">AKIP</span>
+                        <div class="flex items-center gap-1.5">
+                            <span class="text-xl font-black tracking-tight text-white">PRIMA</span>
+                            <span class="text-[9px] font-extrabold uppercase px-1.5 py-0.2 rounded bg-orange-500 text-white tracking-wider shadow-xs">AKIP</span>
                         </div>
-                        <p class="text-xs text-slate-300 font-medium">Pusat Arsip dan Manajemen AKIP</p>
+                        <p class="text-[11px] text-slate-300 font-medium">Pusat Arsip & Manajemen AKIP</p>
                     </div>
                 </div>
 
                 <!-- Tagline Quote -->
-                <div class="p-3.5 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-sm mt-5 mb-8">
-                    <p class="text-xs text-orange-300 font-medium italic leading-relaxed">
+                <div class="p-3 rounded-xl bg-white/5 border border-white/10 backdrop-blur-sm mt-3 mb-5">
+                    <p class="text-[11px] text-orange-300 font-medium italic leading-relaxed">
                         &ldquo;Arsip Tertata, Akuntabilitas Terjaga, Kinerja Prima.&rdquo;
                     </p>
                 </div>
 
                 <!-- Feature Highlights -->
-                <div class="space-y-3.5 hidden sm:block">
-                    <div class="flex items-start gap-3">
-                        <div class="w-8 h-8 rounded-xl bg-orange-500/20 border border-orange-500/30 flex items-center justify-center flex-shrink-0 text-orange-400 mt-0.5">
-                            <i data-lucide="folder-check" class="w-4 h-4"></i>
+                <div class="space-y-2.5 hidden sm:block">
+                    <div class="flex items-start gap-2.5">
+                        <div class="w-7 h-7 rounded-lg bg-orange-500/20 border border-orange-500/30 flex items-center justify-center flex-shrink-0 text-orange-400 mt-0.5">
+                            <i data-lucide="folder-check" class="w-3.5 h-3.5"></i>
                         </div>
                         <div>
                             <h4 class="text-xs font-bold text-white">Digitalisasi Arsip Terpadu</h4>
-                            <p class="text-[11px] text-slate-300">Pengorganisasian dokumen perencanaan, pengukuran, hingga pelaporan kinerja.</p>
+                            <p class="text-[10px] text-slate-300">Pengorganisasian dokumen perencanaan hingga pelaporan.</p>
                         </div>
                     </div>
 
-                    <div class="flex items-start gap-3">
-                        <div class="w-8 h-8 rounded-xl bg-blue-500/20 border border-blue-500/30 flex items-center justify-center flex-shrink-0 text-blue-300 mt-0.5">
-                            <i data-lucide="shield-check" class="w-4 h-4"></i>
+                    <div class="flex items-start gap-2.5">
+                        <div class="w-7 h-7 rounded-lg bg-blue-500/20 border border-blue-500/30 flex items-center justify-center flex-shrink-0 text-blue-300 mt-0.5">
+                            <i data-lucide="shield-check" class="w-3.5 h-3.5"></i>
                         </div>
                         <div>
                             <h4 class="text-xs font-bold text-white">Audit & Monitoring Akuntabilitas</h4>
-                            <p class="text-[11px] text-slate-300">Pemantauan kelengkapan administrasi dan penilaian AKIP secara transparan.</p>
+                            <p class="text-[10px] text-slate-300">Pemantauan kelengkapan dokumen AKIP secara transparan.</p>
                         </div>
                     </div>
 
-                    <div class="flex items-start gap-3">
-                        <div class="w-8 h-8 rounded-xl bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center flex-shrink-0 text-emerald-300 mt-0.5">
-                            <i data-lucide="layers" class="w-4 h-4"></i>
+                    <div class="flex items-start gap-2.5">
+                        <div class="w-7 h-7 rounded-lg bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center flex-shrink-0 text-emerald-300 mt-0.5">
+                            <i data-lucide="layers" class="w-3.5 h-3.5"></i>
                         </div>
                         <div>
                             <h4 class="text-xs font-bold text-white">Integrasi Portal Penting</h4>
-                            <p class="text-[11px] text-slate-300">Akses cepat SIMONIK, SINERGI, FRA, PROKSI, JANJIKU, dan PERMINDOK.</p>
+                            <p class="text-[10px] text-slate-300">Akses SIMONIK, SINERGI, FRA, PROKSI, JANJIKU, & PERMINDOK.</p>
                         </div>
                     </div>
                 </div>
             </div>
 
             <!-- Bottom Note Left Panel -->
-            <div class="pt-6 mt-8 border-t border-white/10 text-[11px] text-slate-400 flex items-center justify-between">
+            <div class="pt-4 mt-6 border-t border-white/10 text-[10px] text-slate-400 flex items-center justify-between">
                 <span>Versi 1.0 (2025/2026)</span>
-                <span class="flex items-center gap-1.5 text-slate-300 font-medium">
-                    <i data-lucide="shield" class="w-3.5 h-3.5 text-orange-400"></i> Sistem Terproteksi
+                <span class="flex items-center gap-1 text-slate-300 font-medium">
+                    <i data-lucide="shield" class="w-3 h-3 text-orange-400"></i> Sistem Terproteksi
                 </span>
             </div>
         </div>
 
-        <!-- RIGHT PANEL: Sleek Modern Login Form -->
-        <div class="lg:col-span-7 p-8 sm:p-10 lg:p-12 flex flex-col justify-between bg-white">
+        <!-- RIGHT PANEL: Clean Login Form (Compact & Focused) -->
+        <div class="lg:col-span-7 p-6 sm:p-8 lg:p-9 flex flex-col justify-between bg-white">
             <div>
                 <!-- Header Form -->
-                <div class="mb-7">
-                    <span class="text-[11px] font-bold uppercase tracking-widest text-orange-600 bg-orange-50 px-2.5 py-1 rounded-full border border-orange-200 inline-block mb-2.5">
+                <div class="mb-5">
+                    <span class="text-[10px] font-bold uppercase tracking-widest text-orange-600 bg-orange-50 px-2 py-0.5 rounded-full border border-orange-200 inline-block mb-1.5">
                         Portal Internal
                     </span>
-                    <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">Selamat Datang</h2>
-                    <p class="text-xs sm:text-sm text-slate-500 mt-1.5 leading-relaxed">
+                    <h2 class="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight">Selamat Datang</h2>
+                    <p class="text-xs text-slate-500 mt-1 leading-relaxed">
                         Silakan masukkan username dan kata sandi akun Anda untuk mengakses sistem informasi arsip.
                     </p>
                 </div>
@@ -159,9 +154,9 @@
                 <!-- Flash Alert Messages -->
                 {% with messages = get_flashed_messages(with_categories=true) %}
                     {% if messages %}
-                        <div class="mb-6 space-y-2.5">
+                        <div class="mb-5 space-y-2">
                             {% for category, message in messages %}
-                                <div class="p-3.5 rounded-2xl text-xs font-semibold flex items-center gap-3 animate-fade-in
+                                <div class="p-3 rounded-xl text-xs font-semibold flex items-center gap-2.5 animate-fade-in
                                     {% if category == 'success' %} bg-emerald-50 text-emerald-800 border border-emerald-200
                                     {% elif category == 'danger' or category == 'error' %} bg-red-50 text-red-800 border border-red-200
                                     {% elif category == 'warning' %} bg-amber-50 text-amber-800 border border-amber-200
@@ -175,10 +170,10 @@
                 {% endwith %}
 
                 <!-- Form Login -->
-                <form method="POST" action="{{ url_for('auth.login', next=request.args.get('next')) }}" class="space-y-4">
+                <form method="POST" action="{{ url_for('auth.login', next=request.args.get('next')) }}" class="space-y-3.5">
                     <!-- Username Input -->
                     <div>
-                        <label for="username" class="block text-xs font-bold text-slate-700 mb-1.5">
+                        <label for="username" class="block text-xs font-bold text-slate-700 mb-1">
                             Username / ID Pegawai
                         </label>
                         <div class="relative flex items-center">
@@ -191,14 +186,14 @@
                                    value="{{ username or '' }}"
                                    required 
                                    autocomplete="username"
-                                   placeholder="Contoh: admin atau nama pengguna" 
-                                   class="w-full h-11 pl-10 pr-4 bg-slate-50 hover:bg-slate-100/70 focus:bg-white text-slate-900 placeholder:text-slate-400 text-xs sm:text-sm rounded-xl border border-slate-200 focus:border-navy-main focus:ring-2 focus:ring-navy-main/15 transition-all outline-none">
+                                   placeholder="Masukkan username Anda" 
+                                   class="w-full h-10 pl-10 pr-4 bg-slate-50 hover:bg-slate-100/70 focus:bg-white text-slate-900 placeholder:text-slate-400 text-xs sm:text-sm rounded-xl border border-slate-200 focus:border-navy-main focus:ring-2 focus:ring-navy-main/15 transition-all outline-none">
                         </div>
                     </div>
 
                     <!-- Password Input with Toggle Visibility -->
                     <div>
-                        <div class="flex items-center justify-between mb-1.5">
+                        <div class="flex items-center justify-between mb-1">
                             <label for="password" class="block text-xs font-bold text-slate-700">
                                 Kata Sandi (Password)
                             </label>
@@ -212,8 +207,8 @@
                                    name="password" 
                                    required 
                                    autocomplete="current-password"
-                                   placeholder="Masukkan kata sandi akun" 
-                                   class="w-full h-11 pl-10 pr-11 bg-slate-50 hover:bg-slate-100/70 focus:bg-white text-slate-900 placeholder:text-slate-400 text-xs sm:text-sm rounded-xl border border-slate-200 focus:border-navy-main focus:ring-2 focus:ring-navy-main/15 transition-all outline-none">
+                                   placeholder="Masukkan kata sandi" 
+                                   class="w-full h-10 pl-10 pr-11 bg-slate-50 hover:bg-slate-100/70 focus:bg-white text-slate-900 placeholder:text-slate-400 text-xs sm:text-sm rounded-xl border border-slate-200 focus:border-navy-main focus:ring-2 focus:ring-navy-main/15 transition-all outline-none">
                             <button type="button" 
                                     id="toggle-password-btn" 
                                     class="absolute right-3 text-slate-400 hover:text-slate-600 focus:outline-none p-1 transition"
@@ -224,124 +219,44 @@
                     </div>
 
                     <!-- Remember Me & Help -->
-                    <div class="flex items-center justify-between pt-1">
+                    <div class="flex items-center justify-between pt-0.5">
                         <label class="flex items-center gap-2 cursor-pointer select-none">
                             <input type="checkbox" name="remember" class="w-4 h-4 text-orange-500 rounded border-slate-300 focus:ring-orange-400">
                             <span class="text-xs text-slate-600 font-medium">Ingat Sesi Saya</span>
                         </label>
-                        <span class="text-xs text-slate-400 font-medium">BPS 3510</span>
+                        <span class="text-[11px] text-slate-400 font-medium">BPS 3510</span>
                     </div>
 
                     <!-- Submit Button -->
                     <button type="submit" 
-                            class="w-full h-12 mt-2 bg-gradient-to-r from-[#142B4A] via-[#1E3E66] to-[#0D1B2A] hover:from-orange-600 hover:via-orange-500 hover:to-orange-600 text-white font-bold text-sm rounded-xl shadow-md hover:shadow-lg hover:shadow-orange-500/20 transition-all duration-300 flex items-center justify-center gap-2 active:scale-[0.99]">
+                            class="w-full h-11 mt-1 bg-gradient-to-r from-[#142B4A] via-[#1E3E66] to-[#0D1B2A] hover:from-orange-600 hover:via-orange-500 hover:to-orange-600 text-white font-bold text-xs sm:text-sm rounded-xl shadow-md hover:shadow-lg hover:shadow-orange-500/20 transition-all duration-300 flex items-center justify-center gap-2 active:scale-[0.99]">
                         <i data-lucide="log-in" class="w-4 h-4"></i>
                         <span>Masuk ke Dashboard PRIMA</span>
                     </button>
                 </form>
-
-                <!-- Quick One-Click Demo Credentials Buttons (RBAC Roles) -->
-                <div class="mt-7 pt-5 border-t border-slate-100">
-                    <div class="flex items-center justify-between mb-2.5">
-                        <span class="text-[11px] font-bold uppercase tracking-wider text-slate-500 flex items-center gap-1.5">
-                            <i data-lucide="key-round" class="w-3.5 h-3.5 text-orange-500"></i>
-                            Akses Cepat Pengujian Peran (1-Klik Isi Form RBAC):
-                        </span>
-                    </div>
-                    <div class="grid grid-cols-2 sm:grid-cols-3 gap-2">
-                        <!-- Admin -->
-                        <button type="button" 
-                                onclick="fillCredentials('admin', 'admin123')"
-                                class="group p-2 rounded-xl border border-slate-200/90 bg-slate-50/70 hover:bg-purple-50/70 hover:border-purple-200 text-left transition-all">
-                            <div class="flex items-center justify-between">
-                                <span class="text-[11px] font-bold text-navy-main group-hover:text-purple-700">Admin</span>
-                                <span class="text-[8px] font-extrabold px-1 rounded bg-purple-100 text-purple-800">Full</span>
-                            </div>
-                            <span class="text-[9px] text-slate-500 font-mono block mt-0.5">admin / admin123</span>
-                        </button>
-
-                        <!-- Pegawai -->
-                        <button type="button" 
-                                onclick="fillCredentials('pegawai', 'pegawai123')"
-                                class="group p-2 rounded-xl border border-slate-200/90 bg-slate-50/70 hover:bg-blue-50/70 hover:border-blue-200 text-left transition-all">
-                            <div class="flex items-center justify-between">
-                                <span class="text-[11px] font-bold text-navy-main group-hover:text-blue-700">Pegawai</span>
-                                <span class="text-[8px] font-extrabold px-1 rounded bg-blue-100 text-blue-800">User</span>
-                            </div>
-                            <span class="text-[9px] text-slate-500 font-mono block mt-0.5">pegawai / pegawai123</span>
-                        </button>
-
-                        <!-- Staf Umum -->
-                        <button type="button" 
-                                onclick="fillCredentials('staf_umum', 'umum123')"
-                                class="group p-2 rounded-xl border border-slate-200/90 bg-slate-50/70 hover:bg-amber-50/70 hover:border-amber-200 text-left transition-all">
-                            <div class="flex items-center justify-between">
-                                <span class="text-[11px] font-bold text-navy-main group-hover:text-amber-700">Staf Umum</span>
-                                <span class="text-[8px] font-extrabold px-1 rounded bg-amber-100 text-amber-800">Arsip</span>
-                            </div>
-                            <span class="text-[9px] text-slate-500 font-mono block mt-0.5">staf_umum / umum123</span>
-                        </button>
-
-                        <!-- Petugas IPDS -->
-                        <button type="button" 
-                                onclick="fillCredentials('petugas_ipds', 'ipds123')"
-                                class="group p-2 rounded-xl border border-slate-200/90 bg-slate-50/70 hover:bg-cyan-50/70 hover:border-cyan-200 text-left transition-all">
-                            <div class="flex items-center justify-between">
-                                <span class="text-[11px] font-bold text-navy-main group-hover:text-cyan-700">IPDS</span>
-                                <span class="text-[8px] font-extrabold px-1 rounded bg-cyan-100 text-cyan-800">Data</span>
-                            </div>
-                            <span class="text-[9px] text-slate-500 font-mono block mt-0.5">petugas_ipds / ipds123</span>
-                        </button>
-
-                        <!-- PPK -->
-                        <button type="button" 
-                                onclick="fillCredentials('ppk', 'ppk123')"
-                                class="group p-2 rounded-xl border border-slate-200/90 bg-slate-50/70 hover:bg-indigo-50/70 hover:border-indigo-200 text-left transition-all">
-                            <div class="flex items-center justify-between">
-                                <span class="text-[11px] font-bold text-navy-main group-hover:text-indigo-700">PPK</span>
-                                <span class="text-[8px] font-extrabold px-1 rounded bg-indigo-100 text-indigo-800">Anggaran</span>
-                            </div>
-                            <span class="text-[9px] text-slate-500 font-mono block mt-0.5">ppk / ppk123</span>
-                        </button>
-
-                        <!-- KPA -->
-                        <button type="button" 
-                                onclick="fillCredentials('kpa', 'kpa123')"
-                                class="group p-2 rounded-xl border border-slate-200/90 bg-slate-50/70 hover:bg-rose-50/70 hover:border-rose-200 text-left transition-all">
-                            <div class="flex items-center justify-between">
-                                <span class="text-[11px] font-bold text-navy-main group-hover:text-rose-700">KPA</span>
-                                <span class="text-[8px] font-extrabold px-1 rounded bg-rose-100 text-rose-800">Pimpinan</span>
-                            </div>
-                            <span class="text-[9px] text-slate-500 font-mono block mt-0.5">kpa / kpa123</span>
-                        </button>
-                    </div>
-                </div>
             </div>
 
             <!-- Bottom Copyright & Agency Info -->
-            <div class="pt-6 mt-6 border-t border-slate-100 text-center text-xs text-slate-400">
+            <div class="pt-5 mt-6 border-t border-slate-100 text-center text-[11px] text-slate-400">
                 Badan Pusat Statistik Kabupaten Banyuwangi &copy; 2025 - 2026
             </div>
         </div>
 
     </main>
 
-    <!-- JavaScript Helpers: Password Toggle & Fast Credential Fill -->
+    <!-- JavaScript Helpers: Password Toggle -->
     <script>
-        // Inisialisasi ikon Lucide
         lucide.createIcons();
 
         // Fitur Tampilkan / Sembunyikan Password
         const passwordInput = document.getElementById('password');
         const toggleBtn = document.getElementById('toggle-password-btn');
-        const eyeIcon = document.getElementById('eye-icon');
 
         if (toggleBtn && passwordInput) {
             toggleBtn.addEventListener('click', () => {
                 const isPassword = passwordInput.getAttribute('type') === 'password';
                 passwordInput.setAttribute('type', isPassword ? 'text' : 'password');
                 
-                // Ubah ikon
                 if (isPassword) {
                     toggleBtn.innerHTML = '<i data-lucide="eye-off" class="w-4 h-4 text-orange-500"></i>';
                 } else {
@@ -349,24 +264,6 @@
                 }
                 lucide.createIcons();
             });
-        }
-
-        // Fungsi Auto-Fill Akun Demo
-        function fillCredentials(user, pass) {
-            const usernameInput = document.getElementById('username');
-            const passwordInputField = document.getElementById('password');
-            if (usernameInput && passwordInputField) {
-                usernameInput.value = user;
-                passwordInputField.value = pass;
-                
-                // Efek visual highlight halus
-                usernameInput.classList.add('ring-2', 'ring-orange-400');
-                passwordInputField.classList.add('ring-2', 'ring-orange-400');
-                setTimeout(() => {
-                    usernameInput.classList.remove('ring-2', 'ring-orange-400');
-                    passwordInputField.classList.remove('ring-2', 'ring-orange-400');
-                }, 800);
-            }
         }
     </script>
 </body>
