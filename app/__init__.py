@@ -214,31 +214,148 @@ def seed_initial_data():
                 # Update legacy 'user' role to 'pegawai'
                 u.role = 'pegawai'
 
-        # 2. Categories sesuai Struktur Prompt
+        # 2. Categories Resmi Sesuai Dokumen PRIMA BPS Banyuwangi
         categories_data = [
             # PERENCANAAN
-            {"name": "Dokumen Perencanaan", "slug": "dokumen-perencanaan", "group": "perencanaan", "icon": "file-text", "desc": "Dokumen rencana strategis dan perencanaan kinerja BPS Kabupaten Banyuwangi."},
-            {"name": "Rencana Kerja", "slug": "rencana-kerja", "group": "perencanaan", "icon": "calendar", "desc": "Rencana kerja tahunan dan rencana operasional kegiatan."},
-            {"name": "Perjanjian Kinerja", "slug": "perjanjian-kinerja", "group": "perencanaan", "icon": "award", "desc": "Penetapan dan perjanjian kinerja pimpinan dan pegawai."},
-            {"name": "Rencana Aksi", "slug": "rencana-aksi", "group": "perencanaan", "icon": "trending-up", "desc": "Rencana aksi atas pencapaian target kinerja organisasi."},
-            {"name": "Indikator Kinerja Utama", "slug": "indikator-kinerja-utama", "group": "perencanaan", "icon": "target", "desc": "Indikator Kinerja Utama (IKU) BPS Kabupaten Banyuwangi."},
+            {
+                "name": "Rencana Awal Renstra", 
+                "slug": "rencana-awal-renstra", 
+                "group": "perencanaan", 
+                "icon": "file-text", 
+                "drive_url": "https://drive.google.com/drive/folders/13z-GsSIqqSXNa4QbdAj9ezuYQ-K0V89y?usp=sharing",
+                "desc": "Dokumen rancangan awal Rencana Strategis (Renstra) BPS Kabupaten Banyuwangi."
+            },
+            {
+                "name": "Renstra", 
+                "slug": "renstra", 
+                "group": "perencanaan", 
+                "icon": "compass", 
+                "drive_url": "https://drive.google.com/drive/folders/1tG_Z7uqrJQ0B8EJxbgsN-NgfgSocK1uJ?usp=sharing",
+                "desc": "Dokumen Rencana Strategis (Renstra) resmi BPS Kabupaten Banyuwangi."
+            },
+            {
+                "name": "Perjanjian Kinerja", 
+                "slug": "perjanjian-kinerja", 
+                "group": "perencanaan", 
+                "icon": "award", 
+                "drive_url": "https://drive.google.com/drive/folders/1sPNbUk3DsKIPL4XS6ZWagtCp7Oxyp7Sy?usp=sharing",
+                "desc": "Penetapan dan komitmen Perjanjian Kinerja (PK) pimpinan dan jajaran pegawai."
+            },
             
-            # PENGUKURAN
-            {"name": "Pengukuran Kinerja", "slug": "pengukuran-kinerja", "group": "pengukuran", "icon": "gauge", "desc": "Metrik dan data pengukuran kinerja periodik."},
-            {"name": "Capaian Kinerja", "slug": "capaian-kinerja", "group": "pengukuran", "icon": "check-circle", "desc": "Data dan analisis realisasi capaian kinerja instansi."},
-            {"name": "Evaluasi Kinerja", "slug": "evaluasi-kinerja", "group": "pengukuran", "icon": "clipboard-check", "desc": "Hasil evaluasi dan review capaian target kinerja bulanan/triwulanan."},
+            # PENGUKURAN (Monitoring Capaian Kinerja)
+            {
+                "name": "KKPK", 
+                "slug": "kkpk", 
+                "group": "pengukuran", 
+                "icon": "gauge", 
+                "drive_url": "https://drive.google.com/drive/folders/1X3YlxX-Y9MHur9xvSxwktSHXeYeD7qY6?usp=sharing",
+                "desc": "Kertas Kerja Pengukuran Kinerja (KKPK) BPS Kabupaten Banyuwangi."
+            },
+            {
+                "name": "DAHA", 
+                "slug": "daha", 
+                "group": "pengukuran", 
+                "icon": "activity", 
+                "drive_url": "https://drive.google.com/drive/folders/1ZXCDu6HCLKHx-PwuGlhzsDQj1ck2UQpE?usp=sharing",
+                "desc": "Data dan Arsip Hasil Analisis (DAHA) kinerja operasional statistik."
+            },
+            {
+                "name": "Proksi", 
+                "slug": "proksi", 
+                "group": "pengukuran", 
+                "icon": "shield-check", 
+                "drive_url": "https://drive.google.com/drive/folders/1dKKWp8QvaBSOwQitaADRup27ktVdu485?usp=sharing",
+                "desc": "Pengawasan dan Pengendalian Kinerja Statistik Internal (Proksi)."
+            },
+            {
+                "name": "Monitoring Capaian Renstra", 
+                "slug": "monitoring-capaian-renstra", 
+                "group": "pengukuran", 
+                "icon": "trending-up", 
+                "drive_url": "https://drive.google.com/drive/folders/1BYW2BPyeDHEGI7AbcmkywUaaHdguZbe-?usp=sharing",
+                "desc": "Monitoring dan evaluasi berkala capaian target Rencana Strategis (Renstra)."
+            },
             
             # PELAPORAN
-            {"name": "Laporan Kinerja", "slug": "laporan-kinerja", "group": "pelaporan", "icon": "book-open", "desc": "Laporan Kinerja Instansi Pemerintah (LAKIP / LKjIP)."},
-            {"name": "Laporan Evaluasi", "slug": "laporan-evaluasi", "group": "pelaporan", "icon": "file-check", "desc": "Laporan hasil evaluasi internal dan rekomendasi perbaikan."},
-            {"name": "Dokumen Pendukung Pelaporan", "slug": "dokumen-pendukung-pelaporan", "group": "pelaporan", "icon": "paperclip", "desc": "Bukti dukung, notula, daftar hadir, dan lampiran pelaporan."},
+            {
+                "name": "Laporan Kinerja", 
+                "slug": "laporan-kinerja", 
+                "group": "pelaporan", 
+                "icon": "book-open", 
+                "drive_url": "https://drive.google.com/drive/folders/1APuhRzJikTUZVLujq34rhQ-z1KAzmAQ3?usp=sharing",
+                "desc": "Laporan Kinerja Instansi Pemerintah (LAKIP / LKjIP) BPS Kabupaten Banyuwangi."
+            },
+
+            # EVALUASI
+            {
+                "name": "PERMINDOK", 
+                "slug": "permindok", 
+                "group": "evaluasi", 
+                "icon": "folder-check", 
+                "drive_url": "https://drive.google.com/drive/folders/1MZNZ5ybRGqwKP16L-ZcJNaYTb2Wkvu5Y?usp=sharing",
+                "desc": "Permintaan Dokumen dan kelengkapan administrasi evaluasi kinerja BPS."
+            },
+            {
+                "name": "LHE AKIP", 
+                "slug": "lhe-akip", 
+                "group": "evaluasi", 
+                "icon": "clipboard-check", 
+                "drive_url": "https://drive.google.com/drive/folders/1qafMSDY-mGhsAsC1IhNWZ1PLDbdDBRxl?usp=sharing",
+                "desc": "Laporan Hasil Evaluasi (LHE) Akuntabilitas Kinerja Instansi Pemerintah."
+            },
+            {
+                "name": "Berita Acara", 
+                "slug": "berita-acara", 
+                "group": "evaluasi", 
+                "icon": "file-text", 
+                "drive_url": "https://drive.google.com/drive/folders/1EvOLIDXtA-2p9Y1Uz2rJwUEtZV7THPcG?usp=sharing",
+                "desc": "Berita Acara rapat, rekonsiliasi, dan evaluasi berkala SAKIP."
+            },
             
-            # ARSIP & KELENGKAPAN
-            {"name": "Arsip Dokumen", "slug": "arsip-dokumen", "group": "kelengkapan", "icon": "archive", "desc": "Koleksi arsip dokumen akuntabilitas kinerja tahun-tahun sebelumnya."}
+            # KELENGKAPAN SAKIP
+            {
+                "name": "SK Tim Kerja SAKIP", 
+                "slug": "sk-tim-kerja-sakip", 
+                "group": "kelengkapan", 
+                "icon": "users", 
+                "drive_url": "https://drive.google.com/drive/folders/1CNCg7oMRIuZLiYzs0h_Bju3EVhsfZPPV?usp=sharing",
+                "desc": "Surat Keputusan (SK) pembentukan Tim Pengelola SAKIP BPS Kabupaten Banyuwangi."
+            },
+            {
+                "name": "Reward dan Punishment", 
+                "slug": "reward-dan-punishment", 
+                "group": "kelengkapan", 
+                "icon": "gift", 
+                "drive_url": "https://drive.google.com/drive/folders/1nMcUg8C6FiVyMRRFqiQCUmaspezWYzQ3?usp=sharing",
+                "desc": "Dokumen kebijakan pemberian reward & punishment kinerja pegawai."
+            },
+            {
+                "name": "MPH", 
+                "slug": "mph", 
+                "group": "kelengkapan", 
+                "icon": "calendar", 
+                "drive_url": "https://drive.google.com/drive/folders/1Q4Fyhv6MGXEGVHwg9NQ5SQgTRvr4eCki?usp=sharing",
+                "desc": "Manajemen Pengelolaan Hari / Matriks Perencanaan Harian (MPH)."
+            },
+            {
+                "name": "SKP", 
+                "slug": "skp", 
+                "group": "kelengkapan", 
+                "icon": "award", 
+                "drive_url": "https://drive.google.com/drive/folders/13MaRpuGKJqjLFbkYpdrVwo5PfQUI8pRA?usp=sharing",
+                "desc": "Sasaran Kinerja Pegawai (SKP) seluruh ASN BPS Kabupaten Banyuwangi."
+            },
+            {
+                "name": "Pedoman Teknis", 
+                "slug": "pedoman-teknis", 
+                "group": "kelengkapan", 
+                "icon": "book-marked", 
+                "drive_url": "https://drive.google.com/drive/folders/1WNZs2D4AeNCrYv6wOtS3qHWPvS7-xLHy?usp=sharing",
+                "desc": "Pedoman teknis, manual standar operasional, dan juklak pelaksanaan SAKIP."
+            }
         ]
 
         for cat in categories_data:
-            drive_folder_url = f"https://drive.google.com/drive/folders/bps-banyuwangi-{cat['slug']}"
             existing = Category.query.filter_by(slug=cat['slug']).first()
             if not existing:
                 new_cat = Category(
@@ -247,77 +364,41 @@ def seed_initial_data():
                     group=cat['group'],
                     icon=cat['icon'],
                     description=cat['desc'],
-                    drive_url=drive_folder_url
+                    drive_url=cat['drive_url']
                 )
                 db.session.add(new_cat)
-            elif not existing.drive_url:
-                existing.drive_url = drive_folder_url
+            else:
+                existing.name = cat['name']
+                existing.group = cat['group']
+                existing.icon = cat['icon']
+                existing.description = cat['desc']
+                existing.drive_url = cat['drive_url']
 
-        # 3. Important Links sesuai spesifikasi prompt
+        # 3. Important Links Resmi (SINERGI, KiPApp, MAJAPAHIT)
         important_links_data = [
-            {
-                "code": "simonik",
-                "title": "SIMONIK",
-                "description": "Sistem Informasi Monitoring Kinerja BPS untuk pemantauan dan evaluasi kegiatan berkala.",
-                "url": "https://simonik.bps.go.id",
-                "icon": "activity",
-                "badge_text": "Monitoring Internal"
-            },
             {
                 "code": "sinergi",
                 "title": "SINERGI",
-                "description": "Aplikasi Sistem Informasi Penilaian Kinerja Terintegrasi BPS.",
-                "url": "https://sinergi.bps.go.id",
+                "description": "Sistem Informasi Penilaian Kinerja Terintegrasi BPS.",
+                "url": "https://sinergi.web.bps.go.id/",
                 "icon": "share-2",
-                "badge_text": "Sistem Kinerja"
+                "badge_text": "Kinerja BPS"
             },
             {
-                "code": "fra",
-                "title": "FRA",
-                "description": "Formulir Rekomendasi Akuntabilitas Kinerja Instansi Pemerintah BPS Kabupaten Banyuwangi.",
-                "url": "https://fra.bps.go.id",
-                "icon": "check-square",
-                "badge_text": "Rekomendasi"
+                "code": "kipapp",
+                "title": "KiPApp",
+                "description": "Keep Your Performance Up - Aplikasi Manajemen Kinerja BPS.",
+                "url": "https://kipapp.bps.go.id/",
+                "icon": "trending-up",
+                "badge_text": "Performance"
             },
             {
-                "code": "link-akip-jatim",
-                "title": "LINK AKIP JATIM",
-                "description": "Portal Integrasi AKIP BPS Provinsi Jawa Timur untuk sinkronisasi dokumen kabupaten/kota.",
-                "url": "https://jatim.bps.go.id/akip",
+                "code": "majapahit",
+                "title": "MAJAPAHIT",
+                "description": "Portal Layanan Aplikasi Majapahit Terintegrasi BPS Jawa Timur.",
+                "url": "https://www.majapah.it/",
                 "icon": "globe",
-                "badge_text": "Provinsi Jawa Timur"
-            },
-            {
-                "code": "proksi",
-                "title": "PROKSI",
-                "description": "Program Monitoring Kinerja Strategis dan Indikator Kunci BPS.",
-                "url": "https://proksi.bps.go.id",
-                "icon": "pie-chart",
-                "badge_text": "Kinerja Strategis"
-            },
-            {
-                "code": "permindok-2025",
-                "title": "PERMINDOK 2025",
-                "description": "Permintaan dan Penataan Dokumen Administrasi AKIP BPS Banyuwangi Tahun 2025.",
-                "url": "https://drive.google.com/drive/folders/permindok-2025-banyuwangi",
-                "icon": "folder-archive",
-                "badge_text": "Tahun 2025"
-            },
-            {
-                "code": "permindok-2026",
-                "title": "PERMINDOK 2026",
-                "description": "Permintaan dan Penataan Dokumen Administrasi AKIP BPS Banyuwangi Tahun 2026.",
-                "url": "https://drive.google.com/drive/folders/permindok-2026-banyuwangi",
-                "icon": "folder-plus",
-                "badge_text": "Tahun 2026"
-            },
-            {
-                "code": "janjiku",
-                "title": "JANJIKU",
-                "description": "Janji Kinerja dan Pakta Integritas seluruh jajaran pegawai BPS Kabupaten Banyuwangi.",
-                "url": "https://janjiku.bps.go.id",
-                "icon": "shield-check",
-                "badge_text": "Integritas & Janji"
+                "badge_text": "Portal Jatim"
             }
         ]
 
@@ -334,6 +415,13 @@ def seed_initial_data():
                     is_active=True
                 )
                 db.session.add(new_link)
+            else:
+                existing.title = link['title']
+                existing.description = link['description']
+                existing.url = link['url']
+                existing.icon = link['icon']
+                existing.badge_text = link['badge_text']
+                existing.is_active = True
 
         db.session.commit()
 
