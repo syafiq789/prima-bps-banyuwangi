@@ -1,17 +1,14 @@
 <!DOCTYPE html>
-<html lang="id" class="h-full bg-slate-950">
+<html lang="id" class="h-full">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Masuk - PRIMA BPS Kabupaten Banyuwangi</title>
+    <title>Masuk - LENTERA BPS Kabupaten Banyuwangi</title>
 
-    <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='images/favicon.svg') }}">
-
-    <!-- Google Font: Plus Jakarta Sans -->
+    <!-- Google Fonts: Plus Jakarta Sans & Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -20,19 +17,18 @@
             theme: {
                 extend: {
                     colors: {
-                        'navy-main': '#142B4A',
-                        'navy-dark': '#0D1B2A',
-                        'navy-light': '#1E3E66',
-                        'orange-prima': '#F28C28',
-                        'orange-hover': '#D9771C',
-                        'light-bg': '#F4F6F9',
+                        'navy-dark': '#061325',
+                        'navy-main': '#0A1E38',
+                        'navy-card': '#102A4E',
+                        'orange-lentera': '#FF7A00',
+                        'orange-light': '#FFA043',
                     },
                     fontFamily: {
                         sans: ['"Plus Jakarta Sans"', 'Inter', 'sans-serif'],
                     },
                     boxShadow: {
-                        'glow': '0 0 40px -10px rgba(242, 140, 40, 0.25)',
-                        'card-xl': '0 20px 50px -15px rgba(13, 27, 42, 0.45)',
+                        'glow-orange': '0 0 50px -10px rgba(255, 122, 0, 0.35)',
+                        'card-elevated': '0 25px 60px -15px rgba(6, 19, 37, 0.5)',
                     }
                 }
             }
@@ -44,110 +40,125 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 
     <style>
-        .bg-grid-pattern {
+        .bg-mesh-radial {
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(255, 122, 0, 0.18) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(10, 30, 56, 0.6) 0px, transparent 50%),
+                radial-gradient(at 50% 50%, rgba(16, 42, 78, 0.4) 0px, transparent 100%);
+        }
+        .bg-grid-subtle {
             background-image: radial-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px);
-            background-size: 20px 20px;
+            background-size: 24px 24px;
         }
     </style>
 </head>
-<body class="h-full flex items-center justify-center p-3 sm:p-5 lg:p-6 bg-[#0D1B2A] relative overflow-x-hidden selection:bg-orange-500 selection:text-white font-sans">
+<body class="h-full flex items-center justify-center p-3 sm:p-5 lg:p-6 bg-[#061325] bg-mesh-radial relative overflow-x-hidden selection:bg-orange-lentera selection:text-white font-sans">
 
-    <!-- Background Ambient Glow -->
-    <div class="fixed inset-0 bg-grid-pattern opacity-40 pointer-events-none"></div>
-    <div class="fixed top-0 left-1/4 -translate-x-1/2 w-[450px] h-[450px] bg-gradient-to-br from-blue-700/20 to-navy-main/30 rounded-full blur-[120px] pointer-events-none"></div>
-    <div class="fixed bottom-0 right-1/4 translate-x-1/2 w-[400px] h-[400px] bg-gradient-to-tl from-orange-500/15 to-transparent rounded-full blur-[110px] pointer-events-none"></div>
+    <!-- Ambient Glow Efek Lentera -->
+    <div class="fixed inset-0 bg-grid-subtle opacity-50 pointer-events-none"></div>
+    <div class="fixed top-1/4 left-1/4 -translate-x-1/2 -translate-y-1/2 w-[550px] h-[550px] bg-gradient-to-br from-orange-lentera/20 via-orange-lentera/5 to-transparent rounded-full blur-[130px] pointer-events-none"></div>
+    <div class="fixed bottom-10 right-1/4 translate-x-1/2 w-[450px] h-[450px] bg-gradient-to-tl from-blue-600/15 to-transparent rounded-full blur-[120px] pointer-events-none"></div>
 
-    <!-- Main Compact Container Card (Modern Split-Layout) -->
-    <main class="w-full max-w-4xl bg-white rounded-2xl sm:rounded-3xl shadow-card-xl border border-white/20 overflow-hidden relative z-10 grid lg:grid-cols-12 transition-all">
+    <!-- Main Container Card (Modern Split Layout) -->
+    <main class="w-full max-w-4xl bg-white rounded-3xl shadow-card-elevated border border-white/20 overflow-hidden relative z-10 grid lg:grid-cols-12 transition-all">
         
-        <!-- LEFT PANEL: Institutional Branding & Feature Showcase -->
-        <div class="lg:col-span-5 bg-gradient-to-br from-[#0D1B2A] via-[#142B4A] to-[#1E3E66] p-6 sm:p-7 lg:p-8 flex flex-col justify-between relative overflow-hidden border-b lg:border-b-0 lg:border-r border-slate-700/40">
-            <!-- Subtle Ambient Highlights -->
-            <div class="absolute -top-20 -left-20 w-60 h-60 bg-orange-500/15 rounded-full blur-3xl pointer-events-none"></div>
-            <div class="absolute -bottom-20 -right-20 w-60 h-60 bg-blue-500/20 rounded-full blur-3xl pointer-events-none"></div>
-            
+        <!-- ============================================== -->
+        <!-- PANEL KIRI: Institutional Branding LENTERA BPS -->
+        <!-- ============================================== -->
+        <div class="lg:col-span-5 bg-gradient-to-br from-[#0A1E38] via-[#102A4E] to-[#061325] p-6 sm:p-7 lg:p-8 flex flex-col justify-between relative overflow-hidden border-b lg:border-b-0 lg:border-r border-slate-700/50">
+            <!-- Glow Lampion Halus -->
+            <div class="absolute -top-16 -left-16 w-48 h-48 bg-orange-lentera/25 rounded-full blur-2xl pointer-events-none"></div>
+            <div class="absolute -bottom-16 -right-16 w-52 h-52 bg-blue-500/20 rounded-full blur-2xl pointer-events-none"></div>
+
             <div class="relative z-10">
                 <!-- Agency Pill -->
-                <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-slate-200 text-[11px] font-semibold mb-4">
-                    <span class="w-1.5 h-1.5 rounded-full bg-orange-400 animate-pulse"></span>
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-slate-200 text-[11px] font-semibold mb-5 shadow-xs">
+                    <span class="w-2 h-2 rounded-full bg-orange-lentera animate-pulse"></span>
                     <span>BPS Kabupaten Banyuwangi</span>
                 </div>
 
-                <!-- Logo & Title -->
-                <div class="flex items-center gap-3 mb-3">
-                    <div class="w-12 h-12 rounded-xl bg-white p-1 flex items-center justify-center shadow-md shadow-black/20 group hover:scale-105 transition-transform overflow-hidden flex-shrink-0">
-                        <img src="{{ url_for('static', filename='images/logo_prima.png') }}" alt="Logo PRIMA" class="w-full h-full object-contain">
+                <!-- Logo LENTERA Card Showcase -->
+                <div class="mb-5">
+                    <div class="bg-white rounded-2xl p-3 shadow-lg shadow-black/25 border border-white/30 inline-block hover:scale-[1.02] transition-transform duration-300">
+                        <img src="{{ url_for('static', filename='images/logo_lentera.jpg') }}" alt="Logo LENTERA BPS" class="h-16 sm:h-20 w-auto object-contain">
                     </div>
-                    <div>
-                        <div class="flex items-center gap-1.5">
-                            <span class="text-xl font-black tracking-tight text-white">PRIMA</span>
-                            <span class="text-[9px] font-extrabold uppercase px-1.5 py-0.2 rounded bg-orange-500 text-white tracking-wider shadow-xs">AKIP</span>
+                    <div class="mt-3">
+                        <div class="flex items-center gap-2">
+                            <h1 class="text-2xl font-black tracking-wider text-white">LENTERA</h1>
+                            <span class="text-[9px] font-extrabold uppercase px-2 py-0.5 rounded-full bg-orange-lentera text-white tracking-widest shadow-xs">BPS</span>
                         </div>
-                        <p class="text-[11px] text-slate-300 font-medium">Pusat Arsip & Manajemen AKIP</p>
+                        <p class="text-xs text-orange-200/90 font-medium mt-0.5">
+                            Layanan Elektronik Terpadu & Repositori Akuntabilitas
+                        </p>
                     </div>
                 </div>
 
-                <!-- Tagline Quote -->
-                <div class="p-3 rounded-xl bg-white/5 border border-white/10 backdrop-blur-sm mt-3 mb-5">
-                    <p class="text-[11px] text-orange-300 font-medium italic leading-relaxed">
-                        &ldquo;Arsip Tertata, Akuntabilitas Terjaga, Kinerja Prima.&rdquo;
+                <!-- Filosofi Tagline -->
+                <div class="p-3.5 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-sm mb-5">
+                    <p class="text-xs text-orange-300 font-medium italic leading-relaxed">
+                        &ldquo;Menerangi Langkah Kinerja, Menata Arsip Akuntabilitas Banyuwangi.&rdquo;
                     </p>
                 </div>
 
-                <!-- Feature Highlights -->
-                <div class="space-y-2.5 hidden sm:block">
-                    <div class="flex items-start gap-2.5">
-                        <div class="w-7 h-7 rounded-lg bg-orange-500/20 border border-orange-500/30 flex items-center justify-center flex-shrink-0 text-orange-400 mt-0.5">
-                            <i data-lucide="folder-check" class="w-3.5 h-3.5"></i>
+                <!-- 3 Fitur Pilar LENTERA -->
+                <div class="space-y-3 hidden sm:block">
+                    <div class="flex items-start gap-3">
+                        <div class="w-8 h-8 rounded-xl bg-orange-lentera/20 border border-orange-lentera/30 flex items-center justify-center flex-shrink-0 text-orange-400 mt-0.5">
+                            <i data-lucide="compass" class="w-4 h-4"></i>
                         </div>
                         <div>
-                            <h4 class="text-xs font-bold text-white">Digitalisasi Arsip Terpadu</h4>
-                            <p class="text-[10px] text-slate-300">Pengorganisasian dokumen perencanaan hingga pelaporan.</p>
+                            <h2 class="text-xs font-bold text-white">Perencanaan & Target</h2>
+                            <p class="text-[11px] text-slate-300">Renstra, RKP, PK, dan rencana aksi terintegrasi.</p>
                         </div>
                     </div>
 
-                    <div class="flex items-start gap-2.5">
-                        <div class="w-7 h-7 rounded-lg bg-blue-500/20 border border-blue-500/30 flex items-center justify-center flex-shrink-0 text-blue-300 mt-0.5">
-                            <i data-lucide="shield-check" class="w-3.5 h-3.5"></i>
+                    <div class="flex items-start gap-3">
+                        <div class="w-8 h-8 rounded-xl bg-blue-500/20 border border-blue-500/30 flex items-center justify-center flex-shrink-0 text-blue-300 mt-0.5">
+                            <i data-lucide="gauge" class="w-4 h-4"></i>
                         </div>
                         <div>
-                            <h4 class="text-xs font-bold text-white">Audit & Monitoring Akuntabilitas</h4>
-                            <p class="text-[10px] text-slate-300">Pemantauan kelengkapan dokumen AKIP secara transparan.</p>
+                            <h2 class="text-xs font-bold text-white">Pengukuran & Monitoring</h2>
+                            <p class="text-[11px] text-slate-300">KKPK, DAHA, Proksi, dan capaian realisasi SAKIP.</p>
                         </div>
                     </div>
 
-                    <div class="flex items-start gap-2.5">
-                        <div class="w-7 h-7 rounded-lg bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center flex-shrink-0 text-emerald-300 mt-0.5">
-                            <i data-lucide="layers" class="w-3.5 h-3.5"></i>
+                    <div class="flex items-start gap-3">
+                        <div class="w-8 h-8 rounded-xl bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center flex-shrink-0 text-emerald-300 mt-0.5">
+                            <i data-lucide="file-check-2" class="w-4 h-4"></i>
                         </div>
                         <div>
-                            <h4 class="text-xs font-bold text-white">Integrasi Portal Penting</h4>
-                            <p class="text-[10px] text-slate-300">Akses SIMONIK, SINERGI, FRA, PROKSI, JANJIKU, & PERMINDOK.</p>
+                            <h2 class="text-xs font-bold text-white">Pelaporan & Evaluasi</h2>
+                            <p class="text-[11px] text-slate-300">LAKIP, PERMINDOK, LHE AKIP, dan portal resmi.</p>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Bottom Note Left Panel -->
-            <div class="pt-4 mt-6 border-t border-white/10 text-[10px] text-slate-400 flex items-center justify-between">
-                <span>Versi 1.0 (2025/2026)</span>
+            <!-- Footer Kiri Panel -->
+            <div class="pt-4 mt-6 border-t border-white/10 text-[11px] text-slate-400 flex items-center justify-between">
+                <span>Versi 2.0 (2025/2026)</span>
                 <span class="flex items-center gap-1 text-slate-300 font-medium">
-                    <i data-lucide="shield" class="w-3 h-3 text-orange-400"></i> Sistem Terproteksi
+                    <i data-lucide="shield-check" class="w-3.5 h-3.5 text-orange-lentera"></i> Sistem Terproteksi
                 </span>
             </div>
         </div>
 
-        <!-- RIGHT PANEL: Clean Login Form (Compact & Focused) -->
+        <!-- ============================================== -->
+        <!-- PANEL KANAN: Clean Login Form Modern           -->
+        <!-- ============================================== -->
         <div class="lg:col-span-7 p-6 sm:p-8 lg:p-9 flex flex-col justify-between bg-white">
             <div>
                 <!-- Header Form -->
                 <div class="mb-5">
-                    <span class="text-[10px] font-bold uppercase tracking-widest text-orange-600 bg-orange-50 px-2 py-0.5 rounded-full border border-orange-200 inline-block mb-1.5">
-                        Portal Internal
-                    </span>
-                    <h2 class="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight">Selamat Datang</h2>
+                    <div class="flex items-center justify-between mb-1">
+                        <span class="text-[10px] font-bold uppercase tracking-widest text-orange-600 bg-orange-50 px-2.5 py-0.5 rounded-full border border-orange-200 inline-block">
+                            Portal Akses Pegawai
+                        </span>
+                        <span class="text-xs text-slate-400 font-mono">BPS 3510</span>
+                    </div>
+                    <h2 class="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">Selamat Datang di LENTERA</h2>
                     <p class="text-xs text-slate-500 mt-1 leading-relaxed">
-                        Silakan masukkan username dan kata sandi akun Anda untuk mengakses sistem informasi arsip.
+                        Silakan masukkan username dan kata sandi akun Anda untuk mengakses sistem informasi arsip dan akuntabilitas kinerja.
                     </p>
                 </div>
 
@@ -170,11 +181,12 @@
                 {% endwith %}
 
                 <!-- Form Login -->
-                <form method="POST" action="{{ url_for('auth.login', next=request.args.get('next')) }}" class="space-y-3.5">
+                <form method="POST" action="{{ url_for('auth.login', next=request.args.get('next')) }}" class="space-y-4">
+                    
                     <!-- Username Input -->
                     <div>
-                        <label for="username" class="block text-xs font-bold text-slate-700 mb-1">
-                            Username / ID Pegawai
+                        <label for="username" class="block text-xs font-bold text-slate-700 mb-1.5">
+                            Username / NIP / ID Akun
                         </label>
                         <div class="relative flex items-center">
                             <span class="absolute left-3.5 flex items-center pointer-events-none text-slate-400">
@@ -186,14 +198,14 @@
                                    value="{{ username or '' }}"
                                    required 
                                    autocomplete="username"
-                                   placeholder="Masukkan username Anda" 
-                                   class="w-full h-10 pl-10 pr-4 bg-slate-50 hover:bg-slate-100/70 focus:bg-white text-slate-900 placeholder:text-slate-400 text-xs sm:text-sm rounded-xl border border-slate-200 focus:border-navy-main focus:ring-2 focus:ring-navy-main/15 transition-all outline-none">
+                                   placeholder="Contoh: admin atau pegawai" 
+                                   class="w-full h-11 pl-10 pr-4 bg-slate-50/80 hover:bg-slate-100/70 focus:bg-white text-slate-900 placeholder:text-slate-400 text-xs sm:text-sm rounded-xl border border-slate-200 focus:border-orange-lentera focus:ring-2 focus:ring-orange-lentera/20 transition-all outline-none">
                         </div>
                     </div>
 
                     <!-- Password Input with Toggle Visibility -->
                     <div>
-                        <div class="flex items-center justify-between mb-1">
+                        <div class="flex items-center justify-between mb-1.5">
                             <label for="password" class="block text-xs font-bold text-slate-700">
                                 Kata Sandi (Password)
                             </label>
@@ -207,8 +219,8 @@
                                    name="password" 
                                    required 
                                    autocomplete="current-password"
-                                   placeholder="Masukkan kata sandi" 
-                                   class="w-full h-10 pl-10 pr-11 bg-slate-50 hover:bg-slate-100/70 focus:bg-white text-slate-900 placeholder:text-slate-400 text-xs sm:text-sm rounded-xl border border-slate-200 focus:border-navy-main focus:ring-2 focus:ring-navy-main/15 transition-all outline-none">
+                                   placeholder="Masukkan kata sandi akun Anda" 
+                                   class="w-full h-11 pl-10 pr-11 bg-slate-50/80 hover:bg-slate-100/70 focus:bg-white text-slate-900 placeholder:text-slate-400 text-xs sm:text-sm rounded-xl border border-slate-200 focus:border-orange-lentera focus:ring-2 focus:ring-orange-lentera/20 transition-all outline-none">
                             <button type="button" 
                                     id="toggle-password-btn" 
                                     class="absolute right-3 text-slate-400 hover:text-slate-600 focus:outline-none p-1 transition"
@@ -218,20 +230,22 @@
                         </div>
                     </div>
 
-                    <!-- Remember Me & Help -->
-                    <div class="flex items-center justify-between pt-0.5">
+                    <!-- Remember Me & Security Note -->
+                    <div class="flex items-center justify-between pt-1">
                         <label class="flex items-center gap-2 cursor-pointer select-none">
-                            <input type="checkbox" name="remember" class="w-4 h-4 text-orange-500 rounded border-slate-300 focus:ring-orange-400">
+                            <input type="checkbox" name="remember" class="w-4 h-4 text-orange-lentera rounded border-slate-300 focus:ring-orange-lentera">
                             <span class="text-xs text-slate-600 font-medium">Ingat Sesi Saya</span>
                         </label>
-                        <span class="text-[11px] text-slate-400 font-medium">BPS 3510</span>
+                        <span class="text-[11px] text-slate-400 font-medium flex items-center gap-1">
+                            <i data-lucide="lock" class="w-3 h-3 text-emerald-500"></i> SSL Terenkripsi
+                        </span>
                     </div>
 
                     <!-- Submit Button -->
                     <button type="submit" 
-                            class="w-full h-11 mt-1 bg-gradient-to-r from-[#142B4A] via-[#1E3E66] to-[#0D1B2A] hover:from-orange-600 hover:via-orange-500 hover:to-orange-600 text-white font-bold text-xs sm:text-sm rounded-xl shadow-md hover:shadow-lg hover:shadow-orange-500/20 transition-all duration-300 flex items-center justify-center gap-2 active:scale-[0.99]">
+                            class="w-full h-11 mt-2 bg-gradient-to-r from-[#0A1E38] via-[#102A4E] to-orange-lentera hover:from-orange-lentera hover:via-orange-light hover:to-[#0A1E38] text-white font-bold text-xs sm:text-sm rounded-xl shadow-md hover:shadow-glow-orange transition-all duration-300 flex items-center justify-center gap-2 active:scale-[0.99]">
                         <i data-lucide="log-in" class="w-4 h-4"></i>
-                        <span>Masuk ke Dashboard PRIMA</span>
+                        <span>Masuk ke Sistem LENTERA</span>
                     </button>
                 </form>
             </div>
@@ -244,7 +258,7 @@
 
     </main>
 
-    <!-- JavaScript Helpers: Password Toggle -->
+    <!-- JavaScript Helpers: Password Toggle & Icon Init -->
     <script>
         lucide.createIcons();
 
@@ -258,7 +272,7 @@
                 passwordInput.setAttribute('type', isPassword ? 'text' : 'password');
                 
                 if (isPassword) {
-                    toggleBtn.innerHTML = '<i data-lucide="eye-off" class="w-4 h-4 text-orange-500"></i>';
+                    toggleBtn.innerHTML = '<i data-lucide="eye-off" class="w-4 h-4 text-orange-lentera"></i>';
                 } else {
                     toggleBtn.innerHTML = '<i data-lucide="eye" class="w-4 h-4 text-slate-400"></i>';
                 }
