@@ -180,6 +180,35 @@
                     {% endif %}
                 {% endwith %}
 
+                <!-- Tombol Masuk dengan SSO BPS -->
+                <div class="mb-5">
+                    <a href="{{ url_for('auth.sso_login') }}" 
+                       class="w-full h-12 bg-gradient-to-r from-[#00529C] via-[#0A64B7] to-[#1279D1] hover:from-[#0A64B7] hover:to-[#00529C] text-white font-bold text-xs sm:text-sm rounded-xl shadow-md hover:shadow-lg hover:shadow-blue-500/25 transition-all duration-300 flex items-center justify-between px-4 sm:px-5 group active:scale-[0.99] border border-blue-400/30">
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-lg bg-white p-1 flex items-center justify-center flex-shrink-0 shadow-xs">
+                                <img src="{{ url_for('static', filename='images/logo_lentera.jpg') }}" alt="SSO BPS" class="w-full h-full object-contain">
+                            </div>
+                            <div class="text-left">
+                                <span class="block text-xs sm:text-sm font-extrabold text-white leading-tight">Masuk dengan SSO BPS</span>
+                                <span class="block text-[10px] text-blue-200 font-normal">Single Sign-On Pegawai BPS Resmi</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-1.5 text-blue-200 group-hover:text-white transition">
+                            <span class="text-[11px] font-semibold hidden sm:inline">Masuk</span>
+                            <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Separator Divider: Atau Masuk dengan Akun Lokal -->
+                <div class="relative flex items-center my-4">
+                    <div class="flex-grow border-t border-slate-200"></div>
+                    <span class="flex-shrink mx-3 text-[10px] sm:text-[11px] font-bold text-slate-400 uppercase tracking-wider bg-white px-2">
+                        atau masuk dengan akun lokal
+                    </span>
+                    <div class="flex-grow border-t border-slate-200"></div>
+                </div>
+
                 <!-- Form Login -->
                 <form method="POST" action="{{ url_for('auth.login', next=request.args.get('next')) }}" class="space-y-4">
                     
