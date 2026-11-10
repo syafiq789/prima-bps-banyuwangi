@@ -61,12 +61,7 @@
             
             <!-- Header Logo BPS + BADAN PUSAT STATISTIK -->
             <div class="flex items-center gap-3">
-                <!-- SVG Logo Resmi BPS (3 Kurva Biru, Hijau, Oranye) -->
-                <svg class="w-9 h-9 flex-shrink-0" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M10 38C18 22 34 14 54 14C44 21 30 28 18 42L10 38Z" fill="#0072BC"/>
-                    <path d="M14 46C24 31 39 24 56 24C46 31 32 37 22 50L14 46Z" fill="#8DC63F"/>
-                    <path d="M19 54C29 41 43 34 58 34C48 41 35 46 26 57L19 54Z" fill="#F7941D"/>
-                </svg>
+                <img src="{{ url_for('static', filename='images/logo_bps.svg') }}" alt="Logo Badan Pusat Statistik" class="h-9 sm:h-10 w-auto flex-shrink-0">
                 <div>
                     <span class="text-sm sm:text-base font-extrabold tracking-wide text-[#D97706] uppercase">BADAN PUSAT STATISTIK</span>
                     <span class="block text-[11px] font-semibold text-slate-500 -mt-0.5">Kabupaten Banyuwangi &bull; Portal PRIMA AKIP</span>
@@ -128,11 +123,7 @@
                 <!-- Card Header: Logo BPS + SSO BPS + Bahasa Dropdown -->
                 <div class="flex items-center justify-between gap-3 mb-5">
                     <div class="flex items-center gap-2.5">
-                        <svg class="w-7 h-7 flex-shrink-0" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M10 38C18 22 34 14 54 14C44 21 30 28 18 42L10 38Z" fill="#0072BC"/>
-                            <path d="M14 46C24 31 39 24 56 24C46 31 32 37 22 50L14 46Z" fill="#8DC63F"/>
-                            <path d="M19 54C29 41 43 34 58 34C48 41 35 46 26 57L19 54Z" fill="#F7941D"/>
-                        </svg>
+                        <img src="{{ url_for('static', filename='images/logo_bps.svg') }}" alt="Logo BPS" class="h-7 w-auto flex-shrink-0">
                         <span class="text-base sm:text-lg font-extrabold text-slate-900 tracking-tight">SSO PRIMA BPS</span>
                     </div>
 
