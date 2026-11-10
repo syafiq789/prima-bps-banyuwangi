@@ -21,7 +21,7 @@
                     </span>
                 </div>
                 <p class="text-xs text-slate-500">
-                    Username: <strong class="text-slate-700">{{ current_user.username }}</strong> &bull; NIP: <strong class="text-slate-700">{{ current_user.nip or '-' }}</strong>
+                    Email: <strong class="text-slate-700">{{ current_user.email or current_user.username }}</strong> &bull; NIP: <strong class="text-slate-700">{{ current_user.nip or '-' }}</strong>
                 </p>
             </div>
         </div>
@@ -43,13 +43,17 @@
                     <input type="text" name="full_name" value="{{ current_user.full_name }}" required class="w-full px-3 py-2 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-navy-main outline-none">
                 </div>
                 <div>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">Email Login</label>
+                    <input type="email" name="email" value="{{ current_user.email or '' }}" placeholder="nama@bps.go.id" class="w-full px-3 py-2 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-navy-main outline-none">
+                </div>
+                <div>
                     <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">NIP (Nomor Induk Pegawai)</label>
                     <input type="text" name="nip" value="{{ current_user.nip or '' }}" placeholder="198..." class="w-full px-3 py-2 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-navy-main outline-none">
                 </div>
                 <div>
                     <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">Username (ID Akun)</label>
                     <input type="text" disabled value="{{ current_user.username }}" class="w-full px-3 py-2 text-xs bg-slate-100 text-slate-500 border border-slate-200 rounded-xl cursor-not-allowed">
-                    <span class="text-[10px] text-slate-400 mt-1 block">Username tidak dapat diubah secara mandiri.</span>
+                    <span class="text-[10px] text-slate-400 mt-1 block">Username cadangan tidak dapat diubah secara mandiri.</span>
                 </div>
 
                 <div class="pt-2">

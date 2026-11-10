@@ -36,7 +36,7 @@
                 <thead>
                     <tr class="bg-slate-50 border-b border-slate-200 text-[11px] font-bold uppercase tracking-wider text-slate-600">
                         <th class="py-3.5 px-6">Pengguna</th>
-                        <th class="py-3.5 px-4">Username</th>
+                        <th class="py-3.5 px-4">Email Login</th>
                         <th class="py-3.5 px-4">NIP</th>
                         <th class="py-3.5 px-4 text-center">Peran (Role)</th>
                         <th class="py-3.5 px-4 text-center">Status</th>
@@ -58,8 +58,8 @@
                             </div>
                         </td>
 
-                        <td class="py-4 px-4 font-mono text-slate-700">
-                            {{ u.username }}
+                        <td class="py-4 px-4 font-medium text-slate-700">
+                            {{ u.email or u.username }}
                         </td>
 
                         <td class="py-4 px-4 text-slate-600">
@@ -152,11 +152,11 @@
             <form action="{{ url_for('users.create') }}" method="POST" class="space-y-4">
                 <div>
                     <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">Nama Lengkap</label>
-                    <input type="text" name="full_name" required placeholder="Contoh: Budi Santoso, S.Si." class="w-full px-3 py-2 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-navy-main outline-none">
+                    <input type="text" name="full_name" required placeholder="Nama Lengkap Pegawai" class="w-full px-3 py-2 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-navy-main outline-none">
                 </div>
                 <div>
-                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">Username Login</label>
-                    <input type="text" name="username" required placeholder="Contoh: budi.santoso" class="w-full px-3 py-2 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-navy-main outline-none">
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">Email Login</label>
+                    <input type="email" name="email" required placeholder="nama@bps.go.id" class="w-full px-3 py-2 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-navy-main outline-none">
                 </div>
                 <div>
                     <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">NIP (Nomor Induk Pegawai)</label>

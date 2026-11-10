@@ -16,6 +16,7 @@ def index():
 @login_required
 @admin_required
 def create():
+    email = request.form.get('email', '').strip().lower()
     username = request.form.get('username', '').strip().lower()
     full_name = request.form.get('full_name', '').strip()
     nip = request.form.get('nip', '').strip()
@@ -25,21 +26,30 @@ def create():
     if role not in User.ROLES:
         role = 'pegawai'
 
-    if not username or not full_name or not password:
-        flash('Username, Nama Lengkap, dan Password wajib diisi.', 'danger')
+    # Auto-generate username from email prefix if username omitted
+    if not username and email:
+        username = email.split('@')[0]
+
+    if not email or not full_name or not password:
+        flash('Email, Nama Lengkap, dan Password wajib diisi.', 'danger')
         return redirect(url_for('users.index'))
 
     if len(password) < 6:
         flash('Password minimal 6 karakter.', 'danger')
         return redirect(url_for('users.index'))
 
-    existing = User.query.filter_by(username=username).first()
-    if existing:
-        flash(f"Pengguna dengan username '{username}' sudah terdaftar.", 'warning')
+    if User.query.filter_by(email=email).first():
+        flash(f"Pengguna dengan email '{email}' sudah terdaftar.", 'warning')
         return redirect(url_for('users.index'))
+
+    if User.query.filter_by(username=username).first():
+        # Make username unique if prefix collides
+        import uuid
+        username = f"{username}_{uuid.uuid4().hex[:4]}"
 
     new_user = User(
         username=username,
+        email=email,
         full_name=full_name,
         nip=nip,
         role=role,
@@ -49,8 +59,8 @@ def create():
     db.session.add(new_user)
     db.session.commit()
 
-    log_activity('CREATE_USER', f"Menambahkan pengguna baru '{username}' ({role})")
-    flash(f"Pengguna '{full_name}' ({username}) berhasil ditambahkan.", 'success')
+    log_activity('CREATE_USER', f"Menambahkan pengguna baru '{email}' ({role})")
+    flash(f"Pengguna '{full_name}' ({email}) berhasil ditambahkan.", 'success')
     return redirect(url_for('users.index'))
 
 @users_bp.route('/<int:user_id>/edit', methods=['POST'])
@@ -58,6 +68,7 @@ def create():
 @admin_required
 def edit(user_id):
     user = User.query.get_or_404(user_id)
+    email = request.form.get('email', '').strip().lower()
     full_name = request.form.get('full_name', '').strip()
     nip = request.form.get('nip', '').strip()
     role = request.form.get('role', user.role)
@@ -66,6 +77,13 @@ def edit(user_id):
     if not full_name:
         flash('Nama Lengkap tidak boleh kosong.', 'danger')
         return redirect(url_for('users.index'))
+
+    if email:
+        existing_email = User.query.filter(User.email == email, User.id != user.id).first()
+        if existing_email:
+            flash(f"Email '{email}' sudah dipakai oleh akun lain.", 'warning')
+            return redirect(url_for('users.index'))
+        user.email = email
 
     user.full_name = full_name
     user.nip = nip

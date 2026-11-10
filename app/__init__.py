@@ -142,6 +142,11 @@ def create_app(config_name=None):
                 except Exception:
                     conn.execute(text("ALTER TABLE documents ADD COLUMN drive_url VARCHAR(500)"))
                     conn.commit()
+                try:
+                    conn.execute(text("SELECT email FROM users LIMIT 1"))
+                except Exception:
+                    conn.execute(text("ALTER TABLE users ADD COLUMN email VARCHAR(120)"))
+                    conn.commit()
         except Exception as e:
             logger.info(f"Database schema auto-check notice: {e}")
         seed_initial_data()
@@ -155,6 +160,7 @@ def seed_initial_data():
         rbac_seed_users = [
             {
                 'username': 'admin',
+                'email': 'admin@bps.go.id',
                 'full_name': 'Administrator PRIMA BPS',
                 'nip': '198501012010011001',
                 'role': 'admin',
@@ -162,6 +168,7 @@ def seed_initial_data():
             },
             {
                 'username': 'pegawai',
+                'email': 'pegawai@bps.go.id',
                 'full_name': 'Pegawai BPS Banyuwangi',
                 'nip': '199203152015021002',
                 'role': 'pegawai',
@@ -169,6 +176,7 @@ def seed_initial_data():
             },
             {
                 'username': 'staf_umum',
+                'email': 'umum@bps.go.id',
                 'full_name': 'Staf Subbagian Umum',
                 'nip': '199008202014031003',
                 'role': 'staf_umum',
@@ -176,6 +184,7 @@ def seed_initial_data():
             },
             {
                 'username': 'petugas_ipds',
+                'email': 'ipds@bps.go.id',
                 'full_name': 'Petugas Diseminasi IPDS',
                 'nip': '199304122016021004',
                 'role': 'petugas_ipds',
@@ -183,6 +192,7 @@ def seed_initial_data():
             },
             {
                 'username': 'ppk',
+                'email': 'ppk@bps.go.id',
                 'full_name': 'Pejabat Pembuat Komitmen (PPK)',
                 'nip': '198207102008011005',
                 'role': 'ppk',
@@ -190,6 +200,7 @@ def seed_initial_data():
             },
             {
                 'username': 'kpa',
+                'email': 'kpa@bps.go.id',
                 'full_name': 'Kuasa Pengguna Anggaran (KPA)',
                 'nip': '197805152003121006',
                 'role': 'kpa',
@@ -202,6 +213,7 @@ def seed_initial_data():
             if not u:
                 new_u = User(
                     username=udata['username'],
+                    email=udata['email'],
                     full_name=udata['full_name'],
                     nip=udata['nip'],
                     role=udata['role'],
@@ -209,10 +221,13 @@ def seed_initial_data():
                 )
                 new_u.set_password(udata['password'])
                 db.session.add(new_u)
-                logger.info(f"Created seed user [{udata['role']}]: {udata['username']} / {udata['password']}")
-            elif u.role == 'user':
-                # Update legacy 'user' role to 'pegawai'
-                u.role = 'pegawai'
+                logger.info(f"Created seed user [{udata['role']}]: {udata['email']} / {udata['password']}")
+            else:
+                if not u.email:
+                    u.email = udata['email']
+                if u.role == 'user':
+                    # Update legacy 'user' role to 'pegawai'
+                    u.role = 'pegawai'
 
         # 2. Categories Resmi Sesuai Dokumen PRIMA BPS Banyuwangi
         categories_data = [

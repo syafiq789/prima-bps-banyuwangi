@@ -50,14 +50,6 @@ class Config:
     
     ITEMS_PER_PAGE = 10
 
-    # SSO BPS (Single Sign-On OAuth2 / OpenID Connect)
-    SSO_BPS_CLIENT_ID = os.environ.get('SSO_BPS_CLIENT_ID', '')
-    SSO_BPS_CLIENT_SECRET = os.environ.get('SSO_BPS_CLIENT_SECRET', '')
-    SSO_BPS_AUTH_URL = os.environ.get('SSO_BPS_AUTH_URL', 'https://sso.bps.go.id/auth/realms/pegawai-bps/protocol/openid-connect/auth')
-    SSO_BPS_TOKEN_URL = os.environ.get('SSO_BPS_TOKEN_URL', 'https://sso.bps.go.id/auth/realms/pegawai-bps/protocol/openid-connect/token')
-    SSO_BPS_USERINFO_URL = os.environ.get('SSO_BPS_USERINFO_URL', 'https://sso.bps.go.id/auth/realms/pegawai-bps/protocol/openid-connect/userinfo')
-    SSO_BPS_REDIRECT_URI = os.environ.get('SSO_BPS_REDIRECT_URI', '')
-
 class ProductionConfig(Config):
     DEBUG = False
 
