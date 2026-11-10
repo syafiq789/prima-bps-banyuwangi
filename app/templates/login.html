@@ -162,8 +162,9 @@
 
                     <div class="space-y-3">
                         <!-- Pilihan 1: SSO PEGAWAI BPS -->
-                        <a href="{{ url_for('auth.sso_login') }}" 
-                           class="flex items-center justify-between p-4 rounded-xl border border-slate-200/80 bg-white hover:border-orange-300 hover:bg-orange-50/40 transition-all group shadow-2xs">
+                        <button type="button" 
+                                onclick="showLocalForm('SSO PEGAWAI BPS')"
+                                class="w-full text-left flex items-center justify-between p-4 rounded-xl border border-slate-200/80 bg-white hover:border-orange-300 hover:bg-orange-50/40 transition-all group shadow-2xs focus:outline-none">
                             <div class="flex items-center gap-3.5">
                                 <div class="w-10 h-10 rounded-full bg-[#FFF0E5] text-[#EA580C] flex items-center justify-center flex-shrink-0 group-hover:bg-[#EA580C] group-hover:text-white transition-colors">
                                     <i data-lucide="user" class="w-5 h-5"></i>
@@ -178,11 +179,11 @@
                                 </div>
                             </div>
                             <i data-lucide="chevron-right" class="w-4 h-4 text-slate-400 group-hover:text-[#EA580C] group-hover:translate-x-0.5 transition-all"></i>
-                        </a>
+                        </button>
 
-                        <!-- Pilihan 2: SSO EKSTERNAL BPS / Akun Email Lokal -->
+                        <!-- Pilihan 2: SSO EKSTERNAL BPS -->
                         <button type="button" 
-                                onclick="showLocalForm()"
+                                onclick="showLocalForm('SSO EKSTERNAL BPS')"
                                 class="w-full text-left flex items-center justify-between p-4 rounded-xl border border-slate-200/80 bg-white hover:border-orange-300 hover:bg-orange-50/40 transition-all group shadow-2xs focus:outline-none">
                             <div class="flex items-center gap-3.5">
                                 <div class="w-10 h-10 rounded-full bg-[#FFF0E5] text-[#EA580C] flex items-center justify-center flex-shrink-0 group-hover:bg-[#EA580C] group-hover:text-white transition-colors">
@@ -205,7 +206,7 @@
                     <div class="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between text-xs">
                         <span class="text-slate-400">Admin / Akses Email?</span>
                         <button type="button" 
-                                onclick="showLocalForm()" 
+                                onclick="showLocalForm('AKSES LOKAL')" 
                                 id="link-login-manual"
                                 class="font-bold text-[#EA580C] hover:text-[#C2410C] hover:underline transition focus:outline-none">
                             Masuk dengan Email &amp; Password &rarr;
@@ -222,6 +223,9 @@
                             <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i>
                             <span id="btn-back-picker">Kembali ke pilihan akun</span>
                         </button>
+                        <span id="selected-account-badge" class="text-[10px] font-extrabold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-orange-50 text-[#EA580C] border border-orange-200/80">
+                            SSO PEGAWAI BPS
+                        </span>
                     </div>
 
                     <form method="POST" action="{{ url_for('auth.login', next=request.args.get('next')) }}" class="space-y-4">
@@ -304,9 +308,13 @@
         }
 
         // Toggle Picker <-> Local Form
-        function showLocalForm() {
+        function showLocalForm(accountType) {
             document.getElementById('sso-account-picker').classList.add('hidden');
             document.getElementById('local-login-form').classList.remove('hidden');
+            const badge = document.getElementById('selected-account-badge');
+            if (badge && accountType) {
+                badge.textContent = accountType;
+            }
             const emailInput = document.getElementById('email');
             if (emailInput) setTimeout(() => emailInput.focus(), 100);
             lucide.createIcons();
