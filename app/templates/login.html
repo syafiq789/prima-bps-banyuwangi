@@ -155,7 +155,7 @@
                 {% endwith %}
 
                 <!-- VIEW 1: Pemilihan Jenis Akun SSO -->
-                <div id="sso-account-picker" class="{% if email %}hidden{% endif %} animate-fade-slide">
+                <div id="sso-account-picker" class="{% if email or forgot_mode %}hidden{% endif %} animate-fade-slide">
                     <p id="picker-subtitle" class="text-xs sm:text-sm text-slate-600 mb-5">
                         Pilih akun BPS Anda untuk melanjutkan.
                     </p>
@@ -215,7 +215,7 @@
                 </div>
 
                 <!-- VIEW 2: Form Login Email / Username & Password -->
-                <div id="local-login-form" class="{% if not email %}hidden{% endif %} animate-fade-slide">
+                <div id="local-login-form" class="{% if not email or forgot_mode %}hidden{% endif %} animate-fade-slide">
                     <div class="flex items-center justify-between mb-4">
                         <button type="button" 
                                 onclick="showAccountPicker()" 
@@ -275,12 +275,93 @@
                                 <input type="checkbox" name="remember" class="w-4 h-4 text-[#EA580C] rounded border-slate-300 focus:ring-orange-500">
                                 <span class="text-xs text-slate-600 font-medium">Ingat Sesi Saya</span>
                             </label>
+                            <button type="button" 
+                                    onclick="showForgotForm()" 
+                                    id="btn-forgot-password"
+                                    class="text-xs font-bold text-[#EA580C] hover:text-[#C2410C] hover:underline focus:outline-none">
+                                Lupa Password?
+                            </button>
                         </div>
 
                         <button type="submit" 
                                 class="w-full h-11 bg-gradient-to-r from-[#F97316] to-[#EA580C] hover:from-[#EA580C] hover:to-[#C2410C] text-white font-bold text-xs sm:text-sm rounded-xl shadow-md hover:shadow-lg hover:shadow-orange-500/25 transition-all flex items-center justify-center gap-2 active:scale-[0.99]">
                             <i data-lucide="log-in" class="w-4 h-4"></i>
                             <span id="btn-submit-login">Masuk</span>
+                        </button>
+                    </form>
+                </div>
+
+                <!-- VIEW 3: Form Lupa / Ganti Password -->
+                <div id="forgot-password-form" class="{% if not forgot_mode %}hidden{% endif %} animate-fade-slide">
+                    <div class="flex items-center justify-between mb-4">
+                        <button type="button" 
+                                onclick="showLocalForm()" 
+                                class="inline-flex items-center gap-1.5 text-xs font-bold text-slate-500 hover:text-[#EA580C] transition focus:outline-none">
+                            <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i>
+                            <span>Kembali ke login</span>
+                        </button>
+                        <span class="text-[10px] font-extrabold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-amber-50 text-amber-700 border border-amber-200/80">
+                            RESET PASSWORD
+                        </span>
+                    </div>
+
+                    <p class="text-xs text-slate-500 mb-4 leading-relaxed">
+                        Masukkan alamat email akun Anda beserta kata sandi baru untuk memperbarui akses masuk.
+                    </p>
+
+                    <form method="POST" action="{{ url_for('auth.forgot_password') }}" class="space-y-3.5">
+                        <div>
+                            <label for="forgot_email" class="block text-xs font-bold text-slate-700 mb-1.5">Email / Username Terdaftar</label>
+                            <div class="relative flex items-center">
+                                <span class="absolute left-3.5 flex items-center pointer-events-none text-slate-400">
+                                    <i data-lucide="mail" class="w-4 h-4"></i>
+                                </span>
+                                <input type="text" 
+                                       id="forgot_email" 
+                                       name="email" 
+                                       value="{{ forgot_email or '' }}"
+                                       required 
+                                       placeholder="Email atau Username" 
+                                       class="w-full h-10 pl-10 pr-4 bg-slate-50 hover:bg-slate-100/70 focus:bg-white text-slate-900 placeholder:text-slate-400 text-xs sm:text-sm rounded-xl border border-slate-200 focus:border-[#EA580C] focus:ring-2 focus:ring-orange-500/20 transition-all outline-none">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label for="new_password" class="block text-xs font-bold text-slate-700 mb-1.5">Password Baru</label>
+                            <div class="relative flex items-center">
+                                <span class="absolute left-3.5 flex items-center pointer-events-none text-slate-400">
+                                    <i data-lucide="key" class="w-4 h-4"></i>
+                                </span>
+                                <input type="password" 
+                                       id="new_password" 
+                                       name="new_password" 
+                                       required 
+                                       minlength="6"
+                                       placeholder="Minimal 6 karakter" 
+                                       class="w-full h-10 pl-10 pr-4 bg-slate-50 hover:bg-slate-100/70 focus:bg-white text-slate-900 placeholder:text-slate-400 text-xs sm:text-sm rounded-xl border border-slate-200 focus:border-[#EA580C] focus:ring-2 focus:ring-orange-500/20 transition-all outline-none">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label for="confirm_password" class="block text-xs font-bold text-slate-700 mb-1.5">Konfirmasi Password Baru</label>
+                            <div class="relative flex items-center">
+                                <span class="absolute left-3.5 flex items-center pointer-events-none text-slate-400">
+                                    <i data-lucide="check-circle" class="w-4 h-4"></i>
+                                </span>
+                                <input type="password" 
+                                       id="confirm_password" 
+                                       name="confirm_password" 
+                                       required 
+                                       minlength="6"
+                                       placeholder="Ketik ulang password baru" 
+                                       class="w-full h-10 pl-10 pr-4 bg-slate-50 hover:bg-slate-100/70 focus:bg-white text-slate-900 placeholder:text-slate-400 text-xs sm:text-sm rounded-xl border border-slate-200 focus:border-[#EA580C] focus:ring-2 focus:ring-orange-500/20 transition-all outline-none">
+                            </div>
+                        </div>
+
+                        <button type="submit" 
+                                class="w-full h-11 mt-1 bg-gradient-to-r from-[#F97316] to-[#EA580C] hover:from-[#EA580C] hover:to-[#C2410C] text-white font-bold text-xs sm:text-sm rounded-xl shadow-md hover:shadow-lg hover:shadow-orange-500/25 transition-all flex items-center justify-center gap-2 active:scale-[0.99]">
+                            <i data-lucide="refresh-cw" class="w-4 h-4"></i>
+                            <span>Simpan Password Baru</span>
                         </button>
                     </form>
                 </div>
@@ -307,9 +388,10 @@
             });
         }
 
-        // Toggle Picker <-> Local Form
+        // Toggle Picker <-> Local Form <-> Forgot Password Form
         function showLocalForm(accountType) {
             document.getElementById('sso-account-picker').classList.add('hidden');
+            document.getElementById('forgot-password-form').classList.add('hidden');
             document.getElementById('local-login-form').classList.remove('hidden');
             const badge = document.getElementById('selected-account-badge');
             if (badge && accountType) {
@@ -322,7 +404,21 @@
 
         function showAccountPicker() {
             document.getElementById('local-login-form').classList.add('hidden');
+            document.getElementById('forgot-password-form').classList.add('hidden');
             document.getElementById('sso-account-picker').classList.remove('hidden');
+            lucide.createIcons();
+        }
+
+        function showForgotForm() {
+            document.getElementById('sso-account-picker').classList.add('hidden');
+            document.getElementById('local-login-form').classList.add('hidden');
+            document.getElementById('forgot-password-form').classList.remove('hidden');
+            const currentEmail = document.getElementById('email')?.value;
+            const forgotEmail = document.getElementById('forgot_email');
+            if (forgotEmail && currentEmail && !forgotEmail.value) {
+                forgotEmail.value = currentEmail;
+            }
+            if (forgotEmail) setTimeout(() => forgotEmail.focus(), 100);
             lucide.createIcons();
         }
 

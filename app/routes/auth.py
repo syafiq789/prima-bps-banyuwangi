@@ -176,6 +176,39 @@ def sso_callback():
         flash(f'Terjadi kendala koneksi ke server SSO BPS: {str(e)}', 'danger')
         return redirect(url_for('auth.login'))
 
+@auth_bp.route('/forgot-password', methods=['POST'])
+def forgot_password():
+    """Reset / ganti password langsung berdasarkan email atau username terdaftar."""
+    identifier = (request.form.get('email') or '').strip().lower()
+    new_password = request.form.get('new_password', '')
+    confirm_password = request.form.get('confirm_password', '')
+
+    if not identifier:
+        flash('Email atau Username akun wajib diisi.', 'danger')
+        return render_template('login.html', forgot_mode=True, forgot_email=identifier)
+
+    user = User.query.filter(
+        (User.email == identifier) | (User.username == identifier)
+    ).first()
+
+    if not user:
+        flash(f"Akun dengan email/username '{identifier}' tidak ditemukan dalam sistem.", 'danger')
+        return render_template('login.html', forgot_mode=True, forgot_email=identifier)
+
+    if len(new_password) < 6:
+        flash('Password baru minimal 6 karakter.', 'danger')
+        return render_template('login.html', forgot_mode=True, forgot_email=identifier)
+
+    if new_password != confirm_password:
+        flash('Konfirmasi password baru tidak cocok.', 'danger')
+        return render_template('login.html', forgot_mode=True, forgot_email=identifier)
+
+    user.set_password(new_password)
+    db.session.commit()
+    log_activity('FORGOT_PASSWORD', f"Password akun {user.email or user.username} berhasil diperbarui melalui fitur Lupa Password.", user.id)
+    flash(f'Password untuk {user.email or user.username} berhasil diperbarui! Silakan masuk dengan password baru Anda.', 'success')
+    return render_template('login.html', email=user.email or user.username)
+
 @auth_bp.route('/logout')
 @login_required
 def logout():

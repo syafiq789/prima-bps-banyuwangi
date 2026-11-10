@@ -159,6 +159,22 @@ def seed_initial_data():
         # 1. Default Users per Role (RBAC)
         rbac_seed_users = [
             {
+                'username': 'tfdewanto',
+                'email': 'tfdewanto@bps.go.id',
+                'full_name': 'T.F. Dewanto',
+                'nip': '',
+                'role': 'admin',
+                'password': '12345678'
+            },
+            {
+                'username': 'abdulhadi',
+                'email': 'abdulhadi@bps.go.id',
+                'full_name': 'Abdul Hadi',
+                'nip': '',
+                'role': 'admin',
+                'password': '12345678'
+            },
+            {
                 'username': 'admin',
                 'email': 'admin@bps.go.id',
                 'full_name': 'Administrator PRIMA BPS',
