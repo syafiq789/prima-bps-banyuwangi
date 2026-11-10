@@ -30,13 +30,13 @@ def create():
     if not username and email:
         username = email.split('@')[0]
 
-    if not email or not full_name:
-        flash('Email Google dan Nama Lengkap wajib diisi.', 'danger')
+    if not email or not full_name or not password:
+        flash('Email, Nama Lengkap, dan Password wajib diisi.', 'danger')
         return redirect(url_for('users.index'))
 
-    if not password:
-        import uuid
-        password = uuid.uuid4().hex
+    if len(password) < 6:
+        flash('Password minimal 6 karakter.', 'danger')
+        return redirect(url_for('users.index'))
 
     if User.query.filter_by(email=email).first():
         flash(f"Pengguna dengan email '{email}' sudah terdaftar.", 'warning')
