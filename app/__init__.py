@@ -156,78 +156,10 @@ def create_app(config_name=None):
 def seed_initial_data():
     """Seed initial categories, important links, default admin, and sample data if database is empty."""
     try:
-        # 1. Default Users per Role (RBAC)
-        rbac_seed_users = [
-            {
-                'username': 'admin',
-                'email': 'admin@bps.go.id',
-                'full_name': 'Administrator PRIMA BPS',
-                'nip': '198501012010011001',
-                'role': 'admin',
-                'password': 'admin123'
-            },
-            {
-                'username': 'pegawai',
-                'email': 'pegawai@bps.go.id',
-                'full_name': 'Pegawai BPS Banyuwangi',
-                'nip': '199203152015021002',
-                'role': 'pegawai',
-                'password': 'pegawai123'
-            },
-            {
-                'username': 'staf_umum',
-                'email': 'umum@bps.go.id',
-                'full_name': 'Staf Subbagian Umum',
-                'nip': '199008202014031003',
-                'role': 'staf_umum',
-                'password': 'umum123'
-            },
-            {
-                'username': 'petugas_ipds',
-                'email': 'ipds@bps.go.id',
-                'full_name': 'Petugas Diseminasi IPDS',
-                'nip': '199304122016021004',
-                'role': 'petugas_ipds',
-                'password': 'ipds123'
-            },
-            {
-                'username': 'ppk',
-                'email': 'ppk@bps.go.id',
-                'full_name': 'Pejabat Pembuat Komitmen (PPK)',
-                'nip': '198207102008011005',
-                'role': 'ppk',
-                'password': 'ppk123'
-            },
-            {
-                'username': 'kpa',
-                'email': 'kpa@bps.go.id',
-                'full_name': 'Kuasa Pengguna Anggaran (KPA)',
-                'nip': '197805152003121006',
-                'role': 'kpa',
-                'password': 'kpa123'
-            }
-        ]
-
-        for udata in rbac_seed_users:
-            u = User.query.filter_by(username=udata['username']).first()
-            if not u:
-                new_u = User(
-                    username=udata['username'],
-                    email=udata['email'],
-                    full_name=udata['full_name'],
-                    nip=udata['nip'],
-                    role=udata['role'],
-                    is_active=True
-                )
-                new_u.set_password(udata['password'])
-                db.session.add(new_u)
-                logger.info(f"Created seed user [{udata['role']}]: {udata['email']} / {udata['password']}")
-            else:
-                if not u.email:
-                    u.email = udata['email']
-                if u.role == 'user':
-                    # Update legacy 'user' role to 'pegawai'
-                    u.role = 'pegawai'
+        # 1. Hapus akun-akun demo/seed lama agar sistem login murni memakai Akun Google masing-masing
+        legacy_seed_usernames = ['admin', 'pegawai', 'staf_umum', 'petugas_ipds', 'ppk', 'kpa']
+        User.query.filter(User.username.in_(legacy_seed_usernames)).delete(synchronize_session=False)
+        db.session.commit()
 
         # 2. Categories Resmi Sesuai Dokumen PRIMA BPS Banyuwangi
         categories_data = [
