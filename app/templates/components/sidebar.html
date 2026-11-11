@@ -1,92 +1,85 @@
 <!-- LENTERA Sidebar Navigation -->
-<aside id="sidebar"
-    class="fixed top-0 left-0 z-40 w-72 h-screen transition-transform -translate-x-full lg:translate-x-0 bg-[#0D1B2A] text-slate-200 border-r border-slate-800 flex flex-col justify-between shadow-2xl select-none">
-
+<aside id="sidebar" 
+       class="fixed top-0 left-0 z-40 w-72 h-screen transition-transform -translate-x-full lg:translate-x-0 bg-[#0D1B2A] text-slate-200 border-r border-slate-800 flex flex-col justify-between shadow-2xl select-none">
+    
     <!-- Top Branding & Logo Header -->
     <div class="p-4 border-b border-slate-800/80 flex items-center justify-between">
         <a href="{{ url_for('dashboard.index') }}" class="flex items-center gap-3 group">
-            <div
-                class="w-12 h-11 rounded-xl bg-white p-1 flex items-center justify-center group-hover:scale-105 transition-transform duration-200 shadow-md border border-white/20 overflow-hidden flex-shrink-0">
-                <img src="{{ url_for('static', filename='images/logo_lentera.jpg') }}" alt="Logo LENTERA BPS"
-                    class="w-full h-full object-contain">
+            <div class="w-12 h-11 rounded-xl bg-white p-1 flex items-center justify-center group-hover:scale-105 transition-transform duration-200 shadow-md border border-white/20 overflow-hidden flex-shrink-0">
+                <img src="{{ url_for('static', filename='images/logo_lentera.jpg') }}" alt="Logo LENTERA BPS" class="w-full h-full object-contain">
             </div>
             <div class="sidebar-text">
                 <div class="flex items-center gap-1.5">
                     <span class="text-lg font-black tracking-wider text-white">LENTERA</span>
-                    <span
-                        class="text-[9px] font-bold uppercase tracking-wider bg-orange-500/20 text-[#F28C28] px-1.5 py-0.2 rounded border border-orange-500/30">BPS</span>
+                    <span class="text-[9px] font-bold uppercase tracking-wider bg-orange-500/20 text-[#F28C28] px-1.5 py-0.2 rounded border border-orange-500/30">BPS</span>
                 </div>
-                <p class="text-[10px] text-slate-400 font-medium leading-tight line-clamp-1">BPS Kabupaten Banyuwangi
-                </p>
+                <p class="text-[10px] text-slate-400 font-medium leading-tight line-clamp-1">BPS Kabupaten Banyuwangi</p>
             </div>
         </a>
-
+        
         <!-- Mobile close button -->
-        <button id="mobile-close-btn" type="button"
-            class="lg:hidden p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 focus:outline-none">
+        <button id="mobile-close-btn" type="button" class="lg:hidden p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 focus:outline-none">
             <i data-lucide="x" class="w-5 h-5"></i>
         </button>
     </div>
 
     <!-- Navigation Area (Scrollable) -->
     <div class="flex-1 overflow-y-auto px-3.5 py-4 space-y-3 sidebar-scroll">
-
+        
         <!-- ============================================================== -->
         <!-- SATU MENU UTAMA INDUK: PRIMA                                  -->
         <!-- Ketika tombol PRIMA diklik, barulah seluruh fiturnya muncul    -->
         <!-- ============================================================== -->
         <div class="sidebar-single-container">
-
+            
             <!-- Tombol Tunggal Menu PRIMA -->
-            <button type="button" id="btn-prima-master" onclick="togglePrimaMasterMenu()"
-                class="w-full flex items-center justify-between p-2.5 rounded-2xl bg-gradient-to-r from-orange-500/20 via-orange-500/10 to-transparent border border-orange-500/40 text-white font-bold text-sm hover:border-orange-500/70 hover:bg-orange-500/25 transition-all shadow-md group">
+            <button type="button" 
+                    id="btn-prima-master"
+                    onclick="togglePrimaMasterMenu()"
+                    class="w-full flex items-center justify-between p-2.5 rounded-2xl bg-gradient-to-r from-orange-500/20 via-orange-500/10 to-transparent border border-orange-500/40 text-white font-bold text-sm hover:border-orange-500/70 hover:bg-orange-500/25 transition-all shadow-md group">
                 <span class="flex items-center gap-2.5">
-                    <div
-                        class="w-9 h-9 rounded-xl bg-white p-1 flex items-center justify-center group-hover:scale-105 transition-transform shadow-sm overflow-hidden flex-shrink-0">
-                        <img src="{{ url_for('static', filename='images/logo_prima.png') }}" alt="PRIMA"
-                            class="w-full h-full object-contain">
+                    <div class="w-9 h-9 rounded-xl bg-white p-1 flex items-center justify-center group-hover:scale-105 transition-transform shadow-sm overflow-hidden flex-shrink-0">
+                        <img src="{{ url_for('static', filename='images/logo_prima.png') }}" alt="PRIMA" class="w-full h-full object-contain">
                     </div>
                     <div class="text-left">
                         <span class="block text-xs font-black uppercase tracking-wider text-white">PRIMA</span>
-                        <span class="block text-[10px] text-orange-300 font-normal leading-tight">Pusat Arsip &
-                            Manajemen Akip</span>
+                        <span class="block text-[10px] text-orange-300 font-normal leading-tight">Pusat Arsip & Manajemen Akip</span>
                     </div>
                 </span>
                 <div class="flex items-center gap-2">
                     <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                    <i data-lucide="chevron-down" id="chevron-prima-master"
-                        class="w-4 h-4 text-orange-400 transition-transform duration-300 rotate"></i>
+                    <i data-lucide="chevron-down" id="chevron-prima-master" class="w-4 h-4 text-orange-400 transition-transform duration-300 rotate"></i>
                 </div>
             </button>
 
             <!-- KONTEN FITUR-FITUR DI DALAM MENU PRIMA -->
-            <div id="container-prima-features"
-                class="mt-2.5 pl-2 pr-1 space-y-2 border-l-2 border-orange-500/30 ml-3.5">
-
+            <div id="container-prima-features" class="mt-2.5 pl-2 pr-1 space-y-2 border-l-2 border-orange-500/30 ml-3.5">
+                
                 <!-- 1. MENU UTAMA (Dashboard, Info, Guide) -->
                 <div class="sidebar-subgroup">
-                    <button type="button" id="trigger-sub-utama" onclick="toggleSubFeature('subcontent-utama', this)"
-                        class="subgroup-trigger w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-bold text-slate-300 hover:bg-slate-800/80 hover:text-white transition">
+                    <button type="button" 
+                            id="trigger-sub-utama"
+                            onclick="toggleSubFeature('subcontent-utama', this)"
+                            class="subgroup-trigger w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-bold text-slate-300 hover:bg-slate-800/80 hover:text-white transition">
                         <span class="flex items-center gap-2.5">
                             <i data-lucide="layout-grid" class="w-3.5 h-3.5 text-orange-400"></i>
                             <span>Menu Utama</span>
                         </span>
-                        <i data-lucide="chevron-down"
-                            class="subgroup-chevron w-3.5 h-3.5 text-slate-400 transition-transform"></i>
+                        <i data-lucide="chevron-down" class="subgroup-chevron w-3.5 h-3.5 text-slate-400 transition-transform"></i>
                     </button>
                     <div id="subcontent-utama" class="subgroup-content pl-3 pr-1 mt-1 space-y-0.5">
-                        <a href="{{ url_for('dashboard.index') }}"
-                            class="nav-subitem flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-xs text-slate-400 hover:text-white hover:bg-slate-800/60 transition {% if request.path == '/' or request.path == '/dashboard' %} bg-orange-500 text-white font-semibold {% endif %}">
+                        <a href="{{ url_for('dashboard.index') }}" 
+                           class="nav-subitem flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-xs text-slate-400 hover:text-white hover:bg-slate-800/60 transition {% if request.path == '/' or request.path == '/dashboard' %} bg-orange-500 text-white font-semibold {% endif %}">
                             <i data-lucide="layout-dashboard" class="w-3 h-3"></i>
                             <span>Dashboard</span>
                         </a>
-                        <a href="{{ url_for('info.about') }}"
-                            class="nav-subitem flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-xs text-slate-400 hover:text-white hover:bg-slate-800/60 transition {% if request.path == '/info/about' %} bg-orange-500 text-white font-semibold {% endif %}">
+                        <a href="{{ url_for('info.about') }}" 
+                           class="nav-subitem flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-xs text-slate-400 hover:text-white hover:bg-slate-800/60 transition {% if request.path == '/info/about' %} bg-orange-500 text-white font-semibold {% endif %}">
                             <i data-lucide="info" class="w-3 h-3"></i>
                             <span>Tentang PRIMA</span>
                         </a>
-                        <a href="{{ url_for('info.guide') }}"
-                            class="nav-subitem flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-xs text-slate-400 hover:text-white hover:bg-slate-800/60 transition {% if request.path == '/info/guide' %} bg-orange-500 text-white font-semibold {% endif %}">
+                        <a href="{{ url_for('info.guide') }}" 
+                           class="nav-subitem flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-xs text-slate-400 hover:text-white hover:bg-slate-800/60 transition {% if request.path == '/info/guide' %} bg-orange-500 text-white font-semibold {% endif %}">
                             <i data-lucide="book-marked" class="w-3 h-3"></i>
                             <span>Panduan Penggunaan</span>
                         </a>
@@ -95,34 +88,33 @@
 
                 <!-- 2. PERENCANAAN -->
                 <div class="sidebar-subgroup">
-                    <button type="button" id="trigger-sub-perencanaan"
-                        onclick="toggleSubFeature('subcontent-perencanaan', this)"
-                        class="subgroup-trigger w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-bold text-slate-300 hover:bg-slate-800/80 hover:text-white transition">
+                    <button type="button" 
+                            id="trigger-sub-perencanaan"
+                            onclick="toggleSubFeature('subcontent-perencanaan', this)"
+                            class="subgroup-trigger w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-bold text-slate-300 hover:bg-slate-800/80 hover:text-white transition">
                         <span class="flex items-center gap-2.5">
                             <i data-lucide="compass" class="w-3.5 h-3.5 text-blue-400"></i>
                             <span>Perencanaan</span>
                         </span>
-                        <i data-lucide="chevron-down"
-                            class="subgroup-chevron w-3.5 h-3.5 text-slate-400 transition-transform"></i>
+                        <i data-lucide="chevron-down" class="subgroup-chevron w-3.5 h-3.5 text-slate-400 transition-transform"></i>
                     </button>
                     <div id="subcontent-perencanaan" class="subgroup-content pl-3 pr-1 mt-1 space-y-0.5">
                         {% set perenc_items = [
-                        ('rencana-awal-renstra', 'Rencana Awal Renstra'),
-                        ('renstra', 'Renstra'),
-                        ('perjanjian-kinerja', 'Perjanjian Kinerja')
+                            ('rencana-awal-renstra', 'Rencana Awal Renstra'),
+                            ('renstra', 'Renstra'),
+                            ('perjanjian-kinerja', 'Perjanjian Kinerja')
                         ] %}
                         {% for slug, label in perenc_items %}
-                        <a href="{{ url_for('documents.open_category_drive', slug=slug) }}" target="_blank"
-                            rel="noopener noreferrer"
-                            class="nav-subitem flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs text-slate-400 hover:text-white hover:bg-slate-800/60 transition group/sub"
-                            title="Buka Google Drive {{ label }}">
+                        <a href="{{ url_for('documents.open_category_drive', slug=slug) }}" 
+                           target="_blank" 
+                           rel="noopener noreferrer" 
+                           class="nav-subitem flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs text-slate-400 hover:text-white hover:bg-slate-800/60 transition group/sub"
+                           title="Buka Google Drive {{ label }}">
                             <span class="flex items-center gap-2 truncate">
-                                <span
-                                    class="w-1.5 h-1.5 rounded-full bg-slate-500 group-hover/sub:bg-blue-400 flex-shrink-0 transition"></span>
+                                <span class="w-1.5 h-1.5 rounded-full bg-slate-500 group-hover/sub:bg-blue-400 flex-shrink-0 transition"></span>
                                 <span class="truncate">{{ label }}</span>
                             </span>
-                            <i data-lucide="external-link"
-                                class="w-3 h-3 text-slate-500 group-hover/sub:text-blue-400 opacity-60 group-hover/sub:opacity-100 flex-shrink-0 transition"></i>
+                            <i data-lucide="external-link" class="w-3 h-3 text-slate-500 group-hover/sub:text-blue-400 opacity-60 group-hover/sub:opacity-100 flex-shrink-0 transition"></i>
                         </a>
                         {% endfor %}
                     </div>
@@ -130,35 +122,34 @@
 
                 <!-- 3. PENGUKURAN (Monitoring Capaian Kinerja) -->
                 <div class="sidebar-subgroup">
-                    <button type="button" id="trigger-sub-pengukuran"
-                        onclick="toggleSubFeature('subcontent-pengukuran', this)"
-                        class="subgroup-trigger w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-bold text-slate-300 hover:bg-slate-800/80 hover:text-white transition">
+                    <button type="button" 
+                            id="trigger-sub-pengukuran"
+                            onclick="toggleSubFeature('subcontent-pengukuran', this)"
+                            class="subgroup-trigger w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-bold text-slate-300 hover:bg-slate-800/80 hover:text-white transition">
                         <span class="flex items-center gap-2.5">
                             <i data-lucide="gauge" class="w-3.5 h-3.5 text-emerald-400"></i>
                             <span>Pengukuran</span>
                         </span>
-                        <i data-lucide="chevron-down"
-                            class="subgroup-chevron w-3.5 h-3.5 text-slate-400 transition-transform"></i>
+                        <i data-lucide="chevron-down" class="subgroup-chevron w-3.5 h-3.5 text-slate-400 transition-transform"></i>
                     </button>
                     <div id="subcontent-pengukuran" class="subgroup-content pl-3 pr-1 mt-1 space-y-0.5">
                         {% set peng_items = [
-                        ('kkpk', 'KKPK'),
-                        ('daha', 'DAHA'),
-                        ('proksi', 'Proksi'),
-                        ('monitoring-capaian-renstra', 'Monitoring Capaian Renstra')
+                            ('kkpk', 'KKPK'),
+                            ('daha', 'DAHA'),
+                            ('proksi', 'Proksi'),
+                            ('monitoring-capaian-renstra', 'Monitoring Capaian Renstra')
                         ] %}
                         {% for slug, label in peng_items %}
-                        <a href="{{ url_for('documents.open_category_drive', slug=slug) }}" target="_blank"
-                            rel="noopener noreferrer"
-                            class="nav-subitem flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs text-slate-400 hover:text-white hover:bg-slate-800/60 transition group/sub"
-                            title="Buka Google Drive {{ label }}">
+                        <a href="{{ url_for('documents.open_category_drive', slug=slug) }}" 
+                           target="_blank" 
+                           rel="noopener noreferrer" 
+                           class="nav-subitem flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs text-slate-400 hover:text-white hover:bg-slate-800/60 transition group/sub"
+                           title="Buka Google Drive {{ label }}">
                             <span class="flex items-center gap-2 truncate">
-                                <span
-                                    class="w-1.5 h-1.5 rounded-full bg-slate-500 group-hover/sub:bg-emerald-400 flex-shrink-0 transition"></span>
+                                <span class="w-1.5 h-1.5 rounded-full bg-slate-500 group-hover/sub:bg-emerald-400 flex-shrink-0 transition"></span>
                                 <span class="truncate">{{ label }}</span>
                             </span>
-                            <i data-lucide="external-link"
-                                class="w-3 h-3 text-slate-500 group-hover/sub:text-emerald-400 opacity-60 group-hover/sub:opacity-100 flex-shrink-0 transition"></i>
+                            <i data-lucide="external-link" class="w-3 h-3 text-slate-500 group-hover/sub:text-emerald-400 opacity-60 group-hover/sub:opacity-100 flex-shrink-0 transition"></i>
                         </a>
                         {% endfor %}
                     </div>
@@ -166,32 +157,31 @@
 
                 <!-- 4. PELAPORAN -->
                 <div class="sidebar-subgroup">
-                    <button type="button" id="trigger-sub-pelaporan"
-                        onclick="toggleSubFeature('subcontent-pelaporan', this)"
-                        class="subgroup-trigger w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-bold text-slate-300 hover:bg-slate-800/80 hover:text-white transition">
+                    <button type="button" 
+                            id="trigger-sub-pelaporan"
+                            onclick="toggleSubFeature('subcontent-pelaporan', this)"
+                            class="subgroup-trigger w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-bold text-slate-300 hover:bg-slate-800/80 hover:text-white transition">
                         <span class="flex items-center gap-2.5">
                             <i data-lucide="file-check-2" class="w-3.5 h-3.5 text-amber-400"></i>
                             <span>Pelaporan</span>
                         </span>
-                        <i data-lucide="chevron-down"
-                            class="subgroup-chevron w-3.5 h-3.5 text-slate-400 transition-transform"></i>
+                        <i data-lucide="chevron-down" class="subgroup-chevron w-3.5 h-3.5 text-slate-400 transition-transform"></i>
                     </button>
                     <div id="subcontent-pelaporan" class="subgroup-content pl-3 pr-1 mt-1 space-y-0.5">
                         {% set pel_items = [
-                        ('laporan-kinerja', 'Laporan Kinerja')
+                            ('laporan-kinerja', 'Laporan Kinerja')
                         ] %}
                         {% for slug, label in pel_items %}
-                        <a href="{{ url_for('documents.open_category_drive', slug=slug) }}" target="_blank"
-                            rel="noopener noreferrer"
-                            class="nav-subitem flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs text-slate-400 hover:text-white hover:bg-slate-800/60 transition group/sub"
-                            title="Buka Google Drive {{ label }}">
+                        <a href="{{ url_for('documents.open_category_drive', slug=slug) }}" 
+                           target="_blank" 
+                           rel="noopener noreferrer" 
+                           class="nav-subitem flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs text-slate-400 hover:text-white hover:bg-slate-800/60 transition group/sub"
+                           title="Buka Google Drive {{ label }}">
                             <span class="flex items-center gap-2 truncate">
-                                <span
-                                    class="w-1.5 h-1.5 rounded-full bg-slate-500 group-hover/sub:bg-amber-400 flex-shrink-0 transition"></span>
+                                <span class="w-1.5 h-1.5 rounded-full bg-slate-500 group-hover/sub:bg-amber-400 flex-shrink-0 transition"></span>
                                 <span class="truncate">{{ label }}</span>
                             </span>
-                            <i data-lucide="external-link"
-                                class="w-3 h-3 text-slate-500 group-hover/sub:text-amber-400 opacity-60 group-hover/sub:opacity-100 flex-shrink-0 transition"></i>
+                            <i data-lucide="external-link" class="w-3 h-3 text-slate-500 group-hover/sub:text-amber-400 opacity-60 group-hover/sub:opacity-100 flex-shrink-0 transition"></i>
                         </a>
                         {% endfor %}
                     </div>
@@ -199,34 +189,33 @@
 
                 <!-- 5. EVALUASI -->
                 <div class="sidebar-subgroup">
-                    <button type="button" id="trigger-sub-evaluasi"
-                        onclick="toggleSubFeature('subcontent-evaluasi', this)"
-                        class="subgroup-trigger w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-bold text-slate-300 hover:bg-slate-800/80 hover:text-white transition">
+                    <button type="button" 
+                            id="trigger-sub-evaluasi"
+                            onclick="toggleSubFeature('subcontent-evaluasi', this)"
+                            class="subgroup-trigger w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-bold text-slate-300 hover:bg-slate-800/80 hover:text-white transition">
                         <span class="flex items-center gap-2.5">
                             <i data-lucide="clipboard-check" class="w-3.5 h-3.5 text-teal-400"></i>
                             <span>Evaluasi</span>
                         </span>
-                        <i data-lucide="chevron-down"
-                            class="subgroup-chevron w-3.5 h-3.5 text-slate-400 transition-transform"></i>
+                        <i data-lucide="chevron-down" class="subgroup-chevron w-3.5 h-3.5 text-slate-400 transition-transform"></i>
                     </button>
                     <div id="subcontent-evaluasi" class="subgroup-content pl-3 pr-1 mt-1 space-y-0.5">
                         {% set eval_items = [
-                        ('permindok', 'PERMINDOK'),
-                        ('lhe-akip', 'LHE AKIP'),
-                        ('berita-acara', 'Berita Acara')
+                            ('permindok', 'PERMINDOK'),
+                            ('lhe-akip', 'LHE AKIP'),
+                            ('berita-acara', 'Berita Acara')
                         ] %}
                         {% for slug, label in eval_items %}
-                        <a href="{{ url_for('documents.open_category_drive', slug=slug) }}" target="_blank"
-                            rel="noopener noreferrer"
-                            class="nav-subitem flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs text-slate-400 hover:text-white hover:bg-slate-800/60 transition group/sub"
-                            title="Buka Google Drive {{ label }}">
+                        <a href="{{ url_for('documents.open_category_drive', slug=slug) }}" 
+                           target="_blank" 
+                           rel="noopener noreferrer" 
+                           class="nav-subitem flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs text-slate-400 hover:text-white hover:bg-slate-800/60 transition group/sub"
+                           title="Buka Google Drive {{ label }}">
                             <span class="flex items-center gap-2 truncate">
-                                <span
-                                    class="w-1.5 h-1.5 rounded-full bg-slate-500 group-hover/sub:bg-teal-400 flex-shrink-0 transition"></span>
+                                <span class="w-1.5 h-1.5 rounded-full bg-slate-500 group-hover/sub:bg-teal-400 flex-shrink-0 transition"></span>
                                 <span class="truncate">{{ label }}</span>
                             </span>
-                            <i data-lucide="external-link"
-                                class="w-3 h-3 text-slate-500 group-hover/sub:text-teal-400 opacity-60 group-hover/sub:opacity-100 flex-shrink-0 transition"></i>
+                            <i data-lucide="external-link" class="w-3 h-3 text-slate-500 group-hover/sub:text-teal-400 opacity-60 group-hover/sub:opacity-100 flex-shrink-0 transition"></i>
                         </a>
                         {% endfor %}
                     </div>
@@ -234,66 +223,53 @@
 
                 <!-- 6. KELENGKAPAN SAKIP -->
                 <div class="sidebar-subgroup">
-                    <button type="button" id="trigger-sub-kelengkapan"
-                        onclick="toggleSubFeature('subcontent-kelengkapan', this)"
-                        class="subgroup-trigger w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-bold text-slate-300 hover:bg-slate-800/80 hover:text-white transition">
+                    <button type="button" 
+                            id="trigger-sub-kelengkapan"
+                            onclick="toggleSubFeature('subcontent-kelengkapan', this)"
+                            class="subgroup-trigger w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-bold text-slate-300 hover:bg-slate-800/80 hover:text-white transition">
                         <span class="flex items-center gap-2.5">
                             <i data-lucide="check-square" class="w-3.5 h-3.5 text-purple-400"></i>
                             <span>Kelengkapan SAKIP</span>
                         </span>
                         <div class="flex items-center gap-1.5">
                             {% if pending_docs_count > 0 %}
-                            <span
-                                class="px-1.5 py-0.2 text-[9px] font-bold bg-amber-500/20 text-amber-400 border border-amber-500/30 rounded-full">
+                            <span class="px-1.5 py-0.2 text-[9px] font-bold bg-amber-500/20 text-amber-400 border border-amber-500/30 rounded-full">
                                 {{ pending_docs_count }}
                             </span>
                             {% endif %}
-                            <i data-lucide="chevron-down"
-                                class="subgroup-chevron w-3.5 h-3.5 text-slate-400 transition-transform"></i>
+                            <i data-lucide="chevron-down" class="subgroup-chevron w-3.5 h-3.5 text-slate-400 transition-transform"></i>
                         </div>
                     </button>
                     <div id="subcontent-kelengkapan" class="subgroup-content pl-3 pr-1 mt-1 space-y-0.5">
                         {% set kel_items = [
-                        ('sk-tim-kerja-sakip', 'SK Tim Kerja SAKIP'),
-                        ('reward-dan-punishment', 'Reward & Punishment'),
-                        ('mph', 'MPH'),
-                        ('skp', 'SKP'),
-                        ('pedoman-teknis', 'Pedoman Teknis')
+                            ('sk-tim-kerja-sakip', 'SK Tim Kerja SAKIP'),
+                            ('reward-dan-punishment', 'Reward & Punishment'),
+                            ('mph', 'MPH'),
+                            ('skp', 'SKP'),
+                            ('pedoman-teknis', 'Pedoman Teknis')
                         ] %}
                         {% for slug, label in kel_items %}
-                        <a href="{{ url_for('documents.open_category_drive', slug=slug) }}" target="_blank"
-                            rel="noopener noreferrer"
-                            class="nav-subitem flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs text-slate-400 hover:text-white hover:bg-slate-800/60 transition group/sub"
-                            title="Buka Google Drive {{ label }}">
+                        <a href="{{ url_for('documents.open_category_drive', slug=slug) }}" 
+                           target="_blank" 
+                           rel="noopener noreferrer" 
+                           class="nav-subitem flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs text-slate-400 hover:text-white hover:bg-slate-800/60 transition group/sub"
+                           title="Buka Google Drive {{ label }}">
                             <span class="flex items-center gap-2 truncate">
-                                <span
-                                    class="w-1.5 h-1.5 rounded-full bg-slate-500 group-hover/sub:bg-purple-400 flex-shrink-0 transition"></span>
+                                <span class="w-1.5 h-1.5 rounded-full bg-slate-500 group-hover/sub:bg-purple-400 flex-shrink-0 transition"></span>
                                 <span class="truncate">{{ label }}</span>
                             </span>
-                            <i data-lucide="external-link"
-                                class="w-3 h-3 text-slate-500 group-hover/sub:text-purple-400 opacity-60 group-hover/sub:opacity-100 flex-shrink-0 transition"></i>
+                            <i data-lucide="external-link" class="w-3 h-3 text-slate-500 group-hover/sub:text-purple-400 opacity-60 group-hover/sub:opacity-100 flex-shrink-0 transition"></i>
                         </a>
                         {% endfor %}
-                        <a href="{{ url_for('completeness.penilaian') }}"
-                            class="nav-subitem flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs text-slate-400 hover:text-white hover:bg-slate-800/60 transition">
-                            <span class="flex items-center gap-2">
-                                <span class="w-1.5 h-1.5 rounded-full bg-orange-400"></span>
-                                <span>Penilaian Kriteria SAKIP</span>
-                            </span>
-                            <span class="text-[9px] font-bold bg-orange-500/20 text-orange-300 px-1.5 py-0.2 rounded">LKE</span>
-                        </a>
-                        <a href="{{ url_for('completeness.checklist') }}"
-                            class="nav-subitem flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-xs text-slate-400 hover:text-white hover:bg-slate-800/60 transition">
+                        <a href="{{ url_for('completeness.checklist') }}" class="nav-subitem flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-xs text-slate-400 hover:text-white hover:bg-slate-800/60 transition">
                             <span class="w-1.5 h-1.5 rounded-full bg-slate-500"></span>
                             <span>Checklist Dokumen</span>
                         </a>
-                        <a href="{{ url_for('completeness.administrasi') }}"
-                            class="nav-subitem flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-xs text-slate-400 hover:text-white hover:bg-slate-800/60 transition">
+                        <a href="{{ url_for('completeness.administrasi') }}" class="nav-subitem flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-xs text-slate-400 hover:text-white hover:bg-slate-800/60 transition">
                             <span class="w-1.5 h-1.5 rounded-full bg-slate-500"></span>
                             <span>Kelengkapan Administrasi</span>
                         </a>
-                        <a href="{{ url_for('completeness.belum_lengkap') }}"
-                            class="nav-subitem flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs text-slate-400 hover:text-white hover:bg-slate-800/60 transition">
+                        <a href="{{ url_for('completeness.belum_lengkap') }}" class="nav-subitem flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs text-slate-400 hover:text-white hover:bg-slate-800/60 transition">
                             <span class="flex items-center gap-2">
                                 <span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
                                 <span>Belum Lengkap</span>
@@ -309,33 +285,33 @@
 
                 <!-- 7. LINK PENTING (SINERGI, KiPApp, MAJAPAHIT) -->
                 <div class="sidebar-subgroup">
-                    <button type="button" id="trigger-sub-penting"
-                        onclick="toggleSubFeature('subcontent-penting', this)"
-                        class="subgroup-trigger w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-bold text-slate-300 hover:bg-slate-800/80 hover:text-white transition">
+                    <button type="button" 
+                            id="trigger-sub-penting"
+                            onclick="toggleSubFeature('subcontent-penting', this)"
+                            class="subgroup-trigger w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-bold text-slate-300 hover:bg-slate-800/80 hover:text-white transition">
                         <span class="flex items-center gap-2.5">
                             <i data-lucide="star" class="w-3.5 h-3.5 text-orange-400"></i>
                             <span>Link Penting</span>
                         </span>
-                        <i data-lucide="chevron-down"
-                            class="subgroup-chevron w-3.5 h-3.5 text-slate-400 transition-transform"></i>
+                        <i data-lucide="chevron-down" class="subgroup-chevron w-3.5 h-3.5 text-slate-400 transition-transform"></i>
                     </button>
                     <div id="subcontent-penting" class="subgroup-content pl-3 pr-1 mt-1 space-y-0.5">
                         {% set penting_items = [
-                        ('sinergi', 'SINERGI'),
-                        ('kipapp', 'KiPApp'),
-                        ('majapahit', 'MAJAPAHIT')
+                            ('sinergi', 'SINERGI'),
+                            ('kipapp', 'KiPApp'),
+                            ('majapahit', 'MAJAPAHIT')
                         ] %}
                         {% for cslug, clabel in penting_items %}
-                        <a href="{{ url_for('important_links.open_link', code_slug=cslug) }}" target="_blank"
-                            rel="noopener noreferrer"
-                            class="nav-subitem flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs text-slate-400 hover:text-white hover:bg-slate-800/60 transition group/sub"
-                            title="Buka Portal {{ clabel }}">
+                        <a href="{{ url_for('important_links.open_link', code_slug=cslug) }}" 
+                           target="_blank" 
+                           rel="noopener noreferrer" 
+                           class="nav-subitem flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs text-slate-400 hover:text-white hover:bg-slate-800/60 transition group/sub"
+                           title="Buka Portal {{ clabel }}">
                             <span class="flex items-center gap-2 truncate">
                                 <span class="w-1.5 h-1.5 rounded-full bg-orange-400 flex-shrink-0"></span>
                                 <span class="truncate">{{ clabel }}</span>
                             </span>
-                            <i data-lucide="external-link"
-                                class="w-3 h-3 text-slate-500 group-hover/sub:text-orange-400 opacity-60 group-hover/sub:opacity-100 flex-shrink-0 transition"></i>
+                            <i data-lucide="external-link" class="w-3 h-3 text-slate-500 group-hover/sub:text-orange-400 opacity-60 group-hover/sub:opacity-100 flex-shrink-0 transition"></i>
                         </a>
                         {% endfor %}
                     </div>
@@ -344,33 +320,30 @@
                 <!-- 7. MANAJEMEN ADMIN (Khusus Admin) -->
                 {% if current_user.is_authenticated and current_user.is_admin %}
                 <div class="sidebar-subgroup pt-2 border-t border-slate-800/60">
-                    <button type="button" id="trigger-sub-admin" onclick="toggleSubFeature('subcontent-admin', this)"
-                        class="subgroup-trigger w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-bold text-orange-400 hover:bg-slate-800/80 hover:text-orange-300 transition">
+                    <button type="button" 
+                            id="trigger-sub-admin"
+                            onclick="toggleSubFeature('subcontent-admin', this)"
+                            class="subgroup-trigger w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-bold text-orange-400 hover:bg-slate-800/80 hover:text-orange-300 transition">
                         <span class="flex items-center gap-2.5">
                             <i data-lucide="shield" class="w-3.5 h-3.5 text-orange-400"></i>
                             <span>Manajemen Admin</span>
                         </span>
-                        <i data-lucide="chevron-down"
-                            class="subgroup-chevron w-3.5 h-3.5 text-orange-400 transition-transform"></i>
+                        <i data-lucide="chevron-down" class="subgroup-chevron w-3.5 h-3.5 text-orange-400 transition-transform"></i>
                     </button>
                     <div id="subcontent-admin" class="subgroup-content pl-3 pr-1 mt-1 space-y-0.5">
-                        <a href="{{ url_for('users.index') }}"
-                            class="nav-subitem flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-xs text-slate-400 hover:text-white hover:bg-slate-800/60 transition">
+                        <a href="{{ url_for('users.index') }}" class="nav-subitem flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-xs text-slate-400 hover:text-white hover:bg-slate-800/60 transition">
                             <i data-lucide="users" class="w-3 h-3"></i>
                             <span>Kelola Pengguna</span>
                         </a>
-                        <a href="{{ url_for('categories.index') }}"
-                            class="nav-subitem flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-xs text-slate-400 hover:text-white hover:bg-slate-800/60 transition">
+                        <a href="{{ url_for('categories.index') }}" class="nav-subitem flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-xs text-slate-400 hover:text-white hover:bg-slate-800/60 transition">
                             <i data-lucide="tags" class="w-3 h-3"></i>
                             <span>Kelola Kategori</span>
                         </a>
-                        <a href="{{ url_for('settings.links') }}"
-                            class="nav-subitem flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-xs text-slate-400 hover:text-white hover:bg-slate-800/60 transition">
+                        <a href="{{ url_for('settings.links') }}" class="nav-subitem flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-xs text-slate-400 hover:text-white hover:bg-slate-800/60 transition">
                             <i data-lucide="link" class="w-3 h-3"></i>
                             <span>Pengaturan Link</span>
                         </a>
-                        <a href="{{ url_for('settings.activities') }}"
-                            class="nav-subitem flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-xs text-slate-400 hover:text-white hover:bg-slate-800/60 transition">
+                        <a href="{{ url_for('settings.activities') }}" class="nav-subitem flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-xs text-slate-400 hover:text-white hover:bg-slate-800/60 transition">
                             <i data-lucide="activity" class="w-3 h-3"></i>
                             <span>Log Aktivitas</span>
                         </a>
@@ -388,27 +361,25 @@
     <div class="p-3.5 border-t border-slate-800/80 bg-slate-900/60 flex items-center justify-between">
         {% if current_user.is_authenticated %}
         <a href="{{ url_for('auth.profile') }}" class="flex items-center gap-2.5 min-w-0 group">
-            <div
-                class="w-8 h-8 rounded-lg bg-orange-500/20 text-[#F28C28] border border-orange-500/30 flex items-center justify-center font-bold text-xs flex-shrink-0 group-hover:scale-105 transition-transform">
+            <div class="w-8 h-8 rounded-lg bg-orange-500/20 text-[#F28C28] border border-orange-500/30 flex items-center justify-center font-bold text-xs flex-shrink-0 group-hover:scale-105 transition-transform">
                 {{ (current_user.full_name or current_user.username or 'US')[:2].upper() }}
             </div>
             <div class="min-w-0 sidebar-text">
-                <p class="text-xs font-bold text-white truncate group-hover:text-[#F28C28] transition">{{
-                    current_user.full_name or current_user.username }}</p>
+                <p class="text-xs font-bold text-white truncate group-hover:text-[#F28C28] transition">{{ current_user.full_name or current_user.username }}</p>
                 <span class="inline-block text-[9px] font-black uppercase tracking-wider text-orange-400">
                     {{ current_user.role_display_name }}
                 </span>
             </div>
         </a>
 
-        <a href="{{ url_for('auth.logout') }}" title="Keluar (Logout)"
-            class="p-2 text-slate-400 hover:text-red-400 hover:bg-red-500/10 rounded-lg transition"
-            onclick="return confirm('Apakah Anda yakin ingin keluar dari PRIMA?');">
+        <a href="{{ url_for('auth.logout') }}" 
+           title="Keluar (Logout)" 
+           class="p-2 text-slate-400 hover:text-red-400 hover:bg-red-500/10 rounded-lg transition"
+           onclick="return confirm('Apakah Anda yakin ingin keluar dari PRIMA?');">
             <i data-lucide="log-out" class="w-4 h-4"></i>
         </a>
         {% else %}
-        <a href="{{ url_for('auth.login') }}"
-            class="w-full py-2 px-3 bg-orange-500 hover:bg-orange-600 text-white rounded-xl text-xs font-bold text-center transition flex items-center justify-center gap-1.5 shadow-sm">
+        <a href="{{ url_for('auth.login') }}" class="w-full py-2 px-3 bg-orange-500 hover:bg-orange-600 text-white rounded-xl text-xs font-bold text-center transition flex items-center justify-center gap-1.5 shadow-sm">
             <i data-lucide="log-in" class="w-3.5 h-3.5"></i>
             <span>Masuk ke PRIMA</span>
         </a>

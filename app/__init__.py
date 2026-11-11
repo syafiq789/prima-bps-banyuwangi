@@ -4,7 +4,7 @@ from flask import Flask, render_template, request
 from flask_login import LoginManager
 from sqlalchemy import create_engine, text
 from config import config, Config
-from app.models import db, User, Category, ImportantLink, Document, DocumentCompleteness, Activity, SakipEvaluation
+from app.models import db, User, Category, ImportantLink, Document, DocumentCompleteness, Activity
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -456,7 +456,12 @@ def seed_initial_data():
 
         db.session.commit()
 
-        # 4. Checklist Kelengkapan Dokumen Standard AKIP (Hanya seed jika belum ada)
+        # 4. Tabel Document dikosongkan (0 dokumen diupload secara awal)
+        # Menghapus dokumen bawaan awal agar data mencerminkan unggahan riil pengguna
+        db.session.query(Document).delete()
+        db.session.commit()
+
+        # 5. Checklist Kelengkapan Dokumen Standard AKIP (Status Awal: Belum Lengkap / 0 Terpenuhi)
         checklist_templates = [
             {"cat_slug": "renstra", "year": 2025, "item": "Rencana Strategis (Renstra) BPS Banyuwangi 2025-2029"},
             {"cat_slug": "rencana-awal-renstra", "year": 2024, "item": "Dokumen Rancangan Awal Renstra"},
@@ -486,121 +491,14 @@ def seed_initial_data():
                         notes="Belum ada dokumen yang diunggah."
                     )
                     db.session.add(c_item)
+                else:
+                    c_item.is_fulfilled = False
+                    c_item.category_id = cat.id
+                    c_item.notes = "Belum ada dokumen yang diunggah."
 
         db.session.commit()
 
-        # 5. Kriteria Penilaian LKE SAKIP (PermenPANRB No. 88 Tahun 2021 - Total Bobot 100%)
-        lke_criteria_templates = [
-            # 1. PERENCANAAN KINERJA (30%)
-            {
-                "code": "perencanaan", "name": "Perencanaan Kinerja", "weight": 30.0,
-                "sub": "1.a Pemenuhan Dokumen Perencanaan",
-                "criteria": "Dokumen Perencanaan Kinerja (Renstra, Rencana Awal Renstra, PK) telah disusun, ditetapkan tepat waktu, dan dipublikasikan.",
-                "max_score": 6.0,
-                "evidence_url": "https://drive.google.com/drive/folders/1tG_Z7uqrJQ0B8EJxbgsN-NgfgSocK1uJ?usp=sharing"
-            },
-            {
-                "code": "perencanaan", "name": "Perencanaan Kinerja", "weight": 30.0,
-                "sub": "1.b Kualitas Perencanaan Kinerja",
-                "criteria": "Sasaran strategis dan Indikator Kinerja Utama (IKU) memenuhi kriteria SMART, berorientasi hasil (outcome), serta selaras (cascading).",
-                "max_score": 9.0,
-                "evidence_url": "https://drive.google.com/drive/folders/13z-GsSIqqSXNa4QbdAj9ezuYQ-K0V89y?usp=sharing"
-            },
-            {
-                "code": "perencanaan", "name": "Perencanaan Kinerja", "weight": 30.0,
-                "sub": "1.c Implementasi Perencanaan Kinerja",
-                "criteria": "Perjanjian Kinerja (PK) menjadi acuan utama dalam penyusunan Rencana Kerja, anggaran, MPH, dan penetapan SKP individu pegawai.",
-                "max_score": 15.0,
-                "evidence_url": "https://drive.google.com/drive/folders/1sPNbUk3DsKIPL4XS6ZWagtCp7Oxyp7Sy?usp=sharing"
-            },
-            # 2. PENGUKURAN KINERJA (30%)
-            {
-                "code": "pengukuran", "name": "Pengukuran Kinerja", "weight": 30.0,
-                "sub": "2.a Pemenuhan Pengukuran Kinerja",
-                "criteria": "Terdapat instrumen pengukuran kinerja yang jelas berupa KKPK, DAHA, dan Proksi untuk memantau realisasi target triwulanan.",
-                "max_score": 6.0,
-                "evidence_url": "https://drive.google.com/drive/folders/1X3YlxX-Y9MHur9xvSxwktSHXeYeD7qY6?usp=sharing"
-            },
-            {
-                "code": "pengukuran", "name": "Pengukuran Kinerja", "weight": 30.0,
-                "sub": "2.b Kualitas Pengukuran Kinerja",
-                "criteria": "Pengumpulan data kinerja (DAHA) dilakukan secara andal, akurat, terverifikasi melalui pengawasan internal (Proksi).",
-                "max_score": 9.0,
-                "evidence_url": "https://drive.google.com/drive/folders/1ZXCDu6HCLKHx-PwuGlhzsDQj1ck2UQpE?usp=sharing"
-            },
-            {
-                "code": "pengukuran", "name": "Pengukuran Kinerja", "weight": 30.0,
-                "sub": "2.c Implementasi Pengukuran Kinerja",
-                "criteria": "Hasil monitoring capaian kinerja Renstra dimanfaatkan untuk penyesuaian strategi serta pemberian Reward & Punishment pegawai.",
-                "max_score": 15.0,
-                "evidence_url": "https://drive.google.com/drive/folders/1BYW2BPyeDHEGI7AbcmkywUaaHdguZbe-?usp=sharing"
-            },
-            # 3. PELAPORAN KINERJA (15%)
-            {
-                "code": "pelaporan", "name": "Pelaporan Kinerja", "weight": 15.0,
-                "sub": "3.a Pemenuhan Pelaporan Kinerja",
-                "criteria": "Laporan Kinerja Instansi Pemerintah (LAKIP / LKjIP) telah disusun, disampaikan tepat waktu, dan diarsipkan dengan tertib.",
-                "max_score": 3.0,
-                "evidence_url": "https://drive.google.com/drive/folders/1APuhRzJikTUZVLujq34rhQ-z1KAzmAQ3?usp=sharing"
-            },
-            {
-                "code": "pelaporan", "name": "Pelaporan Kinerja", "weight": 15.0,
-                "sub": "3.b Kualitas Pelaporan Kinerja",
-                "criteria": "LAKIP menyajikan analisis capaian target tahunan, perbandingan dengan tahun sebelumnya, analisis kendala, dan efisiensi anggaran.",
-                "max_score": 4.5,
-                "evidence_url": "https://drive.google.com/drive/folders/1APuhRzJikTUZVLujq34rhQ-z1KAzmAQ3?usp=sharing"
-            },
-            {
-                "code": "pelaporan", "name": "Pelaporan Kinerja", "weight": 15.0,
-                "sub": "3.c Pemanfaatan Pelaporan Kinerja",
-                "criteria": "Informasi capaian kinerja dalam LAKIP dimanfaatkan pimpinan untuk pengambilan keputusan perbaikan kinerja periode berikutnya.",
-                "max_score": 7.5,
-                "evidence_url": "https://drive.google.com/drive/folders/1APuhRzJikTUZVLujq34rhQ-z1KAzmAQ3?usp=sharing"
-            },
-            # 4. EVALUASI AKUNTABILITAS KINERJA INTERNAL (25%)
-            {
-                "code": "evaluasi", "name": "Evaluasi AKIP Internal", "weight": 25.0,
-                "sub": "4.a Pemenuhan Evaluasi Internal",
-                "criteria": "Evaluasi AKIP internal dan pemenuhan dokumen evaluasi (PERMINDOK) telah dilaksanakan oleh tim kerja SAKIP.",
-                "max_score": 5.0,
-                "evidence_url": "https://drive.google.com/drive/folders/1MZNZ5ybRGqwKP16L-ZcJNaYTb2Wkvu5Y?usp=sharing"
-            },
-            {
-                "code": "evaluasi", "name": "Evaluasi AKIP Internal", "weight": 25.0,
-                "sub": "4.b Kualitas Evaluasi Internal",
-                "criteria": "Evaluasi dilaksanakan sesuai pedoman teknis AKIP dengan menghasilkan Laporan Hasil Evaluasi (LHE) AKIP yang objektif.",
-                "max_score": 7.5,
-                "evidence_url": "https://drive.google.com/drive/folders/1qafMSDY-mGhsAsC1IhNWZ1PLDbdDBRxl?usp=sharing"
-            },
-            {
-                "code": "evaluasi", "name": "Evaluasi AKIP Internal", "weight": 25.0,
-                "sub": "4.c Implementasi & Tindak Lanjut LHE",
-                "criteria": "Rekomendasi LHE AKIP ditindaklanjuti secara nyata (dibuktikan Berita Acara rekonsiliasi) untuk peningkatan nilai SAKIP.",
-                "max_score": 12.5,
-                "evidence_url": "https://drive.google.com/drive/folders/1EvOLIDXtA-2p9Y1Uz2rJwUEtZV7THPcG?usp=sharing"
-            }
-        ]
-
-        for eval_year in [2024, 2025, 2026]:
-            if SakipEvaluation.query.filter_by(year=eval_year).count() == 0:
-                for item in lke_criteria_templates:
-                    db.session.add(SakipEvaluation(
-                        year=eval_year,
-                        component_code=item['code'],
-                        component_name=item['name'],
-                        component_weight=item['weight'],
-                        sub_component=item['sub'],
-                        criteria_name=item['criteria'],
-                        max_score=item['max_score'],
-                        score=0.0,
-                        answer_grade='',
-                        evidence_url=item['evidence_url'],
-                        evaluator_notes=''
-                    ))
-
-        db.session.commit()
-
-        logger.info("Database initialization and LKE SAKIP criteria seeding completed.")
+        logger.info("Database initialization completed with 0 initial uploaded documents.")
     except Exception as e:
         logger.error(f"Error during seeding initial data: {e}")
         db.session.rollback()
