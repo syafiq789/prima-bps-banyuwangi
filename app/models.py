@@ -189,3 +189,58 @@ class Activity(db.Model):
     def __repr__(self):
         return f'<Activity {self.action} by {self.user_id}>'
 
+
+class SakipEvaluation(db.Model):
+    """Model Penilaian Kriteria LKE SAKIP (PermenPANRB No. 88 Tahun 2021)."""
+    __tablename__ = 'sakip_evaluations'
+
+    id = db.Column(db.Integer, primary_key=True)
+    year = db.Column(db.Integer, nullable=False, index=True)
+    component_code = db.Column(db.String(30), nullable=False) # 'perencanaan', 'pengukuran', 'pelaporan', 'evaluasi'
+    component_name = db.Column(db.String(100), nullable=False)
+    component_weight = db.Column(db.Float, nullable=False) # 30.0, 30.0, 15.0, 25.0
+    sub_component = db.Column(db.String(150), nullable=False)
+    criteria_name = db.Column(db.Text, nullable=False)
+    max_score = db.Column(db.Float, nullable=False)
+    score = db.Column(db.Float, default=0.0, nullable=False)
+    answer_grade = db.Column(db.String(10), default='', nullable=True) # 'AA', 'A', 'BB', 'B', 'CC', 'C', 'D', ''
+    evidence_url = db.Column(db.String(500), nullable=True)
+    evaluator_notes = db.Column(db.Text, nullable=True)
+    updated_by = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='SET NULL'), nullable=True)
+    updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+
+    GRADE_MULTIPLIERS = {
+        'AA': 1.00,
+        'A': 0.90,
+        'BB': 0.80,
+        'B': 0.70,
+        'CC': 0.60,
+        'C': 0.40,
+        'D': 0.20,
+        '': 0.00
+    }
+
+    @staticmethod
+    def get_predicate(total_score):
+        """Mengembalikan kode predikat, label deskripsi, dan kelas warna berdasarkan total skor (0-100)."""
+        if total_score <= 0:
+            return ('-', 'Belum Dinilai', 'slate')
+        elif total_score > 90:
+            return ('AA', 'Sangat Memuaskan', 'emerald')
+        elif total_score > 80:
+            return ('A', 'Memuaskan', 'teal')
+        elif total_score > 70:
+            return ('BB', 'Sangat Baik', 'blue')
+        elif total_score > 60:
+            return ('B', 'Baik', 'indigo')
+        elif total_score > 50:
+            return ('CC', 'Cukup (Memadai)', 'amber')
+        elif total_score > 30:
+            return ('C', 'Kurang', 'orange')
+        else:
+            return ('D', 'Sangat Kurang', 'red')
+
+    def __repr__(self):
+        return f'<SakipEvaluation {self.year} - {self.sub_component}: {self.score}/{self.max_score}>'
+
+

@@ -193,6 +193,15 @@
                 <div class="p-4 bg-slate-50 rounded-2xl border border-slate-100 text-xs text-slate-600 space-y-2.5">
                     <div class="flex items-center justify-between">
                         <span class="flex items-center gap-1.5 text-slate-700">
+                            <i data-lucide="award" class="w-4 h-4 text-orange-500"></i>
+                            <span>Nilai LKE SAKIP (2025):</span>
+                        </span>
+                        <span class="font-bold text-slate-900">
+                            {{ "%.2f"|format(sakip_score) }} <span class="px-1.5 py-0.5 rounded bg-orange-100 text-orange-700 text-[10px] font-black ml-1">{{ sakip_pred_code }}</span>
+                        </span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span class="flex items-center gap-1.5 text-slate-700">
                             <i data-lucide="check-check" class="w-4 h-4 text-emerald-600"></i>
                             <span>Status Selesai Validasi:</span>
                         </span>
@@ -209,11 +218,11 @@
             </div>
 
             <div class="mt-6 pt-4 border-t border-slate-100 flex gap-2">
-                <a href="{{ url_for('completeness.checklist') }}" class="flex-1 py-2.5 px-3 text-center bg-navy-main hover:bg-navy-dark text-white rounded-xl text-xs font-semibold shadow-sm transition">
-                    Buka Checklist Dokumen
+                <a href="{{ url_for('completeness.penilaian') }}" class="flex-1 py-2.5 px-3 text-center bg-orange-500 hover:bg-orange-600 text-white rounded-xl text-xs font-semibold shadow-sm transition">
+                    Penilaian LKE SAKIP
                 </a>
-                <a href="{{ url_for('settings.links') }}" class="py-2.5 px-3 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-semibold transition">
-                    Pengaturan Link
+                <a href="{{ url_for('completeness.checklist') }}" class="py-2.5 px-3 bg-navy-main hover:bg-navy-dark text-white rounded-xl text-xs font-semibold shadow-sm transition">
+                    Checklist
                 </a>
             </div>
         </div>

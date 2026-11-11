@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template
 from flask_login import login_required
 from sqlalchemy import func
-from app.models import db, Document, Category, ImportantLink, Activity, DocumentCompleteness
+from app.models import db, Document, Category, ImportantLink, Activity, DocumentCompleteness, SakipEvaluation
 
 dashboard_bp = Blueprint('dashboard', __name__)
 
@@ -28,10 +28,14 @@ def index():
     else:
         completion_percentage = 0.0
 
-    # 2. Checklist AKIP Summary
+    # 2. Checklist AKIP Summary & LKE SAKIP Score (Tahun 2025)
     total_checklist = DocumentCompleteness.query.count()
     fulfilled_checklist = DocumentCompleteness.query.filter_by(is_fulfilled=True).count()
     checklist_percentage = round((fulfilled_checklist / total_checklist) * 100, 1) if total_checklist > 0 else 0.0
+
+    sakip_evals = SakipEvaluation.query.filter_by(year=2025).all()
+    sakip_score = round(sum(e.score for e in sakip_evals), 2)
+    sakip_pred_code, sakip_pred_label, _ = SakipEvaluation.get_predicate(sakip_score)
 
     # 3. Dokumen Terakhir Diunggah (limit 8)
     recent_documents = Document.query.order_by(Document.created_at.desc()).limit(8).all()
@@ -73,6 +77,9 @@ def index():
         total_checklist=total_checklist,
         fulfilled_checklist=fulfilled_checklist,
         checklist_percentage=checklist_percentage,
+        sakip_score=sakip_score,
+        sakip_pred_code=sakip_pred_code,
+        sakip_pred_label=sakip_pred_label,
         recent_documents=recent_documents,
         recent_activities=recent_activities,
         group_counts=group_counts,
