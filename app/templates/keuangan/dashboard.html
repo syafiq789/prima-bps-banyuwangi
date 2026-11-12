@@ -5,7 +5,7 @@
 {% block content %}
 <div class="space-y-6">
 
-    <!-- Header Module Banner -->
+    <!-- Header Module Banner with Breadcrumbs -->
     <div class="relative overflow-hidden rounded-3xl bg-gradient-to-r from-[#1B2A1F] via-[#102E24] to-[#144234] text-white p-6 sm:p-8 shadow-card border border-slate-700/50">
         <div class="absolute -right-10 -bottom-10 w-80 h-80 bg-emerald-500/15 rounded-full blur-3xl pointer-events-none"></div>
         <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -14,22 +14,29 @@
                     <i data-lucide="wallet" class="w-10 h-10"></i>
                 </div>
                 <div>
-                    <div class="inline-flex items-center gap-2 px-3 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-xs font-semibold uppercase tracking-wider mb-1">
-                        <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
-                        <span>Modul SIMPATIK</span>
+                    <div class="flex items-center gap-2 text-xs text-emerald-300 mb-1">
+                        <a href="{{ url_for('dashboard.index') }}" class="hover:underline flex items-center gap-1">
+                            <i data-lucide="home" class="w-3 h-3"></i> PRIMA
+                        </a>
+                        <span>&bull;</span>
+                        <span class="font-semibold text-white">Tracking Keuangan DIPA BPS</span>
                     </div>
                     <h1 class="text-2xl sm:text-3xl font-black tracking-tight text-white">Tracking & Realisasi Anggaran</h1>
-                    <p class="text-xs sm:text-sm text-slate-300">Pengelolaan Pagu Akun, Pengajuan Anggaran, Persetujuan, dan Realisasi SP2D</p>
+                    <p class="text-xs sm:text-sm text-slate-300">Pengelolaan Pagu Akun, Verifikasi Pengajuan Anggaran, Persetujuan PPK, dan Realisasi SP2D</p>
                 </div>
             </div>
-            <div class="flex items-center gap-2">
+            <div class="flex flex-wrap items-center gap-2">
                 <a href="{{ url_for('keuangan.pengajuan') }}" class="px-4 py-2.5 rounded-xl bg-orange-500 hover:bg-orange-600 text-white font-semibold text-xs sm:text-sm transition-all shadow-md flex items-center gap-2">
                     <i data-lucide="plus-circle" class="w-4 h-4"></i>
                     <span>Ajukan Anggaran</span>
                 </a>
+                <a href="{{ url_for('keuangan.persetujuan') }}" class="px-4 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-semibold text-xs sm:text-sm transition-all border border-white/20 flex items-center gap-2">
+                    <i data-lucide="check-square" class="w-4 h-4"></i>
+                    <span>Persetujuan PPK</span>
+                </a>
                 <a href="{{ url_for('keuangan.rekapitulasi') }}" class="px-4 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-semibold text-xs sm:text-sm transition-all border border-white/20 flex items-center gap-2">
                     <i data-lucide="bar-chart-3" class="w-4 h-4"></i>
-                    <span>Rekapitulasi</span>
+                    <span>Rekap DIPA</span>
                 </a>
             </div>
         </div>
@@ -39,35 +46,98 @@
     <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
         <div class="bg-white rounded-2xl p-4 border border-slate-200/80 shadow-soft">
             <div class="flex items-center justify-between text-slate-400 mb-2">
-                <span class="text-xs font-medium uppercase tracking-wider">Total Pagu Awal</span>
+                <span class="text-xs font-medium uppercase tracking-wider">Total Pagu DIPA</span>
                 <i data-lucide="landmark" class="w-4 h-4 text-slate-500"></i>
             </div>
             <div class="text-xl sm:text-2xl font-black text-slate-800">Rp {{ "{:,}".format(total_pagu_akun).replace(',', '.') }}</div>
-            <p class="text-[11px] text-slate-400 mt-1">Total alokasi DIPA BPS</p>
+            <p class="text-[11px] text-slate-400 mt-1">Alokasi seluruh MAK</p>
         </div>
         <div class="bg-white rounded-2xl p-4 border border-slate-200/80 shadow-soft">
             <div class="flex items-center justify-between text-slate-400 mb-2">
-                <span class="text-xs font-medium uppercase tracking-wider">Total Realisasi</span>
+                <span class="text-xs font-medium uppercase tracking-wider">Total Realisasi SP2D</span>
                 <i data-lucide="check-check" class="w-4 h-4 text-emerald-500"></i>
             </div>
             <div class="text-xl sm:text-2xl font-black text-emerald-600">Rp {{ "{:,}".format(total_realisasi).replace(',', '.') }}</div>
-            <p class="text-[11px] text-slate-400 mt-1">Telah diterbitkan SP2D</p>
+            <div class="flex items-center gap-1.5 mt-1">
+                <span class="px-1.5 py-0.5 rounded text-[10px] font-bold bg-emerald-100 text-emerald-800">Serapan: {{ persentase_serapan }}%</span>
+            </div>
         </div>
         <div class="bg-white rounded-2xl p-4 border border-slate-200/80 shadow-soft">
             <div class="flex items-center justify-between text-slate-400 mb-2">
-                <span class="text-xs font-medium uppercase tracking-wider">Sisa Anggaran</span>
+                <span class="text-xs font-medium uppercase tracking-wider">Sisa Pagu Tersedia</span>
                 <i data-lucide="pie-chart" class="w-4 h-4 text-blue-500"></i>
             </div>
             <div class="text-xl sm:text-2xl font-black text-blue-600">Rp {{ "{:,}".format(sisa_anggaran).replace(',', '.') }}</div>
-            <p class="text-[11px] text-slate-400 mt-1">Sisa pagu yang tersedia</p>
+            <p class="text-[11px] text-slate-400 mt-1">Belum terserap</p>
         </div>
         <div class="bg-white rounded-2xl p-4 border border-slate-200/80 shadow-soft">
             <div class="flex items-center justify-between text-slate-400 mb-2">
-                <span class="text-xs font-medium uppercase tracking-wider">Menunggu Persetujuan</span>
+                <span class="text-xs font-medium uppercase tracking-wider">Menunggu PPK</span>
                 <i data-lucide="clock" class="w-4 h-4 text-amber-500"></i>
             </div>
             <div class="text-xl sm:text-2xl font-black text-amber-600">{{ menunggu_persetujuan }} Pengajuan</div>
-            <p class="text-[11px] text-slate-400 mt-1">Perlu tindakan PPK</p>
+            <p class="text-[11px] text-slate-400 mt-1">Perlu ditindaklanjuti</p>
+        </div>
+    </div>
+
+    <!-- Charts Row: Komposisi Pagu vs Realisasi per Kategori Belanja -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- Chart 1: Bar Chart Pagu vs Realisasi -->
+        <div class="lg:col-span-2 bg-white rounded-3xl p-6 border border-slate-200/80 shadow-soft">
+            <div class="flex items-center justify-between pb-3 border-b border-slate-100 mb-4">
+                <div>
+                    <h2 class="text-sm font-bold text-slate-800">Perbandingan Pagu vs Realisasi per Kategori Belanja</h2>
+                    <p class="text-[11px] text-slate-400">Honor Petugas Lapangan, Perjalanan Dinas (Perjadin), dan Belanja Bahan</p>
+                </div>
+                <i data-lucide="bar-chart-3" class="w-4 h-4 text-emerald-500"></i>
+            </div>
+            <div class="h-64 relative">
+                <canvas id="chartKeuanganKategori"></canvas>
+            </div>
+        </div>
+
+        <!-- Serapan Anggaran & Daya Serap BPS -->
+        <div class="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-soft flex flex-col justify-between">
+            <div>
+                <div class="pb-3 border-b border-slate-100 mb-4 flex items-center justify-between">
+                    <div>
+                        <h2 class="text-sm font-bold text-slate-800">Tingkat Penyerapan Anggaran</h2>
+                        <p class="text-[11px] text-slate-400">Indikator kinerja pelaksanaan anggaran (IKPA)</p>
+                    </div>
+                    <i data-lucide="trending-up" class="w-4 h-4 text-emerald-500"></i>
+                </div>
+
+                <div class="space-y-4 my-2">
+                    <div>
+                        <div class="flex justify-between text-xs font-bold mb-1">
+                            <span class="text-slate-600">Daya Serap Kumulatif</span>
+                            <span class="text-emerald-600">{{ persentase_serapan }}%</span>
+                        </div>
+                        <div class="w-full h-3 rounded-full bg-slate-100 overflow-hidden">
+                            <div class="h-full bg-emerald-500 rounded-full" style="width: {{ persentase_serapan }}%"></div>
+                        </div>
+                    </div>
+
+                    <div class="p-3 rounded-2xl bg-slate-50 border border-slate-100 space-y-2 text-xs">
+                        <div class="flex justify-between">
+                            <span class="text-slate-500">Total Diajukan:</span>
+                            <span class="font-bold text-slate-800">Rp {{ "{:,}".format(total_anggaran_diajukan).replace(',', '.') }}</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-slate-500">Disetujui PPK:</span>
+                            <span class="font-bold text-blue-600">Rp {{ "{:,}".format(total_anggaran_disetujui).replace(',', '.') }}</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-slate-500">Telah Dicairkan (SP2D):</span>
+                            <span class="font-bold text-emerald-600">Rp {{ "{:,}".format(total_realisasi).replace(',', '.') }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <a href="{{ url_for('keuangan.rekapitulasi') }}" class="mt-4 text-center text-xs font-semibold text-emerald-600 hover:text-emerald-700 block py-2 rounded-xl bg-emerald-50 hover:bg-emerald-100 transition">
+                Buka Matriks Rekapitulasi Keuangan &rarr;
+            </a>
         </div>
     </div>
 
@@ -79,9 +149,9 @@
             <div class="flex items-center justify-between pb-4 border-b border-slate-100 mb-4">
                 <div>
                     <h2 class="text-base font-bold text-slate-800">Daftar Pengajuan Anggaran Terbaru</h2>
-                    <p class="text-xs text-slate-400">Verifikasi pengajuan honor dan operasional kegiatan</p>
+                    <p class="text-xs text-slate-400">Verifikasi usulan honor petugas dan operasional kegiatan</p>
                 </div>
-                <a href="{{ url_for('keuangan.pengajuan') }}" class="text-xs font-semibold text-orange-600 hover:text-orange-700 flex items-center gap-1">
+                <a href="{{ url_for('keuangan.pengajuan') }}" class="text-xs font-semibold text-emerald-600 hover:text-emerald-700 flex items-center gap-1">
                     <span>Lihat Semua</span>
                     <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
                 </a>
@@ -133,9 +203,12 @@
 
         <!-- Realisasi SPM/SP2D Terbaru -->
         <div class="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-soft">
-            <div class="pb-4 border-b border-slate-100 mb-4">
-                <h2 class="text-base font-bold text-slate-800">Realisasi SP2D Terbaru</h2>
-                <p class="text-xs text-slate-400">Pencairan anggaran terverifikasi</p>
+            <div class="pb-4 border-b border-slate-100 mb-4 flex items-center justify-between">
+                <div>
+                    <h2 class="text-base font-bold text-slate-800">Realisasi SP2D Terbaru</h2>
+                    <p class="text-xs text-slate-400">Pencairan anggaran KPPN</p>
+                </div>
+                <a href="{{ url_for('keuangan.realisasi') }}" class="text-xs text-emerald-600 font-semibold hover:underline">Kelola &rarr;</a>
             </div>
             <div class="space-y-3">
                 {% for r in realisasi_terbaru %}
@@ -145,7 +218,7 @@
                         <span class="text-[10px] text-slate-400">{{ r.tanggal_realisasi }}</span>
                     </div>
                     <div class="text-xs font-black text-emerald-700 font-mono mb-1">Rp {{ "{:,}".format(r.jumlah_realisasi).replace(',', '.') }}</div>
-                    <p class="text-[11px] text-slate-600">{{ r.keterangan or r.pengajuan.judul_pengajuan }}</p>
+                    <p class="text-[11px] text-slate-600 truncate">{{ r.keterangan or r.pengajuan.judul_pengajuan }}</p>
                 </div>
                 {% else %}
                 <p class="text-xs text-slate-400 text-center py-4">Belum ada realisasi anggaran.</p>
@@ -156,4 +229,56 @@
     </div>
 
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const ctxKategori = document.getElementById('chartKeuanganKategori');
+    if (ctxKategori) {
+        new Chart(ctxKategori, {
+            type: 'bar',
+            data: {
+                labels: {{ kategori_labels|tojson }},
+                datasets: [
+                    {
+                        label: 'Pagu Awal (Rp)',
+                        data: {{ pagu_per_kat|tojson }},
+                        backgroundColor: '#94A3B8',
+                        borderRadius: 8
+                    },
+                    {
+                        label: 'Realisasi SP2D (Rp)',
+                        data: {{ real_per_kat|tojson }},
+                        backgroundColor: '#10B981',
+                        borderRadius: 8
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: function(value) {
+                                return 'Rp ' + (value / 1000000).toLocaleString('id-ID') + ' Jt';
+                            }
+                        }
+                    }
+                },
+                plugins: {
+                    legend: { position: 'bottom', labels: { boxWidth: 12, font: { size: 11 } } },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return context.dataset.label + ': Rp ' + context.parsed.y.toLocaleString('id-ID');
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    }
+});
+</script>
 {% endblock %}

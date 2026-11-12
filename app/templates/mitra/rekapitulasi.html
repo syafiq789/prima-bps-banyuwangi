@@ -1,12 +1,42 @@
 {% extends 'base.html' %}
 
-{% block title %}Rekapitulasi Mitra - SIMPATIK BPS Banyuwangi{% endblock %}
+{% block title %}Rekapitulasi Kinerja Mitra - SIMPATIK BPS Banyuwangi{% endblock %}
 
 {% block content %}
 <div class="space-y-6">
-    <div>
-        <h1 class="text-2xl font-black text-slate-800">Rekapitulasi Kinerja & Honor Mitra</h1>
-        <p class="text-xs text-slate-500">Akumulasi keikutsertaan survei, skor evaluasi rata-rata, dan total honorarium</p>
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+            <div class="flex items-center gap-2 text-xs text-orange-600 mb-1">
+                <a href="{{ url_for('mitra.dashboard') }}" class="hover:underline flex items-center gap-1">
+                    <i data-lucide="arrow-left" class="w-3 h-3"></i> Dashboard Mitra
+                </a>
+            </div>
+            <h1 class="text-2xl font-black text-slate-800">Rekapitulasi Kinerja & Honor Mitra</h1>
+            <p class="text-xs text-slate-500">Akumulasi keikutsertaan sensus/survei, skor evaluasi rata-rata, predikat mutu, dan total honorarium</p>
+        </div>
+        <button onclick="window.print()" class="px-4 py-2.5 rounded-xl bg-navy-main hover:bg-navy-light text-white font-semibold text-xs sm:text-sm shadow-md flex items-center gap-2 self-start">
+            <i data-lucide="printer" class="w-4 h-4"></i>
+            <span>Cetak / Export Rekap</span>
+        </button>
+    </div>
+
+    <!-- Ringkasan Honor Mitra -->
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div class="bg-white rounded-2xl p-4 border border-slate-200/80 shadow-soft">
+            <div class="text-xs text-slate-400 font-semibold uppercase mb-1">Total Mitra Terdaftar</div>
+            <div class="text-2xl font-black text-slate-800">{{ rekap_data|length }} Orang</div>
+            <p class="text-[10px] text-slate-400 mt-0.5">Database mitra Sobat BPS</p>
+        </div>
+        <div class="bg-white rounded-2xl p-4 border border-slate-200/80 shadow-soft">
+            <div class="text-xs text-slate-400 font-semibold uppercase mb-1">Total Honor Dialokasikan</div>
+            <div class="text-2xl font-black text-orange-600 font-mono">Rp {{ "{:,}".format(total_honor_all).replace(',', '.') }}</div>
+            <p class="text-[10px] text-slate-400 mt-0.5">Seluruh penugasan survei</p>
+        </div>
+        <div class="bg-white rounded-2xl p-4 border border-slate-200/80 shadow-soft">
+            <div class="text-xs text-slate-400 font-semibold uppercase mb-1">Kualifikasi Tertinggi</div>
+            <div class="text-2xl font-black text-emerald-600">Grade A (Sangat Baik)</div>
+            <p class="text-[10px] text-slate-400 mt-0.5">Prioritas penugasan berikutnya</p>
+        </div>
     </div>
 
     <div class="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-soft overflow-x-auto">
@@ -16,28 +46,34 @@
                     <th class="pb-3">ID Sobat</th>
                     <th class="pb-3">Nama Mitra</th>
                     <th class="pb-3">Kecamatan</th>
-                    <th class="pb-3">Jumlah Tugas</th>
+                    <th class="pb-3">Keahlian</th>
+                    <th class="pb-3">Jumlah Penugasan</th>
                     <th class="pb-3">Skor Rata-Rata</th>
-                    <th class="pb-3">Total Honorarium</th>
+                    <th class="pb-3">Predikat Mutu</th>
+                    <th class="pb-3 font-mono">Total Honorarium</th>
                 </tr>
             </thead>
             <tbody class="divide-y divide-slate-100">
                 {% for r in rekap_data %}
                 <tr class="hover:bg-slate-50">
-                    <td class="py-3 font-mono text-slate-600">{{ r.mitra.id_sobat }}</td>
+                    <td class="py-3 font-mono font-semibold text-slate-600">{{ r.mitra.id_sobat }}</td>
                     <td class="py-3 font-bold text-slate-800">{{ r.mitra.nama_lengkap }}</td>
-                    <td class="py-3 text-slate-600">{{ r.mitra.kecamatan }}</td>
-                    <td class="py-3 font-semibold">{{ r.total_tugas }} Kegiatan</td>
+                    <td class="py-3 text-slate-600">Kec. {{ r.mitra.kecamatan }}</td>
+                    <td class="py-3 text-slate-500">{{ r.mitra.keahlian }}</td>
+                    <td class="py-3 font-semibold">{{ r.total_tugas }} Kali Penugasan</td>
                     <td class="py-3">
-                        <span class="px-2 py-0.5 rounded-full font-bold {% if r.avg_score >= 85 %}bg-emerald-50 text-emerald-700{% else %}bg-slate-100 text-slate-600{% endif %}">
-                            {{ r.avg_score if r.avg_score > 0 else 'Belum Dinilai' }}
+                        <span class="font-black text-slate-800">{{ r.avg_score if r.avg_score > 0 else '-' }}</span>
+                    </td>
+                    <td class="py-3">
+                        <span class="px-2.5 py-0.5 rounded-full font-bold text-[10px] {% if 'Sangat Baik' in r.predikat %}bg-emerald-50 text-emerald-700 border border-emerald-200{% elif 'Baik' in r.predikat %}bg-blue-50 text-blue-700 border border-blue-200{% elif 'Cukup' in r.predikat %}bg-amber-50 text-amber-700 border border-amber-200{% else %}bg-slate-100 text-slate-500{% endif %}">
+                            {{ r.predikat }}
                         </span>
                     </td>
-                    <td class="py-3 font-mono font-bold text-navy-main">Rp {{ "{:,}".format(r.total_honor).replace(',', '.') }}</td>
+                    <td class="py-3 font-mono font-bold text-orange-600">Rp {{ "{:,}".format(r.total_honor).replace(',', '.') }}</td>
                 </tr>
                 {% else %}
                 <tr>
-                    <td colspan="6" class="py-8 text-center text-slate-400">Belum ada data rekapitulasi.</td>
+                    <td colspan="8" class="py-8 text-center text-slate-400">Belum ada data rekapitulasi mitra.</td>
                 </tr>
                 {% endfor %}
             </tbody>

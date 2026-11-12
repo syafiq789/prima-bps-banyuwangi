@@ -4,27 +4,80 @@
 
 {% block content %}
 <div class="space-y-6">
-    <div>
-        <h1 class="text-2xl font-black text-slate-800">Monitoring Kinerja Pegawai per Tim Kerja</h1>
-        <p class="text-xs text-slate-500">Pemantauan distribusi beban tugas dan capaian kinerja organisasi</p>
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+            <div class="flex items-center gap-2 text-xs text-blue-600 mb-1">
+                <a href="{{ url_for('pegawai.dashboard') }}" class="hover:underline flex items-center gap-1">
+                    <i data-lucide="arrow-left" class="w-3 h-3"></i> Dashboard Pegawai
+                </a>
+            </div>
+            <h1 class="text-2xl font-black text-slate-800">Monitoring Kinerja per Tim Kerja</h1>
+            <p class="text-xs text-slate-500">Pemantauan distribusi beban tugas, anggota tim teknis, dan capaian kinerja organisasi BPS</p>
+        </div>
+        <a href="{{ url_for('pegawai.aktivitas') }}" class="px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-semibold text-xs sm:text-sm shadow-md flex items-center gap-2 self-start">
+            <i data-lucide="plus" class="w-4 h-4"></i>
+            <span>Catat Tugas Tim</span>
+        </a>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-        {% for tim in tim_names %}
-        <div class="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-soft">
-            <div class="flex items-center justify-between mb-3">
-                <span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-blue-50 text-blue-600">Tim Kerja</span>
-                <i data-lucide="layers" class="w-4 h-4 text-slate-400"></i>
-            </div>
-            <h3 class="text-base font-bold text-slate-800 mb-2">{{ tim }}</h3>
-            
-            <div class="space-y-2 mt-4 pt-4 border-t border-slate-100">
-                {% for p in pegawai_list if p.tim_kerja == tim %}
-                <div class="flex items-center justify-between text-xs">
-                    <span class="font-semibold text-slate-700">{{ p.nama_lengkap }}</span>
-                    <span class="text-[11px] text-slate-400">{{ p.aktivitas.count() }} Tugas</span>
+    <!-- Cards per Tim Kerja -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {% for st in tim_stats %}
+        <div class="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-soft flex flex-col justify-between">
+            <div>
+                <div class="flex items-center justify-between mb-3">
+                    <span class="px-3 py-1 rounded-full text-xs font-bold bg-blue-50 text-blue-700 border border-blue-200">{{ st.tim }}</span>
+                    <i data-lucide="layers" class="w-4 h-4 text-slate-400"></i>
                 </div>
-                {% endfor %}
+                
+                <div class="grid grid-cols-3 gap-2 my-4 text-center">
+                    <div class="p-2 rounded-xl bg-slate-50 border border-slate-100">
+                        <div class="text-[10px] text-slate-400 font-semibold">Anggota</div>
+                        <div class="text-base font-bold text-slate-800">{{ st.pegawai_count }}</div>
+                    </div>
+                    <div class="p-2 rounded-xl bg-slate-50 border border-slate-100">
+                        <div class="text-[10px] text-slate-400 font-semibold">Total Tugas</div>
+                        <div class="text-base font-bold text-blue-600">{{ st.total_aktivitas }}</div>
+                    </div>
+                    <div class="p-2 rounded-xl bg-slate-50 border border-slate-100">
+                        <div class="text-[10px] text-slate-400 font-semibold">Selesai</div>
+                        <div class="text-base font-bold text-emerald-600">{{ st.selesai_count }}</div>
+                    </div>
+                </div>
+
+                <!-- Capaian Rata-Rata Tim -->
+                <div class="mb-4">
+                    <div class="flex justify-between text-xs font-bold mb-1">
+                        <span class="text-slate-600">Rata-Rata Capaian Tim</span>
+                        <span class="text-blue-600">{{ st.avg_tim }}%</span>
+                    </div>
+                    <div class="w-full h-2 rounded-full bg-slate-100 overflow-hidden">
+                        <div class="h-full bg-blue-500 rounded-full" style="width: {{ st.avg_tim }}%"></div>
+                    </div>
+                </div>
+
+                <!-- Daftar Anggota Tim -->
+                <div class="space-y-2 pt-3 border-t border-slate-100">
+                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Aparatur dalam Tim:</p>
+                    {% for p in st.pegs %}
+                    <div class="flex items-center justify-between text-xs py-1">
+                        <div>
+                            <div class="font-bold text-slate-800">{{ p.nama_lengkap }}</div>
+                            <div class="text-[10px] text-slate-400">{{ p.jabatan }}</div>
+                        </div>
+                        <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-slate-100 text-slate-600">
+                            {{ p.aktivitas.count() }} Tugas
+                        </span>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="pt-4 mt-4 border-t border-slate-100">
+                <a href="{{ url_for('pegawai.aktivitas') }}" class="text-xs font-semibold text-blue-600 hover:underline flex items-center justify-between">
+                    <span>Lihat Rincian Tugas</span>
+                    <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+                </a>
             </div>
         </div>
         {% else %}

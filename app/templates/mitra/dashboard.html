@@ -5,7 +5,7 @@
 {% block content %}
 <div class="space-y-6">
 
-    <!-- Header Module Banner -->
+    <!-- Header Module Banner with Breadcrumbs -->
     <div class="relative overflow-hidden rounded-3xl bg-gradient-to-r from-[#0F1E36] via-[#162D50] to-[#1F3D6B] text-white p-6 sm:p-8 shadow-card border border-slate-700/50">
         <div class="absolute -right-10 -bottom-10 w-80 h-80 bg-orange-500/15 rounded-full blur-3xl pointer-events-none"></div>
         <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -14,22 +14,29 @@
                     <i data-lucide="users" class="w-10 h-10"></i>
                 </div>
                 <div>
-                    <div class="inline-flex items-center gap-2 px-3 py-0.5 rounded-full bg-orange-500/20 text-orange-400 border border-orange-500/30 text-xs font-semibold uppercase tracking-wider mb-1">
-                        <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
-                        <span>Modul SIMPATIK</span>
+                    <div class="flex items-center gap-2 text-xs text-orange-300 mb-1">
+                        <a href="{{ url_for('dashboard.index') }}" class="hover:underline flex items-center gap-1">
+                            <i data-lucide="home" class="w-3 h-3"></i> PRIMA
+                        </a>
+                        <span>&bull;</span>
+                        <span class="font-semibold text-white">Monitoring Mitra BPS</span>
                     </div>
                     <h1 class="text-2xl sm:text-3xl font-black tracking-tight text-white">Monitoring Mitra Statistik</h1>
                     <p class="text-xs sm:text-sm text-slate-300">Pengelolaan, Penugasan, dan Evaluasi Kualitas Kinerja Mitra BPS Banyuwangi</p>
                 </div>
             </div>
-            <div class="flex items-center gap-2">
+            <div class="flex flex-wrap items-center gap-2">
                 <a href="{{ url_for('mitra.penugasan') }}" class="px-4 py-2.5 rounded-xl bg-orange-500 hover:bg-orange-600 text-white font-semibold text-xs sm:text-sm transition-all shadow-md flex items-center gap-2">
                     <i data-lucide="user-plus" class="w-4 h-4"></i>
                     <span>Tugaskan Mitra</span>
                 </a>
-                <a href="{{ url_for('mitra.database') }}" class="px-4 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-semibold text-xs sm:text-sm transition-all border border-white/20 flex items-center gap-2">
-                    <i data-lucide="database" class="w-4 h-4"></i>
-                    <span>Database</span>
+                <a href="{{ url_for('mitra.evaluasi') }}" class="px-4 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-semibold text-xs sm:text-sm transition-all border border-white/20 flex items-center gap-2">
+                    <i data-lucide="award" class="w-4 h-4"></i>
+                    <span>Evaluasi</span>
+                </a>
+                <a href="{{ url_for('mitra.rekapitulasi') }}" class="px-4 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-semibold text-xs sm:text-sm transition-all border border-white/20 flex items-center gap-2">
+                    <i data-lucide="file-spreadsheet" class="w-4 h-4"></i>
+                    <span>Rekap & Honor</span>
                 </a>
             </div>
         </div>
@@ -43,7 +50,7 @@
                 <i data-lucide="users" class="w-4 h-4 text-orange-500"></i>
             </div>
             <div class="text-2xl font-black text-slate-800">{{ total_mitra }}</div>
-            <p class="text-[11px] text-slate-400 mt-1">Terdaftar di Sobat BPS</p>
+            <p class="text-[11px] text-slate-400 mt-1">Database Sobat BPS</p>
         </div>
         <div class="bg-white rounded-2xl p-4 border border-slate-200/80 shadow-soft">
             <div class="flex items-center justify-between text-slate-400 mb-2">
@@ -55,42 +62,107 @@
         </div>
         <div class="bg-white rounded-2xl p-4 border border-slate-200/80 shadow-soft">
             <div class="flex items-center justify-between text-slate-400 mb-2">
-                <span class="text-xs font-medium uppercase tracking-wider">Total Kegiatan</span>
+                <span class="text-xs font-medium uppercase tracking-wider">Kegiatan Sensus</span>
                 <i data-lucide="calendar" class="w-4 h-4 text-emerald-500"></i>
             </div>
             <div class="text-2xl font-black text-slate-800">{{ total_kegiatan }}</div>
-            <p class="text-[11px] text-slate-400 mt-1">Survei & Sensus aktif</p>
+            <p class="text-[11px] text-slate-400 mt-1">Survei terdaftar</p>
         </div>
         <div class="bg-white rounded-2xl p-4 border border-slate-200/80 shadow-soft">
             <div class="flex items-center justify-between text-slate-400 mb-2">
-                <span class="text-xs font-medium uppercase tracking-wider">Selesai</span>
+                <span class="text-xs font-medium uppercase tracking-wider">Tugas Selesai</span>
                 <i data-lucide="check-circle" class="w-4 h-4 text-emerald-500"></i>
             </div>
             <div class="text-2xl font-black text-emerald-600">{{ penugasan_selesai }}</div>
-            <p class="text-[11px] text-slate-400 mt-1">Tugas rampung dievaluasi</p>
+            <p class="text-[11px] text-slate-400 mt-1">Dokumen rampung</p>
         </div>
         <div class="bg-white rounded-2xl p-4 border border-slate-200/80 shadow-soft col-span-2 md:col-span-1">
             <div class="flex items-center justify-between text-slate-400 mb-2">
-                <span class="text-xs font-medium uppercase tracking-wider">Dalam Proses</span>
-                <i data-lucide="clock" class="w-4 h-4 text-amber-500"></i>
+                <span class="text-xs font-medium uppercase tracking-wider">Skor Evaluasi</span>
+                <i data-lucide="star" class="w-4 h-4 text-amber-500"></i>
             </div>
-            <div class="text-2xl font-black text-amber-600">{{ penugasan_proses }}</div>
-            <p class="text-[11px] text-slate-400 mt-1">Sedang berlangsung</p>
+            <div class="text-2xl font-black text-amber-600">{{ avg_score }}/100</div>
+            <p class="text-[11px] text-slate-400 mt-1">Mutu rata-rata mitra</p>
+        </div>
+    </div>
+
+    <!-- Charts Row -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- Chart 1: Distribusi Mitra per Kecamatan -->
+        <div class="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-soft">
+            <div class="flex items-center justify-between pb-3 border-b border-slate-100 mb-4">
+                <div>
+                    <h2 class="text-sm font-bold text-slate-800">Distribusi Mitra per Wilayah</h2>
+                    <p class="text-[11px] text-slate-400">Sebaran mitra BPS Kabupaten Banyuwangi</p>
+                </div>
+                <i data-lucide="map-pin" class="w-4 h-4 text-orange-500"></i>
+            </div>
+            <div class="h-56 relative flex items-center justify-center">
+                <canvas id="chartMitraKecamatan"></canvas>
+            </div>
+        </div>
+
+        <!-- Chart 2: Status Pekerjaan Mitra -->
+        <div class="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-soft">
+            <div class="flex items-center justify-between pb-3 border-b border-slate-100 mb-4">
+                <div>
+                    <h2 class="text-sm font-bold text-slate-800">Status Penugasan Mitra</h2>
+                    <p class="text-[11px] text-slate-400">Perbandingan tugas selesai vs berlangsung</p>
+                </div>
+                <i data-lucide="pie-chart" class="w-4 h-4 text-blue-500"></i>
+            </div>
+            <div class="h-56 relative flex items-center justify-center">
+                <canvas id="chartMitraStatus"></canvas>
+            </div>
+        </div>
+
+        <!-- Top Mitra Berkinerja Terbaik -->
+        <div class="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-soft flex flex-col justify-between">
+            <div>
+                <div class="flex items-center justify-between pb-3 border-b border-slate-100 mb-4">
+                    <div>
+                        <h2 class="text-sm font-bold text-slate-800">Mitra Berkinerja Terbaik</h2>
+                        <p class="text-[11px] text-slate-400">Berdasarkan skor evaluasi supervisor</p>
+                    </div>
+                    <i data-lucide="medal" class="w-4 h-4 text-amber-500"></i>
+                </div>
+                <div class="space-y-3">
+                    {% for ev in top_eval %}
+                    <div class="flex items-center justify-between p-2.5 rounded-2xl bg-slate-50 border border-slate-100">
+                        <div class="flex items-center gap-2.5">
+                            <div class="w-8 h-8 rounded-xl bg-orange-100 text-orange-600 font-bold text-xs flex items-center justify-center">
+                                {{ loop.index }}
+                            </div>
+                            <div>
+                                <div class="text-xs font-bold text-slate-800">{{ ev.mitra.nama_lengkap }}</div>
+                                <div class="text-[10px] text-slate-400">{{ ev.mitra.kecamatan }} &bull; {{ ev.penugasan.kegiatan.kode_kegiatan }}</div>
+                            </div>
+                        </div>
+                        <span class="px-2.5 py-0.5 rounded-full text-xs font-black bg-emerald-50 text-emerald-700 border border-emerald-200">{{ ev.rata_rata }}</span>
+                    </div>
+                    {% else %}
+                    <p class="text-xs text-slate-400 text-center py-6">Belum ada evaluasi mitra.</p>
+                    {% endfor %}
+                </div>
+            </div>
+            <a href="{{ url_for('mitra.evaluasi') }}" class="mt-3 text-center text-xs font-semibold text-orange-600 hover:text-orange-700 block py-1.5 rounded-xl bg-orange-50 hover:bg-orange-100 transition">
+                Lihat Semua Evaluasi &rarr;
+            </a>
         </div>
     </div>
 
     <!-- Content Split: Recent Assignments & Active Activities -->
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
         
-        <!-- Table Penugasan Terbaru -->
+        <!-- Table Penugasan Terbaru with Quick Update Modal Trigger -->
         <div class="lg:col-span-2 bg-white rounded-3xl p-6 border border-slate-200/80 shadow-soft">
             <div class="flex items-center justify-between pb-4 border-b border-slate-100 mb-4">
                 <div>
                     <h2 class="text-base font-bold text-slate-800">Daftar Penugasan Mitra Terbaru</h2>
-                    <p class="text-xs text-slate-400">Monitoring penyelesaian dokumen dan peran lapangan</p>
+                    <p class="text-xs text-slate-400">Pantau dan perbarui pencapaian dokumen lapangan secara real-time</p>
                 </div>
                 <a href="{{ url_for('mitra.penugasan') }}" class="text-xs font-semibold text-orange-600 hover:text-orange-700 flex items-center gap-1">
-                    <span>Lihat Semua</span>
+                    <span>Kelola Penugasan</span>
                     <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
                 </a>
             </div>
@@ -104,6 +176,7 @@
                             <th class="pb-3">Peran</th>
                             <th class="pb-3">Progres Dokumen</th>
                             <th class="pb-3">Status</th>
+                            <th class="pb-3 text-right">Aksi Cepat</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-slate-100">
@@ -113,12 +186,12 @@
                                 <div>{{ item.mitra.nama_lengkap }}</div>
                                 <div class="text-[10px] text-slate-400">{{ item.mitra.kecamatan }} &bull; {{ item.mitra.id_sobat }}</div>
                             </td>
-                            <td class="py-3 text-slate-600 max-w-[200px] truncate">{{ item.kegiatan.nama_kegiatan }}</td>
+                            <td class="py-3 text-slate-600 max-w-[160px] truncate">{{ item.kegiatan.nama_kegiatan }}</td>
                             <td class="py-3">
                                 <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-blue-50 text-blue-600 border border-blue-200">{{ item.peran }}</span>
                             </td>
                             <td class="py-3">
-                                <div class="w-32">
+                                <div class="w-28">
                                     <div class="flex justify-between text-[10px] font-semibold mb-1">
                                         <span>{{ item.realisasi_dokumen }}/{{ item.target_dokumen }}</span>
                                         <span>{{ item.progres_persen }}%</span>
@@ -135,10 +208,18 @@
                                 <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-50 text-amber-600 border border-amber-200">PROSES</span>
                                 {% endif %}
                             </td>
+                            <td class="py-3 text-right">
+                                <button type="button" 
+                                        onclick="openModalUpdateProgress({{ item.id }}, '{{ item.mitra.nama_lengkap }}', {{ item.realisasi_dokumen }}, {{ item.target_dokumen }})"
+                                        class="px-2.5 py-1 rounded-lg bg-orange-50 hover:bg-orange-100 text-orange-600 font-bold text-[11px] border border-orange-200 inline-flex items-center gap-1">
+                                    <i data-lucide="edit-3" class="w-3 h-3"></i>
+                                    <span>Update</span>
+                                </button>
+                            </td>
                         </tr>
                         {% else %}
                         <tr>
-                            <td colspan="5" class="py-6 text-center text-slate-400">Belum ada penugasan mitra yang dicatat.</td>
+                            <td colspan="6" class="py-6 text-center text-slate-400">Belum ada penugasan mitra yang dicatat.</td>
                         </tr>
                         {% endfor %}
                     </tbody>
@@ -147,30 +228,131 @@
         </div>
 
         <!-- Quick Activity / Survey Progress -->
-        <div class="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-soft">
-            <div class="pb-4 border-b border-slate-100 mb-4">
-                <h2 class="text-base font-bold text-slate-800">Kegiatan Survei Aktif</h2>
-                <p class="text-xs text-slate-400">Progres sensus dan survei berjalan</p>
-            </div>
-            <div class="space-y-4">
-                {% for keg in kegiatan_aktif %}
-                <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-100">
-                    <div class="flex items-center justify-between mb-1">
-                        <span class="text-xs font-bold text-slate-800 truncate">{{ keg.nama_kegiatan }}</span>
-                        <span class="text-xs font-black text-orange-600">{{ keg.progres_persen }}%</span>
+        <div class="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-soft flex flex-col justify-between">
+            <div>
+                <div class="pb-4 border-b border-slate-100 mb-4 flex items-center justify-between">
+                    <div>
+                        <h2 class="text-base font-bold text-slate-800">Kegiatan Survei Aktif</h2>
+                        <p class="text-xs text-slate-400">Pantau deadline sensus & survei</p>
                     </div>
-                    <p class="text-[11px] text-slate-400 mb-2">Kode: {{ keg.kode_kegiatan }} &bull; Thn {{ keg.tahun }}</p>
-                    <div class="w-full h-1.5 rounded-full bg-slate-200 overflow-hidden">
-                        <div class="h-full bg-orange-500 rounded-full" style="width: {{ keg.progres_persen }}%"></div>
-                    </div>
+                    <a href="{{ url_for('mitra.monitoring') }}" class="text-xs text-orange-600 font-semibold hover:underline">Semua &rarr;</a>
                 </div>
-                {% else %}
-                <p class="text-xs text-slate-400 text-center py-4">Tidak ada kegiatan survei aktif saat ini.</p>
-                {% endfor %}
+                <div class="space-y-4">
+                    {% for keg in kegiatan_aktif %}
+                    <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-100">
+                        <div class="flex items-center justify-between mb-1">
+                            <span class="text-xs font-bold text-slate-800 truncate">{{ keg.nama_kegiatan }}</span>
+                            <span class="text-xs font-black text-orange-600">{{ keg.progres_persen }}%</span>
+                        </div>
+                        <p class="text-[11px] text-slate-400 mb-2">Kode: {{ keg.kode_kegiatan }} &bull; {{ keg.tanggal_mulai }} s.d {{ keg.tanggal_selesai }}</p>
+                        <div class="w-full h-1.5 rounded-full bg-slate-200 overflow-hidden">
+                            <div class="h-full bg-orange-500 rounded-full" style="width: {{ keg.progres_persen }}%"></div>
+                        </div>
+                    </div>
+                    {% else %}
+                    <p class="text-xs text-slate-400 text-center py-4">Tidak ada kegiatan survei aktif saat ini.</p>
+                    {% endfor %}
+                </div>
+            </div>
+            
+            <div class="pt-4 mt-4 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
+                <span>Standar Honor BPS:</span>
+                <a href="{{ url_for('mitra.template') }}" class="font-bold text-orange-600 hover:underline">Lihat SBU &rarr;</a>
             </div>
         </div>
 
     </div>
 
 </div>
+
+<!-- Modal Quick Update Progres Dokumen -->
+<div id="modalUpdateProgres" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-sm w-full p-6 shadow-2xl">
+        <div class="flex items-center justify-between pb-3 border-b border-slate-100 mb-4">
+            <h3 class="text-sm font-bold text-slate-800">Perbarui Realisasi Dokumen</h3>
+            <button onclick="document.getElementById('modalUpdateProgres').classList.add('hidden')" class="text-slate-400 hover:text-slate-600">
+                <i data-lucide="x" class="w-4 h-4"></i>
+            </button>
+        </div>
+        <form id="formUpdateProgres" method="POST" class="space-y-4">
+            <div>
+                <p class="text-xs text-slate-500 mb-1">Nama Mitra:</p>
+                <p id="modalMitraName" class="text-sm font-bold text-slate-800"></p>
+            </div>
+            <div>
+                <label class="block text-xs font-semibold text-slate-700 mb-1">Dokumen Berhasil Tercacah / Masuk</label>
+                <div class="flex items-center gap-2">
+                    <input type="number" id="inputRealisasi" name="realisasi_dokumen" min="0" required class="flex-1 px-3 py-2 rounded-xl border border-slate-200 text-sm font-bold text-slate-800">
+                    <span class="text-xs text-slate-400">/ <span id="modalTargetDokumen"></span> Dok</span>
+                </div>
+            </div>
+            <div class="pt-2 flex justify-end gap-2">
+                <button type="button" onclick="document.getElementById('modalUpdateProgres').classList.add('hidden')" class="px-4 py-2 rounded-xl text-xs font-semibold text-slate-600 hover:bg-slate-100">Batal</button>
+                <button type="submit" class="px-4 py-2 rounded-xl bg-orange-500 text-white text-xs font-semibold hover:bg-orange-600">Simpan Progres</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    // Chart 1: Kecamatan Doughnut Chart
+    const ctxKec = document.getElementById('chartMitraKecamatan');
+    if (ctxKec) {
+        new Chart(ctxKec, {
+            type: 'doughnut',
+            data: {
+                labels: {{ chart_kec_labels|tojson }},
+                datasets: [{
+                    data: {{ chart_kec_values|tojson }},
+                    backgroundColor: ['#F97316', '#3B82F6', '#10B981', '#6366F1', '#EC4899', '#F59E0B'],
+                    borderWidth: 2,
+                    borderColor: '#ffffff'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { position: 'bottom', labels: { boxWidth: 10, font: { size: 10 } } }
+                }
+            }
+        });
+    }
+
+    // Chart 2: Status Penugasan
+    const ctxStatus = document.getElementById('chartMitraStatus');
+    if (ctxStatus) {
+        new Chart(ctxStatus, {
+            type: 'pie',
+            data: {
+                labels: ['Selesai', 'Dalam Proses'],
+                datasets: [{
+                    data: [{{ penugasan_selesai }}, {{ penugasan_proses }}],
+                    backgroundColor: ['#10B981', '#F59E0B'],
+                    borderWidth: 2,
+                    borderColor: '#ffffff'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { position: 'bottom', labels: { boxWidth: 10, font: { size: 10 } } }
+                }
+            }
+        });
+    }
+});
+
+function openModalUpdateProgress(id, name, currentReal, target) {
+    const modal = document.getElementById('modalUpdateProgres');
+    const form = document.getElementById('formUpdateProgres');
+    form.action = `/mitra/penugasan/${id}/update-progress`;
+    document.getElementById('modalMitraName').innerText = name;
+    document.getElementById('inputRealisasi').value = currentReal;
+    document.getElementById('modalTargetDokumen').innerText = target;
+    modal.classList.remove('hidden');
+}
+</script>
 {% endblock %}

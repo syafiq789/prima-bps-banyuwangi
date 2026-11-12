@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify
 from flask_login import login_required, current_user
 from datetime import datetime
+from sqlalchemy import func
 from app.models import (
     db, Kegiatan, TemplateKegiatan, Mitra, PenugasanMitra, EvaluasiMitra, Activity
 )
@@ -17,8 +18,20 @@ def dashboard():
     penugasan_selesai = PenugasanMitra.query.filter_by(status='SELESAI').count()
     penugasan_proses = PenugasanMitra.query.filter_by(status='PROSES').count()
 
-    penugasan_terbaru = PenugasanMitra.query.order_by(PenugasanMitra.created_at.desc()).limit(7).all()
+    penugasan_terbaru = PenugasanMitra.query.order_by(PenugasanMitra.created_at.desc()).limit(8).all()
     kegiatan_aktif = Kegiatan.query.filter_by(status='BERJALAN').all()
+
+    # Data untuk Chart.js: Distribusi Mitra per Kecamatan
+    kec_data = db.session.query(Mitra.kecamatan, func.count(Mitra.id)).group_by(Mitra.kecamatan).all()
+    chart_kec_labels = [k[0] for k in kec_data] if kec_data else ['Banyuwangi', 'Genteng', 'Rogojampi']
+    chart_kec_values = [k[1] for k in kec_data] if kec_data else [1, 1, 1]
+
+    # Data Performa & Skor Rata-rata
+    eval_list = EvaluasiMitra.query.all()
+    avg_score = round(sum(e.rata_rata for e in eval_list) / len(eval_list), 1) if eval_list else 0
+
+    # Top Mitra
+    top_eval = EvaluasiMitra.query.order_by(EvaluasiMitra.nilai_kualitas.desc()).limit(4).all()
 
     return render_template(
         'mitra/dashboard.html',
@@ -28,18 +41,27 @@ def dashboard():
         penugasan_selesai=penugasan_selesai,
         penugasan_proses=penugasan_proses,
         penugasan_terbaru=penugasan_terbaru,
-        kegiatan_aktif=kegiatan_aktif
+        kegiatan_aktif=kegiatan_aktif,
+        chart_kec_labels=chart_kec_labels,
+        chart_kec_values=chart_kec_values,
+        avg_score=avg_score,
+        top_eval=top_eval
     )
 
 @mitra_bp.route('/database')
 @login_required
 def database():
     search = request.args.get('search', '').strip()
+    kec_filter = request.args.get('kecamatan', '').strip()
     query = Mitra.query
     if search:
         query = query.filter((Mitra.nama_lengkap.ilike(f'%{search}%')) | (Mitra.id_sobat.ilike(f'%{search}%')) | (Mitra.kecamatan.ilike(f'%{search}%')))
+    if kec_filter:
+        query = query.filter(Mitra.kecamatan == kec_filter)
     mitra_list = query.order_by(Mitra.nama_lengkap.asc()).all()
-    return render_template('mitra/database.html', mitra_list=mitra_list, search=search)
+
+    kecamatans = [k[0] for k in db.session.query(Mitra.kecamatan).distinct().all() if k[0]]
+    return render_template('mitra/database.html', mitra_list=mitra_list, search=search, kec_filter=kec_filter, kecamatans=kecamatans)
 
 @mitra_bp.route('/database/create', methods=['POST'])
 @login_required
@@ -72,13 +94,37 @@ def create_mitra():
     flash(f'Mitra {nama_lengkap} berhasil ditambahkan.', 'success')
     return redirect(url_for('mitra.database'))
 
+@mitra_bp.route('/database/<int:id>/delete', methods=['POST'])
+@login_required
+def delete_mitra(id):
+    mitra = Mitra.query.get_or_404(id)
+    nama = mitra.nama_lengkap
+    db.session.delete(mitra)
+    db.session.commit()
+    flash(f'Data mitra {nama} berhasil dihapus.', 'info')
+    return redirect(url_for('mitra.database'))
+
+@mitra_bp.route('/database/<int:id>/toggle', methods=['POST'])
+@login_required
+def toggle_mitra_status(id):
+    mitra = Mitra.query.get_or_404(id)
+    mitra.status_aktif = not mitra.status_aktif
+    db.session.commit()
+    status_str = 'Aktif' if mitra.status_aktif else 'Nonaktif'
+    flash(f'Status mitra {mitra.nama_lengkap} diubah menjadi {status_str}.', 'success')
+    return redirect(url_for('mitra.database'))
+
 @mitra_bp.route('/penugasan')
 @login_required
 def penugasan():
-    penugasan_list = PenugasanMitra.query.order_by(PenugasanMitra.created_at.desc()).all()
+    status_filter = request.args.get('status', '').strip()
+    query = PenugasanMitra.query
+    if status_filter:
+        query = query.filter_by(status=status_filter)
+    penugasan_list = query.order_by(PenugasanMitra.created_at.desc()).all()
     mitra_options = Mitra.query.filter_by(status_aktif=True).order_by(Mitra.nama_lengkap.asc()).all()
     kegiatan_options = Kegiatan.query.order_by(Kegiatan.nama_kegiatan.asc()).all()
-    return render_template('mitra/penugasan.html', penugasan_list=penugasan_list, mitra_options=mitra_options, kegiatan_options=kegiatan_options)
+    return render_template('mitra/penugasan.html', penugasan_list=penugasan_list, mitra_options=mitra_options, kegiatan_options=kegiatan_options, status_filter=status_filter)
 
 @mitra_bp.route('/penugasan/create', methods=['POST'])
 @login_required
@@ -104,6 +150,30 @@ def create_penugasan():
     db.session.add(penugasan_item)
     db.session.commit()
     flash('Penugasan mitra berhasil dibuat.', 'success')
+    return redirect(url_for('mitra.penugasan'))
+
+@mitra_bp.route('/penugasan/<int:id>/update-progress', methods=['POST'])
+@login_required
+def update_penugasan_progress(id):
+    p = PenugasanMitra.query.get_or_404(id)
+    realisasi = request.form.get('realisasi_dokumen', type=int)
+    if realisasi is not None:
+        p.realisasi_dokumen = max(0, realisasi)
+        if p.realisasi_dokumen >= p.target_dokumen:
+            p.status = 'SELESAI'
+        else:
+            p.status = 'PROSES'
+        db.session.commit()
+        flash(f'Progres penugasan {p.mitra.nama_lengkap} diperbarui ({p.realisasi_dokumen}/{p.target_dokumen} dokumen).', 'success')
+    return redirect(request.referrer or url_for('mitra.penugasan'))
+
+@mitra_bp.route('/penugasan/<int:id>/delete', methods=['POST'])
+@login_required
+def delete_penugasan(id):
+    p = PenugasanMitra.query.get_or_404(id)
+    db.session.delete(p)
+    db.session.commit()
+    flash('Penugasan mitra berhasil dihapus.', 'info')
     return redirect(url_for('mitra.penugasan'))
 
 @mitra_bp.route('/monitoring')
@@ -149,18 +219,34 @@ def create_evaluasi():
 def rekapitulasi():
     mitra_list = Mitra.query.all()
     rekap_data = []
+    total_honor_all = 0
     for m in mitra_list:
         penugasan_all = m.penugasan.all()
         eval_all = m.evaluasi_list.all()
         avg_score = round(sum(e.rata_rata for e in eval_all) / len(eval_all), 1) if eval_all else 0
         total_honor = sum(p.honor_total for p in penugasan_all)
+        total_honor_all += total_honor
+        
+        # Predikat
+        if avg_score >= 90:
+            predikat = "Sangat Baik (A)"
+        elif avg_score >= 80:
+            predikat = "Baik (B)"
+        elif avg_score >= 70:
+            predikat = "Cukup (C)"
+        elif avg_score > 0:
+            predikat = "Kurang (D)"
+        else:
+            predikat = "Belum Dinilai"
+
         rekap_data.append({
             'mitra': m,
             'total_tugas': len(penugasan_all),
             'avg_score': avg_score,
+            'predikat': predikat,
             'total_honor': total_honor
         })
-    return render_template('mitra/rekapitulasi.html', rekap_data=rekap_data)
+    return render_template('mitra/rekapitulasi.html', rekap_data=rekap_data, total_honor_all=total_honor_all)
 
 @mitra_bp.route('/template')
 @login_required

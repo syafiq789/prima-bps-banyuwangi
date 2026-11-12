@@ -6,13 +6,26 @@
 <div class="space-y-6">
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-            <h1 class="text-2xl font-black text-slate-800">Pengajuan Anggaran</h1>
-            <p class="text-xs text-slate-500">Usulan pencairan dana kegiatan, honorarium, dan perjalanan dinas</p>
+            <div class="flex items-center gap-2 text-xs text-emerald-600 mb-1">
+                <a href="{{ url_for('keuangan.dashboard') }}" class="hover:underline flex items-center gap-1">
+                    <i data-lucide="arrow-left" class="w-3 h-3"></i> Dashboard Keuangan
+                </a>
+            </div>
+            <h1 class="text-2xl font-black text-slate-800">Pengajuan Anggaran Kegiatan</h1>
+            <p class="text-xs text-slate-500">Usulan pencairan alokasi anggaran, honorarium petugas sensus, dan perjalanan dinas</p>
         </div>
         <button onclick="document.getElementById('modalPengajuan').classList.remove('hidden')" class="px-4 py-2.5 rounded-xl bg-orange-500 hover:bg-orange-600 text-white font-semibold text-xs sm:text-sm shadow-md flex items-center gap-2 self-start">
             <i data-lucide="plus" class="w-4 h-4"></i>
-            <span>Buat Pengajuan</span>
+            <span>Buat Usulan Pengajuan</span>
         </button>
+    </div>
+
+    <!-- Filter Tab -->
+    <div class="flex items-center gap-2 border-b border-slate-200 pb-2">
+        <a href="{{ url_for('keuangan.pengajuan') }}" class="px-3 py-1.5 rounded-xl text-xs font-bold transition {% if not status_filter %}bg-emerald-600 text-white shadow-sm{% else %}text-slate-500 hover:bg-slate-100{% endif %}">Semua Status</a>
+        <a href="{{ url_for('keuangan.pengajuan', status='MENUNGGU') }}" class="px-3 py-1.5 rounded-xl text-xs font-bold transition {% if status_filter == 'MENUNGGU' %}bg-amber-500 text-white shadow-sm{% else %}text-slate-500 hover:bg-slate-100{% endif %}">Menunggu PPK</a>
+        <a href="{{ url_for('keuangan.pengajuan', status='DISETUJUI') }}" class="px-3 py-1.5 rounded-xl text-xs font-bold transition {% if status_filter == 'DISETUJUI' %}bg-emerald-500 text-white shadow-sm{% else %}text-slate-500 hover:bg-slate-100{% endif %}">Disetujui</a>
+        <a href="{{ url_for('keuangan.pengajuan', status='DITOLAK') }}" class="px-3 py-1.5 rounded-xl text-xs font-bold transition {% if status_filter == 'DITOLAK' %}bg-rose-500 text-white shadow-sm{% else %}text-slate-500 hover:bg-slate-100{% endif %}">Ditolak</a>
     </div>
 
     <div class="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-soft overflow-x-auto">
@@ -22,9 +35,10 @@
                     <th class="pb-3">No. Pengajuan</th>
                     <th class="pb-3">Judul Pengajuan</th>
                     <th class="pb-3">Akun & Komponen</th>
-                    <th class="pb-3">Kegiatan</th>
+                    <th class="pb-3">Kegiatan Terkait</th>
                     <th class="pb-3">Jumlah (Rp)</th>
                     <th class="pb-3">Status</th>
+                    <th class="pb-3 text-right">Aksi</th>
                 </tr>
             </thead>
             <tbody class="divide-y divide-slate-100">
@@ -36,24 +50,35 @@
                         <div class="text-[10px] text-slate-400">{{ p.keterangan or '-' }}</div>
                     </td>
                     <td class="py-3 text-slate-600">
-                        <div>{{ p.akun.kode_akun }}</div>
+                        <div class="font-bold text-slate-700">{{ p.akun.kode_akun }} ({{ p.akun.kategori }})</div>
                         <div class="text-[10px] text-slate-400">{{ p.komponen.nama_komponen }}</div>
                     </td>
                     <td class="py-3 text-slate-600">{{ p.kegiatan.nama_kegiatan if p.kegiatan else 'Operasional Rutin' }}</td>
                     <td class="py-3 font-mono font-bold text-slate-800">Rp {{ "{:,}".format(p.jumlah_diajukan).replace(',', '.') }}</td>
                     <td class="py-3">
                         {% if p.status == 'DISETUJUI' %}
-                        <span class="px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-600 font-bold text-[10px]">DISETUJUI</span>
+                        <span class="px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-600 font-bold text-[10px] border border-emerald-200">DISETUJUI</span>
                         {% elif p.status == 'DITOLAK' %}
-                        <span class="px-2 py-0.5 rounded-full bg-rose-50 text-rose-600 font-bold text-[10px]">DITOLAK</span>
+                        <span class="px-2 py-0.5 rounded-full bg-rose-50 text-rose-600 font-bold text-[10px] border border-rose-200">DITOLAK</span>
                         {% else %}
-                        <span class="px-2 py-0.5 rounded-full bg-amber-50 text-amber-600 font-bold text-[10px]">MENUNGGU</span>
+                        <span class="px-2 py-0.5 rounded-full bg-amber-50 text-amber-600 font-bold text-[10px] border border-amber-200">MENUNGGU</span>
+                        {% endif %}
+                    </td>
+                    <td class="py-3 text-right">
+                        {% if p.status == 'MENUNGGU' %}
+                        <form action="{{ url_for('keuangan.delete_pengajuan', id=p.id) }}" method="POST" class="inline" onsubmit="return confirm('Hapus usulan pengajuan ini?');">
+                            <button type="submit" class="p-1.5 rounded-lg text-slate-400 hover:text-rose-600 hover:bg-rose-50" title="Hapus Usulan">
+                                <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+                            </button>
+                        </form>
+                        {% else %}
+                        <span class="text-[10px] text-slate-400 italic">Terkunci</span>
                         {% endif %}
                     </td>
                 </tr>
                 {% else %}
                 <tr>
-                    <td colspan="6" class="py-8 text-center text-slate-400">Belum ada pengajuan anggaran.</td>
+                    <td colspan="7" class="py-8 text-center text-slate-400">Belum ada pengajuan anggaran pada kategori ini.</td>
                 </tr>
                 {% endfor %}
             </tbody>
@@ -61,58 +86,85 @@
     </div>
 </div>
 
-<!-- Modal Pengajuan -->
+<!-- Modal Pengajuan dengan Auto-Kalkulator Volume x Harga Satuan -->
 <div id="modalPengajuan" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
-    <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl">
+    <div class="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl">
         <div class="flex items-center justify-between pb-3 border-b border-slate-100 mb-4">
-            <h3 class="text-base font-bold text-slate-800">Form Pengajuan Anggaran Baru</h3>
+            <h3 class="text-base font-bold text-slate-800">Form Pengajuan Anggaran Kegiatan</h3>
             <button onclick="document.getElementById('modalPengajuan').classList.add('hidden')" class="text-slate-400 hover:text-slate-600">
                 <i data-lucide="x" class="w-5 h-5"></i>
             </button>
         </div>
         <form action="{{ url_for('keuangan.create_pengajuan') }}" method="POST" class="space-y-3">
             <div>
-                <label class="block text-xs font-semibold text-slate-700 mb-1">Judul Pengajuan *</label>
-                <input type="text" name="judul_pengajuan" required placeholder="Contoh: Honor Pencacah Lapangan Survei X" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs">
+                <label class="block text-xs font-semibold text-slate-700 mb-1">Judul / Keperluan Pengajuan *</label>
+                <input type="text" name="judul_pengajuan" required placeholder="Contoh: Honor Pencacah Lapangan Sensus Pertanian" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs">
             </div>
-            <div>
-                <label class="block text-xs font-semibold text-slate-700 mb-1">Mata Anggaran (MAK) *</label>
-                <select name="akun_id" required class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs">
-                    {% for a in akun_options %}
-                    <option value="{{ a.id }}">{{ a.kode_akun }} - {{ a.nama_akun }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-            <div>
-                <label class="block text-xs font-semibold text-slate-700 mb-1">Komponen Anggaran *</label>
-                <select name="komponen_id" required class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs">
-                    {% for k in komponen_options %}
-                    <option value="{{ k.id }}">{{ k.kode_komponen }} - {{ k.nama_komponen }}</option>
-                    {% endfor %}
-                </select>
+            <div class="grid grid-cols-2 gap-3">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">Mata Anggaran (MAK) *</label>
+                    <select name="akun_id" required class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs">
+                        {% for a in akun_options %}
+                        <option value="{{ a.id }}">{{ a.kode_akun }} - {{ a.nama_akun }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">Komponen Anggaran *</label>
+                    <select name="komponen_id" required class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs">
+                        {% for k in komponen_options %}
+                        <option value="{{ k.id }}">{{ k.kode_komponen }} - {{ k.nama_komponen }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
             </div>
             <div>
                 <label class="block text-xs font-semibold text-slate-700 mb-1">Kegiatan Terkait</label>
                 <select name="kegiatan_id" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs">
-                    <option value="">-- Operasional Rutin / Kantor --</option>
+                    <option value="">-- Operasional Rutin / Kegiatan Kantor --</option>
                     {% for keg in kegiatan_options %}
                     <option value="{{ keg.id }}">{{ keg.nama_kegiatan }}</option>
                     {% endfor %}
                 </select>
             </div>
-            <div>
-                <label class="block text-xs font-semibold text-slate-700 mb-1">Jumlah Diajukan (Rp) *</label>
-                <input type="number" name="jumlah_diajukan" required placeholder="Contoh: 15000000" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs">
+            
+            <!-- Kalkulator Rincian Biaya -->
+            <div class="p-3 bg-slate-50 rounded-2xl border border-slate-200/80 space-y-2">
+                <p class="text-[11px] font-bold text-slate-700">Rincian Perhitungan Biaya (Otomatis):</p>
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-[10px] text-slate-500 mb-0.5">Volume (Orang/Paket/Hari)</label>
+                        <input type="number" id="calcVol" value="1" min="1" oninput="calcTotal()" class="w-full px-3 py-1.5 rounded-xl border border-slate-200 text-xs font-bold">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] text-slate-500 mb-0.5">Tarif Satuan SBU (Rp)</label>
+                        <input type="number" id="calcTarif" value="15000000" min="0" oninput="calcTotal()" class="w-full px-3 py-1.5 rounded-xl border border-slate-200 text-xs font-bold font-mono">
+                    </div>
+                </div>
             </div>
+
             <div>
-                <label class="block text-xs font-semibold text-slate-700 mb-1">Keterangan Dukung</label>
-                <textarea name="keterangan" rows="2" placeholder="Catatan atau bukti lampiran..." class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs"></textarea>
+                <label class="block text-xs font-semibold text-slate-700 mb-1">Total Jumlah Diajukan (Rp) *</label>
+                <input type="number" id="inputJumlahDiajukan" name="jumlah_diajukan" value="15000000" required class="w-full px-3 py-2 rounded-xl border border-slate-200 text-sm font-bold text-slate-800 font-mono">
+            </div>
+
+            <div>
+                <label class="block text-xs font-semibold text-slate-700 mb-1">Keterangan Dukung / Bukti Lampiran</label>
+                <textarea name="keterangan" rows="2" placeholder="Catatan kelengkapan dokumen atau dasar hukum pengajuan..." class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs"></textarea>
             </div>
             <div class="pt-3 flex justify-end gap-2">
                 <button type="button" onclick="document.getElementById('modalPengajuan').classList.add('hidden')" class="px-4 py-2 rounded-xl text-xs font-semibold text-slate-600 hover:bg-slate-100">Batal</button>
-                <button type="submit" class="px-4 py-2 rounded-xl bg-orange-500 text-white text-xs font-semibold hover:bg-orange-600">Ajukan Sekarang</button>
+                <button type="submit" class="px-4 py-2 rounded-xl bg-orange-500 text-white text-xs font-semibold hover:bg-orange-600">Kirim Pengajuan ke PPK</button>
             </div>
         </form>
     </div>
 </div>
+
+<script>
+function calcTotal() {
+    const vol = parseFloat(document.getElementById('calcVol').value) || 0;
+    const tarif = parseFloat(document.getElementById('calcTarif').value) || 0;
+    document.getElementById('inputJumlahDiajukan').value = Math.round(vol * tarif);
+}
+</script>
 {% endblock %}

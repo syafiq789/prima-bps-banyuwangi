@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify
 from flask_login import login_required, current_user
 from datetime import datetime
+from sqlalchemy import func
 from app.models import (
     db, AkunAnggaran, KomponenAnggaran, PengajuanAnggaran, PersetujuanAnggaran, RealisasiAnggaran, Kegiatan
 )
@@ -25,9 +26,24 @@ def dashboard():
     
     total_pagu_akun = sum(a.pagu_awal for a in AkunAnggaran.query.all())
     sisa_anggaran = max(0, total_pagu_akun - total_realisasi)
+    persentase_serapan = round((total_realisasi / total_pagu_akun * 100), 1) if total_pagu_akun > 0 else 0
 
     transaksi_terbaru = PengajuanAnggaran.query.order_by(PengajuanAnggaran.created_at.desc()).limit(7).all()
     realisasi_terbaru = RealisasiAnggaran.query.order_by(RealisasiAnggaran.created_at.desc()).limit(5).all()
+
+    # Data Chart.js: Komposisi Pagu vs Realisasi per Kategori
+    kategori_list = ['HONOR', 'PERJADIN', 'BAHAN']
+    pagu_per_kat = []
+    real_per_kat = []
+    for k in kategori_list:
+        pagu_k = db.session.query(func.sum(AkunAnggaran.pagu_awal)).filter(AkunAnggaran.kategori == k).scalar() or 0
+        # hitung realisasi kategori k
+        real_k = db.session.query(func.sum(RealisasiAnggaran.jumlah_realisasi))\
+            .join(PengajuanAnggaran, RealisasiAnggaran.pengajuan_id == PengajuanAnggaran.id)\
+            .join(AkunAnggaran, PengajuanAnggaran.akun_id == AkunAnggaran.id)\
+            .filter(AkunAnggaran.kategori == k).scalar() or 0
+        pagu_per_kat.append(pagu_k)
+        real_per_kat.append(real_k)
 
     return render_template(
         'keuangan/dashboard.html',
@@ -38,8 +54,12 @@ def dashboard():
         total_realisasi=total_realisasi,
         sisa_anggaran=sisa_anggaran,
         total_pagu_akun=total_pagu_akun,
+        persentase_serapan=persentase_serapan,
         transaksi_terbaru=transaksi_terbaru,
-        realisasi_terbaru=realisasi_terbaru
+        realisasi_terbaru=realisasi_terbaru,
+        kategori_labels=kategori_list,
+        pagu_per_kat=pagu_per_kat,
+        real_per_kat=real_per_kat
     )
 
 @keuangan_bp.route('/akun')
@@ -107,11 +127,15 @@ def create_komponen():
 @keuangan_bp.route('/pengajuan')
 @login_required
 def pengajuan():
-    pengajuan_list = PengajuanAnggaran.query.order_by(PengajuanAnggaran.created_at.desc()).all()
+    status_filter = request.args.get('status', '').strip()
+    query = PengajuanAnggaran.query
+    if status_filter:
+        query = query.filter_by(status=status_filter)
+    pengajuan_list = query.order_by(PengajuanAnggaran.created_at.desc()).all()
     akun_options = AkunAnggaran.query.all()
     komponen_options = KomponenAnggaran.query.all()
     kegiatan_options = Kegiatan.query.all()
-    return render_template('keuangan/pengajuan.html', pengajuan_list=pengajuan_list, akun_options=akun_options, komponen_options=komponen_options, kegiatan_options=kegiatan_options)
+    return render_template('keuangan/pengajuan.html', pengajuan_list=pengajuan_list, akun_options=akun_options, komponen_options=komponen_options, kegiatan_options=kegiatan_options, status_filter=status_filter)
 
 @keuangan_bp.route('/pengajuan/create', methods=['POST'])
 @login_required
@@ -137,6 +161,16 @@ def create_pengajuan():
     db.session.add(item)
     db.session.commit()
     flash(f'Pengajuan {nomor_pengajuan} berhasil dibuat.', 'success')
+    return redirect(url_for('keuangan.pengajuan'))
+
+@keuangan_bp.route('/pengajuan/<int:id>/delete', methods=['POST'])
+@login_required
+def delete_pengajuan(id):
+    p = PengajuanAnggaran.query.get_or_404(id)
+    nomor = p.nomor_pengajuan
+    db.session.delete(p)
+    db.session.commit()
+    flash(f'Pengajuan {nomor} berhasil dihapus.', 'info')
     return redirect(url_for('keuangan.pengajuan'))
 
 @keuangan_bp.route('/persetujuan')
@@ -165,7 +199,7 @@ def action_persetujuan():
     )
     db.session.add(persetujuan_item)
     db.session.commit()
-    flash(f'Pengajuan {pengajuan.nomor_pengajuan} berstatus {status}.', 'success')
+    flash(f'Pengajuan {pengajuan.nomor_pengajuan} berhasil diproses dengan status {status}.', 'success')
     return redirect(url_for('keuangan.persetujuan'))
 
 @keuangan_bp.route('/realisasi')
@@ -202,19 +236,26 @@ def create_realisasi():
 def rekapitulasi():
     akun_list = AkunAnggaran.query.all()
     rekap = []
+    total_pagu_all = 0
+    total_realisasi_all = 0
     for a in akun_list:
         pagu = a.pagu_awal
+        total_pagu_all += pagu
         pengajuan = a.pengajuan_list.all()
         diajukan = sum(p.jumlah_diajukan for p in pengajuan)
         disetujui = sum(p.jumlah_diajukan for p in pengajuan if p.status == 'DISETUJUI')
         realisasi_total = sum(p.realisasi.jumlah_realisasi for p in pengajuan if p.realisasi)
+        total_realisasi_all += realisasi_total
         sisa = max(0, pagu - realisasi_total)
+        serapan_persen = round((realisasi_total / pagu * 100), 1) if pagu > 0 else 0
         rekap.append({
             'akun': a,
             'pagu': pagu,
             'diajukan': diajukan,
             'disetujui': disetujui,
             'realisasi': realisasi_total,
-            'sisa': sisa
+            'sisa': sisa,
+            'serapan_persen': serapan_persen
         })
-    return render_template('keuangan/rekapitulasi.html', rekap=rekap)
+    avg_serapan_all = round((total_realisasi_all / total_pagu_all * 100), 1) if total_pagu_all > 0 else 0
+    return render_template('keuangan/rekapitulasi.html', rekap=rekap, total_pagu_all=total_pagu_all, total_realisasi_all=total_realisasi_all, avg_serapan_all=avg_serapan_all)
