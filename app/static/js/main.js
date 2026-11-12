@@ -22,6 +22,69 @@ window.togglePrimaMasterMenu = function() {
     }
 };
 
+// 1.b Toggle Master MONITORING MITRA Menu
+window.toggleMitraMasterMenu = function() {
+    const container = document.getElementById('container-mitra-features');
+    const chevron = document.getElementById('chevron-mitra-master');
+    const btn = document.getElementById('btn-mitra-master');
+
+    if (!container) return;
+
+    const isClosed = container.classList.contains('closed');
+
+    if (isClosed) {
+        container.classList.remove('closed');
+        if (chevron) chevron.classList.add('rotate');
+        if (btn) btn.classList.add('border-orange-500/70', 'bg-orange-500/25');
+    } else {
+        container.classList.add('closed');
+        if (chevron) chevron.classList.remove('rotate');
+        if (btn) btn.classList.remove('border-orange-500/70', 'bg-orange-500/25');
+    }
+};
+
+// 1.c Toggle Master KINERJA PEGAWAI Menu
+window.togglePegawaiMasterMenu = function() {
+    const container = document.getElementById('container-pegawai-features');
+    const chevron = document.getElementById('chevron-pegawai-master');
+    const btn = document.getElementById('btn-pegawai-master');
+
+    if (!container) return;
+
+    const isClosed = container.classList.contains('closed');
+
+    if (isClosed) {
+        container.classList.remove('closed');
+        if (chevron) chevron.classList.add('rotate');
+        if (btn) btn.classList.add('border-blue-500/70', 'bg-blue-500/25');
+    } else {
+        container.classList.add('closed');
+        if (chevron) chevron.classList.remove('rotate');
+        if (btn) btn.classList.remove('border-blue-500/70', 'bg-blue-500/25');
+    }
+};
+
+// 1.d Toggle Master TRACKING KEUANGAN Menu
+window.toggleKeuanganMasterMenu = function() {
+    const container = document.getElementById('container-keuangan-features');
+    const chevron = document.getElementById('chevron-keuangan-master');
+    const btn = document.getElementById('btn-keuangan-master');
+
+    if (!container) return;
+
+    const isClosed = container.classList.contains('closed');
+
+    if (isClosed) {
+        container.classList.remove('closed');
+        if (chevron) chevron.classList.add('rotate');
+        if (btn) btn.classList.add('border-emerald-500/70', 'bg-emerald-500/25');
+    } else {
+        container.classList.add('closed');
+        if (chevron) chevron.classList.remove('rotate');
+        if (btn) btn.classList.remove('border-emerald-500/70', 'bg-emerald-500/25');
+    }
+};
+
 // 2. Toggle Subkelompok Fitur di dalam PRIMA (Menu Utama, Perencanaan, Pengukuran, dll)
 window.toggleSubFeature = function(targetId, triggerElement) {
     const targetContent = document.getElementById(targetId);
@@ -156,11 +219,48 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Pastikan master PRIMA container selalu terbuka dan aktif
+    // Pastikan master container terbuka sesuai modul yang sedang aktif
     const primaContainer = document.getElementById('container-prima-features');
     const primaChevron = document.getElementById('chevron-prima-master');
-    if (primaContainer && !primaContainer.classList.contains('closed') && primaChevron) {
-        primaChevron.classList.add('rotate');
+    const btnPrima = document.getElementById('btn-prima-master');
+
+    const mitraContainer = document.getElementById('container-mitra-features');
+    const mitraChevron = document.getElementById('chevron-mitra-master');
+    const btnMitra = document.getElementById('btn-mitra-master');
+
+    const pegawaiContainer = document.getElementById('container-pegawai-features');
+    const pegawaiChevron = document.getElementById('chevron-pegawai-master');
+    const btnPegawai = document.getElementById('btn-pegawai-master');
+
+    const keuanganContainer = document.getElementById('container-keuangan-features');
+    const keuanganChevron = document.getElementById('chevron-keuangan-master');
+    const btnKeuangan = document.getElementById('btn-keuangan-master');
+
+    if (currentPath.startsWith('/mitra')) {
+        if (mitraContainer) mitraContainer.classList.remove('closed');
+        if (mitraChevron) mitraChevron.classList.add('rotate');
+        if (btnMitra) btnMitra.classList.add('border-orange-500/70', 'bg-orange-500/25');
+        if (primaContainer) primaContainer.classList.add('closed');
+        if (primaChevron) primaChevron.classList.remove('rotate');
+        if (btnPrima) btnPrima.classList.remove('border-orange-500/70', 'bg-orange-500/25');
+    } else if (currentPath.startsWith('/pegawai')) {
+        if (pegawaiContainer) pegawaiContainer.classList.remove('closed');
+        if (pegawaiChevron) pegawaiChevron.classList.add('rotate');
+        if (btnPegawai) btnPegawai.classList.add('border-blue-500/70', 'bg-blue-500/25');
+        if (primaContainer) primaContainer.classList.add('closed');
+        if (primaChevron) primaChevron.classList.remove('rotate');
+        if (btnPrima) btnPrima.classList.remove('border-orange-500/70', 'bg-orange-500/25');
+    } else if (currentPath.startsWith('/keuangan')) {
+        if (keuanganContainer) keuanganContainer.classList.remove('closed');
+        if (keuanganChevron) keuanganChevron.classList.add('rotate');
+        if (btnKeuangan) btnKeuangan.classList.add('border-emerald-500/70', 'bg-emerald-500/25');
+        if (primaContainer) primaContainer.classList.add('closed');
+        if (primaChevron) primaChevron.classList.remove('rotate');
+        if (btnPrima) btnPrima.classList.remove('border-orange-500/70', 'bg-orange-500/25');
+    } else {
+        if (primaContainer && !primaContainer.classList.contains('closed') && primaChevron) {
+            primaChevron.classList.add('rotate');
+        }
     }
 
     // 7. User Profile Dropdown

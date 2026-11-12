@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}Monitoring Kinerja Pegawai - SIMPATIK BPS Banyuwangi{% endblock %}
+
+{% block content %}
+<div class="space-y-6">
+    <div>
+        <h1 class="text-2xl font-black text-slate-800">Monitoring Kinerja Pegawai per Tim Kerja</h1>
+        <p class="text-xs text-slate-500">Pemantauan distribusi beban tugas dan capaian kinerja organisasi</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+        {% for tim in tim_names %}
+        <div class="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-soft">
+            <div class="flex items-center justify-between mb-3">
+                <span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-blue-50 text-blue-600">Tim Kerja</span>
+                <i data-lucide="layers" class="w-4 h-4 text-slate-400"></i>
+            </div>
+            <h3 class="text-base font-bold text-slate-800 mb-2">{{ tim }}</h3>
+            
+            <div class="space-y-2 mt-4 pt-4 border-t border-slate-100">
+                {% for p in pegawai_list if p.tim_kerja == tim %}
+                <div class="flex items-center justify-between text-xs">
+                    <span class="font-semibold text-slate-700">{{ p.nama_lengkap }}</span>
+                    <span class="text-[11px] text-slate-400">{{ p.aktivitas.count() }} Tugas</span>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% else %}
+        <div class="col-span-full py-12 text-center text-slate-400 bg-white rounded-3xl border border-slate-200">Belum ada tim kerja terdaftar.</div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+
+{% block title %}Persetujuan Anggaran - SIMPATIK BPS Banyuwangi{% endblock %}
+
+{% block content %}
+<div class="space-y-6">
+    <div>
+        <h1 class="text-2xl font-black text-slate-800">Persetujuan Pengajuan Anggaran (PPK / KPA)</h1>
+        <p class="text-xs text-slate-500">Verifikasi dan persetujuan pencairan anggaran kegiatan BPS Banyuwangi</p>
+    </div>
+
+    <!-- Antrean Menunggu Persetujuan -->
+    <div class="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-soft">
+        <h2 class="text-base font-bold text-slate-800 pb-3 border-b border-slate-100 mb-4 flex items-center justify-between">
+            <span>Antrean Pengajuan Menunggu Persetujuan</span>
+            <span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-amber-50 text-amber-600 border border-amber-200">{{ pengajuan_menunggu|length }} Antrean</span>
+        </h2>
+
+        <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs">
+                <thead>
+                    <tr class="text-slate-400 border-b border-slate-100 uppercase font-semibold">
+                        <th class="pb-3">No. Pengajuan</th>
+                        <th class="pb-3">Judul Pengajuan</th>
+                        <th class="pb-3">Akun Anggaran</th>
+                        <th class="pb-3">Jumlah (Rp)</th>
+                        <th class="pb-3 text-right">Aksi Tindakan</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100">
+                    {% for item in pengajuan_menunggu %}
+                    <tr class="hover:bg-slate-50">
+                        <td class="py-3 font-mono font-bold text-navy-main">{{ item.nomor_pengajuan }}</td>
+                        <td class="py-3">
+                            <div class="font-bold text-slate-800">{{ item.judul_pengajuan }}</div>
+                            <div class="text-[10px] text-slate-400">{{ item.keterangan or '-' }}</div>
+                        </td>
+                        <td class="py-3 text-slate-600">{{ item.akun.kode_akun }} - {{ item.komponen.nama_komponen }}</td>
+                        <td class="py-3 font-mono font-bold text-slate-800">Rp {{ "{:,}".format(item.jumlah_diajukan).replace(',', '.') }}</td>
+                        <td class="py-3 text-right">
+                            <form action="{{ url_for('keuangan.action_persetujuan') }}" method="POST" class="inline-flex gap-2">
+                                <input type="hidden" name="pengajuan_id" value="{{ item.id }}">
+                                <button type="submit" name="status" value="DISETUJUI" class="px-3 py-1.5 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-[11px] shadow-sm flex items-center gap-1">
+                                    <i data-lucide="check" class="w-3.5 h-3.5"></i>
+                                    <span>Setujui</span>
+                                </button>
+                                <button type="submit" name="status" value="DITOLAK" class="px-3 py-1.5 rounded-xl bg-rose-500 hover:bg-rose-600 text-white font-bold text-[11px] shadow-sm flex items-center gap-1">
+                                    <i data-lucide="x" class="w-3.5 h-3.5"></i>
+                                    <span>Tolak</span>
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="5" class="py-8 text-center text-slate-400">Tidak ada pengajuan yang menunggu persetujuan saat ini.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Riwayat Persetujuan -->
+    <div class="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-soft">
+        <h2 class="text-base font-bold text-slate-800 pb-3 border-b border-slate-100 mb-4">Riwayat Log Persetujuan</h2>
+        <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs">
+                <thead>
+                    <tr class="text-slate-400 border-b border-slate-100 uppercase font-semibold">
+                        <th class="pb-3">No. Pengajuan</th>
+                        <th class="pb-3">Judul Pengajuan</th>
+                        <th class="pb-3">Keputusan</th>
+                        <th class="pb-3">Waktu</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100">
+                    {% for h in riwayat_persetujuan %}
+                    <tr class="hover:bg-slate-50">
+                        <td class="py-3 font-mono font-bold text-slate-700">{{ h.pengajuan.nomor_pengajuan }}</td>
+                        <td class="py-3 font-semibold text-slate-800">{{ h.pengajuan.judul_pengajuan }}</td>
+                        <td class="py-3">
+                            {% if h.status == 'DISETUJUI' %}
+                            <span class="px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-600 font-bold text-[10px]">DISETUJUI</span>
+                            {% else %}
+                            <span class="px-2 py-0.5 rounded-full bg-rose-50 text-rose-600 font-bold text-[10px]">DITOLAK</span>
+                            {% endif %}
+                        </td>
+                        <td class="py-3 text-slate-400 font-mono text-[11px]">{{ h.tanggal_keputusan.strftime('%Y-%m-%d %H:%M') if h.tanggal_keputusan else '-' }}</td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="4" class="py-6 text-center text-slate-400">Belum ada riwayat persetujuan.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

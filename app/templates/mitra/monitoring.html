@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block title %}Monitoring Kegiatan Mitra - SIMPATIK BPS Banyuwangi{% endblock %}
+
+{% block content %}
+<div class="space-y-6">
+    <div>
+        <h1 class="text-2xl font-black text-slate-800">Monitoring Kegiatan Survei & Sensus</h1>
+        <p class="text-xs text-slate-500">Pemantauan jadwal pelaksanaan dan progres pencapaian dokumen lapangan</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+        {% for k in kegiatan_list %}
+        <div class="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-soft flex flex-col justify-between">
+            <div>
+                <div class="flex items-center justify-between mb-3">
+                    <span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-navy-main/10 text-navy-main">{{ k.kode_kegiatan }}</span>
+                    {% if k.status == 'SELESAI' %}
+                    <span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-600">SELESAI</span>
+                    {% else %}
+                    <span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-orange-50 text-orange-600">BERJALAN</span>
+                    {% endif %}
+                </div>
+                <h3 class="text-base font-bold text-slate-800 mb-2">{{ k.nama_kegiatan }}</h3>
+                <p class="text-xs text-slate-500 mb-4 flex items-center gap-1.5">
+                    <i data-lucide="calendar" class="w-3.5 h-3.5 text-slate-400"></i>
+                    <span>{{ k.tanggal_mulai }} s.d. {{ k.tanggal_selesai }}</span>
+                </p>
+            </div>
+            <div>
+                <div class="flex justify-between text-xs font-bold mb-1.5">
+                    <span class="text-slate-500">Progres Lapangan</span>
+                    <span class="text-orange-600">{{ k.progres_persen }}%</span>
+                </div>
+                <div class="w-full h-2 rounded-full bg-slate-100 overflow-hidden">
+                    <div class="h-full bg-orange-500 rounded-full" style="width: {{ k.progres_persen }}%"></div>
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <div class="col-span-full py-12 text-center text-slate-400 bg-white rounded-3xl border border-slate-200">Belum ada data kegiatan.</div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

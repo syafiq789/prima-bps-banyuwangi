@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+
+{% block title %}Template Kegiatan - SIMPATIK BPS Banyuwangi{% endblock %}
+
+{% block content %}
+<div class="space-y-6">
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+            <h1 class="text-2xl font-black text-slate-800">Template Kegiatan & Standar Honor</h1>
+            <p class="text-xs text-slate-500">Referensi standar kegiatan survei dan honorarium mitra BPS Banyuwangi</p>
+        </div>
+        <button onclick="document.getElementById('modalTemplate').classList.remove('hidden')" class="px-4 py-2.5 rounded-xl bg-orange-500 hover:bg-orange-600 text-white font-semibold text-xs sm:text-sm shadow-md flex items-center gap-2 self-start">
+            <i data-lucide="plus" class="w-4 h-4"></i>
+            <span>Tambah Template</span>
+        </button>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+        {% for t in template_list %}
+        <div class="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-soft">
+            <div class="flex items-center justify-between mb-3">
+                <span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-orange-50 text-orange-600">{{ t.jenis_survei }}</span>
+                <i data-lucide="file-text" class="w-4 h-4 text-slate-400"></i>
+            </div>
+            <h3 class="text-base font-bold text-slate-800 mb-2">{{ t.nama_template }}</h3>
+            <p class="text-xs text-slate-500 mb-4">{{ t.deskripsi or 'Tidak ada deskripsi tambahan.' }}</p>
+            <div class="pt-3 border-t border-slate-100 flex items-center justify-between">
+                <span class="text-[11px] text-slate-400 font-medium">Honor Standar</span>
+                <span class="text-sm font-black text-navy-main">Rp {{ "{:,}".format(t.honor_standar).replace(',', '.') }}</span>
+            </div>
+        </div>
+        {% else %}
+        <div class="col-span-full py-12 text-center text-slate-400 bg-white rounded-3xl border border-slate-200">Belum ada template kegiatan.</div>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- Modal Template -->
+<div id="modalTemplate" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl">
+        <div class="flex items-center justify-between pb-3 border-b border-slate-100 mb-4">
+            <h3 class="text-base font-bold text-slate-800">Tambah Template Kegiatan</h3>
+            <button onclick="document.getElementById('modalTemplate').classList.add('hidden')" class="text-slate-400 hover:text-slate-600">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+        </div>
+        <form action="{{ url_for('mitra.create_template') }}" method="POST" class="space-y-3">
+            <div>
+                <label class="block text-xs font-semibold text-slate-700 mb-1">Nama Template *</label>
+                <input type="text" name="nama_template" required class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs">
+            </div>
+            <div>
+                <label class="block text-xs font-semibold text-slate-700 mb-1">Jenis Survei *</label>
+                <input type="text" name="jenis_survei" required placeholder="Contoh: Survei Rumah Tangga" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs">
+            </div>
+            <div>
+                <label class="block text-xs font-semibold text-slate-700 mb-1">Honor Standar (Rp)</label>
+                <input type="number" name="honor_standar" value="3000000" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs">
+            </div>
+            <div>
+                <label class="block text-xs font-semibold text-slate-700 mb-1">Deskripsi</label>
+                <textarea name="deskripsi" rows="2" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs"></textarea>
+            </div>
+            <div class="pt-3 flex justify-end gap-2">
+                <button type="button" onclick="document.getElementById('modalTemplate').classList.add('hidden')" class="px-4 py-2 rounded-xl text-xs font-semibold text-slate-600 hover:bg-slate-100">Batal</button>
+                <button type="submit" class="px-4 py-2 rounded-xl bg-orange-500 text-white text-xs font-semibold hover:bg-orange-600">Simpan Template</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

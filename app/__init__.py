@@ -4,7 +4,12 @@ from flask import Flask, render_template, request
 from flask_login import LoginManager
 from sqlalchemy import create_engine, text
 from config import config, Config
-from app.models import db, User, Category, ImportantLink, Document, DocumentCompleteness, Activity
+from app.models import (
+    db, User, Category, ImportantLink, Document, DocumentCompleteness, Activity,
+    Kegiatan, TemplateKegiatan, Mitra, PenugasanMitra, EvaluasiMitra,
+    Pegawai, AktivitasPegawai, AkunAnggaran, KomponenAnggaran,
+    PengajuanAnggaran, PersetujuanAnggaran, RealisasiAnggaran
+)
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -76,6 +81,9 @@ def create_app(config_name=None):
     from app.routes.important_links import important_links_bp
     from app.routes.completeness import completeness_bp
     from app.routes.info import info_bp
+    from app.routes.mitra import mitra_bp
+    from app.routes.pegawai import pegawai_bp
+    from app.routes.keuangan import keuangan_bp
 
     app.register_blueprint(auth_bp, url_prefix='/auth')
     app.register_blueprint(dashboard_bp)
@@ -86,6 +94,9 @@ def create_app(config_name=None):
     app.register_blueprint(important_links_bp, url_prefix='/important-links')
     app.register_blueprint(completeness_bp, url_prefix='/completeness')
     app.register_blueprint(info_bp, url_prefix='/info')
+    app.register_blueprint(mitra_bp)
+    app.register_blueprint(pegawai_bp)
+    app.register_blueprint(keuangan_bp)
 
     # Global Context Processor for dynamic sidebar navigation & system metadata
     @app.context_processor
@@ -497,6 +508,63 @@ def seed_initial_data():
                     c_item.notes = "Belum ada dokumen yang diunggah."
 
         db.session.commit()
+
+        # 6. Seed Sample Data untuk 3 Modul Baru (Mitra, Pegawai, Keuangan) jika masih kosong
+        if Kegiatan.query.count() == 0:
+            from datetime import date
+            keg1 = Kegiatan(kode_kegiatan='SUSENAS-2025', nama_kegiatan='Survei Sosial Ekonomi Nasional (SUSENAS) Maret 2025', tahun=2025, tanggal_mulai=date(2025, 2, 1), tanggal_selesai=date(2025, 3, 31), status='BERJALAN', progres_persen=75)
+            keg2 = Kegiatan(kode_kegiatan='SAKERNAS-2025', nama_kegiatan='Survei Angkatan Kerja Nasional (SAKERNAS) Februari 2025', tahun=2025, tanggal_mulai=date(2025, 1, 15), tanggal_selesai=date(2025, 2, 28), status='SELESAI', progres_persen=100)
+            keg3 = Kegiatan(kode_kegiatan='UBINAN-2025', nama_kegiatan='Survei Ubinan Tanaman Pangan Subround I', tahun=2025, tanggal_mulai=date(2025, 1, 10), tanggal_selesai=date(2025, 4, 30), status='BERJALAN', progres_persen=60)
+            db.session.add_all([keg1, keg2, keg3])
+            db.session.commit()
+
+            tpl1 = TemplateKegiatan(nama_template='Pendataan CAPI Rumah Tangga', jenis_survei='Survei Rumah Tangga', honor_standar=3500000, deskripsi='Standar honorarium petugas pencacahan lapangan berbasis CAPI.')
+            tpl2 = TemplateKegiatan(nama_template='Pengolahan & Entri Dokumen', jenis_survei='Pengolahan Data', honor_standar=2500000, deskripsi='Standar honorarium mitra pengolahan data di kantor BPS.')
+            db.session.add_all([tpl1, tpl2])
+
+            m1 = Mitra(id_sobat='35102025001', nama_lengkap='Ahmad Fauzi', kecamatan='Banyuwangi', no_hp='081234567890', email='fauzi@mitra.bps.go.id', keahlian='Pendataan Lapangan (CAPI)')
+            m2 = Mitra(id_sobat='35102025002', nama_lengkap='Siti Nurhaliza', kecamatan='Genteng', no_hp='085234567891', email='siti@mitra.bps.go.id', keahlian='PML & Pengawasan')
+            m3 = Mitra(id_sobat='35102025003', nama_lengkap='Budi Santoso', kecamatan='Rogojampi', no_hp='087834567892', email='budi@mitra.bps.go.id', keahlian='Pengolahan Data')
+            db.session.add_all([m1, m2, m3])
+            db.session.commit()
+
+            pm1 = PenugasanMitra(mitra_id=m1.id, kegiatan_id=keg1.id, peran='PPL', target_dokumen=40, realisasi_dokumen=32, honor_total=3200000, status='PROSES')
+            pm2 = PenugasanMitra(mitra_id=m2.id, kegiatan_id=keg2.id, peran='PML', target_dokumen=20, realisasi_dokumen=20, honor_total=3500000, status='SELESAI')
+            db.session.add_all([pm1, pm2])
+            db.session.commit()
+
+            ev1 = EvaluasiMitra(penugasan_id=pm2.id, mitra_id=m2.id, nilai_kualitas=92, nilai_ketepatan=95, nilai_kerjasama=90, catatan='Sangat responsif dan teliti dalam pengawasan lapangan.')
+            db.session.add(ev1)
+
+            p1 = Pegawai(nip='198501012010011001', nama_lengkap='T.F. Dewanto', jabatan='Statistisi Ahli Muda', tim_kerja='Tim Statistik Sosial', email='tfdewanto@bps.go.id')
+            p2 = Pegawai(nip='199008202014031003', nama_lengkap='Abdul Hadi', jabatan='Pranata Komputer Ahli Pertama', tim_kerja='Tim IPDS & Pengolahan', email='abdulhadi@bps.go.id')
+            p3 = Pegawai(nip='199203152015021002', nama_lengkap='Rina Kartika', jabatan='Statistisi Terampil', tim_kerja='Tim Statistik Produksi', email='rina@bps.go.id')
+            db.session.add_all([p1, p2, p3])
+            db.session.commit()
+
+            ap1 = AktivitasPegawai(pegawai_id=p1.id, kegiatan_id=keg1.id, judul_aktivitas='Pelatihan Petugas SUSENAS Maret 2025', deskripsi='Menyusun bahan ajar dan melatih 45 petugas lapangan.', tanggal_mulai=date(2025, 2, 3), tanggal_selesai=date(2025, 2, 10), persentase_selesai=100, status='SELESAI')
+            ap2 = AktivitasPegawai(pegawai_id=p2.id, kegiatan_id=keg1.id, judul_aktivitas='Monitoring Anomali Data CAPI', deskripsi='Verifikasi konsistensi isian kuesioner harian.', tanggal_mulai=date(2025, 2, 15), tanggal_selesai=date(2025, 3, 20), persentase_selesai=65, status='PROSES')
+            db.session.add_all([ap1, ap2])
+
+            ak1 = AkunAnggaran(kode_akun='521213', nama_akun='Belanja Honor Output Kegiatan', kategori='HONOR', pagu_awal=450000000)
+            ak2 = AkunAnggaran(kode_akun='524111', nama_akun='Belanja Perjalanan Dinas Biasa', kategori='PERJADIN', pagu_awal=180000000)
+            ak3 = AkunAnggaran(kode_akun='521211', nama_akun='Belanja Bahan', kategori='BAHAN', pagu_awal=75000000)
+            db.session.add_all([ak1, ak2, ak3])
+            db.session.commit()
+
+            kom1 = KomponenAnggaran(kode_komponen='051', nama_komponen='Persiapan dan Pengumpulan Data Lapangan', akun_id=ak1.id, kegiatan_id=keg1.id, pagu_komponen=220000000)
+            kom2 = KomponenAnggaran(kode_komponen='052', nama_komponen='Pengawasan dan Pemeriksaan Lapangan', akun_id=ak2.id, kegiatan_id=keg1.id, pagu_komponen=85000000)
+            db.session.add_all([kom1, kom2])
+            db.session.commit()
+
+            aju1 = PengajuanAnggaran(nomor_pengajuan='AJU-2025021501', judul_pengajuan='Honor Petugas Pencacahan SUSENAS Termin 1', kegiatan_id=keg1.id, akun_id=ak1.id, komponen_id=kom1.id, jumlah_diajukan=115000000, status='DISETUJUI', keterangan='Sudah sesuai daftar hadir dan rekap dokumen.')
+            aju2 = PengajuanAnggaran(nomor_pengajuan='AJU-2025022002', judul_pengajuan='Transport Pengawasan Lapangan Tim IPDS', kegiatan_id=keg1.id, akun_id=ak2.id, komponen_id=kom2.id, jumlah_diajukan=18500000, status='MENUNGGU', keterangan='Menunggu verifikasi PPK.')
+            db.session.add_all([aju1, aju2])
+            db.session.commit()
+
+            real1 = RealisasiAnggaran(pengajuan_id=aju1.id, nomor_sp2d='SP2D-00142/2025', jumlah_realisasi=115000000, tanggal_realisasi=date(2025, 2, 25), keterangan='Telah ditransfer ke rekening masing-masing mitra.')
+            db.session.add(real1)
+            db.session.commit()
 
         logger.info("Database initialization completed with 0 initial uploaded documents.")
     except Exception as e:

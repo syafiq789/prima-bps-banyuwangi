@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block title %}Rekapitulasi Mitra - SIMPATIK BPS Banyuwangi{% endblock %}
+
+{% block content %}
+<div class="space-y-6">
+    <div>
+        <h1 class="text-2xl font-black text-slate-800">Rekapitulasi Kinerja & Honor Mitra</h1>
+        <p class="text-xs text-slate-500">Akumulasi keikutsertaan survei, skor evaluasi rata-rata, dan total honorarium</p>
+    </div>
+
+    <div class="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-soft overflow-x-auto">
+        <table class="w-full text-left text-xs">
+            <thead>
+                <tr class="text-slate-400 border-b border-slate-100 uppercase font-semibold">
+                    <th class="pb-3">ID Sobat</th>
+                    <th class="pb-3">Nama Mitra</th>
+                    <th class="pb-3">Kecamatan</th>
+                    <th class="pb-3">Jumlah Tugas</th>
+                    <th class="pb-3">Skor Rata-Rata</th>
+                    <th class="pb-3">Total Honorarium</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100">
+                {% for r in rekap_data %}
+                <tr class="hover:bg-slate-50">
+                    <td class="py-3 font-mono text-slate-600">{{ r.mitra.id_sobat }}</td>
+                    <td class="py-3 font-bold text-slate-800">{{ r.mitra.nama_lengkap }}</td>
+                    <td class="py-3 text-slate-600">{{ r.mitra.kecamatan }}</td>
+                    <td class="py-3 font-semibold">{{ r.total_tugas }} Kegiatan</td>
+                    <td class="py-3">
+                        <span class="px-2 py-0.5 rounded-full font-bold {% if r.avg_score >= 85 %}bg-emerald-50 text-emerald-700{% else %}bg-slate-100 text-slate-600{% endif %}">
+                            {{ r.avg_score if r.avg_score > 0 else 'Belum Dinilai' }}
+                        </span>
+                    </td>
+                    <td class="py-3 font-mono font-bold text-navy-main">Rp {{ "{:,}".format(r.total_honor).replace(',', '.') }}</td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="6" class="py-8 text-center text-slate-400">Belum ada data rekapitulasi.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

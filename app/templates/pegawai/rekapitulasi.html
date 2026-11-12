@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block title %}Rekapitulasi Kinerja Pegawai - SIMPATIK BPS Banyuwangi{% endblock %}
+
+{% block content %}
+<div class="space-y-6">
+    <div>
+        <h1 class="text-2xl font-black text-slate-800">Rekapitulasi Kinerja Pegawai</h1>
+        <p class="text-xs text-slate-500">Ringkasan total aktivitas, jumlah pekerjaan selesai, dan rata-rata persentase penyelesaian</p>
+    </div>
+
+    <div class="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-soft overflow-x-auto">
+        <table class="w-full text-left text-xs">
+            <thead>
+                <tr class="text-slate-400 border-b border-slate-100 uppercase font-semibold">
+                    <th class="pb-3">NIP</th>
+                    <th class="pb-3">Nama Pegawai</th>
+                    <th class="pb-3">Tim Kerja</th>
+                    <th class="pb-3">Total Aktivitas</th>
+                    <th class="pb-3">Selesai</th>
+                    <th class="pb-3">Dalam Proses</th>
+                    <th class="pb-3">Rata-Rata Capaian</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100">
+                {% for r in rekap %}
+                <tr class="hover:bg-slate-50">
+                    <td class="py-3 font-mono text-slate-600">{{ r.pegawai.nip }}</td>
+                    <td class="py-3 font-bold text-slate-800">{{ r.pegawai.nama_lengkap }}</td>
+                    <td class="py-3 text-slate-600">{{ r.pegawai.tim_kerja }}</td>
+                    <td class="py-3 font-semibold">{{ r.total_aktivitas }} Tugas</td>
+                    <td class="py-3 font-bold text-emerald-600">{{ r.selesai }}</td>
+                    <td class="py-3 font-bold text-amber-600">{{ r.proses }}</td>
+                    <td class="py-3">
+                        <div class="flex items-center gap-2">
+                            <span class="font-bold text-slate-700">{{ r.avg_pct }}%</span>
+                            <div class="w-16 h-1.5 rounded-full bg-slate-100 overflow-hidden">
+                                <div class="h-full bg-orange-500 rounded-full" style="width: {{ r.avg_pct }}%"></div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="7" class="py-8 text-center text-slate-400">Belum ada data rekapitulasi pegawai.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

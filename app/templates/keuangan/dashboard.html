@@ -1,0 +1,159 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard Tracking Keuangan - SIMPATIK BPS Banyuwangi{% endblock %}
+
+{% block content %}
+<div class="space-y-6">
+
+    <!-- Header Module Banner -->
+    <div class="relative overflow-hidden rounded-3xl bg-gradient-to-r from-[#1B2A1F] via-[#102E24] to-[#144234] text-white p-6 sm:p-8 shadow-card border border-slate-700/50">
+        <div class="absolute -right-10 -bottom-10 w-80 h-80 bg-emerald-500/15 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div class="flex items-center gap-4">
+                <div class="w-16 h-16 rounded-2xl bg-emerald-500/20 border border-emerald-500/40 p-3 flex items-center justify-center text-emerald-400 shadow-lg">
+                    <i data-lucide="wallet" class="w-10 h-10"></i>
+                </div>
+                <div>
+                    <div class="inline-flex items-center gap-2 px-3 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-xs font-semibold uppercase tracking-wider mb-1">
+                        <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
+                        <span>Modul SIMPATIK</span>
+                    </div>
+                    <h1 class="text-2xl sm:text-3xl font-black tracking-tight text-white">Tracking & Realisasi Anggaran</h1>
+                    <p class="text-xs sm:text-sm text-slate-300">Pengelolaan Pagu Akun, Pengajuan Anggaran, Persetujuan, dan Realisasi SP2D</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-2">
+                <a href="{{ url_for('keuangan.pengajuan') }}" class="px-4 py-2.5 rounded-xl bg-orange-500 hover:bg-orange-600 text-white font-semibold text-xs sm:text-sm transition-all shadow-md flex items-center gap-2">
+                    <i data-lucide="plus-circle" class="w-4 h-4"></i>
+                    <span>Ajukan Anggaran</span>
+                </a>
+                <a href="{{ url_for('keuangan.rekapitulasi') }}" class="px-4 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-semibold text-xs sm:text-sm transition-all border border-white/20 flex items-center gap-2">
+                    <i data-lucide="bar-chart-3" class="w-4 h-4"></i>
+                    <span>Rekapitulasi</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Metric Cards -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div class="bg-white rounded-2xl p-4 border border-slate-200/80 shadow-soft">
+            <div class="flex items-center justify-between text-slate-400 mb-2">
+                <span class="text-xs font-medium uppercase tracking-wider">Total Pagu Awal</span>
+                <i data-lucide="landmark" class="w-4 h-4 text-slate-500"></i>
+            </div>
+            <div class="text-xl sm:text-2xl font-black text-slate-800">Rp {{ "{:,}".format(total_pagu_akun).replace(',', '.') }}</div>
+            <p class="text-[11px] text-slate-400 mt-1">Total alokasi DIPA BPS</p>
+        </div>
+        <div class="bg-white rounded-2xl p-4 border border-slate-200/80 shadow-soft">
+            <div class="flex items-center justify-between text-slate-400 mb-2">
+                <span class="text-xs font-medium uppercase tracking-wider">Total Realisasi</span>
+                <i data-lucide="check-check" class="w-4 h-4 text-emerald-500"></i>
+            </div>
+            <div class="text-xl sm:text-2xl font-black text-emerald-600">Rp {{ "{:,}".format(total_realisasi).replace(',', '.') }}</div>
+            <p class="text-[11px] text-slate-400 mt-1">Telah diterbitkan SP2D</p>
+        </div>
+        <div class="bg-white rounded-2xl p-4 border border-slate-200/80 shadow-soft">
+            <div class="flex items-center justify-between text-slate-400 mb-2">
+                <span class="text-xs font-medium uppercase tracking-wider">Sisa Anggaran</span>
+                <i data-lucide="pie-chart" class="w-4 h-4 text-blue-500"></i>
+            </div>
+            <div class="text-xl sm:text-2xl font-black text-blue-600">Rp {{ "{:,}".format(sisa_anggaran).replace(',', '.') }}</div>
+            <p class="text-[11px] text-slate-400 mt-1">Sisa pagu yang tersedia</p>
+        </div>
+        <div class="bg-white rounded-2xl p-4 border border-slate-200/80 shadow-soft">
+            <div class="flex items-center justify-between text-slate-400 mb-2">
+                <span class="text-xs font-medium uppercase tracking-wider">Menunggu Persetujuan</span>
+                <i data-lucide="clock" class="w-4 h-4 text-amber-500"></i>
+            </div>
+            <div class="text-xl sm:text-2xl font-black text-amber-600">{{ menunggu_persetujuan }} Pengajuan</div>
+            <p class="text-[11px] text-slate-400 mt-1">Perlu tindakan PPK</p>
+        </div>
+    </div>
+
+    <!-- Content Split: Recent Requests & Realizations -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        
+        <!-- Table Pengajuan Terbaru -->
+        <div class="lg:col-span-2 bg-white rounded-3xl p-6 border border-slate-200/80 shadow-soft">
+            <div class="flex items-center justify-between pb-4 border-b border-slate-100 mb-4">
+                <div>
+                    <h2 class="text-base font-bold text-slate-800">Daftar Pengajuan Anggaran Terbaru</h2>
+                    <p class="text-xs text-slate-400">Verifikasi pengajuan honor dan operasional kegiatan</p>
+                </div>
+                <a href="{{ url_for('keuangan.pengajuan') }}" class="text-xs font-semibold text-orange-600 hover:text-orange-700 flex items-center gap-1">
+                    <span>Lihat Semua</span>
+                    <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+                </a>
+            </div>
+
+            <div class="overflow-x-auto">
+                <table class="w-full text-left text-xs">
+                    <thead>
+                        <tr class="text-slate-400 border-b border-slate-100 font-semibold uppercase">
+                            <th class="pb-3">No. Pengajuan</th>
+                            <th class="pb-3">Judul Pengajuan</th>
+                            <th class="pb-3">Akun / Komponen</th>
+                            <th class="pb-3">Jumlah (Rp)</th>
+                            <th class="pb-3">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-100">
+                        {% for item in transaksi_terbaru %}
+                        <tr class="hover:bg-slate-50/50 transition-colors">
+                            <td class="py-3 font-mono font-bold text-navy-main">{{ item.nomor_pengajuan }}</td>
+                            <td class="py-3 font-semibold text-slate-800">
+                                <div>{{ item.judul_pengajuan }}</div>
+                                <div class="text-[10px] text-slate-400">{{ item.kegiatan.nama_kegiatan if item.kegiatan else 'Operasional Rutin' }}</div>
+                            </td>
+                            <td class="py-3 text-slate-600">
+                                <div>{{ item.akun.kode_akun }}</div>
+                                <div class="text-[10px] text-slate-400">{{ item.komponen.nama_komponen }}</div>
+                            </td>
+                            <td class="py-3 font-mono font-bold text-slate-800">Rp {{ "{:,}".format(item.jumlah_diajukan).replace(',', '.') }}</td>
+                            <td class="py-3">
+                                {% if item.status == 'DISETUJUI' %}
+                                <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-600 border border-emerald-200">DISETUJUI</span>
+                                {% elif item.status == 'DITOLAK' %}
+                                <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-rose-50 text-rose-600 border border-rose-200">DITOLAK</span>
+                                {% else %}
+                                <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-50 text-amber-600 border border-amber-200">MENUNGGU</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td colspan="5" class="py-6 text-center text-slate-400">Belum ada pengajuan anggaran.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Realisasi SPM/SP2D Terbaru -->
+        <div class="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-soft">
+            <div class="pb-4 border-b border-slate-100 mb-4">
+                <h2 class="text-base font-bold text-slate-800">Realisasi SP2D Terbaru</h2>
+                <p class="text-xs text-slate-400">Pencairan anggaran terverifikasi</p>
+            </div>
+            <div class="space-y-3">
+                {% for r in realisasi_terbaru %}
+                <div class="p-3.5 rounded-2xl bg-emerald-50/50 border border-emerald-100/80">
+                    <div class="flex items-center justify-between mb-1">
+                        <span class="text-xs font-mono font-bold text-emerald-900">{{ r.nomor_spm_sp2d }}</span>
+                        <span class="text-[10px] text-slate-400">{{ r.tanggal_realisasi }}</span>
+                    </div>
+                    <div class="text-xs font-black text-emerald-700 font-mono mb-1">Rp {{ "{:,}".format(r.jumlah_realisasi).replace(',', '.') }}</div>
+                    <p class="text-[11px] text-slate-600">{{ r.keterangan or r.pengajuan.judul_pengajuan }}</p>
+                </div>
+                {% else %}
+                <p class="text-xs text-slate-400 text-center py-4">Belum ada realisasi anggaran.</p>
+                {% endfor %}
+            </div>
+        </div>
+
+    </div>
+
+</div>
+{% endblock %}

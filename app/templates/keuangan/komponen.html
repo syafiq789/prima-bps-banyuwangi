@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+
+{% block title %}Komponen Anggaran - SIMPATIK BPS Banyuwangi{% endblock %}
+
+{% block content %}
+<div class="space-y-6">
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+            <h1 class="text-2xl font-black text-slate-800">Komponen Anggaran</h1>
+            <p class="text-xs text-slate-500">Rincian sub-alokasi komponen pembiayaan per kegiatan</p>
+        </div>
+        <button onclick="document.getElementById('modalKomponen').classList.remove('hidden')" class="px-4 py-2.5 rounded-xl bg-orange-500 hover:bg-orange-600 text-white font-semibold text-xs sm:text-sm shadow-md flex items-center gap-2 self-start">
+            <i data-lucide="plus" class="w-4 h-4"></i>
+            <span>Tambah Komponen</span>
+        </button>
+    </div>
+
+    <div class="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-soft overflow-x-auto">
+        <table class="w-full text-left text-xs">
+            <thead>
+                <tr class="text-slate-400 border-b border-slate-100 uppercase font-semibold">
+                    <th class="pb-3">Kode</th>
+                    <th class="pb-3">Nama Komponen</th>
+                    <th class="pb-3">Akun Induk</th>
+                    <th class="pb-3">Kegiatan Terkait</th>
+                    <th class="pb-3">Pagu Komponen</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100">
+                {% for k in komponen_list %}
+                <tr class="hover:bg-slate-50">
+                    <td class="py-3 font-mono font-bold text-navy-main">{{ k.kode_komponen }}</td>
+                    <td class="py-3 font-semibold text-slate-800">{{ k.nama_komponen }}</td>
+                    <td class="py-3 text-slate-600">{{ k.akun.kode_akun }} - {{ k.akun.nama_akun }}</td>
+                    <td class="py-3 text-slate-600">{{ k.kegiatan.nama_kegiatan if k.kegiatan else 'Operasional Rutin' }}</td>
+                    <td class="py-3 font-mono font-bold text-emerald-700">Rp {{ "{:,}".format(k.pagu_komponen).replace(',', '.') }}</td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="5" class="py-8 text-center text-slate-400">Belum ada komponen anggaran terdaftar.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Modal Komponen -->
+<div id="modalKomponen" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl">
+        <div class="flex items-center justify-between pb-3 border-b border-slate-100 mb-4">
+            <h3 class="text-base font-bold text-slate-800">Tambah Komponen Anggaran</h3>
+            <button onclick="document.getElementById('modalKomponen').classList.add('hidden')" class="text-slate-400 hover:text-slate-600">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+        </div>
+        <form action="{{ url_for('keuangan.create_komponen') }}" method="POST" class="space-y-3">
+            <div>
+                <label class="block text-xs font-semibold text-slate-700 mb-1">Pilih Akun Induk *</label>
+                <select name="akun_id" required class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs">
+                    {% for a in akun_options %}
+                    <option value="{{ a.id }}">{{ a.kode_akun }} - {{ a.nama_akun }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div>
+                <label class="block text-xs font-semibold text-slate-700 mb-1">Kegiatan Terkait</label>
+                <select name="kegiatan_id" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs">
+                    <option value="">-- Umum / Non-Kegiatan Khusus --</option>
+                    {% for keg in kegiatan_options %}
+                    <option value="{{ keg.id }}">{{ keg.nama_kegiatan }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div>
+                <label class="block text-xs font-semibold text-slate-700 mb-1">Kode Komponen *</label>
+                <input type="text" name="kode_komponen" required placeholder="Contoh: 051" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs font-mono">
+            </div>
+            <div>
+                <label class="block text-xs font-semibold text-slate-700 mb-1">Nama Komponen *</label>
+                <input type="text" name="nama_komponen" required placeholder="Contoh: Persiapan dan Pengumpulan Lapangan" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs">
+            </div>
+            <div>
+                <label class="block text-xs font-semibold text-slate-700 mb-1">Pagu Komponen (Rp)</label>
+                <input type="number" name="pagu_komponen" value="50000000" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs">
+            </div>
+            <div class="pt-3 flex justify-end gap-2">
+                <button type="button" onclick="document.getElementById('modalKomponen').classList.add('hidden')" class="px-4 py-2 rounded-xl text-xs font-semibold text-slate-600 hover:bg-slate-100">Batal</button>
+                <button type="submit" class="px-4 py-2 rounded-xl bg-orange-500 text-white text-xs font-semibold hover:bg-orange-600">Simpan Komponen</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

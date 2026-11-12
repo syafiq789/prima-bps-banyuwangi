@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+
+{% block title %}Database Pegawai - SIMPATIK BPS Banyuwangi{% endblock %}
+
+{% block content %}
+<div class="space-y-6">
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+            <h1 class="text-2xl font-black text-slate-800">Database Pegawai BPS</h1>
+            <p class="text-xs text-slate-500">Daftar pegawai organik dan fungsional BPS Kabupaten Banyuwangi</p>
+        </div>
+        <button onclick="document.getElementById('modalTambahPegawai').classList.remove('hidden')" class="px-4 py-2.5 rounded-xl bg-orange-500 hover:bg-orange-600 text-white font-semibold text-xs sm:text-sm shadow-md flex items-center gap-2 self-start">
+            <i data-lucide="user-plus" class="w-4 h-4"></i>
+            <span>Tambah Pegawai</span>
+        </button>
+    </div>
+
+    <!-- Search Bar -->
+    <form method="GET" class="flex gap-2">
+        <input type="text" name="search" value="{{ search }}" placeholder="Cari nama, NIP, atau tim kerja..." class="flex-1 px-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-orange-500 bg-white">
+        <button type="submit" class="px-4 py-2.5 rounded-xl bg-navy-main text-white text-sm font-semibold hover:bg-navy-light transition-colors flex items-center gap-2">
+            <i data-lucide="search" class="w-4 h-4"></i>
+            <span>Cari</span>
+        </button>
+    </form>
+
+    <!-- Table -->
+    <div class="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-soft overflow-x-auto">
+        <table class="w-full text-left text-xs">
+            <thead>
+                <tr class="text-slate-400 border-b border-slate-100 uppercase font-semibold">
+                    <th class="pb-3">NIP</th>
+                    <th class="pb-3">Nama Pegawai</th>
+                    <th class="pb-3">Jabatan</th>
+                    <th class="pb-3">Tim Kerja</th>
+                    <th class="pb-3">Email</th>
+                    <th class="pb-3">Status</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100">
+                {% for p in pegawai_list %}
+                <tr class="hover:bg-slate-50">
+                    <td class="py-3 font-mono font-semibold text-navy-main">{{ p.nip }}</td>
+                    <td class="py-3 font-bold text-slate-800">{{ p.nama_lengkap }}</td>
+                    <td class="py-3 text-slate-600">{{ p.jabatan }}</td>
+                    <td class="py-3 font-semibold text-orange-600">{{ p.tim_kerja }}</td>
+                    <td class="py-3 text-slate-500">{{ p.email or '-' }}</td>
+                    <td class="py-3">
+                        <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-600">AKTIF</span>
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="6" class="py-8 text-center text-slate-400">Data pegawai tidak ditemukan.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Modal Tambah Pegawai -->
+<div id="modalTambahPegawai" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl">
+        <div class="flex items-center justify-between pb-3 border-b border-slate-100 mb-4">
+            <h3 class="text-base font-bold text-slate-800">Tambah Data Pegawai</h3>
+            <button onclick="document.getElementById('modalTambahPegawai').classList.add('hidden')" class="text-slate-400 hover:text-slate-600">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+        </div>
+        <form action="{{ url_for('pegawai.create_pegawai') }}" method="POST" class="space-y-3">
+            <div>
+                <label class="block text-xs font-semibold text-slate-700 mb-1">NIP Pegawai *</label>
+                <input type="text" name="nip" required placeholder="Contoh: 198501012010011001" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs">
+            </div>
+            <div>
+                <label class="block text-xs font-semibold text-slate-700 mb-1">Nama Lengkap & Gelar *</label>
+                <input type="text" name="nama_lengkap" required class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs">
+            </div>
+            <div>
+                <label class="block text-xs font-semibold text-slate-700 mb-1">Jabatan *</label>
+                <input type="text" name="jabatan" required placeholder="Contoh: Statistisi Ahli Muda" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs">
+            </div>
+            <div>
+                <label class="block text-xs font-semibold text-slate-700 mb-1">Tim Kerja *</label>
+                <input type="text" name="tim_kerja" required placeholder="Contoh: Tim Statistik Sosial" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs">
+            </div>
+            <div>
+                <label class="block text-xs font-semibold text-slate-700 mb-1">Email Kedinasan</label>
+                <input type="email" name="email" placeholder="nama@bps.go.id" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs">
+            </div>
+            <div class="pt-3 flex justify-end gap-2">
+                <button type="button" onclick="document.getElementById('modalTambahPegawai').classList.add('hidden')" class="px-4 py-2 rounded-xl text-xs font-semibold text-slate-600 hover:bg-slate-100">Batal</button>
+                <button type="submit" class="px-4 py-2 rounded-xl bg-orange-500 text-white text-xs font-semibold hover:bg-orange-600">Simpan Pegawai</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

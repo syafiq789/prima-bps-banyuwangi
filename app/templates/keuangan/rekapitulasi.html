@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block title %}Rekapitulasi Keuangan - SIMPATIK BPS Banyuwangi{% endblock %}
+
+{% block content %}
+<div class="space-y-6">
+    <div>
+        <h1 class="text-2xl font-black text-slate-800">Rekapitulasi Penyerapan Anggaran (DIPA)</h1>
+        <p class="text-xs text-slate-500">Perbandingan pagu awal, total diajukan, disetujui, dan sisa per mata anggaran (MAK)</p>
+    </div>
+
+    <div class="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-soft overflow-x-auto">
+        <table class="w-full text-left text-xs">
+            <thead>
+                <tr class="text-slate-400 border-b border-slate-100 uppercase font-semibold">
+                    <th class="pb-3">Kode Akun</th>
+                    <th class="pb-3">Nama Akun</th>
+                    <th class="pb-3">Pagu Awal</th>
+                    <th class="pb-3">Diajukan</th>
+                    <th class="pb-3">Disetujui</th>
+                    <th class="pb-3">Realisasi (SP2D)</th>
+                    <th class="pb-3">Sisa Anggaran</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100">
+                {% for r in rekap %}
+                <tr class="hover:bg-slate-50">
+                    <td class="py-3 font-mono font-bold text-navy-main">{{ r.akun.kode_akun }}</td>
+                    <td class="py-3 font-semibold text-slate-800">{{ r.akun.nama_akun }}</td>
+                    <td class="py-3 font-mono font-semibold text-slate-700">Rp {{ "{:,}".format(r.pagu).replace(',', '.') }}</td>
+                    <td class="py-3 font-mono text-slate-600">Rp {{ "{:,}".format(r.diajukan).replace(',', '.') }}</td>
+                    <td class="py-3 font-mono text-blue-600 font-semibold">Rp {{ "{:,}".format(r.disetujui).replace(',', '.') }}</td>
+                    <td class="py-3 font-mono font-bold text-emerald-600">Rp {{ "{:,}".format(r.realisasi).replace(',', '.') }}</td>
+                    <td class="py-3 font-mono font-black text-orange-600">Rp {{ "{:,}".format(r.sisa).replace(',', '.') }}</td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="7" class="py-8 text-center text-slate-400">Belum ada data rekapitulasi anggaran.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

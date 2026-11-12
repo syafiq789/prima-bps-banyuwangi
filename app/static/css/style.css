@@ -57,14 +57,20 @@ body {
 }
 
 /* Master PRIMA Container Animation */
-#container-prima-features {
+#container-prima-features,
+#container-mitra-features,
+#container-pegawai-features,
+#container-keuangan-features {
   max-height: 2500px;
   overflow: hidden;
   transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease, margin 0.3s ease;
   opacity: 1;
 }
 
-#container-prima-features.closed {
+#container-prima-features.closed,
+#container-mitra-features.closed,
+#container-pegawai-features.closed,
+#container-keuangan-features.closed {
   max-height: 0 !important;
   opacity: 0 !important;
   margin-top: 0 !important;
@@ -85,11 +91,19 @@ body {
 }
 
 /* Chevron Rotate Animation */
-.subgroup-chevron, #chevron-prima-master {
+.subgroup-chevron,
+#chevron-prima-master,
+#chevron-mitra-master,
+#chevron-pegawai-master,
+#chevron-keuangan-master {
   transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.subgroup-chevron.rotate, #chevron-prima-master.rotate {
+.subgroup-chevron.rotate,
+#chevron-prima-master.rotate,
+#chevron-mitra-master.rotate,
+#chevron-pegawai-master.rotate,
+#chevron-keuangan-master.rotate {
   transform: rotate(180deg);
 }
 
@@ -101,11 +115,17 @@ body {
 #sidebar.collapsed .sidebar-text,
 #sidebar.collapsed .sidebar-badge,
 #sidebar.collapsed .subgroup-chevron,
-#sidebar.collapsed #chevron-prima-master {
+#sidebar.collapsed #chevron-prima-master,
+#sidebar.collapsed #chevron-mitra-master,
+#sidebar.collapsed #chevron-pegawai-master,
+#sidebar.collapsed #chevron-keuangan-master {
   display: none;
 }
 
-#sidebar.collapsed #container-prima-features {
+#sidebar.collapsed #container-prima-features,
+#sidebar.collapsed #container-mitra-features,
+#sidebar.collapsed #container-pegawai-features,
+#sidebar.collapsed #container-keuangan-features {
   display: none !important;
 }
 

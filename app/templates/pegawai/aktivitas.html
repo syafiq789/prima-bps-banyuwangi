@@ -1,0 +1,122 @@
+{% extends 'base.html' %}
+
+{% block title %}Aktivitas Pegawai - SIMPATIK BPS Banyuwangi{% endblock %}
+
+{% block content %}
+<div class="space-y-6">
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+            <h1 class="text-2xl font-black text-slate-800">Aktivitas Pegawai</h1>
+            <p class="text-xs text-slate-500">Log pelaksanaan tugas, kegiatan proyek, dan progres kerja pegawai</p>
+        </div>
+        <button onclick="document.getElementById('modalAktivitas').classList.remove('hidden')" class="px-4 py-2.5 rounded-xl bg-orange-500 hover:bg-orange-600 text-white font-semibold text-xs sm:text-sm shadow-md flex items-center gap-2 self-start">
+            <i data-lucide="plus" class="w-4 h-4"></i>
+            <span>Catat Aktivitas</span>
+        </button>
+    </div>
+
+    <div class="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-soft overflow-x-auto">
+        <table class="w-full text-left text-xs">
+            <thead>
+                <tr class="text-slate-400 border-b border-slate-100 uppercase font-semibold">
+                    <th class="pb-3">Pegawai</th>
+                    <th class="pb-3">Judul Aktivitas</th>
+                    <th class="pb-3">Kegiatan Terkait</th>
+                    <th class="pb-3">Periode</th>
+                    <th class="pb-3">Progres</th>
+                    <th class="pb-3">Status</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100">
+                {% for a in aktivitas_list %}
+                <tr class="hover:bg-slate-50">
+                    <td class="py-3 font-bold text-slate-800">{{ a.pegawai.nama_lengkap }}</td>
+                    <td class="py-3">
+                        <div class="font-semibold text-slate-800">{{ a.judul_aktivitas }}</div>
+                        <div class="text-[10px] text-slate-400 max-w-xs truncate">{{ a.deskripsi or '-' }}</div>
+                    </td>
+                    <td class="py-3 text-slate-600">{{ a.kegiatan.nama_kegiatan if a.kegiatan else 'Umum / Non-Survei' }}</td>
+                    <td class="py-3 text-slate-500">{{ a.tanggal_mulai }} s.d {{ a.tanggal_selesai }}</td>
+                    <td class="py-3">
+                        <div class="w-24">
+                            <div class="text-[10px] font-bold text-slate-700 text-right mb-0.5">{{ a.persentase_selesai }}%</div>
+                            <div class="w-full h-1.5 rounded-full bg-slate-100 overflow-hidden">
+                                <div class="h-full bg-blue-500 rounded-full" style="width: {{ a.persentase_selesai }}%"></div>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="py-3">
+                        {% if a.status == 'SELESAI' %}
+                        <span class="px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-600 font-bold text-[10px]">SELESAI</span>
+                        {% else %}
+                        <span class="px-2 py-0.5 rounded-full bg-amber-50 text-amber-600 font-bold text-[10px]">PROSES</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="6" class="py-8 text-center text-slate-400">Belum ada aktivitas yang dicatat.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Modal Aktivitas -->
+<div id="modalAktivitas" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl">
+        <div class="flex items-center justify-between pb-3 border-b border-slate-100 mb-4">
+            <h3 class="text-base font-bold text-slate-800">Catat Aktivitas Pegawai</h3>
+            <button onclick="document.getElementById('modalAktivitas').classList.add('hidden')" class="text-slate-400 hover:text-slate-600">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+        </div>
+        <form action="{{ url_for('pegawai.create_aktivitas') }}" method="POST" class="space-y-3">
+            <div>
+                <label class="block text-xs font-semibold text-slate-700 mb-1">Pilih Pegawai *</label>
+                <select name="pegawai_id" required class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs">
+                    {% for p in pegawai_options %}
+                    <option value="{{ p.id }}">{{ p.nama_lengkap }} ({{ p.tim_kerja }})</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div>
+                <label class="block text-xs font-semibold text-slate-700 mb-1">Kegiatan Terkait</label>
+                <select name="kegiatan_id" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs">
+                    <option value="">-- Kegiatan Umum / Kantor --</option>
+                    {% for k in kegiatan_options %}
+                    <option value="{{ k.id }}">{{ k.nama_kegiatan }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div>
+                <label class="block text-xs font-semibold text-slate-700 mb-1">Judul Aktivitas *</label>
+                <input type="text" name="judul_aktivitas" required placeholder="Contoh: Rekonsiliasi Data PDRB Triwulan I" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs">
+            </div>
+            <div class="grid grid-cols-2 gap-3">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">Tgl Mulai</label>
+                    <input type="date" name="tanggal_mulai" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">Tgl Selesai</label>
+                    <input type="date" name="tanggal_selesai" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs">
+                </div>
+            </div>
+            <div>
+                <label class="block text-xs font-semibold text-slate-700 mb-1">Persentase Selesai (%)</label>
+                <input type="number" name="persentase_selesai" value="50" min="0" max="100" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs">
+            </div>
+            <div>
+                <label class="block text-xs font-semibold text-slate-700 mb-1">Deskripsi Ringkas</label>
+                <textarea name="deskripsi" rows="2" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs"></textarea>
+            </div>
+            <div class="pt-3 flex justify-end gap-2">
+                <button type="button" onclick="document.getElementById('modalAktivitas').classList.add('hidden')" class="px-4 py-2 rounded-xl text-xs font-semibold text-slate-600 hover:bg-slate-100">Batal</button>
+                <button type="submit" class="px-4 py-2 rounded-xl bg-orange-500 text-white text-xs font-semibold hover:bg-orange-600">Simpan Aktivitas</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
