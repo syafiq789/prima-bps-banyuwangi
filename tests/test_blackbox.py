@@ -227,13 +227,19 @@ class BlackBoxSystemTest(unittest.TestCase):
             db.session.add(komponen)
             db.session.commit()
 
-        # 1. Ajukan Anggaran
+        # 1. Ajukan Anggaran (Dengan Fitur Volume & Akun BPS Tim Pengelola)
         resp_aju = self.client.post('/keuangan/pengajuan/create', data={
             'judul_pengajuan': 'Pengajuan Biaya Operasional Pengujian Blackbox',
             'akun_id': akun.id,
             'komponen_id': komponen.id,
             'kegiatan_id': kegiatan.id,
-            'jumlah_diajukan': 5000000,
+            'volume_kegiatan': 10,
+            'satuan_volume': 'Orang / Bulan (O-B)',
+            'tarif_satuan': 400000,
+            'is_akun_bps': '1',
+            'peran_tim': 'Ketua Tim Kerja',
+            'honor_pengelola': 1000000,
+            'jumlah_diajukan': 5000000, # 10 * 400k + 1jt
             'keterangan': 'Dokumen lampiran lengkap'
         }, follow_redirects=True)
         self.assertEqual(resp_aju.status_code, 200)
@@ -241,6 +247,9 @@ class BlackBoxSystemTest(unittest.TestCase):
         pengajuan = PengajuanAnggaran.query.filter_by(judul_pengajuan='Pengajuan Biaya Operasional Pengujian Blackbox').first()
         self.assertIsNotNone(pengajuan)
         self.assertEqual(pengajuan.status, 'MENUNGGU')
+        self.assertTrue(pengajuan.is_akun_bps)
+        self.assertEqual(pengajuan.volume_kegiatan, 10)
+        self.assertEqual(pengajuan.honor_pengelola, 1000000)
 
         # 2. Persetujuan oleh PPK (DISETUJUI)
         resp_acc = self.client.post('/keuangan/persetujuan/action', data={

@@ -3,7 +3,7 @@ from flask_login import login_required, current_user
 from datetime import datetime
 from sqlalchemy import func
 from app.models import (
-    db, AkunAnggaran, KomponenAnggaran, PengajuanAnggaran, PersetujuanAnggaran, RealisasiAnggaran, Kegiatan
+    db, AkunAnggaran, KomponenAnggaran, PengajuanAnggaran, PersetujuanAnggaran, RealisasiAnggaran, Kegiatan, Pegawai
 )
 
 keuangan_bp = Blueprint('keuangan', __name__, url_prefix='/keuangan')
@@ -135,7 +135,16 @@ def pengajuan():
     akun_options = AkunAnggaran.query.all()
     komponen_options = KomponenAnggaran.query.all()
     kegiatan_options = Kegiatan.query.all()
-    return render_template('keuangan/pengajuan.html', pengajuan_list=pengajuan_list, akun_options=akun_options, komponen_options=komponen_options, kegiatan_options=kegiatan_options, status_filter=status_filter)
+    pegawai_options = Pegawai.query.filter_by(status_aktif=True).order_by(Pegawai.nama_lengkap.asc()).all()
+    return render_template(
+        'keuangan/pengajuan.html', 
+        pengajuan_list=pengajuan_list, 
+        akun_options=akun_options, 
+        komponen_options=komponen_options, 
+        kegiatan_options=kegiatan_options,
+        pegawai_options=pegawai_options,
+        status_filter=status_filter
+    )
 
 @keuangan_bp.route('/pengajuan/create', methods=['POST'])
 @login_required
@@ -144,7 +153,26 @@ def create_pengajuan():
     akun_id = request.form.get('akun_id', type=int)
     komponen_id = request.form.get('komponen_id', type=int)
     kegiatan_id = request.form.get('kegiatan_id', type=int)
+    
+    # Rincian Volume & Satuan Biaya Lapangan
+    volume_kegiatan = request.form.get('volume_kegiatan', 1, type=int)
+    satuan_volume = request.form.get('satuan_volume', 'Orang / Kegiatan').strip()
+    tarif_satuan = request.form.get('tarif_satuan', 0, type=int)
+    
+    # Fitur Kunci: Alokasi Honor Tim Pengelola / Akun BPS Internal (Iya / Tidak)
+    is_akun_bps_val = request.form.get('is_akun_bps')
+    is_akun_bps = is_akun_bps_val in ('1', 'true', 'on', 'yes')
+    ketua_tim_id = request.form.get('ketua_tim_id', type=int) if is_akun_bps else None
+    peran_tim = request.form.get('peran_tim', 'Ketua Tim').strip() if is_akun_bps else None
+    honor_pengelola = request.form.get('honor_pengelola', 0, type=int) if is_akun_bps else 0
+    
+    # Perhitungan Total
     jumlah_diajukan = request.form.get('jumlah_diajukan', 0, type=int)
+    if jumlah_diajukan <= 0:
+        subtotal_lapangan = max(0, volume_kegiatan) * max(0, tarif_satuan)
+        subtotal_pengelola = honor_pengelola if is_akun_bps else 0
+        jumlah_diajukan = subtotal_lapangan + subtotal_pengelola
+
     keterangan = request.form.get('keterangan', '')
 
     nomor_pengajuan = f"AJU-{datetime.utcnow().strftime('%Y%m%d%H%M%S')}"
@@ -154,6 +182,13 @@ def create_pengajuan():
         akun_id=akun_id,
         komponen_id=komponen_id,
         kegiatan_id=kegiatan_id,
+        volume_kegiatan=volume_kegiatan,
+        satuan_volume=satuan_volume,
+        tarif_satuan=tarif_satuan,
+        is_akun_bps=is_akun_bps,
+        ketua_tim_id=ketua_tim_id,
+        peran_tim=peran_tim,
+        honor_pengelola=honor_pengelola,
         jumlah_diajukan=jumlah_diajukan,
         pengaju_id=current_user.id,
         keterangan=keterangan

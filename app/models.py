@@ -406,6 +406,18 @@ class PengajuanAnggaran(db.Model):
     kegiatan_id = db.Column(db.Integer, db.ForeignKey('simpatik_kegiatan.id', ondelete='SET NULL'), nullable=True)
     akun_id = db.Column(db.Integer, db.ForeignKey('simpatik_akun_anggaran.id', ondelete='CASCADE'), nullable=False)
     komponen_id = db.Column(db.Integer, db.ForeignKey('simpatik_komponen_anggaran.id', ondelete='CASCADE'), nullable=False)
+    
+    # Rincian Volume & Satuan Biaya
+    volume_kegiatan = db.Column(db.Integer, default=1)
+    satuan_volume = db.Column(db.String(50), default='Orang / Kegiatan')
+    tarif_satuan = db.Column(db.BigInteger, default=0)
+    
+    # Fitur Kunci: Alokasi Honor Tim Pengelola / Akun BPS Internal (Iya / Tidak)
+    is_akun_bps = db.Column(db.Boolean, default=False)
+    ketua_tim_id = db.Column(db.Integer, db.ForeignKey('simpatik_pegawai.id', ondelete='SET NULL'), nullable=True)
+    peran_tim = db.Column(db.String(60), nullable=True) # 'Ketua Tim', 'Koordinator Lapangan', 'Pengolah Data'
+    honor_pengelola = db.Column(db.BigInteger, default=0)
+
     jumlah_diajukan = db.Column(db.BigInteger, nullable=False)
     pengaju_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='SET NULL'), nullable=True)
     status = db.Column(db.String(20), default='MENUNGGU') # 'MENUNGGU', 'DISETUJUI', 'DITOLAK', 'DIREVISI'
@@ -416,6 +428,7 @@ class PengajuanAnggaran(db.Model):
     komponen = db.relationship('KomponenAnggaran', backref='pengajuan_list')
     kegiatan = db.relationship('Kegiatan', backref='pengajuan_anggaran')
     pengaju = db.relationship('User', foreign_keys=[pengaju_id])
+    ketua_tim = db.relationship('Pegawai', foreign_keys=[ketua_tim_id], backref='pengajuan_dikelola')
     persetujuan = db.relationship('PersetujuanAnggaran', backref='pengajuan', uselist=False, cascade='all, delete-orphan')
     realisasi_list = db.relationship('RealisasiAnggaran', backref='pengajuan', lazy='dynamic', cascade='all, delete-orphan')
 
