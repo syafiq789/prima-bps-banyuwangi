@@ -119,6 +119,17 @@ class BlackBoxSystemTest(unittest.TestCase):
 
         # Buat Penugasan
         kegiatan = Kegiatan.query.first()
+        if not kegiatan:
+            kegiatan = Kegiatan(
+                kode_kegiatan='UJI-BB-01', 
+                nama_kegiatan='Survei Uji Black Box', 
+                tahun=2025,
+                tanggal_mulai=date(2025, 1, 1),
+                tanggal_selesai=date(2025, 12, 31)
+            )
+            db.session.add(kegiatan)
+            db.session.commit()
+
         resp_assign = self.client.post('/mitra/penugasan/create', data={
             'mitra_id': created_mitra.id,
             'kegiatan_id': kegiatan.id,
@@ -153,7 +164,10 @@ class BlackBoxSystemTest(unittest.TestCase):
             sess['_fresh'] = True
 
         pegawai = Pegawai.query.first()
-        self.assertIsNotNone(pegawai)
+        if not pegawai:
+            pegawai = Pegawai(nip='199001012020011001', nama_lengkap='Pegawai Uji Blackbox', jabatan='Statistisi', tim_kerja='Tim Sosial')
+            db.session.add(pegawai)
+            db.session.commit()
 
         # Catat Aktivitas Baru
         resp_act = self.client.post('/pegawai/aktivitas/create', data={
@@ -190,8 +204,28 @@ class BlackBoxSystemTest(unittest.TestCase):
             sess['_fresh'] = True
 
         akun = AkunAnggaran.query.first()
-        komponen = KomponenAnggaran.query.first()
+        if not akun:
+            akun = AkunAnggaran(kode_akun='521213', nama_akun='Belanja Honor Uji', kategori='HONOR', pagu_awal=100000000)
+            db.session.add(akun)
+            db.session.commit()
+
         kegiatan = Kegiatan.query.first()
+        if not kegiatan:
+            kegiatan = Kegiatan(
+                kode_kegiatan='UJI-BB-01', 
+                nama_kegiatan='Survei Uji Black Box', 
+                tahun=2025,
+                tanggal_mulai=date(2025, 1, 1),
+                tanggal_selesai=date(2025, 12, 31)
+            )
+            db.session.add(kegiatan)
+            db.session.commit()
+
+        komponen = KomponenAnggaran.query.first()
+        if not komponen:
+            komponen = KomponenAnggaran(kode_komponen='051', nama_komponen='Komponen Uji', akun_id=akun.id, kegiatan_id=kegiatan.id, pagu_komponen=50000000)
+            db.session.add(komponen)
+            db.session.commit()
 
         # 1. Ajukan Anggaran
         resp_aju = self.client.post('/keuangan/pengajuan/create', data={

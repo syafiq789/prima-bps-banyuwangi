@@ -72,3 +72,4 @@ def index():
         serapan_persen=serapan_persen,
         matrix_kegiatan=matrix_kegiatan
     )
+
