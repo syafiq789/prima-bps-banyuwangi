@@ -319,6 +319,14 @@
         <!-- Right Section: Action Buttons, Notification & User Profile -->
         <div class="flex items-center gap-2 sm:gap-2.5">
             
+            <!-- Quick SIMPATIK Hub Launcher -->
+            <a href="{{ url_for('hub.index') }}" 
+               title="Buka SIMPATIK Hub Terpadu (Mitra, Pegawai, Keuangan)"
+               class="h-10 px-3 inline-flex items-center gap-1.5 rounded-xl border border-slate-200/80 bg-slate-50/70 hover:bg-orange-50 hover:text-orange-600 hover:border-orange-200 text-slate-700 text-xs font-bold transition shadow-xs">
+                <i data-lucide="layout-grid" class="w-4 h-4 text-orange-500"></i>
+                <span class="hidden md:inline">Hub SIMPATIK</span>
+            </a>
+
             <!-- Quick Upload Button (Admin, Staf Umum, PPK) -->
             {% if current_user.is_authenticated and current_user.can_manage_documents %}
             <a href="{{ url_for('documents.upload') }}" 

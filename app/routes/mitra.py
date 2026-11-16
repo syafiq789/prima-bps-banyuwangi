@@ -182,6 +182,44 @@ def monitoring():
     kegiatan_list = Kegiatan.query.order_by(Kegiatan.tanggal_mulai.desc()).all()
     return render_template('mitra/monitoring.html', kegiatan_list=kegiatan_list)
 
+@mitra_bp.route('/monitoring/<int:kegiatan_id>')
+@login_required
+def monitoring_detail(kegiatan_id):
+    kegiatan = Kegiatan.query.get_or_404(kegiatan_id)
+    penugasans = kegiatan.penugasan_mitra.order_by(PenugasanMitra.created_at.desc()).all()
+    aktivitass = kegiatan.aktivitas_pegawai or []
+    pengajuans = kegiatan.pengajuan_anggaran or []
+    komponens = kegiatan.komponen_anggaran or []
+
+    # Ringkasan 360
+    total_target_dok = sum(p.target_dokumen for p in penugasans)
+    total_real_dok = sum(p.realisasi_dokumen for p in penugasans)
+    progres_dokumen = round((total_real_dok / total_target_dok * 100), 1) if total_target_dok > 0 else 0
+
+    total_honor_mitra = sum(p.honor_total for p in penugasans)
+    pegawai_terlibat = len(set(a.pegawai_id for a in aktivitass if a.pegawai_id))
+    progres_aktivitas = round(sum(a.persentase_selesai for a in aktivitass) / len(aktivitass), 1) if aktivitass else 0
+
+    total_anggaran_diajukan = sum(p.jumlah_diajukan for p in pengajuans)
+    total_anggaran_cair = sum(p.realisasi.jumlah_realisasi for p in pengajuans if p.realisasi)
+
+    return render_template(
+        'mitra/monitoring_detail.html',
+        kegiatan=kegiatan,
+        penugasans=penugasans,
+        aktivitass=aktivitass,
+        pengajuans=pengajuans,
+        komponens=komponens,
+        total_target_dok=total_target_dok,
+        total_real_dok=total_real_dok,
+        progres_dokumen=progres_dokumen,
+        total_honor_mitra=total_honor_mitra,
+        pegawai_terlibat=pegawai_terlibat,
+        progres_aktivitas=progres_aktivitas,
+        total_anggaran_diajukan=total_anggaran_diajukan,
+        total_anggaran_cair=total_anggaran_cair
+    )
+
 @mitra_bp.route('/evaluasi')
 @login_required
 def evaluasi():

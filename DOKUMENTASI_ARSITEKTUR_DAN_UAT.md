@@ -82,3 +82,4 @@ $$\text{Persentase Kelayakan (\%)} = \left( \frac{\text{Total Skor Riil}}{\text{
 - **61% – 80%**: Layak / Diterima
 - **41% – 60%**: Cukup Layak
 - **< 40%**: Tidak Layak
+

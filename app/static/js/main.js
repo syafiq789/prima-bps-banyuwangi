@@ -1,5 +1,5 @@
 // PRIMA - Pusat Arsip dan Manajemen AKIP Banyuwangi
-// Master Single-Sidebar Navigation Handler
+// Master Single-Sidebar Navigation Handler (Sesuai Desain Tangkapan Layar)
 
 // 1. Toggle Master PRIMA Menu (Buka / Tutup seluruh fitur di bawah PRIMA)
 window.togglePrimaMasterMenu = function() {
@@ -14,11 +14,11 @@ window.togglePrimaMasterMenu = function() {
     if (isClosed) {
         container.classList.remove('closed');
         if (chevron) chevron.classList.add('rotate');
-        if (btn) btn.classList.add('border-orange-500/70', 'bg-orange-500/25');
+        if (btn) btn.classList.add('border-[#e5832a]', 'bg-[#15253b]');
     } else {
         container.classList.add('closed');
         if (chevron) chevron.classList.remove('rotate');
-        if (btn) btn.classList.remove('border-orange-500/70', 'bg-orange-500/25');
+        if (btn) btn.classList.remove('border-[#e5832a]', 'bg-[#15253b]');
     }
 };
 
@@ -35,11 +35,11 @@ window.toggleMitraMasterMenu = function() {
     if (isClosed) {
         container.classList.remove('closed');
         if (chevron) chevron.classList.add('rotate');
-        if (btn) btn.classList.add('border-orange-500/70', 'bg-orange-500/25');
+        if (btn) btn.classList.add('border-[#e5832a]', 'bg-[#15253b]');
     } else {
         container.classList.add('closed');
         if (chevron) chevron.classList.remove('rotate');
-        if (btn) btn.classList.remove('border-orange-500/70', 'bg-orange-500/25');
+        if (btn) btn.classList.remove('border-[#e5832a]', 'bg-[#15253b]');
     }
 };
 
@@ -56,11 +56,11 @@ window.togglePegawaiMasterMenu = function() {
     if (isClosed) {
         container.classList.remove('closed');
         if (chevron) chevron.classList.add('rotate');
-        if (btn) btn.classList.add('border-blue-500/70', 'bg-blue-500/25');
+        if (btn) btn.classList.add('border-[#e5832a]', 'bg-[#15253b]');
     } else {
         container.classList.add('closed');
         if (chevron) chevron.classList.remove('rotate');
-        if (btn) btn.classList.remove('border-blue-500/70', 'bg-blue-500/25');
+        if (btn) btn.classList.remove('border-[#e5832a]', 'bg-[#15253b]');
     }
 };
 
@@ -77,11 +77,11 @@ window.toggleKeuanganMasterMenu = function() {
     if (isClosed) {
         container.classList.remove('closed');
         if (chevron) chevron.classList.add('rotate');
-        if (btn) btn.classList.add('border-emerald-500/70', 'bg-emerald-500/25');
+        if (btn) btn.classList.add('border-[#e5832a]', 'bg-[#15253b]');
     } else {
         container.classList.add('closed');
         if (chevron) chevron.classList.remove('rotate');
-        if (btn) btn.classList.remove('border-emerald-500/70', 'bg-emerald-500/25');
+        if (btn) btn.classList.remove('border-[#e5832a]', 'bg-[#15253b]');
     }
 };
 

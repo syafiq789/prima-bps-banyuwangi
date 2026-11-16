@@ -1,46 +1,99 @@
 {% extends 'base.html' %}
 
-{% block title %}Monitoring Kegiatan Mitra - SIMPATIK BPS Banyuwangi{% endblock %}
+{% block title %}Monitoring Kegiatan Terpadu - SIMPATIK BPS Banyuwangi{% endblock %}
 
 {% block content %}
 <div class="space-y-6">
-    <div>
-        <h1 class="text-2xl font-black text-slate-800">Monitoring Kegiatan Survei & Sensus</h1>
-        <p class="text-xs text-slate-500">Pemantauan jadwal pelaksanaan dan progres pencapaian dokumen lapangan</p>
+
+    <!-- Header Banner -->
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+            <div class="flex items-center gap-2 text-xs text-orange-600 mb-1">
+                <a href="{{ url_for('hub.index') }}" class="hover:underline flex items-center gap-1">
+                    <i data-lucide="layout-grid" class="w-3 h-3"></i> SIMPATIK Hub
+                </a>
+                <span>&bull;</span>
+                <span class="font-semibold text-slate-800">Monitoring Kegiatan Sensus & Survei</span>
+            </div>
+            <h1 class="text-2xl font-black text-slate-900">Monitoring Kegiatan Sensus & Survei Terpadu</h1>
+            <p class="text-xs text-slate-500">Pemantauan lintas modul: alokasi mitra, penugasan pegawai, dan realisasi anggaran DIPA</p>
+        </div>
+        <a href="{{ url_for('hub.index') }}" class="px-4 py-2.5 rounded-xl bg-navy-main hover:bg-navy-light text-white font-semibold text-xs sm:text-sm shadow-md flex items-center gap-2 self-start transition-all">
+            <i data-lucide="layers" class="w-4 h-4 text-orange-400"></i>
+            <span>Buka Matriks Hub 360°</span>
+        </a>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+    <!-- Grid Kartu Kegiatan Terpadu -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {% for k in kegiatan_list %}
-        <div class="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-soft flex flex-col justify-between">
+        <div class="bg-white rounded-3xl p-6 border border-slate-200/90 shadow-sm hover:shadow-xl transition-all flex flex-col justify-between group">
             <div>
+                <!-- Header Badge -->
                 <div class="flex items-center justify-between mb-3">
-                    <span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-navy-main/10 text-navy-main">{{ k.kode_kegiatan }}</span>
+                    <span class="px-2.5 py-1 rounded-lg text-[10px] font-mono font-bold bg-slate-100 text-slate-800">{{ k.kode_kegiatan }}</span>
                     {% if k.status == 'SELESAI' %}
-                    <span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-600">SELESAI</span>
+                    <span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-600 border border-emerald-200">SELESAI</span>
                     {% else %}
-                    <span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-orange-50 text-orange-600">BERJALAN</span>
+                    <span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-orange-50 text-orange-600 border border-orange-200 animate-pulse">BERJALAN</span>
                     {% endif %}
                 </div>
-                <h3 class="text-base font-bold text-slate-800 mb-2">{{ k.nama_kegiatan }}</h3>
+
+                <h3 class="text-base font-black text-slate-900 group-hover:text-orange-600 transition-colors mb-1.5">{{ k.nama_kegiatan }}</h3>
                 <p class="text-xs text-slate-500 mb-4 flex items-center gap-1.5">
                     <i data-lucide="calendar" class="w-3.5 h-3.5 text-slate-400"></i>
                     <span>{{ k.tanggal_mulai }} s.d. {{ k.tanggal_selesai }}</span>
                 </p>
+
+                <!-- Ringkasan Keterhubungan 3 Modul -->
+                <div class="grid grid-cols-3 gap-2 my-4 text-center">
+                    <div class="p-2.5 rounded-2xl bg-orange-50/60 border border-orange-100">
+                        <div class="text-[10px] text-orange-600 font-semibold uppercase">Mitra</div>
+                        <div class="text-sm font-black text-slate-800 mt-0.5">{{ k.penugasan_mitra.count() }} Org</div>
+                    </div>
+                    <div class="p-2.5 rounded-2xl bg-blue-50/60 border border-blue-100">
+                        <div class="text-[10px] text-blue-600 font-semibold uppercase">Pegawai</div>
+                        <div class="text-sm font-black text-slate-800 mt-0.5">{{ k.total_pegawai_terlibat }} Org</div>
+                    </div>
+                    <div class="p-2.5 rounded-2xl bg-emerald-50/60 border border-emerald-100">
+                        <div class="text-[10px] text-emerald-600 font-semibold uppercase">DIPA</div>
+                        <div class="text-[11px] font-black font-mono text-emerald-700 mt-1">Rp {{ "{:,}".format(k.total_anggaran_diajukan // 1000000).replace(',', '.') }} Jt</div>
+                    </div>
+                </div>
+
+                <!-- Progress Bar Dokumen Lapangan -->
+                <div class="space-y-1.5">
+                    <div class="flex justify-between text-xs font-bold">
+                        <span class="text-slate-500">Pencapaian Dokumen</span>
+                        <span class="text-orange-600">
+                            {% if k.total_dokumen_target > 0 %}
+                            {{ ((k.total_dokumen_realisasi / k.total_dokumen_target * 100) | round(1)) }}%
+                            {% else %}
+                            {{ k.progres_persen }}%
+                            {% endif %}
+                        </span>
+                    </div>
+                    <div class="w-full h-2 rounded-full bg-slate-100 overflow-hidden">
+                        <div class="h-full bg-orange-500 rounded-full" style="width: {% if k.total_dokumen_target > 0 %}{{ (k.total_dokumen_realisasi / k.total_dokumen_target * 100) }}{% else %}{{ k.progres_persen }}{% endif %}%"></div>
+                    </div>
+                    <div class="flex justify-between text-[10px] text-slate-400">
+                        <span>Terkumpul: {{ k.total_dokumen_realisasi }} Dok</span>
+                        <span>Target: {{ k.total_dokumen_target }} Dok</span>
+                    </div>
+                </div>
             </div>
-            <div>
-                <div class="flex justify-between text-xs font-bold mb-1.5">
-                    <span class="text-slate-500">Progres Lapangan</span>
-                    <span class="text-orange-600">{{ k.progres_persen }}%</span>
-                </div>
-                <div class="w-full h-2 rounded-full bg-slate-100 overflow-hidden">
-                    <div class="h-full bg-orange-500 rounded-full" style="width: {{ k.progres_persen }}%"></div>
-                </div>
+
+            <div class="pt-4 mt-5 border-t border-slate-100">
+                <a href="{{ url_for('mitra.monitoring_detail', kegiatan_id=k.id) }}" class="w-full py-2.5 rounded-xl bg-orange-50 hover:bg-orange-500 text-orange-600 hover:text-white font-bold text-xs flex items-center justify-center gap-2 transition-all border border-orange-200 hover:border-orange-500 shadow-2xs">
+                    <span>Lihat Detail Terpadu 360°</span>
+                    <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+                </a>
             </div>
         </div>
         {% else %}
-        <div class="col-span-full py-12 text-center text-slate-400 bg-white rounded-3xl border border-slate-200">Belum ada data kegiatan.</div>
+        <div class="col-span-full py-12 text-center text-slate-400 bg-white rounded-3xl border border-slate-200">Belum ada data kegiatan survei terdaftar.</div>
         {% endfor %}
     </div>
+
 </div>
 {% endblock %}
-

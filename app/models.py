@@ -211,6 +211,41 @@ class Kegiatan(db.Model):
 
     penugasan_mitra = db.relationship('PenugasanMitra', backref='kegiatan', lazy='dynamic', cascade='all, delete-orphan')
 
+    @property
+    def total_mitra_terlibat(self):
+        return self.penugasan_mitra.count()
+
+    @property
+    def total_honor_mitra(self):
+        return sum(p.honor_total for p in self.penugasan_mitra.all())
+
+    @property
+    def total_dokumen_target(self):
+        return sum(p.target_dokumen for p in self.penugasan_mitra.all())
+
+    @property
+    def total_dokumen_realisasi(self):
+        return sum(p.realisasi_dokumen for p in self.penugasan_mitra.all())
+
+    @property
+    def total_pegawai_terlibat(self):
+        acts = self.aktivitas_pegawai or []
+        return len(set(a.pegawai_id for a in acts if a.pegawai_id))
+
+    @property
+    def total_anggaran_diajukan(self):
+        pengajuans = self.pengajuan_anggaran or []
+        return sum(p.jumlah_diajukan for p in pengajuans)
+
+    @property
+    def total_realisasi_anggaran(self):
+        pengajuans = self.pengajuan_anggaran or []
+        return sum(p.realisasi.jumlah_realisasi for p in pengajuans if p.realisasi)
+
+    @property
+    def sisa_anggaran(self):
+        return max(0, self.total_anggaran_diajukan - self.total_realisasi_anggaran)
+
 
 class TemplateKegiatan(db.Model):
     __tablename__ = 'simpatik_template_kegiatan'
@@ -238,6 +273,14 @@ class Mitra(db.Model):
 
     penugasan = db.relationship('PenugasanMitra', backref='mitra', lazy='dynamic', cascade='all, delete-orphan')
     evaluasi_list = db.relationship('EvaluasiMitra', backref='mitra', lazy='dynamic', cascade='all, delete-orphan')
+
+    @property
+    def total_honor_didapat(self):
+        return sum(p.honor_total for p in self.penugasan.all())
+
+    @property
+    def total_kegiatan_diikuti(self):
+        return self.penugasan.count()
 
 
 class PenugasanMitra(db.Model):
@@ -295,6 +338,17 @@ class Pegawai(db.Model):
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
     aktivitas = db.relationship('AktivitasPegawai', backref='pegawai', lazy='dynamic', cascade='all, delete-orphan')
+
+    @property
+    def kegiatan_diikuti(self):
+        acts = self.aktivitas.all()
+        kegs = []
+        seen = set()
+        for a in acts:
+            if a.kegiatan and a.kegiatan.id not in seen:
+                seen.add(a.kegiatan.id)
+                kegs.append(a.kegiatan)
+        return kegs
 
 
 class AktivitasPegawai(db.Model):

@@ -84,6 +84,7 @@ def create_app(config_name=None):
     from app.routes.mitra import mitra_bp
     from app.routes.pegawai import pegawai_bp
     from app.routes.keuangan import keuangan_bp
+    from app.routes.hub import hub_bp
 
     app.register_blueprint(auth_bp, url_prefix='/auth')
     app.register_blueprint(dashboard_bp)
@@ -97,6 +98,10 @@ def create_app(config_name=None):
     app.register_blueprint(mitra_bp)
     app.register_blueprint(pegawai_bp)
     app.register_blueprint(keuangan_bp)
+    app.register_blueprint(hub_bp)
+
+    # Template globals
+    app.jinja_env.globals.update(round=round, min=min, max=max)
 
     # Global Context Processor for dynamic sidebar navigation & system metadata
     @app.context_processor
