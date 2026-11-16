@@ -26,48 +26,11 @@
     <!-- Navigation Area (Scrollable) -->
     <div class="flex-1 overflow-y-auto px-3.5 py-4 space-y-3 sidebar-scroll">
         
-        <!-- TOMBOL LAUNCHER UTAMA: SIMPATIK HUB TERPADU (3 MODUL KESAMBUNG) -->
-        <a href="{{ url_for('hub.index') }}" 
-           class="w-full flex items-center justify-between p-2.5 rounded-2xl bg-gradient-to-r from-orange-500/25 via-blue-500/15 to-emerald-500/15 border border-white/20 text-white font-bold text-xs hover:border-orange-500/60 hover:bg-white/10 transition-all shadow-md group mb-1">
-            <span class="flex items-center gap-2.5">
-                <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-orange-500 to-amber-500 flex items-center justify-center text-white group-hover:scale-105 transition-transform shadow-sm flex-shrink-0">
-                    <i data-lucide="layout-grid" class="w-4 h-4"></i>
-                </div>
-                <div class="text-left sidebar-text">
-                    <span class="block text-xs font-black uppercase tracking-wider text-white">HUB TERPADU</span>
-                    <span class="block text-[10px] text-orange-200 font-normal leading-tight">Launcher 3 Modul SIMPATIK</span>
-                </div>
-            </span>
-            <div class="flex items-center gap-1.5 sidebar-badge">
-                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-slate-400 group-hover:text-white transition"></i>
-            </div>
-        </a>
-
         <!-- DETEKSI MODUL AKTIF -->
         {% set is_mitra_active = request.path.startswith('/mitra') %}
         {% set is_pegawai_active = request.path.startswith('/pegawai') %}
         {% set is_keuangan_active = request.path.startswith('/keuangan') %}
-        {% set is_hub_active = request.path.startswith('/launcher') or request.path.startswith('/simpatik') %}
-        {% set is_prima_active = not (is_mitra_active or is_pegawai_active or is_keuangan_active or is_hub_active) %}
-
-        <!-- TOMBOL LAUNCHER UTAMA: SIMPATIK HUB TERPADU (3 MODUL KESAMBUNG) -->
-        <a href="{{ url_for('hub.index') }}" 
-           class="w-full flex items-center justify-between p-2.5 rounded-2xl bg-[#121E2E] border {% if is_hub_active %} border-[#F28C28] shadow-lg shadow-orange-500/20 {% else %} border-[#b8621b]/60 hover:border-[#F28C28] {% endif %} text-white font-bold text-xs transition-all shadow-md group mb-1">
-            <span class="flex items-center gap-2.5">
-                <div class="w-9 h-9 rounded-xl bg-white p-1.5 flex items-center justify-center text-[#F28C28] group-hover:scale-105 transition-transform shadow-sm flex-shrink-0">
-                    <i data-lucide="layout-grid" class="w-5 h-5 text-[#F28C28]"></i>
-                </div>
-                <div class="text-left sidebar-text">
-                    <span class="block text-xs font-black uppercase tracking-wider text-white">HUB TERPADU</span>
-                    <span class="block text-[10px] text-[#e5a352] font-semibold leading-tight">Launcher 3 Modul SIMPATIK</span>
-                </div>
-            </span>
-            <div class="flex items-center gap-2 sidebar-badge">
-                <span class="w-2 h-2 rounded-full bg-[#10b981] animate-pulse"></span>
-                <i data-lucide="chevron-right" class="w-4 h-4 text-[#e5a352] group-hover:translate-x-0.5 transition-transform"></i>
-            </div>
-        </a>
+        {% set is_prima_active = not (is_mitra_active or is_pegawai_active or is_keuangan_active) %}
 
         <!-- ============================================================== -->
         <!-- 1. MASTER MODUL: PRIMA                                         -->
