@@ -184,8 +184,14 @@ def persetujuan():
 @login_required
 def action_persetujuan():
     pengajuan_id = request.form.get('pengajuan_id', type=int)
-    status = request.form.get('status') # 'DISETUJUI' or 'DITOLAK'
+    raw_status = request.form.get('status', '').strip().upper()
     catatan = request.form.get('catatan', '')
+
+    # Pemetaan status konfirmasi validasi akun BPS (Ya / Tidak)
+    if raw_status in ['YA', 'DISETUJUI']:
+        status = 'DISETUJUI'
+    else:
+        status = 'DITOLAK'
 
     pengajuan = PengajuanAnggaran.query.get_or_404(pengajuan_id)
     pengajuan.status = status
@@ -199,7 +205,8 @@ def action_persetujuan():
     )
     db.session.add(persetujuan_item)
     db.session.commit()
-    flash(f'Pengajuan {pengajuan.nomor_pengajuan} berhasil diproses dengan status {status}.', 'success')
+    label_status = "Ya (Disetujui)" if status == 'DISETUJUI' else "Tidak (Ditolak/Perbaikan)"
+    flash(f'Validasi akun pengajuan {pengajuan.nomor_pengajuan} berhasil diproses: {label_status}.', 'success')
     return redirect(url_for('keuangan.persetujuan'))
 
 @keuangan_bp.route('/realisasi')

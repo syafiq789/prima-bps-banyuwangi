@@ -118,13 +118,32 @@ def toggle_mitra_status(id):
 @login_required
 def penugasan():
     status_filter = request.args.get('status', '').strip()
+    search_nama = request.args.get('nama', '').strip()
+    bulan_filter = request.args.get('bulan', '').strip()
+
     query = PenugasanMitra.query
     if status_filter:
-        query = query.filter_by(status=status_filter)
+        query = query.filter(PenugasanMitra.status == status_filter)
+    if search_nama:
+        query = query.join(PenugasanMitra.mitra).filter(Mitra.nama_lengkap.ilike(f'%{search_nama}%'))
+    if bulan_filter:
+        query = query.join(PenugasanMitra.kegiatan).filter(
+            (Kegiatan.periode.ilike(f'%{bulan_filter}%')) |
+            (Kegiatan.tanggal_mulai.cast(db.String).ilike(f'%-{bulan_filter.zfill(2)}-%'))
+        )
+
     penugasan_list = query.order_by(PenugasanMitra.created_at.desc()).all()
     mitra_options = Mitra.query.filter_by(status_aktif=True).order_by(Mitra.nama_lengkap.asc()).all()
     kegiatan_options = Kegiatan.query.order_by(Kegiatan.nama_kegiatan.asc()).all()
-    return render_template('mitra/penugasan.html', penugasan_list=penugasan_list, mitra_options=mitra_options, kegiatan_options=kegiatan_options, status_filter=status_filter)
+    return render_template(
+        'mitra/penugasan.html', 
+        penugasan_list=penugasan_list, 
+        mitra_options=mitra_options, 
+        kegiatan_options=kegiatan_options, 
+        status_filter=status_filter,
+        search_nama=search_nama,
+        bulan_filter=bulan_filter
+    )
 
 @mitra_bp.route('/penugasan/create', methods=['POST'])
 @login_required

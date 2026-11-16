@@ -38,16 +38,19 @@
                         <td class="py-3 text-slate-600">{{ item.akun.kode_akun }} - {{ item.komponen.nama_komponen }}</td>
                         <td class="py-3 font-mono font-bold text-slate-800">Rp {{ "{:,}".format(item.jumlah_diajukan).replace(',', '.') }}</td>
                         <td class="py-3 text-right">
-                            <form action="{{ url_for('keuangan.action_persetujuan') }}" method="POST" class="inline-flex gap-2">
+                            <form action="{{ url_for('keuangan.action_persetujuan') }}" method="POST" class="inline-flex flex-col items-end gap-1.5">
                                 <input type="hidden" name="pengajuan_id" value="{{ item.id }}">
-                                <button type="submit" name="status" value="DISETUJUI" class="px-3 py-1.5 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-[11px] shadow-sm flex items-center gap-1">
-                                    <i data-lucide="check" class="w-3.5 h-3.5"></i>
-                                    <span>Setujui</span>
-                                </button>
-                                <button type="submit" name="status" value="DITOLAK" class="px-3 py-1.5 rounded-xl bg-rose-500 hover:bg-rose-600 text-white font-bold text-[11px] shadow-sm flex items-center gap-1">
-                                    <i data-lucide="x" class="w-3.5 h-3.5"></i>
-                                    <span>Tolak</span>
-                                </button>
+                                <input type="text" name="catatan" placeholder="Catatan perbaikan / catatan akun..." class="w-48 px-2.5 py-1 text-[11px] rounded-lg border border-slate-200 focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500">
+                                <div class="flex items-center gap-1.5">
+                                    <button type="submit" name="status" value="YA" class="px-3 py-1 rounded-lg bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-[11px] shadow-sm flex items-center gap-1" title="Konfirmasi Validasi Akun BPS: Ya (Sesuai)">
+                                        <i data-lucide="check" class="w-3.5 h-3.5"></i>
+                                        <span>Validasi: Ya</span>
+                                    </button>
+                                    <button type="submit" name="status" value="TIDAK" class="px-3 py-1 rounded-lg bg-rose-500 hover:bg-rose-600 text-white font-bold text-[11px] shadow-sm flex items-center gap-1" title="Konfirmasi Validasi Akun BPS: Tidak (Perlu Perbaikan)">
+                                        <i data-lucide="x" class="w-3.5 h-3.5"></i>
+                                        <span>Validasi: Tidak</span>
+                                    </button>
+                                </div>
                             </form>
                         </td>
                     </tr>
