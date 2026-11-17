@@ -313,5 +313,56 @@ class BlackBoxSystemTest(unittest.TestCase):
             res = self.client.get(ep, follow_redirects=True)
             self.assertEqual(res.status_code, 200, f"Endpoint {ep} gagal mengembalikan HTTP 200")
 
+    def test_tc09_mitra_search_tabs_and_templates(self):
+        """TC-09: Pengujian 3 Tab Search (Tahun, Bulan, Kegiatan), Filter Tim Kerja, dan Template Master Mitra."""
+        with self.client.session_transaction() as sess:
+            user = User.query.filter_by(role='admin').first()
+            sess['_user_id'] = str(user.id)
+            sess['_fresh'] = True
+
+        # 1. Unduh Template Master Data Mitra
+        res_tpl = self.client.get('/mitra/database/template-download')
+        self.assertEqual(res_tpl.status_code, 200)
+        self.assertIn(b'id_sobat,nama_lengkap,email,alamat,no_hp,jenis_kelamin,desa,kecamatan', res_tpl.data)
+
+        # 2. Impor Data Mitra melalui Templat CSV
+        unique_sobat_csv = f"SOBAT_CSV_{int(datetime.utcnow().timestamp())}"
+        csv_content = f"id_sobat,nama_lengkap,email,alamat,no_hp,jenis_kelamin,desa,kecamatan,keahlian\n{unique_sobat_csv},Mitra Templat CSV,mitra.csv@bps.go.id,Jl. Rogojampi Indah,081234567899,Laki-laki,Rogojampi,Rogojampi,Pendataan Lapangan (CAPI)\n"
+        import io
+        csv_file = (io.BytesIO(csv_content.encode('utf-8')), 'template_mitra.csv')
+        res_import = self.client.post('/mitra/database/import', data={'file': csv_file}, content_type='multipart/form-data', follow_redirects=True)
+        self.assertEqual(res_import.status_code, 200)
+
+        imported_mitra = Mitra.query.filter_by(id_sobat=unique_sobat_csv).first()
+        self.assertIsNotNone(imported_mitra)
+        self.assertEqual(imported_mitra.desa, 'Rogojampi')
+        self.assertEqual(imported_mitra.jenis_kelamin, 'Laki-laki')
+
+        # 3. Buat Kegiatan Sensus/Survei dengan Tim Kerja BPS (Distribusi, Neraca, Produksi, PLS)
+        keg_kode = f"SRV-PLS-{int(datetime.utcnow().timestamp())}"
+        res_keg = self.client.post('/mitra/monitoring/create', data={
+            'kode_kegiatan': keg_kode,
+            'nama_kegiatan': 'Survei Khusus PLS Banyuwangi',
+            'tim_kerja': 'Tim PLS',
+            'tahun': 2025,
+            'bulan': '06',
+            'tanggal_mulai': '2025-06-01',
+            'tanggal_selesai': '2025-06-30'
+        }, follow_redirects=True)
+        self.assertEqual(res_keg.status_code, 200)
+
+        created_keg = Kegiatan.query.filter_by(kode_kegiatan=keg_kode).first()
+        self.assertIsNotNone(created_keg)
+        self.assertEqual(created_keg.tim_kerja, 'Tim PLS')
+
+        # 4. Uji 3 Tab Search pada Monitoring Mitra (Tahun, Bulan, Kegiatan) + Tim Kerja
+        res_search_tab = self.client.get(f'/mitra/monitoring?tim=Tim+PLS&tahun=2025&bulan=06&kegiatan=PLS')
+        self.assertEqual(res_search_tab.status_code, 200)
+        self.assertIn(b'Survei Khusus PLS Banyuwangi', res_search_tab.data)
+
+        # 5. Uji Template Kegiatan dengan Tim Kerja
+        res_tpl_keg = self.client.get('/mitra/template?tim=Tim+PLS')
+        self.assertEqual(res_tpl_keg.status_code, 200)
+
 if __name__ == '__main__':
     unittest.main()

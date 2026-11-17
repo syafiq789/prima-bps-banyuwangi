@@ -163,6 +163,39 @@ def create_app(config_name=None):
                 except Exception:
                     conn.execute(text("ALTER TABLE users ADD COLUMN email VARCHAR(120)"))
                     conn.commit()
+                # Migrations for simpatik_mitra
+                try:
+                    conn.execute(text("SELECT alamat FROM simpatik_mitra LIMIT 1"))
+                except Exception:
+                    conn.execute(text("ALTER TABLE simpatik_mitra ADD COLUMN alamat TEXT"))
+                    conn.commit()
+                try:
+                    conn.execute(text("SELECT jenis_kelamin FROM simpatik_mitra LIMIT 1"))
+                except Exception:
+                    conn.execute(text("ALTER TABLE simpatik_mitra ADD COLUMN jenis_kelamin VARCHAR(20) DEFAULT 'Laki-laki'"))
+                    conn.commit()
+                try:
+                    conn.execute(text("SELECT desa FROM simpatik_mitra LIMIT 1"))
+                except Exception:
+                    conn.execute(text("ALTER TABLE simpatik_mitra ADD COLUMN desa VARCHAR(100)"))
+                    conn.commit()
+                # Migrations for simpatik_kegiatan
+                try:
+                    conn.execute(text("SELECT tim_kerja FROM simpatik_kegiatan LIMIT 1"))
+                except Exception:
+                    conn.execute(text("ALTER TABLE simpatik_kegiatan ADD COLUMN tim_kerja VARCHAR(100) DEFAULT 'Tim Distribusi'"))
+                    conn.commit()
+                try:
+                    conn.execute(text("SELECT bulan FROM simpatik_kegiatan LIMIT 1"))
+                except Exception:
+                    conn.execute(text("ALTER TABLE simpatik_kegiatan ADD COLUMN bulan VARCHAR(20)"))
+                    conn.commit()
+                # Migrations for simpatik_template_kegiatan
+                try:
+                    conn.execute(text("SELECT tim_kerja FROM simpatik_template_kegiatan LIMIT 1"))
+                except Exception:
+                    conn.execute(text("ALTER TABLE simpatik_template_kegiatan ADD COLUMN tim_kerja VARCHAR(100) DEFAULT 'Tim Distribusi'"))
+                    conn.commit()
         except Exception as e:
             logger.info(f"Database schema auto-check notice: {e}")
         seed_initial_data()

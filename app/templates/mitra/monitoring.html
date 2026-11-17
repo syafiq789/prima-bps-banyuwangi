@@ -5,59 +5,209 @@
 {% block content %}
 <div class="space-y-6">
 
-    <!-- Header Banner -->
-    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
-            <div class="flex items-center gap-2 text-xs text-orange-600 mb-1">
-                <a href="{{ url_for('hub.index') }}" class="hover:underline flex items-center gap-1">
-                    <i data-lucide="layout-grid" class="w-3 h-3"></i> SIMPATIK Hub
-                </a>
-                <span>&bull;</span>
-                <span class="font-semibold text-slate-800">Monitoring Kegiatan Sensus & Survei</span>
+    <!-- 1. Executive Modern Header Banner -->
+    <div class="relative overflow-hidden rounded-2xl sm:rounded-3xl bg-gradient-to-r from-slate-900 via-[#101b2e] to-slate-900 text-white p-5 sm:p-7 shadow-sm border border-slate-800/90">
+        <!-- Subtle Ambient Background Glow -->
+        <div class="absolute -right-8 -top-8 w-64 h-64 bg-orange-500/10 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute right-1/3 -bottom-10 w-72 h-72 bg-blue-500/10 rounded-full blur-3xl pointer-events-none"></div>
+        
+        <div class="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+            <div class="flex items-center gap-3.5 sm:gap-4">
+                <div class="w-12 h-12 rounded-xl bg-white/10 backdrop-blur-md border border-white/15 p-2.5 flex items-center justify-center text-orange-400 shadow-sm flex-shrink-0">
+                    <i data-lucide="activity" class="w-6 h-6"></i>
+                </div>
+                <div>
+                    <div class="flex items-center gap-2 text-[11px] text-slate-400 mb-0.5">
+                        <a href="{{ url_for('dashboard.index') }}" class="hover:text-orange-300 transition-colors flex items-center gap-1">
+                            <i data-lucide="home" class="w-3 h-3"></i> PRIMA
+                        </a>
+                        <span>/</span>
+                        <a href="{{ url_for('mitra.dashboard') }}" class="hover:text-orange-300 transition-colors">Monitoring Mitra</a>
+                        <span>/</span>
+                        <span class="font-semibold text-orange-400">Monitoring Kegiatan</span>
+                    </div>
+                    <h1 class="text-xl sm:text-2xl font-bold tracking-tight text-white">Monitoring Kegiatan Sensus & Survei</h1>
+                    <p class="text-xs text-slate-400">Pemantauan lintas modul: alokasi mitra, penugasan pegawai teknis, dan serapan anggaran DIPA</p>
+                </div>
             </div>
-            <h1 class="text-2xl font-black text-slate-900">Monitoring Kegiatan Sensus & Survei Terpadu</h1>
-            <p class="text-xs text-slate-500">Pemantauan lintas modul: alokasi mitra, penugasan pegawai, dan realisasi anggaran DIPA</p>
+            
+            <div class="flex flex-wrap items-center gap-2 sm:gap-2.5">
+                <button type="button" 
+                        onclick="document.getElementById('modalTambahKegiatan').classList.remove('hidden')" 
+                        class="px-3.5 py-2 rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white font-semibold text-xs transition-all shadow-sm hover:shadow-orange-500/25 flex items-center gap-1.5">
+                    <i data-lucide="plus-circle" class="w-3.5 h-3.5"></i>
+                    <span>Tambah Kegiatan Baru</span>
+                </button>
+                <a href="{{ url_for('hub.index') }}" class="px-3.5 py-2 rounded-xl bg-white/10 hover:bg-white/15 text-white font-semibold text-xs transition-all border border-white/15 flex items-center gap-1.5">
+                    <i data-lucide="layers" class="w-3.5 h-3.5 text-orange-400"></i>
+                    <span>Matriks Hub 360°</span>
+                </a>
+            </div>
         </div>
-        <a href="{{ url_for('hub.index') }}" class="px-4 py-2.5 rounded-xl bg-navy-main hover:bg-navy-light text-white font-semibold text-xs sm:text-sm shadow-md flex items-center gap-2 self-start transition-all">
-            <i data-lucide="layers" class="w-4 h-4 text-orange-400"></i>
-            <span>Buka Matriks Hub 360°</span>
-        </a>
     </div>
 
-    <!-- Grid Kartu Kegiatan Terpadu -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <!-- 2. Tab Kategori Tim Kerja (Distribusi, Neraca, Produksi, PLS) -->
+    <div class="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
+        {% set tim_items = [
+            ('Semua', 'Semua Tim', count_all, 'layout-grid', 'slate'),
+            ('Tim Distribusi', 'Tim Distribusi', count_distribusi, 'truck', 'blue'),
+            ('Tim Neraca', 'Tim Neraca', count_neraca, 'scale', 'purple'),
+            ('Tim Produksi', 'Tim Produksi', count_produksi, 'sprout', 'emerald'),
+            ('Tim PLS', 'Tim PLS', count_pls, 'database', 'amber')
+        ] %}
+        {% for t_key, t_label, t_cnt, t_ico, t_col in tim_items %}
+        {% set is_selected = (tim_filter == t_key) or (not tim_filter and t_key == 'Semua') %}
+        <a href="{{ url_for('mitra.monitoring', tim=t_key, tahun=tahun_filter, bulan=bulan_filter, kegiatan=kegiatan_filter) }}" 
+           class="px-3.5 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-2 whitespace-nowrap border shadow-2xs {% if is_selected %} bg-slate-900 text-white border-slate-900 shadow-sm {% else %} bg-white text-slate-600 border-slate-200/80 hover:bg-slate-50 hover:text-slate-900 {% endif %}">
+            <i data-lucide="{{ t_ico }}" class="w-3.5 h-3.5 {% if is_selected %}text-orange-400{% else %}text-slate-400{% endif %}"></i>
+            <span>{{ t_label }}</span>
+            <span class="text-[10px] px-1.5 py-0.2 rounded-full font-bold {% if is_selected %}bg-white/20 text-white{% else %}bg-slate-100 text-slate-600{% endif %}">
+                {{ t_cnt }}
+            </span>
+        </a>
+        {% endfor %}
+    </div>
+
+    <!-- 3. Bar Pencarian 3 Parameter Utama: Tahun, Bulan, Kegiatan -->
+    <div class="bg-white rounded-2xl p-4 border border-slate-200/80 shadow-xs">
+        <form method="GET" action="{{ url_for('mitra.monitoring') }}" class="grid grid-cols-1 sm:grid-cols-12 gap-3 items-end">
+            <input type="hidden" name="tim" value="{{ tim_filter }}">
+
+            <!-- Tab 1: Tahun -->
+            <div class="sm:col-span-3">
+                <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-1 flex items-center gap-1.5">
+                    <i data-lucide="calendar-days" class="w-3.5 h-3.5 text-blue-500"></i>
+                    <span>Tahun</span>
+                </label>
+                <div class="relative">
+                    <select name="tahun" class="w-full pl-3 pr-8 py-2 text-xs rounded-xl border border-slate-200 bg-white focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 font-medium">
+                        <option value="">Semua Tahun</option>
+                        {% for y in years %}
+                        <option value="{{ y }}" {% if tahun_filter == y|string %}selected{% endif %}>Tahun {{ y }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+
+            <!-- Tab 2: Bulan -->
+            <div class="sm:col-span-3">
+                <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-1 flex items-center gap-1.5">
+                    <i data-lucide="calendar" class="w-3.5 h-3.5 text-emerald-500"></i>
+                    <span>Bulan</span>
+                </label>
+                <div class="relative">
+                    <select name="bulan" class="w-full pl-3 pr-8 py-2 text-xs rounded-xl border border-slate-200 bg-white focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 font-medium">
+                        <option value="">Semua Bulan</option>
+                        {% set bulan_list = [
+                            ('01', 'Januari'), ('02', 'Februari'), ('03', 'Maret'), ('04', 'April'),
+                            ('05', 'Mei'), ('06', 'Juni'), ('07', 'Juli'), ('08', 'Agustus'),
+                            ('09', 'September'), ('10', 'Oktober'), ('11', 'November'), ('12', 'Desember')
+                        ] %}
+                        {% for b_val, b_name in bulan_list %}
+                        <option value="{{ b_val }}" {% if bulan_filter == b_val %}selected{% endif %}>{{ b_name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+
+            <!-- Tab 3: Kegiatan -->
+            <div class="sm:col-span-4">
+                <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-1 flex items-center gap-1.5">
+                    <i data-lucide="search" class="w-3.5 h-3.5 text-orange-500"></i>
+                    <span>Kegiatan</span>
+                </label>
+                <div class="relative">
+                    <input type="text" 
+                           name="kegiatan" 
+                           value="{{ kegiatan_filter or '' }}" 
+                           placeholder="Cari nama kegiatan / kode sensus & survei..." 
+                           class="w-full pl-3 pr-3 py-2 text-xs rounded-xl border border-slate-200 focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 font-medium">
+                </div>
+            </div>
+
+            <!-- Tombol Aksi Filter -->
+            <div class="sm:col-span-2 flex items-center gap-1.5">
+                <button type="submit" class="flex-1 py-2 px-3 rounded-xl bg-orange-500 hover:bg-orange-600 text-white font-bold text-xs transition flex items-center justify-center gap-1.5 shadow-sm shadow-orange-500/20">
+                    <i data-lucide="filter" class="w-3.5 h-3.5"></i>
+                    <span>Terapkan</span>
+                </button>
+                {% if tahun_filter or bulan_filter or kegiatan_filter or (tim_filter and tim_filter != 'Semua') %}
+                <a href="{{ url_for('mitra.monitoring') }}" title="Reset Filter" class="p-2 rounded-xl text-xs text-rose-600 hover:bg-rose-50 border border-rose-200 font-bold transition flex items-center justify-center">
+                    <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
+                </a>
+                {% endif %}
+            </div>
+        </form>
+    </div>
+
+    <!-- 4. Grid Kartu Kegiatan Terpadu -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
         {% for k in kegiatan_list %}
-        <div class="bg-white rounded-3xl p-6 border border-slate-200/90 shadow-sm hover:shadow-xl transition-all flex flex-col justify-between group">
+        <div class="bg-white rounded-3xl p-5 sm:p-6 border border-slate-200/90 shadow-sm hover:shadow-md transition-all flex flex-col justify-between group">
             <div>
-                <!-- Header Badge -->
-                <div class="flex items-center justify-between mb-3">
-                    <span class="px-2.5 py-1 rounded-lg text-[10px] font-mono font-bold bg-slate-100 text-slate-800">{{ k.kode_kegiatan }}</span>
+                <!-- Header Badge (Kode & Tim Kerja & Status) -->
+                <div class="flex items-center justify-between gap-2 mb-3">
+                    <div class="flex items-center gap-1.5">
+                        <span class="px-2 py-0.5 rounded-lg text-[10px] font-mono font-bold bg-slate-100 text-slate-800 border border-slate-200/60">
+                            {{ k.kode_kegiatan }}
+                        </span>
+                        
+                        <!-- Badge Tim Kerja -->
+                        {% if k.tim_kerja == 'Tim Distribusi' %}
+                        <span class="px-2 py-0.5 rounded-md text-[10px] font-bold bg-blue-50 text-blue-700 border border-blue-200/60">
+                            Distribusi
+                        </span>
+                        {% elif k.tim_kerja == 'Tim Neraca' %}
+                        <span class="px-2 py-0.5 rounded-md text-[10px] font-bold bg-purple-50 text-purple-700 border border-purple-200/60">
+                            Neraca
+                        </span>
+                        {% elif k.tim_kerja == 'Tim Produksi' %}
+                        <span class="px-2 py-0.5 rounded-md text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200/60">
+                            Produksi
+                        </span>
+                        {% elif k.tim_kerja == 'Tim PLS' %}
+                        <span class="px-2 py-0.5 rounded-md text-[10px] font-bold bg-amber-50 text-amber-700 border border-amber-200/60">
+                            PLS
+                        </span>
+                        {% else %}
+                        <span class="px-2 py-0.5 rounded-md text-[10px] font-bold bg-slate-100 text-slate-700">
+                            {{ k.tim_kerja or 'Umum' }}
+                        </span>
+                        {% endif %}
+                    </div>
+
                     {% if k.status == 'SELESAI' %}
-                    <span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-600 border border-emerald-200">SELESAI</span>
+                    <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-600 border border-emerald-200">SELESAI</span>
                     {% else %}
-                    <span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-orange-50 text-orange-600 border border-orange-200 animate-pulse">BERJALAN</span>
+                    <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-orange-50 text-orange-600 border border-orange-200 flex items-center gap-1">
+                        <span class="w-1.5 h-1.5 rounded-full bg-orange-500 animate-pulse"></span>
+                        <span>BERJALAN</span>
+                    </span>
                     {% endif %}
                 </div>
 
-                <h3 class="text-base font-black text-slate-900 group-hover:text-orange-600 transition-colors mb-1.5">{{ k.nama_kegiatan }}</h3>
+                <h3 class="text-base font-bold text-slate-900 group-hover:text-orange-600 transition-colors mb-1.5 line-clamp-2">
+                    {{ k.nama_kegiatan }}
+                </h3>
+                
                 <p class="text-xs text-slate-500 mb-4 flex items-center gap-1.5">
                     <i data-lucide="calendar" class="w-3.5 h-3.5 text-slate-400"></i>
-                    <span>{{ k.tanggal_mulai }} s.d. {{ k.tanggal_selesai }}</span>
+                    <span>Tahun {{ k.tahun }} &bull; {{ k.tanggal_mulai }} s.d. {{ k.tanggal_selesai }}</span>
                 </p>
 
                 <!-- Ringkasan Keterhubungan 3 Modul -->
                 <div class="grid grid-cols-3 gap-2 my-4 text-center">
-                    <div class="p-2.5 rounded-2xl bg-orange-50/60 border border-orange-100">
+                    <div class="p-2.5 rounded-2xl bg-orange-50/60 border border-orange-100/80">
                         <div class="text-[10px] text-orange-600 font-semibold uppercase">Mitra</div>
-                        <div class="text-sm font-black text-slate-800 mt-0.5">{{ k.penugasan_mitra.count() }} Org</div>
+                        <div class="text-sm font-bold text-slate-800 mt-0.5">{{ k.penugasan_mitra.count() }} Org</div>
                     </div>
-                    <div class="p-2.5 rounded-2xl bg-blue-50/60 border border-blue-100">
+                    <div class="p-2.5 rounded-2xl bg-blue-50/60 border border-blue-100/80">
                         <div class="text-[10px] text-blue-600 font-semibold uppercase">Pegawai</div>
-                        <div class="text-sm font-black text-slate-800 mt-0.5">{{ k.total_pegawai_terlibat }} Org</div>
+                        <div class="text-sm font-bold text-slate-800 mt-0.5">{{ k.total_pegawai_terlibat }} Org</div>
                     </div>
-                    <div class="p-2.5 rounded-2xl bg-emerald-50/60 border border-emerald-100">
+                    <div class="p-2.5 rounded-2xl bg-emerald-50/60 border border-emerald-100/80">
                         <div class="text-[10px] text-emerald-600 font-semibold uppercase">DIPA</div>
-                        <div class="text-[11px] font-black font-mono text-emerald-700 mt-1">Rp {{ "{:,}".format(k.total_anggaran_diajukan // 1000000).replace(',', '.') }} Jt</div>
+                        <div class="text-[11px] font-bold font-mono text-emerald-700 mt-1">Rp {{ "{:,}".format(k.total_anggaran_diajukan // 1000000).replace(',', '.') }} Jt</div>
                     </div>
                 </div>
 
@@ -65,7 +215,7 @@
                 <div class="space-y-1.5">
                     <div class="flex justify-between text-xs font-bold">
                         <span class="text-slate-500">Pencapaian Dokumen</span>
-                        <span class="text-orange-600">
+                        <span class="text-orange-600 font-mono">
                             {% if k.total_dokumen_target > 0 %}
                             {{ ((k.total_dokumen_realisasi / k.total_dokumen_target * 100) | round(1)) }}%
                             {% else %}
@@ -74,7 +224,7 @@
                         </span>
                     </div>
                     <div class="w-full h-2 rounded-full bg-slate-100 overflow-hidden">
-                        <div class="h-full bg-orange-500 rounded-full" style="width: {% if k.total_dokumen_target > 0 %}{{ (k.total_dokumen_realisasi / k.total_dokumen_target * 100) }}{% else %}{{ k.progres_persen }}{% endif %}%"></div>
+                        <div class="h-full bg-gradient-to-r from-orange-500 to-amber-500 rounded-full" style="width: {% if k.total_dokumen_target > 0 %}{{ (k.total_dokumen_realisasi / k.total_dokumen_target * 100) }}{% else %}{{ k.progres_persen }}{% endif %}%"></div>
                     </div>
                     <div class="flex justify-between text-[10px] text-slate-400">
                         <span>Terkumpul: {{ k.total_dokumen_realisasi }} Dok</span>
@@ -84,16 +234,107 @@
             </div>
 
             <div class="pt-4 mt-5 border-t border-slate-100">
-                <a href="{{ url_for('mitra.monitoring_detail', kegiatan_id=k.id) }}" class="w-full py-2.5 rounded-xl bg-orange-50 hover:bg-orange-500 text-orange-600 hover:text-white font-bold text-xs flex items-center justify-center gap-2 transition-all border border-orange-200 hover:border-orange-500 shadow-2xs">
+                <a href="{{ url_for('mitra.monitoring_detail', kegiatan_id=k.id) }}" class="w-full py-2.5 rounded-xl bg-orange-50 hover:bg-orange-500 text-orange-600 hover:text-white font-bold text-xs flex items-center justify-center gap-2 transition-all border border-orange-200/80 hover:border-orange-500 shadow-2xs">
                     <span>Lihat Detail Terpadu 360°</span>
-                    <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+                    <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
                 </a>
             </div>
         </div>
         {% else %}
-        <div class="col-span-full py-12 text-center text-slate-400 bg-white rounded-3xl border border-slate-200">Belum ada data kegiatan survei terdaftar.</div>
+        <!-- Modern Empty State -->
+        <div class="col-span-full py-12 px-6 text-center border-2 border-dashed border-slate-200 rounded-3xl bg-slate-50/50 flex flex-col items-center justify-center">
+            <div class="w-14 h-14 rounded-2xl bg-orange-50 text-orange-500 flex items-center justify-center mb-3">
+                <i data-lucide="calendar-x" class="w-7 h-7"></i>
+            </div>
+            <h4 class="text-sm font-bold text-slate-800">Tidak Ada Kegiatan yang Sesuai Filter</h4>
+            <p class="text-xs text-slate-400 mt-1 max-w-md">Silakan ubah kata kunci pencarian, sesuaikan filter tahun/bulan, atau pilih tab tim kerja lainnya.</p>
+            <div class="mt-4 flex gap-2">
+                <a href="{{ url_for('mitra.monitoring') }}" class="px-3.5 py-2 rounded-xl bg-slate-200 hover:bg-slate-300 text-slate-700 text-xs font-semibold transition">
+                    Reset Filter
+                </a>
+                <button type="button" onclick="document.getElementById('modalTambahKegiatan').classList.remove('hidden')" class="px-3.5 py-2 rounded-xl bg-orange-500 hover:bg-orange-600 text-white text-xs font-semibold transition flex items-center gap-1.5">
+                    <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+                    <span>Tambah Kegiatan Baru</span>
+                </button>
+            </div>
+        </div>
         {% endfor %}
     </div>
 
+</div>
+
+<!-- Modal Tambah Kegiatan Baru -->
+<div id="modalTambahKegiatan" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl">
+        <div class="flex items-center justify-between pb-3 border-b border-slate-100 mb-4">
+            <div class="flex items-center gap-2">
+                <div class="w-8 h-8 rounded-xl bg-orange-50 text-orange-600 flex items-center justify-center">
+                    <i data-lucide="calendar-plus" class="w-4 h-4"></i>
+                </div>
+                <div>
+                    <h3 class="text-sm font-bold text-slate-800">Tambah Kegiatan Sensus / Survei Baru</h3>
+                    <p class="text-[11px] text-slate-400">Pengalokasian kegiatan ke tim kerja teknis BPS</p>
+                </div>
+            </div>
+            <button onclick="document.getElementById('modalTambahKegiatan').classList.add('hidden')" class="text-slate-400 hover:text-slate-600">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+        </div>
+        
+        <form action="{{ url_for('mitra.create_kegiatan') }}" method="POST" class="space-y-3">
+            <div class="grid grid-cols-2 gap-3">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">Kode Kegiatan *</label>
+                    <input type="text" name="kode_kegiatan" required placeholder="Contoh: SRV-DIST-2025-01" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs font-mono">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">Tim Kerja BPS *</label>
+                    <select name="tim_kerja" required class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs font-medium">
+                        <option value="Tim Distribusi">Tim Distribusi</option>
+                        <option value="Tim Neraca">Tim Neraca</option>
+                        <option value="Tim Produksi">Tim Produksi</option>
+                        <option value="Tim PLS">Tim PLS</option>
+                    </select>
+                </div>
+            </div>
+
+            <div>
+                <label class="block text-xs font-semibold text-slate-700 mb-1">Nama Kegiatan Sensus/Survei *</label>
+                <input type="text" name="nama_kegiatan" required placeholder="Contoh: Survei Harga Perdagangan Besar (HPB) Triwulan I" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs">
+            </div>
+
+            <div class="grid grid-cols-2 gap-3">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">Tahun Anggaran *</label>
+                    <input type="number" name="tahun" value="2025" required class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">Bulan Pelaksanaan</label>
+                    <select name="bulan" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs">
+                        <option value="">Pilih Bulan</option>
+                        {% for b_val, b_name in [('01', 'Januari'), ('02', 'Februari'), ('03', 'Maret'), ('04', 'April'), ('05', 'Mei'), ('06', 'Juni'), ('07', 'Juli'), ('08', 'Agustus'), ('09', 'September'), ('10', 'Oktober'), ('11', 'November'), ('12', 'Desember')] %}
+                        <option value="{{ b_val }}">{{ b_name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-3">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">Tanggal Mulai *</label>
+                    <input type="date" name="tanggal_mulai" required class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">Tanggal Selesai *</label>
+                    <input type="date" name="tanggal_selesai" required class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs">
+                </div>
+            </div>
+
+            <div class="pt-3 flex justify-end gap-2 border-t border-slate-100">
+                <button type="button" onclick="document.getElementById('modalTambahKegiatan').classList.add('hidden')" class="px-4 py-2 rounded-xl text-xs font-semibold text-slate-600 hover:bg-slate-100">Batal</button>
+                <button type="submit" class="px-4 py-2 rounded-xl bg-orange-500 text-white text-xs font-semibold hover:bg-orange-600 shadow-sm shadow-orange-500/25">Simpan Kegiatan</button>
+            </div>
+        </form>
+    </div>
 </div>
 {% endblock %}

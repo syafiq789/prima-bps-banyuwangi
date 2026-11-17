@@ -202,6 +202,8 @@ class Kegiatan(db.Model):
     kode_kegiatan = db.Column(db.String(40), unique=True, nullable=False)
     nama_kegiatan = db.Column(db.String(200), nullable=False)
     tahun = db.Column(db.Integer, default=2025)
+    bulan = db.Column(db.String(20), nullable=True) # e.g. '01', '02', ..., '12'
+    tim_kerja = db.Column(db.String(100), default='Tim Distribusi') # 'Tim Distribusi', 'Tim Neraca', 'Tim Produksi', 'Tim PLS'
     tanggal_mulai = db.Column(db.Date, nullable=False)
     tanggal_selesai = db.Column(db.Date, nullable=False)
     penanggung_jawab_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='SET NULL'), nullable=True)
@@ -253,6 +255,7 @@ class TemplateKegiatan(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     nama_template = db.Column(db.String(150), nullable=False)
     jenis_survei = db.Column(db.String(100), nullable=False)
+    tim_kerja = db.Column(db.String(100), default='Tim Distribusi') # 'Tim Distribusi', 'Tim Neraca', 'Tim Produksi', 'Tim PLS'
     honor_standar = db.Column(db.BigInteger, default=0)
     deskripsi = db.Column(db.Text, nullable=True)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
@@ -264,9 +267,12 @@ class Mitra(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     id_sobat = db.Column(db.String(30), unique=True, nullable=False)
     nama_lengkap = db.Column(db.String(150), nullable=False)
-    kecamatan = db.Column(db.String(100), nullable=False)
-    no_hp = db.Column(db.String(25), nullable=True)
     email = db.Column(db.String(120), nullable=True)
+    alamat = db.Column(db.Text, nullable=True)
+    no_hp = db.Column(db.String(25), nullable=True)
+    jenis_kelamin = db.Column(db.String(20), default='Laki-laki') # 'Laki-laki', 'Perempuan'
+    desa = db.Column(db.String(100), nullable=True)
+    kecamatan = db.Column(db.String(100), nullable=False)
     keahlian = db.Column(db.String(150), default='Pendataan Lapangan (CAPI)')
     status_aktif = db.Column(db.Boolean, default=True)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)

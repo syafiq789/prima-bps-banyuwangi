@@ -4,92 +4,217 @@
 
 {% block content %}
 <div class="space-y-6">
-    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
-            <div class="flex items-center gap-2 text-xs text-orange-600 mb-1">
-                <a href="{{ url_for('mitra.dashboard') }}" class="hover:underline flex items-center gap-1">
-                    <i data-lucide="arrow-left" class="w-3 h-3"></i> Dashboard Mitra
-                </a>
+
+    <!-- 1. Executive Modern Header Banner -->
+    <div class="relative overflow-hidden rounded-2xl sm:rounded-3xl bg-gradient-to-r from-slate-900 via-[#101b2e] to-slate-900 text-white p-5 sm:p-7 shadow-sm border border-slate-800/90">
+        <div class="absolute -right-8 -top-8 w-64 h-64 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute right-1/3 -bottom-10 w-72 h-72 bg-orange-500/10 rounded-full blur-3xl pointer-events-none"></div>
+        
+        <div class="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+            <div class="flex items-center gap-3.5 sm:gap-4">
+                <div class="w-12 h-12 rounded-xl bg-white/10 backdrop-blur-md border border-white/15 p-2.5 flex items-center justify-center text-cyan-400 shadow-sm flex-shrink-0">
+                    <i data-lucide="database" class="w-6 h-6"></i>
+                </div>
+                <div>
+                    <div class="flex items-center gap-2 text-[11px] text-slate-400 mb-0.5">
+                        <a href="{{ url_for('dashboard.index') }}" class="hover:text-cyan-300 transition-colors flex items-center gap-1">
+                            <i data-lucide="home" class="w-3 h-3"></i> PRIMA
+                        </a>
+                        <span>/</span>
+                        <a href="{{ url_for('mitra.dashboard') }}" class="hover:text-cyan-300 transition-colors">Monitoring Mitra</a>
+                        <span>/</span>
+                        <span class="font-semibold text-cyan-400">Database Mitra</span>
+                    </div>
+                    <h1 class="text-xl sm:text-2xl font-bold tracking-tight text-white">Database Master Mitra Statistik</h1>
+                    <p class="text-xs text-slate-400">Basis data induk mitra pendataan lapangan & pengolahan data sensus/survei BPS Kabupaten Banyuwangi</p>
+                </div>
             </div>
-            <h1 class="text-2xl font-black text-slate-800">Database Mitra Statistik</h1>
-            <p class="text-xs text-slate-500">Daftar mitra pendataan lapangan dan pengolahan BPS Kabupaten Banyuwangi</p>
+            
+            <div class="flex flex-wrap items-center gap-2 sm:gap-2.5">
+                <!-- Tombol Unduh Template -->
+                <a href="{{ url_for('mitra.download_template_mitra') }}" 
+                   class="px-3.5 py-2 rounded-xl bg-white/10 hover:bg-white/15 text-white font-semibold text-xs transition-all border border-white/15 flex items-center gap-1.5 shadow-sm"
+                   title="Unduh format templat data mitra CSV">
+                    <i data-lucide="download" class="w-3.5 h-3.5 text-cyan-400"></i>
+                    <span>Unduh Templat</span>
+                </a>
+
+                <!-- Tombol Impor Templat -->
+                <button type="button" 
+                        onclick="document.getElementById('modalImportMitra').classList.remove('hidden')" 
+                        class="px-3.5 py-2 rounded-xl bg-white/10 hover:bg-white/15 text-white font-semibold text-xs transition-all border border-white/15 flex items-center gap-1.5 shadow-sm">
+                    <i data-lucide="file-up" class="w-3.5 h-3.5 text-emerald-400"></i>
+                    <span>Impor Templat</span>
+                </button>
+
+                <!-- Tombol Tambah Mitra -->
+                <button type="button" 
+                        onclick="document.getElementById('modalTambahMitra').classList.remove('hidden')" 
+                        class="px-3.5 py-2 rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white font-semibold text-xs transition-all shadow-sm hover:shadow-orange-500/25 flex items-center gap-1.5">
+                    <i data-lucide="user-plus" class="w-3.5 h-3.5"></i>
+                    <span>Tambah Mitra Baru</span>
+                </button>
+            </div>
         </div>
-        <button onclick="document.getElementById('modalTambahMitra').classList.remove('hidden')" class="px-4 py-2.5 rounded-xl bg-orange-500 hover:bg-orange-600 text-white font-semibold text-xs sm:text-sm shadow-md flex items-center gap-2 self-start">
-            <i data-lucide="user-plus" class="w-4 h-4"></i>
-            <span>Tambah Mitra Baru</span>
-        </button>
     </div>
 
-    <!-- Filter & Search Bar -->
-    <form method="GET" class="flex flex-col sm:flex-row gap-2 bg-white p-3 rounded-2xl border border-slate-200/80 shadow-soft">
-        <div class="flex-1 relative">
-            <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3 top-3"></i>
-            <input type="text" name="search" value="{{ search }}" placeholder="Cari nama mitra, ID Sobat BPS, atau nomor HP..." class="w-full pl-9 pr-4 py-2 rounded-xl border border-slate-200 text-xs focus:outline-none focus:border-orange-500">
-        </div>
-        <div class="w-full sm:w-48">
-            <select name="kecamatan" onchange="this.form.submit()" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs focus:outline-none focus:border-orange-500">
-                <option value="">Semua Kecamatan</option>
-                {% for k in kecamatans %}
-                <option value="{{ k }}" {% if kec_filter == k %}selected{% endif %}>Kec. {{ k }}</option>
-                {% endfor %}
-            </select>
-        </div>
-        <button type="submit" class="px-4 py-2 rounded-xl bg-navy-main text-white text-xs font-semibold hover:bg-navy-light transition-colors flex items-center justify-center gap-2">
-            <span>Filter</span>
-        </button>
-        {% if search or kec_filter %}
-        <a href="{{ url_for('mitra.database') }}" class="px-3 py-2 rounded-xl bg-slate-100 text-slate-600 text-xs font-semibold hover:bg-slate-200 flex items-center justify-center">Reset</a>
-        {% endif %}
-    </form>
+    <!-- 2. Filter & Search Bar -->
+    <div class="bg-white rounded-2xl p-4 border border-slate-200/80 shadow-xs">
+        <form method="GET" action="{{ url_for('mitra.database') }}" class="grid grid-cols-1 sm:grid-cols-12 gap-3 items-end">
+            <!-- Search Text -->
+            <div class="sm:col-span-5">
+                <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-1 flex items-center gap-1.5">
+                    <i data-lucide="search" class="w-3.5 h-3.5 text-slate-400"></i>
+                    <span>Pencarian Bebas</span>
+                </label>
+                <input type="text" 
+                       name="search" 
+                       value="{{ search }}" 
+                       placeholder="Cari nama, ID Sobat, alamat, desa, no HP, email..." 
+                       class="w-full pl-3 pr-3 py-2 text-xs rounded-xl border border-slate-200 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500">
+            </div>
 
-    <!-- Table -->
-    <div class="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-soft overflow-x-auto">
+            <!-- Filter Kecamatan -->
+            <div class="sm:col-span-3">
+                <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-1 flex items-center gap-1.5">
+                    <i data-lucide="map-pin" class="w-3.5 h-3.5 text-cyan-500"></i>
+                    <span>Kecamatan</span>
+                </label>
+                <select name="kecamatan" class="w-full pl-3 pr-8 py-2 text-xs rounded-xl border border-slate-200 bg-white focus:outline-none focus:border-cyan-500 font-medium">
+                    <option value="">Semua Kecamatan</option>
+                    {% for k in kecamatans %}
+                    <option value="{{ k }}" {% if kec_filter == k %}selected{% endif %}>Kec. {{ k }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- Filter Jenis Kelamin -->
+            <div class="sm:col-span-2">
+                <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-1 flex items-center gap-1.5">
+                    <i data-lucide="users" class="w-3.5 h-3.5 text-purple-500"></i>
+                    <span>Jenis Kelamin</span>
+                </label>
+                <select name="jenis_kelamin" class="w-full pl-3 pr-8 py-2 text-xs rounded-xl border border-slate-200 bg-white focus:outline-none focus:border-cyan-500 font-medium">
+                    <option value="">Semua (L/P)</option>
+                    <option value="Laki-laki" {% if jk_filter == 'Laki-laki' %}selected{% endif %}>Laki-laki</option>
+                    <option value="Perempuan" {% if jk_filter == 'Perempuan' %}selected{% endif %}>Perempuan</option>
+                </select>
+            </div>
+
+            <!-- Tombol Filter -->
+            <div class="sm:col-span-2 flex items-center gap-1.5">
+                <button type="submit" class="flex-1 py-2 px-3 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs transition flex items-center justify-center gap-1.5 shadow-sm">
+                    <i data-lucide="filter" class="w-3.5 h-3.5 text-cyan-400"></i>
+                    <span>Filter</span>
+                </button>
+                {% if search or kec_filter or jk_filter %}
+                <a href="{{ url_for('mitra.database') }}" title="Reset Filter" class="p-2 rounded-xl text-xs text-rose-600 hover:bg-rose-50 border border-rose-200 font-bold transition flex items-center justify-center">
+                    <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
+                </a>
+                {% endif %}
+            </div>
+        </form>
+    </div>
+
+    <!-- 3. Tabel Database Master Mitra (Lengkap: ID Sobat, Nama, Email, Alamat, No HP, Jenis Kelamin, Desa, Kecamatan) -->
+    <div class="bg-white rounded-3xl p-5 sm:p-6 border border-slate-200/80 shadow-soft overflow-x-auto">
         <table class="w-full text-left text-xs">
             <thead>
-                <tr class="text-slate-400 border-b border-slate-100 uppercase font-semibold">
-                    <th class="pb-3">ID Sobat</th>
-                    <th class="pb-3">Nama Lengkap</th>
-                    <th class="pb-3">Kecamatan</th>
-                    <th class="pb-3">Kontak</th>
-                    <th class="pb-3">Keahlian</th>
-                    <th class="pb-3">Status</th>
+                <tr class="text-slate-400 border-b border-slate-100 uppercase font-semibold text-[11px]">
+                    <th class="pb-3 pr-2">ID Sobat</th>
+                    <th class="pb-3 pr-4">Nama Lengkap</th>
+                    <th class="pb-3 pr-3">Gender</th>
+                    <th class="pb-3 pr-4">Kontak (HP & Email)</th>
+                    <th class="pb-3 pr-4">Domisili (Desa & Kec)</th>
+                    <th class="pb-3 pr-4">Alamat Lengkap</th>
+                    <th class="pb-3 pr-3">Keahlian</th>
+                    <th class="pb-3 pr-2">Status</th>
                     <th class="pb-3 text-right">Aksi</th>
                 </tr>
             </thead>
             <tbody class="divide-y divide-slate-100">
                 {% for m in mitra_list %}
-                <tr class="hover:bg-slate-50">
-                    <td class="py-3 font-mono font-semibold text-navy-main">{{ m.id_sobat }}</td>
-                    <td class="py-3 font-bold text-slate-800">
+                <tr class="hover:bg-slate-50/80 transition">
+                    <!-- ID Sobat -->
+                    <td class="py-3.5 pr-2 font-mono font-bold text-slate-900 whitespace-nowrap">
+                        <span class="px-2 py-0.5 rounded-md bg-slate-100 border border-slate-200/60 text-slate-800">
+                            {{ m.id_sobat }}
+                        </span>
+                    </td>
+
+                    <!-- Nama Lengkap -->
+                    <td class="py-3.5 pr-4 font-bold text-slate-800 min-w-[150px]">
                         <div>{{ m.nama_lengkap }}</div>
-                        <div class="text-[10px] text-slate-400 font-normal">{{ m.penugasan.count() }} kali ditugaskan</div>
+                        <div class="text-[10px] text-slate-400 font-normal mt-0.5">
+                            {{ m.penugasan.count() }} kali penugasan aktif
+                        </div>
                     </td>
-                    <td class="py-3 text-slate-600">
-                        <span class="px-2 py-0.5 rounded-full bg-slate-100 font-medium text-[11px]">{{ m.kecamatan }}</span>
+
+                    <!-- Jenis Kelamin -->
+                    <td class="py-3.5 pr-3 whitespace-nowrap">
+                        {% if m.jenis_kelamin == 'Perempuan' %}
+                        <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-pink-50 text-pink-700 border border-pink-200/60 inline-flex items-center gap-1">
+                            <span>Perempuan</span>
+                        </span>
+                        {% else %}
+                        <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-blue-50 text-blue-700 border border-blue-200/60 inline-flex items-center gap-1">
+                            <span>Laki-laki</span>
+                        </span>
+                        {% endif %}
                     </td>
-                    <td class="py-3 text-slate-500">
-                        <div>{{ m.no_hp or '-' }}</div>
-                        <div class="text-[10px] text-slate-400">{{ m.email or '' }}</div>
+
+                    <!-- Kontak -->
+                    <td class="py-3.5 pr-4 text-slate-600 min-w-[140px]">
+                        <div class="font-medium text-slate-800 flex items-center gap-1">
+                            <i data-lucide="phone" class="w-3 h-3 text-slate-400"></i>
+                            <span>{{ m.no_hp or '-' }}</span>
+                        </div>
+                        <div class="text-[10px] text-slate-400 truncate max-w-[150px] mt-0.5">
+                            {{ m.email or '-' }}
+                        </div>
                     </td>
-                    <td class="py-3">
-                        <span class="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-blue-50 text-blue-700 border border-blue-100">{{ m.keahlian }}</span>
+
+                    <!-- Desa & Kecamatan -->
+                    <td class="py-3.5 pr-4 text-slate-600 min-w-[130px]">
+                        <div class="font-semibold text-slate-800">{{ m.desa or '-' }}</div>
+                        <div class="text-[10px] text-cyan-700 font-medium mt-0.5">
+                            Kec. {{ m.kecamatan }}
+                        </div>
                     </td>
-                    <td class="py-3">
+
+                    <!-- Alamat Lengkap -->
+                    <td class="py-3.5 pr-4 text-slate-500 text-[11px] max-w-[180px]">
+                        <span class="line-clamp-2" title="{{ m.alamat or '-' }}">
+                            {{ m.alamat or '-' }}
+                        </span>
+                    </td>
+
+                    <!-- Keahlian -->
+                    <td class="py-3.5 pr-3 whitespace-nowrap">
+                        <span class="px-2 py-0.5 rounded-full text-[10px] font-medium bg-slate-100 text-slate-700 border border-slate-200/60">
+                            {{ m.keahlian }}
+                        </span>
+                    </td>
+
+                    <!-- Status -->
+                    <td class="py-3.5 pr-2 whitespace-nowrap">
                         {% if m.status_aktif %}
                         <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-600 border border-emerald-200">AKTIF</span>
                         {% else %}
                         <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-slate-100 text-slate-400">NONAKTIF</span>
                         {% endif %}
                     </td>
-                    <td class="py-3 text-right">
-                        <div class="inline-flex items-center gap-1.5">
+
+                    <!-- Aksi -->
+                    <td class="py-3.5 text-right whitespace-nowrap">
+                        <div class="inline-flex items-center gap-1">
                             <form action="{{ url_for('mitra.toggle_mitra_status', id=m.id) }}" method="POST" class="inline">
-                                <button type="submit" title="Ubah Status Aktif/Nonaktif" class="p-1.5 rounded-lg text-slate-400 hover:text-amber-600 hover:bg-amber-50">
+                                <button type="submit" title="Ubah Status Aktif/Nonaktif" class="p-1.5 rounded-lg text-slate-400 hover:text-amber-600 hover:bg-amber-50 transition">
                                     <i data-lucide="power" class="w-3.5 h-3.5"></i>
                                 </button>
                             </form>
                             <form action="{{ url_for('mitra.delete_mitra', id=m.id) }}" method="POST" class="inline" onsubmit="return confirm('Yakin ingin menghapus data mitra ini? Seluruh riwayat penugasan akan terhapus.');">
-                                <button type="submit" title="Hapus Mitra" class="p-1.5 rounded-lg text-slate-400 hover:text-rose-600 hover:bg-rose-50">
+                                <button type="submit" title="Hapus Mitra" class="p-1.5 rounded-lg text-slate-400 hover:text-rose-600 hover:bg-rose-50 transition">
                                     <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
                                 </button>
                             </form>
@@ -98,46 +223,96 @@
                 </tr>
                 {% else %}
                 <tr>
-                    <td colspan="7" class="py-8 text-center text-slate-400">Data mitra tidak ditemukan.</td>
+                    <td colspan="9" class="py-12 text-center text-slate-400">
+                        <div class="flex flex-col items-center justify-center gap-2">
+                            <div class="w-12 h-12 rounded-2xl bg-slate-50 text-slate-300 flex items-center justify-center">
+                                <i data-lucide="users" class="w-6 h-6"></i>
+                            </div>
+                            <p class="font-bold text-slate-700 text-xs">Belum Ada Data Mitra Ditemukan</p>
+                            <p class="text-[11px] text-slate-400 max-w-sm">Tambah mitra secara manual atau gunakan fitur impor templat CSV dengan kolom Nama, ID Sobat, Email, Alamat, No HP, Jenis Kelamin, Desa, dan Kecamatan.</p>
+                            <div class="flex items-center gap-2 mt-2">
+                                <button type="button" onclick="document.getElementById('modalTambahMitra').classList.remove('hidden')" class="px-3.5 py-1.5 rounded-xl bg-orange-500 hover:bg-orange-600 text-white text-xs font-semibold">
+                                    + Tambah Mitra Baru
+                                </button>
+                                <a href="{{ url_for('mitra.download_template_mitra') }}" class="px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold">
+                                    Unduh Format Templat
+                                </a>
+                            </div>
+                        </div>
+                    </td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
     </div>
+
 </div>
 
-<!-- Modal Tambah Mitra -->
+<!-- Modal Tambah Mitra Baru (Lengkap) -->
 <div id="modalTambahMitra" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
-    <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl">
+    <div class="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl max-h-[90vh] overflow-y-auto">
         <div class="flex items-center justify-between pb-3 border-b border-slate-100 mb-4">
-            <h3 class="text-base font-bold text-slate-800">Tambah Mitra Baru</h3>
+            <div class="flex items-center gap-2">
+                <div class="w-8 h-8 rounded-xl bg-orange-50 text-orange-600 flex items-center justify-center">
+                    <i data-lucide="user-plus" class="w-4 h-4"></i>
+                </div>
+                <div>
+                    <h3 class="text-sm font-bold text-slate-800">Tambah Mitra Statistik Baru</h3>
+                    <p class="text-[11px] text-slate-400">Pengisian data induk mitra sesuai templat resmi BPS</p>
+                </div>
+            </div>
             <button onclick="document.getElementById('modalTambahMitra').classList.add('hidden')" class="text-slate-400 hover:text-slate-600">
                 <i data-lucide="x" class="w-5 h-5"></i>
             </button>
         </div>
+
         <form action="{{ url_for('mitra.create_mitra') }}" method="POST" class="space-y-3">
-            <div>
-                <label class="block text-xs font-semibold text-slate-700 mb-1">ID Sobat BPS *</label>
-                <input type="text" name="id_sobat" required placeholder="Contoh: 35102025004" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs">
-            </div>
-            <div>
-                <label class="block text-xs font-semibold text-slate-700 mb-1">Nama Lengkap & Gelar *</label>
-                <input type="text" name="nama_lengkap" required class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs">
-            </div>
-            <div>
-                <label class="block text-xs font-semibold text-slate-700 mb-1">Kecamatan Domisili *</label>
-                <input type="text" name="kecamatan" required placeholder="Contoh: Banyuwangi" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs">
-            </div>
             <div class="grid grid-cols-2 gap-3">
                 <div>
-                    <label class="block text-xs font-semibold text-slate-700 mb-1">No. WhatsApp/HP</label>
-                    <input type="text" name="no_hp" placeholder="0812xxxxxxxx" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs">
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">ID Sobat BPS *</label>
+                    <input type="text" name="id_sobat" required placeholder="Contoh: 35102025004" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs font-mono">
                 </div>
                 <div>
-                    <label class="block text-xs font-semibold text-slate-700 mb-1">Email</label>
-                    <input type="email" name="email" placeholder="nama@gmail.com" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs">
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">Nama Lengkap & Gelar *</label>
+                    <input type="text" name="nama_lengkap" required placeholder="Contoh: Ahmad Subandi, S.E." class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs">
                 </div>
             </div>
+
+            <div class="grid grid-cols-2 gap-3">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">Jenis Kelamin *</label>
+                    <select name="jenis_kelamin" required class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs">
+                        <option value="Laki-laki">Laki-laki</option>
+                        <option value="Perempuan">Perempuan</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">No. WhatsApp / HP</label>
+                    <input type="text" name="no_hp" placeholder="0812xxxxxxxx" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs">
+                </div>
+            </div>
+
+            <div>
+                <label class="block text-xs font-semibold text-slate-700 mb-1">Email</label>
+                <input type="email" name="email" placeholder="mitra@gmail.com" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs">
+            </div>
+
+            <div class="grid grid-cols-2 gap-3">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">Desa / Kelurahan</label>
+                    <input type="text" name="desa" placeholder="Contoh: Rogojampi" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">Kecamatan Domisili *</label>
+                    <input type="text" name="kecamatan" required placeholder="Contoh: Rogojampi" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs">
+                </div>
+            </div>
+
+            <div>
+                <label class="block text-xs font-semibold text-slate-700 mb-1">Alamat Lengkap</label>
+                <textarea name="alamat" rows="2" placeholder="Jalan, RT/RW, Dusun..." class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs"></textarea>
+            </div>
+
             <div>
                 <label class="block text-xs font-semibold text-slate-700 mb-1">Keahlian Utama</label>
                 <select name="keahlian" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs">
@@ -147,9 +322,56 @@
                     <option value="Pemetaan Wilkerstat">Pemetaan Wilkerstat</option>
                 </select>
             </div>
-            <div class="pt-3 flex justify-end gap-2">
+
+            <div class="pt-3 flex justify-end gap-2 border-t border-slate-100">
                 <button type="button" onclick="document.getElementById('modalTambahMitra').classList.add('hidden')" class="px-4 py-2 rounded-xl text-xs font-semibold text-slate-600 hover:bg-slate-100">Batal</button>
-                <button type="submit" class="px-4 py-2 rounded-xl bg-orange-500 text-white text-xs font-semibold hover:bg-orange-600">Simpan Mitra</button>
+                <button type="submit" class="px-4 py-2 rounded-xl bg-orange-500 text-white text-xs font-semibold hover:bg-orange-600 shadow-sm shadow-orange-500/25">Simpan Mitra</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Modal Impor Templat Data Mitra CSV -->
+<div id="modalImportMitra" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl">
+        <div class="flex items-center justify-between pb-3 border-b border-slate-100 mb-4">
+            <div class="flex items-center gap-2">
+                <div class="w-8 h-8 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
+                    <i data-lucide="file-up" class="w-4 h-4"></i>
+                </div>
+                <div>
+                    <h3 class="text-sm font-bold text-slate-800">Impor Templat Data Mitra</h3>
+                    <p class="text-[11px] text-slate-400">Unggah berkas CSV data induk mitra BPS</p>
+                </div>
+            </div>
+            <button onclick="document.getElementById('modalImportMitra').classList.add('hidden')" class="text-slate-400 hover:text-slate-600">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+        </div>
+
+        <form action="{{ url_for('mitra.import_mitra') }}" method="POST" enctype="multipart/form-data" class="space-y-4">
+            <div class="p-3.5 bg-slate-50 border border-slate-100 rounded-2xl text-xs text-slate-600 space-y-1.5">
+                <p class="font-bold text-slate-800 flex items-center gap-1">
+                    <i data-lucide="info" class="w-3.5 h-3.5 text-cyan-600"></i>
+                    <span>Struktur Header Templat:</span>
+                </p>
+                <code class="block text-[10px] bg-white p-2 rounded-lg border border-slate-200 text-slate-700 font-mono break-all">
+                    id_sobat, nama_lengkap, email, alamat, no_hp, jenis_kelamin, desa, kecamatan, keahlian
+                </code>
+                <a href="{{ url_for('mitra.download_template_mitra') }}" class="inline-flex items-center gap-1 text-[11px] font-bold text-cyan-600 hover:underline pt-1">
+                    <i data-lucide="download" class="w-3 h-3"></i>
+                    <span>Unduh Contoh Templat CSV</span>
+                </a>
+            </div>
+
+            <div>
+                <label class="block text-xs font-semibold text-slate-700 mb-1">Pilih Berkas CSV *</label>
+                <input type="file" name="file" accept=".csv" required class="w-full text-xs text-slate-500 file:mr-3 file:py-2 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-emerald-50 file:text-emerald-700 hover:file:bg-emerald-100">
+            </div>
+
+            <div class="pt-3 flex justify-end gap-2 border-t border-slate-100">
+                <button type="button" onclick="document.getElementById('modalImportMitra').classList.add('hidden')" class="px-4 py-2 rounded-xl text-xs font-semibold text-slate-600 hover:bg-slate-100">Batal</button>
+                <button type="submit" class="px-4 py-2 rounded-xl bg-emerald-600 text-white text-xs font-semibold hover:bg-emerald-700 shadow-sm shadow-emerald-600/25">Proses Impor</button>
             </div>
         </form>
     </div>
