@@ -225,7 +225,17 @@
                 <i data-lucide="pie-chart" class="w-4 h-4 text-slate-400"></i>
             </div>
             <div class="relative h-60 flex items-center justify-center">
+                {% if total_docs > 0 %}
                 <canvas id="categoryChart"></canvas>
+                {% else %}
+                <div class="h-full w-full flex flex-col items-center justify-center text-center p-6 border-2 border-dashed border-slate-200 rounded-2xl bg-slate-50/50">
+                    <div class="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center mb-2.5">
+                        <i data-lucide="pie-chart" class="w-6 h-6"></i>
+                    </div>
+                    <p class="text-xs font-bold text-slate-700">Belum Ada Distribusi Dokumen</p>
+                    <p class="text-[11px] text-slate-400 mt-1 max-w-[200px]">Grafik proporsi kategori akan muncul otomatis saat dokumen AKIP diunggah.</p>
+                </div>
+                {% endif %}
             </div>
         </div>
 
@@ -236,7 +246,17 @@
                 <i data-lucide="trending-up" class="w-4 h-4 text-slate-400"></i>
             </div>
             <div class="relative h-60 flex items-center justify-center">
+                {% if total_docs > 0 and chart_years %}
                 <canvas id="yearChart"></canvas>
+                {% else %}
+                <div class="h-full w-full flex flex-col items-center justify-center text-center p-6 border-2 border-dashed border-slate-200 rounded-2xl bg-slate-50/50">
+                    <div class="w-12 h-12 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center mb-2.5">
+                        <i data-lucide="trending-up" class="w-6 h-6"></i>
+                    </div>
+                    <p class="text-xs font-bold text-slate-700">Belum Ada Riwayat Tahunan</p>
+                    <p class="text-[11px] text-slate-400 mt-1 max-w-[200px]">Tren arsip dokumen per tahun anggaran akan terbentuk setelah dokumen ditambahkan.</p>
+                </div>
+                {% endif %}
             </div>
         </div>
 
