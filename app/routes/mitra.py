@@ -35,6 +35,17 @@ def dashboard():
     # Top Mitra
     top_eval = EvaluasiMitra.query.order_by(EvaluasiMitra.nilai_kualitas.desc()).limit(4).all()
 
+    # Statistik per Tim Kerja BPS (Distribusi, Neraca, Produksi, PLS)
+    all_kegiatans = Kegiatan.query.all()
+    count_keg_distribusi = len([k for k in all_kegiatans if k.tim_kerja == 'Tim Distribusi'])
+    count_keg_neraca = len([k for k in all_kegiatans if k.tim_kerja == 'Tim Neraca'])
+    count_keg_produksi = len([k for k in all_kegiatans if k.tim_kerja == 'Tim Produksi'])
+    count_keg_pls = len([k for k in all_kegiatans if k.tim_kerja == 'Tim PLS'])
+
+    all_penugasan = PenugasanMitra.query.all()
+    total_honor_all = sum(p.honor_total for p in all_penugasan)
+    rasio_selesai = round((penugasan_selesai / total_penugasan * 100), 1) if total_penugasan > 0 else 0
+
     return render_template(
         'mitra/dashboard.html',
         total_mitra=total_mitra,
@@ -47,7 +58,13 @@ def dashboard():
         chart_kec_labels=chart_kec_labels,
         chart_kec_values=chart_kec_values,
         avg_score=avg_score,
-        top_eval=top_eval
+        top_eval=top_eval,
+        count_keg_distribusi=count_keg_distribusi,
+        count_keg_neraca=count_keg_neraca,
+        count_keg_produksi=count_keg_produksi,
+        count_keg_pls=count_keg_pls,
+        total_honor_all=total_honor_all,
+        rasio_selesai=rasio_selesai
     )
 
 @mitra_bp.route('/database')
