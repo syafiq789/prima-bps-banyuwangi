@@ -45,6 +45,11 @@ def dashboard():
         pagu_per_kat.append(pagu_k)
         real_per_kat.append(real_k)
 
+    akun_options = AkunAnggaran.query.order_by(AkunAnggaran.kode_akun.asc()).all()
+    komponen_options = KomponenAnggaran.query.all()
+    kegiatan_options = Kegiatan.query.all()
+    pegawai_options = Pegawai.query.filter_by(status_aktif=True).order_by(Pegawai.nama_lengkap.asc()).all()
+
     return render_template(
         'keuangan/dashboard.html',
         total_pengajuan=total_pengajuan,
@@ -59,7 +64,11 @@ def dashboard():
         realisasi_terbaru=realisasi_terbaru,
         kategori_labels=kategori_list,
         pagu_per_kat=pagu_per_kat,
-        real_per_kat=real_per_kat
+        real_per_kat=real_per_kat,
+        akun_options=akun_options,
+        komponen_options=komponen_options,
+        kegiatan_options=kegiatan_options,
+        pegawai_options=pegawai_options
     )
 
 @keuangan_bp.route('/akun')

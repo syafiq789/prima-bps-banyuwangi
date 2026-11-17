@@ -35,11 +35,12 @@
                 <i data-lucide="bar-chart-3" class="w-3.5 h-3.5 text-emerald-600"></i>
                 <span>Rekap DIPA</span>
             </a>
-            <a href="{{ url_for('keuangan.pengajuan') }}" 
-               class="h-9 px-4 rounded-full bg-gradient-to-r from-orange-500 via-amber-500 to-orange-500 hover:opacity-95 text-white font-bold text-xs shadow-sm shadow-orange-500/25 active:scale-95 transition-all flex items-center gap-1.5">
+            <button type="button" 
+                    onclick="openModalPengajuan()" 
+                    class="h-9 px-4 rounded-full bg-gradient-to-r from-orange-500 via-amber-500 to-orange-500 hover:opacity-95 text-white font-bold text-xs shadow-sm shadow-orange-500/25 active:scale-95 transition-all flex items-center gap-1.5">
                 <i data-lucide="plus" class="w-3.5 h-3.5"></i>
                 <span>Ajukan Anggaran</span>
-            </a>
+            </button>
         </div>
     </div>
 
@@ -198,17 +199,25 @@
     <!-- 4. Content Split: Recent Requests & Realizations -->
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
         
-        <!-- Table Pengajuan Terbaru -->
+        <!-- Table Pengajuan Terbaru with Full Detail (Volume, Akun Database & Akun BPS) -->
         <div class="lg:col-span-2 bg-white rounded-3xl p-6 border border-slate-200/80 shadow-soft">
             <div class="flex items-center justify-between pb-4 border-b border-slate-100 mb-4">
                 <div>
                     <h2 class="text-base font-bold text-slate-800">Daftar Pengajuan Anggaran Terbaru</h2>
                     <p class="text-xs text-slate-400">Verifikasi usulan honor petugas, tim BPS, dan operasional kegiatan</p>
                 </div>
-                <a href="{{ url_for('keuangan.pengajuan') }}" class="text-xs font-semibold text-emerald-600 hover:text-emerald-700 flex items-center gap-1 transition">
-                    <span>Lihat Semua</span>
-                    <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
-                </a>
+                <div class="flex items-center gap-2">
+                    <button type="button" 
+                            onclick="openModalPengajuan()"
+                            class="px-3 py-1.5 rounded-full bg-orange-50 hover:bg-orange-100 text-orange-600 font-bold text-xs transition flex items-center gap-1">
+                        <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+                        <span>Pengajuan Baru</span>
+                    </button>
+                    <a href="{{ url_for('keuangan.pengajuan') }}" class="text-xs font-semibold text-emerald-600 hover:text-emerald-700 flex items-center gap-1 transition">
+                        <span>Lihat Semua</span>
+                        <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+                    </a>
+                </div>
             </div>
 
             <div class="overflow-x-auto">
@@ -216,8 +225,9 @@
                     <thead>
                         <tr class="text-slate-400 border-b border-slate-100 font-semibold uppercase">
                             <th class="pb-3">No. Pengajuan</th>
-                            <th class="pb-3">Judul Pengajuan</th>
-                            <th class="pb-3">Akun / Komponen</th>
+                            <th class="pb-3">Judul & Rincian Volume</th>
+                            <th class="pb-3">Akun Database (MAK)</th>
+                            <th class="pb-3">Alokasi Akun BPS</th>
                             <th class="pb-3">Jumlah (Rp)</th>
                             <th class="pb-3">Status</th>
                         </tr>
@@ -225,17 +235,55 @@
                     <tbody class="divide-y divide-slate-100">
                         {% for item in transaksi_terbaru %}
                         <tr class="hover:bg-slate-50/70 transition-colors">
-                            <td class="py-3 font-mono font-bold text-navy-main">{{ item.nomor_pengajuan }}</td>
-                            <td class="py-3 font-semibold text-slate-800">
-                                <div>{{ item.judul_pengajuan }}</div>
-                                <div class="text-[10px] text-slate-400">{{ item.kegiatan.nama_kegiatan if item.kegiatan else 'Operasional Rutin' }}</div>
+                            <td class="py-3.5 font-mono font-bold text-navy-main">
+                                <div>{{ item.nomor_pengajuan }}</div>
+                                <div class="text-[10px] text-slate-400 font-sans font-normal">{{ item.tanggal_pengajuan.strftime('%d/%m/%Y') if item.tanggal_pengajuan else '-' }}</div>
                             </td>
-                            <td class="py-3 text-slate-600">
-                                <div class="font-bold text-slate-700 font-mono text-xs">{{ item.akun.kode_akun }}</div>
+                            <td class="py-3.5 font-semibold text-slate-800">
+                                <div class="text-xs font-bold text-slate-800">{{ item.judul_pengajuan }}</div>
+                                <div class="text-[10px] text-slate-500 mt-0.5 flex items-center gap-1.5">
+                                    <span class="inline-flex items-center px-1.5 py-0.5 rounded bg-slate-100 font-mono text-[9px] text-slate-700 font-bold border border-slate-200">
+                                        {{ item.volume_kegiatan or 1 }} {{ item.satuan_volume or 'Orang/Kegiatan' }}
+                                    </span>
+                                    {% if item.tarif_satuan and item.tarif_satuan > 0 %}
+                                    <span class="text-[9px] text-slate-400">@ Rp {{ "{:,}".format(item.tarif_satuan).replace(',', '.') }}</span>
+                                    {% endif %}
+                                </div>
+                                <div class="text-[10px] text-slate-400 mt-0.5">{{ item.kegiatan.nama_kegiatan if item.kegiatan else 'Operasional Rutin Kantor' }}</div>
+                            </td>
+                            <td class="py-3.5 text-slate-600">
+                                <div class="font-bold text-slate-700 font-mono text-xs flex items-center gap-1">
+                                    <span class="px-1.5 py-0.5 rounded bg-blue-50 text-blue-700 border border-blue-200 font-mono text-[10px] font-bold">{{ item.akun.kode_akun }}</span>
+                                </div>
+                                <div class="text-[10px] text-slate-500 font-semibold truncate max-w-[140px]" title="{{ item.akun.nama_akun }}">{{ item.akun.nama_akun }}</div>
                                 <div class="text-[10px] text-slate-400">{{ item.komponen.nama_komponen }}</div>
                             </td>
-                            <td class="py-3 font-mono font-bold text-slate-800">Rp {{ "{:,}".format(item.jumlah_diajukan).replace(',', '.') }}</td>
-                            <td class="py-3">
+                            <td class="py-3.5">
+                                {% if item.is_akun_bps %}
+                                <div class="space-y-0.5">
+                                    <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-blue-50 text-blue-700 font-bold text-[9px] border border-blue-200 shadow-2xs">
+                                        <i data-lucide="check-circle-2" class="w-3 h-3 text-blue-600"></i> Akun BPS: IYA
+                                    </span>
+                                    <div class="text-[10px] font-bold text-slate-700 truncate max-w-[140px]">
+                                        {{ item.ketua_tim.nama_lengkap if item.ketua_tim else 'Tim BPS' }}
+                                    </div>
+                                    <div class="text-[9px] text-slate-400">
+                                        {{ item.peran_tim or 'Ketua Tim' }} &bull; <span class="font-mono font-bold text-emerald-600">Rp {{ "{:,}".format(item.honor_pengelola or 0).replace(',', '.') }}</span>
+                                    </div>
+                                </div>
+                                {% else %}
+                                <div>
+                                    <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-slate-100 text-slate-500 font-semibold text-[9px] border border-slate-200">
+                                        <i data-lucide="circle-dashed" class="w-3 h-3 text-slate-400"></i> Akun BPS: TIDAK
+                                    </span>
+                                    <div class="text-[9px] text-slate-400 mt-0.5">Lapangan/Mitra Saja</div>
+                                </div>
+                                {% endif %}
+                            </td>
+                            <td class="py-3.5 font-mono font-bold text-slate-800 text-xs">
+                                <div>Rp {{ "{:,}".format(item.jumlah_diajukan).replace(',', '.') }}</div>
+                            </td>
+                            <td class="py-3.5">
                                 {% if item.status == 'DISETUJUI' %}
                                 <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-600 border border-emerald-200">DISETUJUI</span>
                                 {% elif item.status == 'DITOLAK' %}
@@ -247,11 +295,11 @@
                         </tr>
                         {% else %}
                         <tr>
-                            <td colspan="5" class="py-10 text-center text-slate-400">
+                            <td colspan="6" class="py-10 text-center text-slate-400">
                                 <div class="flex flex-col items-center justify-center gap-1.5">
                                     <i data-lucide="receipt" class="w-8 h-8 text-slate-300"></i>
                                     <p class="font-semibold text-slate-600">Belum ada pengajuan anggaran.</p>
-                                    <p class="text-[11px] text-slate-400">Buat usulan baru di menu Pengajuan Anggaran.</p>
+                                    <p class="text-[11px] text-slate-400">Klik tombol "Ajukan Anggaran" di atas untuk membuat usulan baru.</p>
                                 </div>
                             </td>
                         </tr>
@@ -294,6 +342,193 @@
 
     </div>
 
+</div>
+
+<!-- ============================================================== -->
+<!-- MODAL FORM PENGAJUAN ANGGARAN (Lengkap dengan Toggle Akun BPS) -->
+<!-- ============================================================== -->
+<div id="modalPengajuan" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
+    <div class="bg-white rounded-3xl max-w-2xl w-full p-6 shadow-2xl my-8 border border-slate-100 max-h-[92vh] overflow-y-auto">
+        
+        <!-- Modal Header -->
+        <div class="flex items-center justify-between pb-3.5 border-b border-slate-100 mb-4">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-orange-500/10 text-orange-500 flex items-center justify-center border border-orange-500/20">
+                    <i data-lucide="file-plus" class="w-5 h-5"></i>
+                </div>
+                <div>
+                    <h3 class="text-base font-black text-slate-800">Form Usulan Pengajuan Anggaran</h3>
+                    <p class="text-[11px] text-slate-500">Mata anggaran, volume kegiatan, serta alokasi honor tim pengelola BPS</p>
+                </div>
+            </div>
+            <button onclick="closeModalPengajuan()" class="p-1.5 rounded-xl text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+        </div>
+
+        <form action="{{ url_for('keuangan.create_pengajuan') }}" method="POST" class="space-y-4">
+            
+            <!-- 1. Judul Pengajuan -->
+            <div>
+                <label class="block text-xs font-bold text-slate-700 mb-1">Judul / Keperluan Pengajuan Anggaran *</label>
+                <input type="text" name="judul_pengajuan" required placeholder="Contoh: Honor Pencacah & Tim Pengelola Survei Angkatan Kerja Nasional (Sakernas)" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition">
+            </div>
+
+            <!-- 2. Pilihan Akun (MAK) & Komponen Anggaran -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">Mata Anggaran (MAK) dari Database *</label>
+                    <select name="akun_id" required class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 bg-white">
+                        {% for a in akun_options %}
+                        <option value="{{ a.id }}">{{ a.kode_akun }} - {{ a.nama_akun }} ({{ a.kategori }})</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">Komponen Anggaran *</label>
+                    <select name="komponen_id" required class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 bg-white">
+                        {% for k in komponen_options %}
+                        <option value="{{ k.id }}">{{ k.kode_komponen }} - {{ k.nama_komponen }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+
+            <!-- 3. Kegiatan Terkait -->
+            <div>
+                <label class="block text-xs font-bold text-slate-700 mb-1">Kegiatan Terkait (Sensus / Survei)</label>
+                <select name="kegiatan_id" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 bg-white">
+                    <option value="">-- Operasional Rutin / Kegiatan Kantor --</option>
+                    {% for keg in kegiatan_options %}
+                    <option value="{{ keg.id }}">{{ keg.nama_kegiatan }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            
+            <!-- 4. Rincian Volume & Tarif Lapangan (Mitra / Beban Utama) -->
+            <div class="p-4 bg-slate-50/80 rounded-2xl border border-slate-200 space-y-3">
+                <div class="flex items-center justify-between">
+                    <span class="text-xs font-black text-slate-800 flex items-center gap-1.5">
+                        <i data-lucide="calculator" class="w-4 h-4 text-orange-500"></i>
+                        <span>Rincian Volume Kegiatan Lapangan</span>
+                    </span>
+                    <span class="text-[10px] font-semibold text-slate-500">Auto-Calculate</span>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    <!-- Volume -->
+                    <div>
+                        <label class="block text-[11px] font-bold text-slate-600 mb-1">Volume Kegiatan</label>
+                        <input type="number" id="calcVol" name="volume_kegiatan" value="10" min="1" oninput="calcTotal()" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs font-bold font-mono focus:ring-2 focus:ring-orange-500/20">
+                    </div>
+                    <!-- Satuan Volume -->
+                    <div>
+                        <label class="block text-[11px] font-bold text-slate-600 mb-1">Satuan Volume</label>
+                        <select name="satuan_volume" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs bg-white focus:ring-2 focus:ring-orange-500/20">
+                            <option value="Orang / Bulan (O-B)">Orang / Bulan (O-B)</option>
+                            <option value="Orang / Kegiatan (O-K)">Orang / Kegiatan (O-K)</option>
+                            <option value="Dokumen / Kuesioner">Dokumen / Kuesioner</option>
+                            <option value="Paket / Kegiatan">Paket / Kegiatan</option>
+                            <option value="Orang / Hari (O-H)">Orang / Hari (O-H)</option>
+                        </select>
+                    </div>
+                    <!-- Tarif Satuan -->
+                    <div>
+                        <label class="block text-[11px] font-bold text-slate-600 mb-1">Tarif Satuan SBM (Rp)</label>
+                        <input type="number" id="calcTarif" name="tarif_satuan" value="1500000" min="0" step="10000" oninput="calcTotal()" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs font-bold font-mono focus:ring-2 focus:ring-orange-500/20">
+                    </div>
+                </div>
+
+                <div class="flex items-center justify-between pt-1 border-t border-slate-200/60 text-xs">
+                    <span class="text-slate-500 text-[11px]">Subtotal Biaya Lapangan:</span>
+                    <span id="previewSubtotalLapangan" class="font-mono font-bold text-slate-800">Rp 15.000.000</span>
+                </div>
+            </div>
+
+            <!-- ============================================================== -->
+            <!-- 5. FITUR KUNCI: TOGGLE AKUN BPS (IYA / TIDAK)                 -->
+            <!-- ============================================================== -->
+            <div class="p-4 rounded-2xl border-2 transition-all duration-300" id="containerToggleAkunBps" style="border-color: #cbd5e1; background-color: #f8fafc;">
+                
+                <input type="hidden" name="is_akun_bps" id="inputIsAkunBps" value="0">
+
+                <div class="flex items-center justify-between gap-3">
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <span class="text-xs font-black text-slate-800">Alokasi Honor Tim Pengelola BPS?</span>
+                            <span class="px-2 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider bg-blue-100 text-blue-700">Akun BPS</span>
+                        </div>
+                        <p class="text-[11px] text-slate-500 mt-0.5">Apakah pengajuan ini menyertakan honor pengelolaan untuk Ketua Tim / Pegawai BPS?</p>
+                    </div>
+
+                    <!-- Switch Button Modern (TIDAK vs IYA) -->
+                    <div class="flex items-center p-1 bg-slate-200/80 rounded-xl shadow-inner flex-shrink-0">
+                        <button type="button" id="btnToggleTidak" onclick="setAkunBpsToggle(false)" class="px-3.5 py-1.5 rounded-lg text-xs font-black transition-all bg-white text-slate-800 shadow-sm">
+                            TIDAK
+                        </button>
+                        <button type="button" id="btnToggleIya" onclick="setAkunBpsToggle(true)" class="px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all text-slate-500 hover:text-slate-800">
+                            IYA
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Sub-Panel Input Alokasi Tim Pengelola BPS (Tampil saat IYA) -->
+                <div id="panelTimBps" class="hidden mt-4 pt-4 border-t border-blue-200/60 space-y-3">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <!-- Dropdown Pegawai / Ketua Tim -->
+                        <div>
+                            <label class="block text-[11px] font-bold text-slate-700 mb-1">Ketua Tim / Pegawai BPS Terlibat *</label>
+                            <select name="ketua_tim_id" id="selectKetuaTim" class="w-full px-3 py-2 rounded-xl border border-blue-200 text-xs bg-white focus:ring-2 focus:ring-blue-500/20">
+                                {% for peg in pegawai_options %}
+                                <option value="{{ peg.id }}">{{ peg.nama_lengkap }} ({{ peg.jabatan }} - Tim {{ peg.tim_kerja }})</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        
+                        <!-- Peran Tim -->
+                        <div>
+                            <label class="block text-[11px] font-bold text-slate-700 mb-1">Peran dalam Tim BPS</label>
+                            <input type="text" name="peran_tim" value="Ketua Tim Pelaksana" placeholder="Contoh: Ketua Tim Teknis" class="w-full px-3 py-2 rounded-xl border border-blue-200 text-xs focus:ring-2 focus:ring-blue-500/20">
+                        </div>
+                    </div>
+
+                    <!-- Input Honor Pengelolaan / Honor Ketua Tim -->
+                    <div>
+                        <label class="block text-[11px] font-bold text-slate-700 mb-1">Honor Pengelolaan / Honor Ketua Tim BPS (Rp) *</label>
+                        <input type="number" id="calcHonorPengelola" name="honor_pengelola" value="1200000" min="0" step="10000" oninput="calcTotal()" class="w-full px-3 py-2 rounded-xl border border-blue-200 text-xs font-bold font-mono focus:ring-2 focus:ring-blue-500/20">
+                        <p class="text-[10px] text-slate-400 mt-0.5">Alokasi honor manajerial / ketua tim sesuai standar pagu DIPA BPS Banyuwangi.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 6. Total Keseluruhan Diajukan -->
+            <div class="p-4 rounded-2xl bg-orange-50 border border-orange-200 flex items-center justify-between">
+                <div>
+                    <span class="block text-[11px] font-bold text-orange-800">Total Nilai Usulan Anggaran:</span>
+                    <span class="text-[10px] text-orange-600" id="labelRincianTotal">Biaya Lapangan</span>
+                </div>
+                <div class="text-right">
+                    <span id="previewTotalDiajukan" class="text-xl font-black font-mono text-orange-600">Rp 15.000.000</span>
+                    <input type="hidden" name="jumlah_diajukan" id="inputJumlahDiajukan" value="15000000">
+                </div>
+            </div>
+
+            <!-- Keterangan Tambahan -->
+            <div>
+                <label class="block text-xs font-bold text-slate-700 mb-1">Catatan / Keterangan Tambahan</label>
+                <textarea name="keterangan" rows="2" placeholder="Catatan teknis alokasi DIPA / dasar usulan nota dinas..." class="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-orange-500/20"></textarea>
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="pt-3 border-t border-slate-100 flex items-center justify-end gap-2.5">
+                <button type="button" onclick="closeModalPengajuan()" class="px-4 py-2 rounded-xl text-xs font-bold text-slate-500 hover:bg-slate-100 transition">Batal</button>
+                <button type="submit" class="px-5 py-2 rounded-xl bg-orange-500 hover:bg-orange-600 text-white font-bold text-xs shadow-md shadow-orange-500/20 transition flex items-center gap-1.5">
+                    <i data-lucide="send" class="w-3.5 h-3.5"></i>
+                    <span>Kirim Pengajuan ke PPK</span>
+                </button>
+            </div>
+        </form>
+    </div>
 </div>
 
 <script>
@@ -349,6 +584,78 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+
+    calcTotal();
 });
+
+function openModalPengajuan() {
+    document.getElementById('modalPengajuan').classList.remove('hidden');
+    calcTotal();
+}
+
+function closeModalPengajuan() {
+    document.getElementById('modalPengajuan').classList.add('hidden');
+}
+
+function setAkunBpsToggle(isIya) {
+    const inputIsAkun = document.getElementById('inputIsAkunBps');
+    const btnTidak = document.getElementById('btnToggleTidak');
+    const btnIya = document.getElementById('btnToggleIya');
+    const panelTim = document.getElementById('panelTimBps');
+    const container = document.getElementById('containerToggleAkunBps');
+
+    if (isIya) {
+        inputIsAkun.value = "1";
+        btnIya.className = "px-3.5 py-1.5 rounded-lg text-xs font-black transition-all bg-blue-600 text-white shadow-sm";
+        btnTidak.className = "px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all text-slate-500 hover:text-slate-800";
+        panelTim.classList.remove('hidden');
+        container.style.borderColor = "#93c5fd";
+        container.style.backgroundColor = "#eff6ff";
+    } else {
+        inputIsAkun.value = "0";
+        btnTidak.className = "px-3.5 py-1.5 rounded-lg text-xs font-black transition-all bg-white text-slate-800 shadow-sm";
+        btnIya.className = "px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all text-slate-500 hover:text-slate-800";
+        panelTim.classList.add('hidden');
+        container.style.borderColor = "#cbd5e1";
+        container.style.backgroundColor = "#f8fafc";
+    }
+    calcTotal();
+}
+
+function calcTotal() {
+    const vol = parseInt(document.getElementById('calcVol')?.value || 0);
+    const tarif = parseInt(document.getElementById('calcTarif')?.value || 0);
+    const subtotalLap = vol * tarif;
+
+    const previewSubtotalLap = document.getElementById('previewSubtotalLapangan');
+    if (previewSubtotalLap) {
+        previewSubtotalLap.innerText = 'Rp ' + subtotalLap.toLocaleString('id-ID');
+    }
+
+    const isAkunBps = document.getElementById('inputIsAkunBps')?.value === "1";
+    let honorPengelola = 0;
+    if (isAkunBps) {
+        honorPengelola = parseInt(document.getElementById('calcHonorPengelola')?.value || 0);
+    }
+
+    const grandTotal = subtotalLap + honorPengelola;
+    const previewTotal = document.getElementById('previewTotalDiajukan');
+    const inputTotal = document.getElementById('inputJumlahDiajukan');
+    const labelRincian = document.getElementById('labelRincianTotal');
+
+    if (previewTotal) {
+        previewTotal.innerText = 'Rp ' + grandTotal.toLocaleString('id-ID');
+    }
+    if (inputTotal) {
+        inputTotal.value = grandTotal;
+    }
+    if (labelRincian) {
+        if (isAkunBps) {
+            labelRincian.innerText = 'Biaya Lapangan (Rp ' + subtotalLap.toLocaleString('id-ID') + ') + Tim BPS (Rp ' + honorPengelola.toLocaleString('id-ID') + ')';
+        } else {
+            labelRincian.innerText = 'Biaya Lapangan Murni (Tanpa Honor Tim Pengelola)';
+        }
+    }
+}
 </script>
 {% endblock %}

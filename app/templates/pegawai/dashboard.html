@@ -133,6 +133,182 @@
 
     </div>
 
+    <!-- ============================================================== -->
+    <!-- FITUR SEARCH & MONITORING KINERJA PEGAWAI BPS (POIN 2)         -->
+    <!-- Pencarian Cepat & Kartu Evaluasi Kinerja Pegawai Interaktif    -->
+    <!-- ============================================================== -->
+    <div class="bg-white rounded-3xl p-5 sm:p-6 border border-slate-200/80 shadow-soft relative overflow-hidden">
+        <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-4 border-b border-slate-100">
+            <div>
+                <div class="flex items-center gap-2">
+                    <div class="w-8 h-8 rounded-xl bg-orange-500/10 text-orange-500 flex items-center justify-center border border-orange-500/20">
+                        <i data-lucide="search" class="w-4 h-4"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-base font-bold text-slate-800">Cari & Pantau Kinerja Pegawai BPS</h2>
+                        <p class="text-xs text-slate-400">Ketik nama, NIP, atau pilih tim kerja untuk melihat evaluasi beban tugas & capaian pegawai secara instan</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Filter Bar Interaktif -->
+            <form method="GET" action="{{ url_for('pegawai.dashboard') }}" class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5">
+                <!-- Search Input with Live Filter -->
+                <div class="relative min-w-[260px] sm:min-w-[320px]">
+                    <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2"></i>
+                    <input type="text" 
+                           id="searchKinerjaInput"
+                           name="search" 
+                           value="{{ search or '' }}" 
+                           placeholder="Cari nama pegawai, NIP, tim..." 
+                           class="w-full h-10 pl-10 pr-4 rounded-full border border-slate-200/90 text-xs font-medium placeholder-slate-400 focus:outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-500/15 bg-slate-50/50 transition">
+                </div>
+
+                <!-- Dropdown Tim Kerja -->
+                <div class="relative">
+                    <select id="filterTimSelect" 
+                            name="tim" 
+                            onchange="this.form.submit()" 
+                            class="h-10 pl-3.5 pr-8 rounded-full border border-slate-200/90 bg-white text-xs font-semibold text-slate-700 focus:outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-500/15 appearance-none cursor-pointer">
+                        <option value="">Semua Tim Kerja</option>
+                        {% for t in all_tims %}
+                        <option value="{{ t }}" {% if tim_filter == t %}selected{% endif %}>Tim {{ t }}</option>
+                        {% endfor %}
+                    </select>
+                    <i data-lucide="chevron-down" class="w-3.5 h-3.5 text-slate-400 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none"></i>
+                </div>
+
+                {% if search or tim_filter %}
+                <a href="{{ url_for('pegawai.dashboard') }}" class="h-10 px-3.5 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-600 text-xs font-bold transition flex items-center justify-center gap-1" title="Reset Pencarian">
+                    <i data-lucide="x" class="w-3.5 h-3.5"></i>
+                    <span class="hidden sm:inline">Reset</span>
+                </a>
+                {% endif %}
+            </form>
+        </div>
+
+        <!-- Container Kartu Kinerja Pegawai (Live Searchable) -->
+        <div id="containerKinerjaPegawai" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-5">
+            {% for item in pegawai_kinerja_list %}
+            <div class="card-pegawai-kinerja p-4.5 rounded-2xl border border-slate-200/80 bg-slate-50/40 hover:bg-white hover:border-orange-500/30 hover:shadow-md transition-all group flex flex-col justify-between"
+                 data-nama="{{ item.pegawai.nama_lengkap|lower }}"
+                 data-nip="{{ item.pegawai.nip|lower }}"
+                 data-tim="{{ item.pegawai.tim_kerja|lower }}">
+                <div>
+                    <!-- Profil Header -->
+                    <div class="flex items-start justify-between gap-3 mb-3">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-[#1E3E66] to-blue-500 text-white font-bold text-xs flex items-center justify-center shadow-xs flex-shrink-0 group-hover:scale-105 transition-transform">
+                                {{ item.pegawai.nama_lengkap[:2].upper() }}
+                            </div>
+                            <div class="min-w-0">
+                                <h3 class="text-xs font-bold text-slate-900 truncate group-hover:text-orange-600 transition-colors">
+                                    {{ item.pegawai.nama_lengkap }}
+                                </h3>
+                                <div class="flex items-center gap-1.5 mt-0.5">
+                                    <span class="font-mono text-[10px] text-slate-400">NIP: {{ item.pegawai.nip }}</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Predikat Capaian Kinerja -->
+                        {% if item.avg_progres >= 80 %}
+                        <span class="px-2 py-0.5 rounded-full text-[9px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200 shadow-2xs flex-shrink-0">
+                            Sangat Baik
+                        </span>
+                        {% elif item.avg_progres >= 50 %}
+                        <span class="px-2 py-0.5 rounded-full text-[9px] font-bold bg-blue-50 text-blue-700 border border-blue-200 shadow-2xs flex-shrink-0">
+                            On Track
+                        </span>
+                        {% elif item.total_aktivitas > 0 %}
+                        <span class="px-2 py-0.5 rounded-full text-[9px] font-bold bg-amber-50 text-amber-700 border border-amber-200 shadow-2xs flex-shrink-0">
+                            Perlu Dipacu
+                        </span>
+                        {% else %}
+                        <span class="px-2 py-0.5 rounded-full text-[9px] font-bold bg-slate-100 text-slate-500 border border-slate-200 shadow-2xs flex-shrink-0">
+                            Belum Ada Tugas
+                        </span>
+                        {% endif %}
+                    </div>
+
+                    <!-- Jabatan & Tim Kerja -->
+                    <div class="flex flex-wrap items-center gap-1.5 mb-3 text-[10px]">
+                        <span class="px-2 py-0.5 rounded-md bg-blue-50 text-blue-700 font-semibold border border-blue-100">
+                            Tim {{ item.pegawai.tim_kerja }}
+                        </span>
+                        <span class="text-slate-500 truncate max-w-[180px]">{{ item.pegawai.jabatan }}</span>
+                    </div>
+
+                    <!-- Statistik Capaian Kinerja -->
+                    <div class="grid grid-cols-3 gap-2 p-2.5 rounded-xl bg-white border border-slate-100 mb-3 text-center">
+                        <div>
+                            <div class="text-[10px] text-slate-400 font-medium">Total Tugas</div>
+                            <div class="text-sm font-extrabold text-slate-800">{{ item.total_aktivitas }}</div>
+                        </div>
+                        <div>
+                            <div class="text-[10px] text-slate-400 font-medium">Selesai</div>
+                            <div class="text-sm font-extrabold text-emerald-600">{{ item.selesai }}</div>
+                        </div>
+                        <div>
+                            <div class="text-[10px] text-slate-400 font-medium">Proses</div>
+                            <div class="text-sm font-extrabold text-amber-600">{{ item.proses }}</div>
+                        </div>
+                    </div>
+
+                    <!-- Progress Bar Capaian Rata-Rata -->
+                    <div class="mb-3">
+                        <div class="flex items-center justify-between text-[10px] mb-1">
+                            <span class="text-slate-500 font-medium">Rata-Rata Capaian:</span>
+                            <span class="font-bold {% if item.avg_progres >= 80 %}text-emerald-600{% elif item.avg_progres >= 50 %}text-blue-600{% else %}text-amber-600{% endif %}">
+                                {{ item.avg_progres }}%
+                            </span>
+                        </div>
+                        <div class="w-full h-2 rounded-full bg-slate-200/80 overflow-hidden">
+                            <div class="h-full rounded-full transition-all duration-500 {% if item.avg_progres >= 80 %}bg-emerald-500{% elif item.avg_progres >= 50 %}bg-blue-500{% else %}bg-amber-500{% endif %}" style="width: {{ item.avg_progres }}%"></div>
+                        </div>
+                    </div>
+
+                    <!-- Rincian Aktivitas Terkini Pegawai -->
+                    {% if item.aktivitas_list %}
+                    <div class="space-y-1.5 pt-2 border-t border-slate-100">
+                        <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Tugas Terkini:</span>
+                        {% for act in item.aktivitas_list %}
+                        <div class="flex items-center justify-between gap-2 text-[11px] p-1.5 rounded-lg bg-slate-50/70 border border-slate-100">
+                            <span class="truncate font-semibold text-slate-700" title="{{ act.judul_aktivitas }}">{{ act.judul_aktivitas }}</span>
+                            <span class="font-bold text-[10px] {% if act.status == 'SELESAI' %}text-emerald-600{% else %}text-amber-600{% endif %} flex-shrink-0">
+                                {{ act.persentase_selesai }}%
+                            </span>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                </div>
+
+                <div class="pt-3 mt-3 border-t border-slate-100 flex items-center justify-between text-[11px]">
+                    <a href="{{ url_for('pegawai.aktivitas') }}" class="font-bold text-orange-600 hover:text-orange-700 flex items-center gap-1 transition">
+                        <span>Catat Aktivitas</span>
+                        <i data-lucide="plus" class="w-3 h-3"></i>
+                    </a>
+                    <a href="{{ url_for('pegawai.database', search=item.pegawai.nip) }}" class="text-slate-400 hover:text-slate-600 flex items-center gap-1 transition">
+                        <span>Detail Profil</span>
+                        <i data-lucide="arrow-right" class="w-3 h-3"></i>
+                    </a>
+                </div>
+            </div>
+            {% else %}
+            <div id="noPegawaiResult" class="col-span-full py-12 text-center text-slate-400">
+                <div class="flex flex-col items-center justify-center gap-2">
+                    <div class="w-12 h-12 rounded-2xl bg-orange-50 text-orange-500 flex items-center justify-center ring-1 ring-orange-500/10">
+                        <i data-lucide="search-x" class="w-6 h-6"></i>
+                    </div>
+                    <p class="font-bold text-slate-700 text-sm">Pegawai Tidak Ditemukan</p>
+                    <p class="text-xs text-slate-400 max-w-sm">Tidak ada data pegawai yang sesuai dengan kata kunci atau filter tim kerja yang dipilih.</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
     <!-- 3. Charts Section with Modern Empty States -->
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
         
@@ -400,6 +576,31 @@ document.addEventListener('DOMContentLoaded', () => {
                 plugins: {
                     legend: { position: 'bottom', labels: { boxWidth: 10, font: { size: 10 } } }
                 }
+            }
+        });
+    }
+
+    // Live Instant Search Kinerja Pegawai
+    const searchInput = document.getElementById('searchKinerjaInput');
+    if (searchInput) {
+        searchInput.addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase().trim();
+            const cards = document.querySelectorAll('.card-pegawai-kinerja');
+            let visibleCount = 0;
+            cards.forEach(card => {
+                const nama = card.getAttribute('data-nama') || '';
+                const nip = card.getAttribute('data-nip') || '';
+                const tim = card.getAttribute('data-tim') || '';
+                if (!query || nama.includes(query) || nip.includes(query) || tim.includes(query)) {
+                    card.style.display = '';
+                    visibleCount++;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+            const noResult = document.getElementById('noPegawaiResult');
+            if (noResult) {
+                noResult.style.display = visibleCount === 0 ? '' : 'none';
             }
         });
     }

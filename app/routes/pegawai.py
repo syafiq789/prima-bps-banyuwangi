@@ -12,6 +12,9 @@ pegawai_bp = Blueprint('pegawai', __name__, url_prefix='/pegawai')
 @pegawai_bp.route('/dashboard')
 @login_required
 def dashboard():
+    search = request.args.get('search', '').strip()
+    tim_filter = request.args.get('tim', '').strip()
+
     total_pegawai = Pegawai.query.count()
     total_aktivitas = AktivitasPegawai.query.count()
     pekerjaan_selesai = AktivitasPegawai.query.filter_by(status='SELESAI').count()
@@ -21,11 +24,40 @@ def dashboard():
     rata_rata_selesai = round(sum(a.persentase_selesai for a in all_aktivitas) / len(all_aktivitas), 1) if all_aktivitas else 0
 
     aktivitas_terbaru = AktivitasPegawai.query.order_by(AktivitasPegawai.created_at.desc()).limit(8).all()
-    pegawai_list = Pegawai.query.limit(6).all()
+    
+    # Query all pegawai for performance monitoring and live search
+    query_pegawai = Pegawai.query
+    if search:
+        query_pegawai = query_pegawai.filter(
+            (Pegawai.nama_lengkap.ilike(f'%{search}%')) |
+            (Pegawai.nip.ilike(f'%{search}%')) |
+            (Pegawai.tim_kerja.ilike(f'%{search}%'))
+        )
+    if tim_filter:
+        query_pegawai = query_pegawai.filter(Pegawai.tim_kerja == tim_filter)
+    
+    pegawai_records = query_pegawai.order_by(Pegawai.nama_lengkap.asc()).all()
+
+    # Rangkum metrik kinerja per pegawai
+    pegawai_kinerja_list = []
+    for p in pegawai_records:
+        acts = p.aktivitas.all()
+        tot_act = len(acts)
+        selesai_act = sum(1 for a in acts if a.status == 'SELESAI')
+        proses_act = sum(1 for a in acts if a.status == 'PROSES')
+        avg_pct = round(sum(a.persentase_selesai for a in acts) / tot_act, 1) if tot_act > 0 else 0
+        pegawai_kinerja_list.append({
+            'pegawai': p,
+            'total_aktivitas': tot_act,
+            'selesai': selesai_act,
+            'proses': proses_act,
+            'avg_progres': avg_pct,
+            'aktivitas_list': acts[:3]
+        })
 
     # Data Chart.js: Distribusi Aktivitas per Tim Kerja
-    tim_list = db.session.query(Pegawai.tim_kerja).distinct().all()
-    tim_names = [t[0] for t in tim_list if t[0]]
+    all_tims = [t[0] for t in db.session.query(Pegawai.tim_kerja).distinct().all() if t[0]]
+    tim_names = all_tims
     tim_activity_counts = []
     for t in tim_names:
         c = AktivitasPegawai.query.join(Pegawai).filter(Pegawai.tim_kerja == t).count()
@@ -39,9 +71,13 @@ def dashboard():
         pekerjaan_proses=pekerjaan_proses,
         rata_rata_selesai=rata_rata_selesai,
         aktivitas_terbaru=aktivitas_terbaru,
-        pegawai_list=pegawai_list,
+        pegawai_list=pegawai_records[:6],
+        pegawai_kinerja_list=pegawai_kinerja_list,
         tim_names=tim_names,
-        tim_activity_counts=tim_activity_counts
+        tim_activity_counts=tim_activity_counts,
+        search=search,
+        tim_filter=tim_filter,
+        all_tims=all_tims
     )
 
 @pegawai_bp.route('/database')
