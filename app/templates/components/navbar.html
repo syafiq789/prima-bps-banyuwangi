@@ -1,388 +1,392 @@
-<!-- Top Navbar Header -->
-<header class="sticky top-0 z-30 bg-white/95 backdrop-blur-md border-b border-slate-200/80 shadow-xs">
+<!-- Top Navbar Header (Modern, Sleek & Premium Design) -->
+<header class="sticky top-0 z-30 bg-white/80 backdrop-blur-xl border-b border-slate-200/60 shadow-[0_1px_3px_rgba(0,0,0,0.02)] transition-all">
     <div class="px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-3 sm:gap-4">
         
-        <!-- Left Section: Quick Drive Menu, Sidebar Toggle & Modern Search Bar -->
-        <div class="flex items-center gap-2 sm:gap-2.5 flex-1 max-w-2xl">
+        <!-- Left Section: Mobile Toggle, Segmented Control Dock & Modern Search Bar -->
+        <div class="flex items-center gap-2 sm:gap-3 flex-1 max-w-2xl">
             <!-- Mobile Menu Toggle Button -->
             <button id="mobile-menu-btn" 
                     type="button" 
-                    class="lg:hidden w-10 h-10 rounded-xl border border-slate-200/80 bg-slate-50/70 hover:bg-slate-100 text-slate-600 flex items-center justify-center transition shadow-xs focus:outline-none"
+                    class="lg:hidden w-9 h-9 rounded-xl border border-slate-200/70 bg-slate-50/70 hover:bg-slate-100 text-slate-600 flex items-center justify-center transition shadow-2xs focus:outline-none"
                     aria-label="Buka Menu Mobile">
-                <i data-lucide="menu" class="w-5 h-5"></i>
+                <i data-lucide="menu" class="w-4 h-4"></i>
             </button>
 
-            <!-- Tombol Titik Tiga: Akses Cepat Folder Google Drive Kinerja (Di Samping Kiri Tombol Panel-Left) -->
-            <div class="relative">
-                <button id="btn-quick-drive-menu" 
-                        type="button" 
-                        onclick="toggleQuickDriveNavbar(event)"
-                        class="w-10 h-10 rounded-xl border border-slate-200/80 bg-slate-50/70 hover:bg-orange-50 hover:border-orange-300 text-slate-600 hover:text-orange-600 flex items-center justify-center transition shadow-xs focus:outline-none focus:ring-2 focus:ring-orange-500/20" 
-                        title="Akses Cepat Folder Google Drive Kinerja (16 Kategori)">
-                    <i data-lucide="more-vertical" class="w-5 h-5"></i>
-                </button>
+            <!-- Segmented Control Dock: Quick Drive Menu (Titik Tiga) & Sidebar Toggle -->
+            <div class="hidden sm:inline-flex items-center p-0.5 rounded-xl bg-slate-100/70 border border-slate-200/60 shadow-2xs">
+                <!-- Tombol Titik Tiga: Akses Cepat Drive -->
+                <div class="relative">
+                    <button id="btn-quick-drive-menu" 
+                            type="button" 
+                            onclick="toggleQuickDriveNavbar(event)"
+                            class="w-8 h-8 rounded-lg hover:bg-white text-slate-500 hover:text-orange-600 hover:shadow-2xs flex items-center justify-center transition-all focus:outline-none" 
+                            title="Akses Cepat Folder Google Drive Kinerja (16 Kategori)">
+                        <i data-lucide="more-vertical" class="w-4 h-4"></i>
+                    </button>
 
-                <!-- Dropdown Popover: Akses Cepat Folder Google Drive Kinerja -->
-                <div id="quick-drive-dropdown" 
-                     class="hidden absolute left-0 top-full mt-2 w-80 sm:w-96 md:w-[500px] bg-white rounded-2xl shadow-2xl border border-slate-200/90 p-3.5 z-50 max-h-[82vh] overflow-y-auto">
-                    
-                    <!-- Header Dropdown -->
-                    <div class="flex items-center justify-between pb-3 mb-2.5 border-b border-slate-100">
-                        <div class="flex items-center gap-2">
-                            <div class="w-8 h-8 rounded-xl bg-orange-50 text-orange-600 flex items-center justify-center flex-shrink-0">
-                                <i data-lucide="folder-symlink" class="w-4 h-4"></i>
-                            </div>
-                            <div>
-                                <h4 class="text-xs sm:text-sm font-bold text-slate-900 leading-tight">Akses Cepat Folder Google Drive</h4>
-                                <p class="text-[11px] text-slate-400">16 Kategori resmi SAKIP BPS Banyuwangi</p>
-                            </div>
-                        </div>
-                        <a href="{{ url_for('settings.links') }}" class="text-[11px] font-semibold text-orange-600 hover:text-orange-700 flex items-center gap-0.5">
-                            <span>Kelola</span>
-                            <i data-lucide="chevron-right" class="w-3 h-3"></i>
-                        </a>
-                    </div>
-
-                    <!-- Grid 16 Item Folder Google Drive -->
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
+                    <!-- Dropdown Popover: Akses Cepat Folder Google Drive Kinerja -->
+                    <div id="quick-drive-dropdown" 
+                         class="hidden absolute left-0 top-full mt-2 w-80 sm:w-96 md:w-[500px] bg-white rounded-3xl shadow-2xl border border-slate-200/90 p-4 z-50 max-h-[82vh] overflow-y-auto">
                         
-                        <!-- 1. Perencanaan -->
-                        <a href="https://drive.google.com/drive/folders/13z-GsSIqqSXNa4QbdAj9ezuYQ-K0V89y?usp=sharing" target="_blank" rel="noopener noreferrer" 
-                           class="flex items-center justify-between p-2 rounded-xl hover:bg-slate-50 transition border border-transparent hover:border-slate-100 group">
-                            <div class="flex items-center gap-2 min-w-0">
-                                <div class="w-6 h-6 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center flex-shrink-0">
-                                    <i data-lucide="file-text" class="w-3.5 h-3.5"></i>
+                        <!-- Header Dropdown -->
+                        <div class="flex items-center justify-between pb-3 mb-2.5 border-b border-slate-100">
+                            <div class="flex items-center gap-2.5">
+                                <div class="w-8 h-8 rounded-xl bg-orange-50 text-orange-600 flex items-center justify-center flex-shrink-0">
+                                    <i data-lucide="folder-symlink" class="w-4 h-4"></i>
                                 </div>
-                                <div class="min-w-0">
-                                    <p class="text-xs font-bold text-slate-800 group-hover:text-orange-600 truncate">Rencana Awal Renstra</p>
-                                    <span class="text-[9px] uppercase font-bold text-blue-600">Perencanaan</span>
-                                </div>
-                            </div>
-                            <i data-lucide="external-link" class="w-3 h-3 text-slate-400 group-hover:text-orange-600 flex-shrink-0"></i>
-                        </a>
-
-                        <a href="https://drive.google.com/drive/folders/1tG_Z7uqrJQ0B8EJxbgsN-NgfgSocK1uJ?usp=sharing" target="_blank" rel="noopener noreferrer" 
-                           class="flex items-center justify-between p-2 rounded-xl hover:bg-slate-50 transition border border-transparent hover:border-slate-100 group">
-                            <div class="flex items-center gap-2 min-w-0">
-                                <div class="w-6 h-6 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center flex-shrink-0">
-                                    <i data-lucide="compass" class="w-3.5 h-3.5"></i>
-                                </div>
-                                <div class="min-w-0">
-                                    <p class="text-xs font-bold text-slate-800 group-hover:text-orange-600 truncate">Renstra BPS</p>
-                                    <span class="text-[9px] uppercase font-bold text-blue-600">Perencanaan</span>
+                                <div>
+                                    <h4 class="text-xs sm:text-sm font-bold text-slate-900 leading-tight">Akses Cepat Folder Google Drive</h4>
+                                    <p class="text-[11px] text-slate-400">16 Kategori resmi SAKIP BPS Banyuwangi</p>
                                 </div>
                             </div>
-                            <i data-lucide="external-link" class="w-3 h-3 text-slate-400 group-hover:text-orange-600 flex-shrink-0"></i>
-                        </a>
+                            <a href="{{ url_for('settings.links') }}" class="text-[11px] font-semibold text-orange-600 hover:text-orange-700 flex items-center gap-0.5">
+                                <span>Kelola</span>
+                                <i data-lucide="chevron-right" class="w-3 h-3"></i>
+                            </a>
+                        </div>
 
-                        <a href="https://drive.google.com/drive/folders/1sPNbUk3DsKIPL4XS6ZWagtCp7Oxyp7Sy?usp=sharing" target="_blank" rel="noopener noreferrer" 
-                           class="flex items-center justify-between p-2 rounded-xl hover:bg-slate-50 transition border border-transparent hover:border-slate-100 group">
-                            <div class="flex items-center gap-2 min-w-0">
-                                <div class="w-6 h-6 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center flex-shrink-0">
-                                    <i data-lucide="award" class="w-3.5 h-3.5"></i>
+                        <!-- Grid 16 Item Folder Google Drive -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
+                            
+                            <!-- 1. Perencanaan -->
+                            <a href="https://drive.google.com/drive/folders/13z-GsSIqqSXNa4QbdAj9ezuYQ-K0V89y?usp=sharing" target="_blank" rel="noopener noreferrer" 
+                               class="flex items-center justify-between p-2 rounded-xl hover:bg-slate-50 transition border border-transparent hover:border-slate-100 group">
+                                <div class="flex items-center gap-2 min-w-0">
+                                    <div class="w-6 h-6 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center flex-shrink-0">
+                                        <i data-lucide="file-text" class="w-3.5 h-3.5"></i>
+                                    </div>
+                                    <div class="min-w-0">
+                                        <p class="text-xs font-bold text-slate-800 group-hover:text-orange-600 truncate">Rencana Awal Renstra</p>
+                                        <span class="text-[9px] uppercase font-bold text-blue-600">Perencanaan</span>
+                                    </div>
                                 </div>
-                                <div class="min-w-0">
-                                    <p class="text-xs font-bold text-slate-800 group-hover:text-orange-600 truncate">Perjanjian Kinerja</p>
-                                    <span class="text-[9px] uppercase font-bold text-blue-600">Perencanaan</span>
-                                </div>
-                            </div>
-                            <i data-lucide="external-link" class="w-3 h-3 text-slate-400 group-hover:text-orange-600 flex-shrink-0"></i>
-                        </a>
+                                <i data-lucide="external-link" class="w-3 h-3 text-slate-400 group-hover:text-orange-600 flex-shrink-0"></i>
+                            </a>
 
-                        <!-- 2. Pengukuran -->
-                        <a href="https://drive.google.com/drive/folders/1X3YlxX-Y9MHur9xvSxwktSHXeYeD7qY6?usp=sharing" target="_blank" rel="noopener noreferrer" 
-                           class="flex items-center justify-between p-2 rounded-xl hover:bg-slate-50 transition border border-transparent hover:border-slate-100 group">
-                            <div class="flex items-center gap-2 min-w-0">
-                                <div class="w-6 h-6 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center flex-shrink-0">
-                                    <i data-lucide="gauge" class="w-3.5 h-3.5"></i>
+                            <a href="https://drive.google.com/drive/folders/1tG_Z7uqrJQ0B8EJxbgsN-NgfgSocK1uJ?usp=sharing" target="_blank" rel="noopener noreferrer" 
+                               class="flex items-center justify-between p-2 rounded-xl hover:bg-slate-50 transition border border-transparent hover:border-slate-100 group">
+                                <div class="flex items-center gap-2 min-w-0">
+                                    <div class="w-6 h-6 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center flex-shrink-0">
+                                        <i data-lucide="compass" class="w-3.5 h-3.5"></i>
+                                    </div>
+                                    <div class="min-w-0">
+                                        <p class="text-xs font-bold text-slate-800 group-hover:text-orange-600 truncate">Renstra BPS</p>
+                                        <span class="text-[9px] uppercase font-bold text-blue-600">Perencanaan</span>
+                                    </div>
                                 </div>
-                                <div class="min-w-0">
-                                    <p class="text-xs font-bold text-slate-800 group-hover:text-orange-600 truncate">KKPK</p>
-                                    <span class="text-[9px] uppercase font-bold text-emerald-600">Pengukuran</span>
-                                </div>
-                            </div>
-                            <i data-lucide="external-link" class="w-3 h-3 text-slate-400 group-hover:text-orange-600 flex-shrink-0"></i>
-                        </a>
+                                <i data-lucide="external-link" class="w-3 h-3 text-slate-400 group-hover:text-orange-600 flex-shrink-0"></i>
+                            </a>
 
-                        <a href="https://drive.google.com/drive/folders/1ZXCDu6HCLKHx-PwuGlhzsDQj1ck2UQpE?usp=sharing" target="_blank" rel="noopener noreferrer" 
-                           class="flex items-center justify-between p-2 rounded-xl hover:bg-slate-50 transition border border-transparent hover:border-slate-100 group">
-                            <div class="flex items-center gap-2 min-w-0">
-                                <div class="w-6 h-6 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center flex-shrink-0">
-                                    <i data-lucide="activity" class="w-3.5 h-3.5"></i>
+                            <a href="https://drive.google.com/drive/folders/1sPNbUk3DsKIPL4XS6ZWagtCp7Oxyp7Sy?usp=sharing" target="_blank" rel="noopener noreferrer" 
+                               class="flex items-center justify-between p-2 rounded-xl hover:bg-slate-50 transition border border-transparent hover:border-slate-100 group">
+                                <div class="flex items-center gap-2 min-w-0">
+                                    <div class="w-6 h-6 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center flex-shrink-0">
+                                        <i data-lucide="award" class="w-3.5 h-3.5"></i>
+                                    </div>
+                                    <div class="min-w-0">
+                                        <p class="text-xs font-bold text-slate-800 group-hover:text-orange-600 truncate">Perjanjian Kinerja</p>
+                                        <span class="text-[9px] uppercase font-bold text-blue-600">Perencanaan</span>
+                                    </div>
                                 </div>
-                                <div class="min-w-0">
-                                    <p class="text-xs font-bold text-slate-800 group-hover:text-orange-600 truncate">DAHA</p>
-                                    <span class="text-[9px] uppercase font-bold text-emerald-600">Pengukuran</span>
-                                </div>
-                            </div>
-                            <i data-lucide="external-link" class="w-3 h-3 text-slate-400 group-hover:text-orange-600 flex-shrink-0"></i>
-                        </a>
+                                <i data-lucide="external-link" class="w-3 h-3 text-slate-400 group-hover:text-orange-600 flex-shrink-0"></i>
+                            </a>
 
-                        <a href="https://drive.google.com/drive/folders/1dKKWp8QvaBSOwQitaADRup27ktVdu485?usp=sharing" target="_blank" rel="noopener noreferrer" 
-                           class="flex items-center justify-between p-2 rounded-xl hover:bg-slate-50 transition border border-transparent hover:border-slate-100 group">
-                            <div class="flex items-center gap-2 min-w-0">
-                                <div class="w-6 h-6 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center flex-shrink-0">
-                                    <i data-lucide="shield-check" class="w-3.5 h-3.5"></i>
+                            <!-- 2. Pengukuran -->
+                            <a href="https://drive.google.com/drive/folders/1X3YlxX-Y9MHur9xvSxwktSHXeYeD7qY6?usp=sharing" target="_blank" rel="noopener noreferrer" 
+                               class="flex items-center justify-between p-2 rounded-xl hover:bg-slate-50 transition border border-transparent hover:border-slate-100 group">
+                                <div class="flex items-center gap-2 min-w-0">
+                                    <div class="w-6 h-6 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center flex-shrink-0">
+                                        <i data-lucide="gauge" class="w-3.5 h-3.5"></i>
+                                    </div>
+                                    <div class="min-w-0">
+                                        <p class="text-xs font-bold text-slate-800 group-hover:text-orange-600 truncate">KKPK</p>
+                                        <span class="text-[9px] uppercase font-bold text-emerald-600">Pengukuran</span>
+                                    </div>
                                 </div>
-                                <div class="min-w-0">
-                                    <p class="text-xs font-bold text-slate-800 group-hover:text-orange-600 truncate">Proksi BPS</p>
-                                    <span class="text-[9px] uppercase font-bold text-emerald-600">Pengukuran</span>
-                                </div>
-                            </div>
-                            <i data-lucide="external-link" class="w-3 h-3 text-slate-400 group-hover:text-orange-600 flex-shrink-0"></i>
-                        </a>
+                                <i data-lucide="external-link" class="w-3 h-3 text-slate-400 group-hover:text-orange-600 flex-shrink-0"></i>
+                            </a>
 
-                        <a href="https://drive.google.com/drive/folders/1BYW2BPyeDHEGI7AbcmkywUaaHdguZbe-?usp=sharing" target="_blank" rel="noopener noreferrer" 
-                           class="flex items-center justify-between p-2 rounded-xl hover:bg-slate-50 transition border border-transparent hover:border-slate-100 group">
-                            <div class="flex items-center gap-2 min-w-0">
-                                <div class="w-6 h-6 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center flex-shrink-0">
-                                    <i data-lucide="trending-up" class="w-3.5 h-3.5"></i>
+                            <a href="https://drive.google.com/drive/folders/1ZXCDu6HCLKHx-PwuGlhzsDQj1ck2UQpE?usp=sharing" target="_blank" rel="noopener noreferrer" 
+                               class="flex items-center justify-between p-2 rounded-xl hover:bg-slate-50 transition border border-transparent hover:border-slate-100 group">
+                                <div class="flex items-center gap-2 min-w-0">
+                                    <div class="w-6 h-6 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center flex-shrink-0">
+                                        <i data-lucide="activity" class="w-3.5 h-3.5"></i>
+                                    </div>
+                                    <div class="min-w-0">
+                                        <p class="text-xs font-bold text-slate-800 group-hover:text-orange-600 truncate">DAHA</p>
+                                        <span class="text-[9px] uppercase font-bold text-emerald-600">Pengukuran</span>
+                                    </div>
                                 </div>
-                                <div class="min-w-0">
-                                    <p class="text-xs font-bold text-slate-800 group-hover:text-orange-600 truncate">Monitoring Renstra</p>
-                                    <span class="text-[9px] uppercase font-bold text-emerald-600">Pengukuran</span>
-                                </div>
-                            </div>
-                            <i data-lucide="external-link" class="w-3 h-3 text-slate-400 group-hover:text-orange-600 flex-shrink-0"></i>
-                        </a>
+                                <i data-lucide="external-link" class="w-3 h-3 text-slate-400 group-hover:text-orange-600 flex-shrink-0"></i>
+                            </a>
 
-                        <!-- 3. Pelaporan -->
-                        <a href="https://drive.google.com/drive/folders/1APuhRzJikTUZVLujq34rhQ-z1KAzmAQ3?usp=sharing" target="_blank" rel="noopener noreferrer" 
-                           class="flex items-center justify-between p-2 rounded-xl hover:bg-slate-50 transition border border-transparent hover:border-slate-100 group">
-                            <div class="flex items-center gap-2 min-w-0">
-                                <div class="w-6 h-6 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center flex-shrink-0">
-                                    <i data-lucide="book-open" class="w-3.5 h-3.5"></i>
+                            <a href="https://drive.google.com/drive/folders/1dKKWp8QvaBSOwQitaADRup27ktVdu485?usp=sharing" target="_blank" rel="noopener noreferrer" 
+                               class="flex items-center justify-between p-2 rounded-xl hover:bg-slate-50 transition border border-transparent hover:border-slate-100 group">
+                                <div class="flex items-center gap-2 min-w-0">
+                                    <div class="w-6 h-6 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center flex-shrink-0">
+                                        <i data-lucide="shield-check" class="w-3.5 h-3.5"></i>
+                                    </div>
+                                    <div class="min-w-0">
+                                        <p class="text-xs font-bold text-slate-800 group-hover:text-orange-600 truncate">Proksi BPS</p>
+                                        <span class="text-[9px] uppercase font-bold text-emerald-600">Pengukuran</span>
+                                    </div>
                                 </div>
-                                <div class="min-w-0">
-                                    <p class="text-xs font-bold text-slate-800 group-hover:text-orange-600 truncate">Laporan Kinerja (LAKIP)</p>
-                                    <span class="text-[9px] uppercase font-bold text-amber-600">Pelaporan</span>
-                                </div>
-                            </div>
-                            <i data-lucide="external-link" class="w-3 h-3 text-slate-400 group-hover:text-orange-600 flex-shrink-0"></i>
-                        </a>
+                                <i data-lucide="external-link" class="w-3 h-3 text-slate-400 group-hover:text-orange-600 flex-shrink-0"></i>
+                            </a>
 
-                        <!-- 4. Evaluasi -->
-                        <a href="https://drive.google.com/drive/folders/1MZNZ5ybRGqwKP16L-ZcJNaYTb2Wkvu5Y?usp=sharing" target="_blank" rel="noopener noreferrer" 
-                           class="flex items-center justify-between p-2 rounded-xl hover:bg-slate-50 transition border border-transparent hover:border-slate-100 group">
-                            <div class="flex items-center gap-2 min-w-0">
-                                <div class="w-6 h-6 rounded-lg bg-teal-50 text-teal-600 flex items-center justify-center flex-shrink-0">
-                                    <i data-lucide="folder-check" class="w-3.5 h-3.5"></i>
+                            <a href="https://drive.google.com/drive/folders/1BYW2BPyeDHEGI7AbcmkywUaaHdguZbe-?usp=sharing" target="_blank" rel="noopener noreferrer" 
+                               class="flex items-center justify-between p-2 rounded-xl hover:bg-slate-50 transition border border-transparent hover:border-slate-100 group">
+                                <div class="flex items-center gap-2 min-w-0">
+                                    <div class="w-6 h-6 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center flex-shrink-0">
+                                        <i data-lucide="trending-up" class="w-3.5 h-3.5"></i>
+                                    </div>
+                                    <div class="min-w-0">
+                                        <p class="text-xs font-bold text-slate-800 group-hover:text-orange-600 truncate">Monitoring Renstra</p>
+                                        <span class="text-[9px] uppercase font-bold text-emerald-600">Pengukuran</span>
+                                    </div>
                                 </div>
-                                <div class="min-w-0">
-                                    <p class="text-xs font-bold text-slate-800 group-hover:text-orange-600 truncate">PERMINDOK</p>
-                                    <span class="text-[9px] uppercase font-bold text-teal-600">Evaluasi</span>
-                                </div>
-                            </div>
-                            <i data-lucide="external-link" class="w-3 h-3 text-slate-400 group-hover:text-orange-600 flex-shrink-0"></i>
-                        </a>
+                                <i data-lucide="external-link" class="w-3 h-3 text-slate-400 group-hover:text-orange-600 flex-shrink-0"></i>
+                            </a>
 
-                        <a href="https://drive.google.com/drive/folders/1qafMSDY-mGhsAsC1IhNWZ1PLDbdDBRxl?usp=sharing" target="_blank" rel="noopener noreferrer" 
-                           class="flex items-center justify-between p-2 rounded-xl hover:bg-slate-50 transition border border-transparent hover:border-slate-100 group">
-                            <div class="flex items-center gap-2 min-w-0">
-                                <div class="w-6 h-6 rounded-lg bg-teal-50 text-teal-600 flex items-center justify-center flex-shrink-0">
-                                    <i data-lucide="clipboard-check" class="w-3.5 h-3.5"></i>
+                            <!-- 3. Pelaporan -->
+                            <a href="https://drive.google.com/drive/folders/1APuhRzJikTUZVLujq34rhQ-z1KAzmAQ3?usp=sharing" target="_blank" rel="noopener noreferrer" 
+                               class="flex items-center justify-between p-2 rounded-xl hover:bg-slate-50 transition border border-transparent hover:border-slate-100 group">
+                                <div class="flex items-center gap-2 min-w-0">
+                                    <div class="w-6 h-6 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center flex-shrink-0">
+                                        <i data-lucide="book-open" class="w-3.5 h-3.5"></i>
+                                    </div>
+                                    <div class="min-w-0">
+                                        <p class="text-xs font-bold text-slate-800 group-hover:text-orange-600 truncate">Laporan Kinerja (LAKIP)</p>
+                                        <span class="text-[9px] uppercase font-bold text-amber-600">Pelaporan</span>
+                                    </div>
                                 </div>
-                                <div class="min-w-0">
-                                    <p class="text-xs font-bold text-slate-800 group-hover:text-orange-600 truncate">LHE AKIP</p>
-                                    <span class="text-[9px] uppercase font-bold text-teal-600">Evaluasi</span>
-                                </div>
-                            </div>
-                            <i data-lucide="external-link" class="w-3 h-3 text-slate-400 group-hover:text-orange-600 flex-shrink-0"></i>
-                        </a>
+                                <i data-lucide="external-link" class="w-3 h-3 text-slate-400 group-hover:text-orange-600 flex-shrink-0"></i>
+                            </a>
 
-                        <a href="https://drive.google.com/drive/folders/1EvOLIDXtA-2p9Y1Uz2rJwUEtZV7THPcG?usp=sharing" target="_blank" rel="noopener noreferrer" 
-                           class="flex items-center justify-between p-2 rounded-xl hover:bg-slate-50 transition border border-transparent hover:border-slate-100 group">
-                            <div class="flex items-center gap-2 min-w-0">
-                                <div class="w-6 h-6 rounded-lg bg-teal-50 text-teal-600 flex items-center justify-center flex-shrink-0">
-                                    <i data-lucide="file-check" class="w-3.5 h-3.5"></i>
+                            <!-- 4. Evaluasi -->
+                            <a href="https://drive.google.com/drive/folders/1MZNZ5ybRGqwKP16L-ZcJNaYTb2Wkvu5Y?usp=sharing" target="_blank" rel="noopener noreferrer" 
+                               class="flex items-center justify-between p-2 rounded-xl hover:bg-slate-50 transition border border-transparent hover:border-slate-100 group">
+                                <div class="flex items-center gap-2 min-w-0">
+                                    <div class="w-6 h-6 rounded-lg bg-teal-50 text-teal-600 flex items-center justify-center flex-shrink-0">
+                                        <i data-lucide="folder-check" class="w-3.5 h-3.5"></i>
+                                    </div>
+                                    <div class="min-w-0">
+                                        <p class="text-xs font-bold text-slate-800 group-hover:text-orange-600 truncate">PERMINDOK</p>
+                                        <span class="text-[9px] uppercase font-bold text-teal-600">Evaluasi</span>
+                                    </div>
                                 </div>
-                                <div class="min-w-0">
-                                    <p class="text-xs font-bold text-slate-800 group-hover:text-orange-600 truncate">Berita Acara</p>
-                                    <span class="text-[9px] uppercase font-bold text-teal-600">Evaluasi</span>
-                                </div>
-                            </div>
-                            <i data-lucide="external-link" class="w-3 h-3 text-slate-400 group-hover:text-orange-600 flex-shrink-0"></i>
-                        </a>
+                                <i data-lucide="external-link" class="w-3 h-3 text-slate-400 group-hover:text-orange-600 flex-shrink-0"></i>
+                            </a>
 
-                        <!-- 5. Kelengkapan SAKIP -->
-                        <a href="https://drive.google.com/drive/folders/1CNCg7oMRIuZLiYzs0h_Bju3EVhsfZPPV?usp=sharing" target="_blank" rel="noopener noreferrer" 
-                           class="flex items-center justify-between p-2 rounded-xl hover:bg-slate-50 transition border border-transparent hover:border-slate-100 group">
-                            <div class="flex items-center gap-2 min-w-0">
-                                <div class="w-6 h-6 rounded-lg bg-purple-50 text-purple-600 flex items-center justify-center flex-shrink-0">
-                                    <i data-lucide="users" class="w-3.5 h-3.5"></i>
+                            <a href="https://drive.google.com/drive/folders/1qafMSDY-mGhsAsC1IhNWZ1PLDbdDBRxl?usp=sharing" target="_blank" rel="noopener noreferrer" 
+                               class="flex items-center justify-between p-2 rounded-xl hover:bg-slate-50 transition border border-transparent hover:border-slate-100 group">
+                                <div class="flex items-center gap-2 min-w-0">
+                                    <div class="w-6 h-6 rounded-lg bg-teal-50 text-teal-600 flex items-center justify-center flex-shrink-0">
+                                        <i data-lucide="clipboard-check" class="w-3.5 h-3.5"></i>
+                                    </div>
+                                    <div class="min-w-0">
+                                        <p class="text-xs font-bold text-slate-800 group-hover:text-orange-600 truncate">LHE AKIP</p>
+                                        <span class="text-[9px] uppercase font-bold text-teal-600">Evaluasi</span>
+                                    </div>
                                 </div>
-                                <div class="min-w-0">
-                                    <p class="text-xs font-bold text-slate-800 group-hover:text-orange-600 truncate">SK Tim SAKIP</p>
-                                    <span class="text-[9px] uppercase font-bold text-purple-600">Kelengkapan</span>
-                                </div>
-                            </div>
-                            <i data-lucide="external-link" class="w-3 h-3 text-slate-400 group-hover:text-orange-600 flex-shrink-0"></i>
-                        </a>
+                                <i data-lucide="external-link" class="w-3 h-3 text-slate-400 group-hover:text-orange-600 flex-shrink-0"></i>
+                            </a>
 
-                        <a href="https://drive.google.com/drive/folders/1nMcUg8C6FiVyMRRFqiQCUmaspezWYzQ3?usp=sharing" target="_blank" rel="noopener noreferrer" 
-                           class="flex items-center justify-between p-2 rounded-xl hover:bg-slate-50 transition border border-transparent hover:border-slate-100 group">
-                            <div class="flex items-center gap-2 min-w-0">
-                                <div class="w-6 h-6 rounded-lg bg-purple-50 text-purple-600 flex items-center justify-center flex-shrink-0">
-                                    <i data-lucide="gift" class="w-3.5 h-3.5"></i>
+                            <a href="https://drive.google.com/drive/folders/1EvOLIDXtA-2p9Y1Uz2rJwUEtZV7THPcG?usp=sharing" target="_blank" rel="noopener noreferrer" 
+                               class="flex items-center justify-between p-2 rounded-xl hover:bg-slate-50 transition border border-transparent hover:border-slate-100 group">
+                                <div class="flex items-center gap-2 min-w-0">
+                                    <div class="w-6 h-6 rounded-lg bg-teal-50 text-teal-600 flex items-center justify-center flex-shrink-0">
+                                        <i data-lucide="file-check" class="w-3.5 h-3.5"></i>
+                                    </div>
+                                    <div class="min-w-0">
+                                        <p class="text-xs font-bold text-slate-800 group-hover:text-orange-600 truncate">Berita Acara</p>
+                                        <span class="text-[9px] uppercase font-bold text-teal-600">Evaluasi</span>
+                                    </div>
                                 </div>
-                                <div class="min-w-0">
-                                    <p class="text-xs font-bold text-slate-800 group-hover:text-orange-600 truncate">Reward & Punishment</p>
-                                    <span class="text-[9px] uppercase font-bold text-purple-600">Kelengkapan</span>
-                                </div>
-                            </div>
-                            <i data-lucide="external-link" class="w-3 h-3 text-slate-400 group-hover:text-orange-600 flex-shrink-0"></i>
-                        </a>
+                                <i data-lucide="external-link" class="w-3 h-3 text-slate-400 group-hover:text-orange-600 flex-shrink-0"></i>
+                            </a>
 
-                        <a href="https://drive.google.com/drive/folders/1Q4Fyhv6MGXEGVHwg9NQ5SQgTRvr4eCki?usp=sharing" target="_blank" rel="noopener noreferrer" 
-                           class="flex items-center justify-between p-2 rounded-xl hover:bg-slate-50 transition border border-transparent hover:border-slate-100 group">
-                            <div class="flex items-center gap-2 min-w-0">
-                                <div class="w-6 h-6 rounded-lg bg-purple-50 text-purple-600 flex items-center justify-center flex-shrink-0">
-                                    <i data-lucide="calendar" class="w-3.5 h-3.5"></i>
+                            <!-- 5. Kelengkapan SAKIP -->
+                            <a href="https://drive.google.com/drive/folders/1CNCg7oMRIuZLiYzs0h_Bju3EVhsfZPPV?usp=sharing" target="_blank" rel="noopener noreferrer" 
+                               class="flex items-center justify-between p-2 rounded-xl hover:bg-slate-50 transition border border-transparent hover:border-slate-100 group">
+                                <div class="flex items-center gap-2 min-w-0">
+                                    <div class="w-6 h-6 rounded-lg bg-purple-50 text-purple-600 flex items-center justify-center flex-shrink-0">
+                                        <i data-lucide="users" class="w-3.5 h-3.5"></i>
+                                    </div>
+                                    <div class="min-w-0">
+                                        <p class="text-xs font-bold text-slate-800 group-hover:text-orange-600 truncate">SK Tim SAKIP</p>
+                                        <span class="text-[9px] uppercase font-bold text-purple-600">Kelengkapan</span>
+                                    </div>
                                 </div>
-                                <div class="min-w-0">
-                                    <p class="text-xs font-bold text-slate-800 group-hover:text-orange-600 truncate">MPH</p>
-                                    <span class="text-[9px] uppercase font-bold text-purple-600">Kelengkapan</span>
-                                </div>
-                            </div>
-                            <i data-lucide="external-link" class="w-3 h-3 text-slate-400 group-hover:text-orange-600 flex-shrink-0"></i>
-                        </a>
+                                <i data-lucide="external-link" class="w-3 h-3 text-slate-400 group-hover:text-orange-600 flex-shrink-0"></i>
+                            </a>
 
-                        <a href="https://drive.google.com/drive/folders/13MaRpuGKJqjLFbkYpdrVwo5PfQUI8pRA?usp=sharing" target="_blank" rel="noopener noreferrer" 
-                           class="flex items-center justify-between p-2 rounded-xl hover:bg-slate-50 transition border border-transparent hover:border-slate-100 group">
-                            <div class="flex items-center gap-2 min-w-0">
-                                <div class="w-6 h-6 rounded-lg bg-purple-50 text-purple-600 flex items-center justify-center flex-shrink-0">
-                                    <i data-lucide="award" class="w-3.5 h-3.5"></i>
+                            <a href="https://drive.google.com/drive/folders/1nMcUg8C6FiVyMRRFqiQCUmaspezWYzQ3?usp=sharing" target="_blank" rel="noopener noreferrer" 
+                               class="flex items-center justify-between p-2 rounded-xl hover:bg-slate-50 transition border border-transparent hover:border-slate-100 group">
+                                <div class="flex items-center gap-2 min-w-0">
+                                    <div class="w-6 h-6 rounded-lg bg-purple-50 text-purple-600 flex items-center justify-center flex-shrink-0">
+                                        <i data-lucide="gift" class="w-3.5 h-3.5"></i>
+                                    </div>
+                                    <div class="min-w-0">
+                                        <p class="text-xs font-bold text-slate-800 group-hover:text-orange-600 truncate">Reward & Punishment</p>
+                                        <span class="text-[9px] uppercase font-bold text-purple-600">Kelengkapan</span>
+                                    </div>
                                 </div>
-                                <div class="min-w-0">
-                                    <p class="text-xs font-bold text-slate-800 group-hover:text-orange-600 truncate">SKP Pegawai</p>
-                                    <span class="text-[9px] uppercase font-bold text-purple-600">Kelengkapan</span>
-                                </div>
-                            </div>
-                            <i data-lucide="external-link" class="w-3 h-3 text-slate-400 group-hover:text-orange-600 flex-shrink-0"></i>
-                        </a>
+                                <i data-lucide="external-link" class="w-3 h-3 text-slate-400 group-hover:text-orange-600 flex-shrink-0"></i>
+                            </a>
 
-                        <a href="https://drive.google.com/drive/folders/1WNZs2D4AeNCrYv6wOtS3qHWPvS7-xLHy?usp=sharing" target="_blank" rel="noopener noreferrer" 
-                           class="flex items-center justify-between p-2 rounded-xl hover:bg-slate-50 transition border border-transparent hover:border-slate-100 group">
-                            <div class="flex items-center gap-2 min-w-0">
-                                <div class="w-6 h-6 rounded-lg bg-purple-50 text-purple-600 flex items-center justify-center flex-shrink-0">
-                                    <i data-lucide="book-marked" class="w-3.5 h-3.5"></i>
+                            <a href="https://drive.google.com/drive/folders/1Q4Fyhv6MGXEGVHwg9NQ5SQgTRvr4eCki?usp=sharing" target="_blank" rel="noopener noreferrer" 
+                               class="flex items-center justify-between p-2 rounded-xl hover:bg-slate-50 transition border border-transparent hover:border-slate-100 group">
+                                <div class="flex items-center gap-2 min-w-0">
+                                    <div class="w-6 h-6 rounded-lg bg-purple-50 text-purple-600 flex items-center justify-center flex-shrink-0">
+                                        <i data-lucide="calendar" class="w-3.5 h-3.5"></i>
+                                    </div>
+                                    <div class="min-w-0">
+                                        <p class="text-xs font-bold text-slate-800 group-hover:text-orange-600 truncate">MPH</p>
+                                        <span class="text-[9px] uppercase font-bold text-purple-600">Kelengkapan</span>
+                                    </div>
                                 </div>
-                                <div class="min-w-0">
-                                    <p class="text-xs font-bold text-slate-800 group-hover:text-orange-600 truncate">Pedoman Teknis</p>
-                                    <span class="text-[9px] uppercase font-bold text-purple-600">Kelengkapan</span>
+                                <i data-lucide="external-link" class="w-3 h-3 text-slate-400 group-hover:text-orange-600 flex-shrink-0"></i>
+                            </a>
+
+                            <a href="https://drive.google.com/drive/folders/13MaRpuGKJqjLFbkYpdrVwo5PfQUI8pRA?usp=sharing" target="_blank" rel="noopener noreferrer" 
+                               class="flex items-center justify-between p-2 rounded-xl hover:bg-slate-50 transition border border-transparent hover:border-slate-100 group">
+                                <div class="flex items-center gap-2 min-w-0">
+                                    <div class="w-6 h-6 rounded-lg bg-purple-50 text-purple-600 flex items-center justify-center flex-shrink-0">
+                                        <i data-lucide="award" class="w-3.5 h-3.5"></i>
+                                    </div>
+                                    <div class="min-w-0">
+                                        <p class="text-xs font-bold text-slate-800 group-hover:text-orange-600 truncate">SKP Pegawai</p>
+                                        <span class="text-[9px] uppercase font-bold text-purple-600">Kelengkapan</span>
+                                    </div>
                                 </div>
-                            </div>
-                            <i data-lucide="external-link" class="w-3 h-3 text-slate-400 group-hover:text-orange-600 flex-shrink-0"></i>
-                        </a>
+                                <i data-lucide="external-link" class="w-3 h-3 text-slate-400 group-hover:text-orange-600 flex-shrink-0"></i>
+                            </a>
 
-                    </div>
+                            <a href="https://drive.google.com/drive/folders/1WNZs2D4AeNCrYv6wOtS3qHWPvS7-xLHy?usp=sharing" target="_blank" rel="noopener noreferrer" 
+                               class="flex items-center justify-between p-2 rounded-xl hover:bg-slate-50 transition border border-transparent hover:border-slate-100 group">
+                                <div class="flex items-center gap-2 min-w-0">
+                                    <div class="w-6 h-6 rounded-lg bg-purple-50 text-purple-600 flex items-center justify-center flex-shrink-0">
+                                        <i data-lucide="book-marked" class="w-3.5 h-3.5"></i>
+                                    </div>
+                                    <div class="min-w-0">
+                                        <p class="text-xs font-bold text-slate-800 group-hover:text-orange-600 truncate">Pedoman Teknis</p>
+                                        <span class="text-[9px] uppercase font-bold text-purple-600">Kelengkapan</span>
+                                    </div>
+                                </div>
+                                <i data-lucide="external-link" class="w-3 h-3 text-slate-400 group-hover:text-orange-600 flex-shrink-0"></i>
+                            </a>
 
-                    <!-- Footer Dropdown -->
-                    <div class="mt-2.5 pt-2.5 border-t border-slate-100 flex items-center justify-between text-[11px]">
-                        <span class="text-slate-400">Terhubung Google Drive Resmi</span>
-                        <a href="https://drive.google.com" target="_blank" rel="noopener noreferrer" class="font-bold text-orange-600 hover:text-orange-700 flex items-center gap-1">
-                            <span>Google Drive BPS</span>
-                            <i data-lucide="external-link" class="w-3 h-3"></i>
-                        </a>
+                        </div>
+
+                        <!-- Footer Dropdown -->
+                        <div class="mt-2.5 pt-2.5 border-t border-slate-100 flex items-center justify-between text-[11px]">
+                            <span class="text-slate-400">Terhubung Google Drive Resmi</span>
+                            <a href="https://drive.google.com" target="_blank" rel="noopener noreferrer" class="font-bold text-orange-600 hover:text-orange-700 flex items-center gap-1">
+                                <span>Google Drive BPS</span>
+                                <i data-lucide="external-link" class="w-3 h-3"></i>
+                            </a>
+                        </div>
                     </div>
                 </div>
+
+                <div class="w-px h-3.5 bg-slate-200/90 mx-0.5"></div>
+
+                <!-- Desktop Sidebar Toggle Button -->
+                <button id="sidebar-toggle" 
+                        type="button" 
+                        class="w-8 h-8 rounded-lg hover:bg-white text-slate-500 hover:text-slate-900 hover:shadow-2xs flex items-center justify-center transition-all focus:outline-none" 
+                        title="Perkecil / Perbesar Sidebar">
+                    <i data-lucide="panel-left" class="w-4 h-4"></i>
+                </button>
             </div>
 
-            <!-- Desktop Sidebar Toggle Button (Gambar Ketiga) -->
-            <button id="sidebar-toggle" 
-                    type="button" 
-                    class="hidden lg:flex w-10 h-10 rounded-xl border border-slate-200/80 bg-slate-50/70 hover:bg-slate-100 hover:border-slate-300 text-slate-600 hover:text-navy-main transition shadow-xs items-center justify-center focus:outline-none" 
-                    title="Perkecil / Perbesar Sidebar">
-                <i data-lucide="panel-left" class="w-5 h-5"></i>
-            </button>
-
-            <!-- Subtle Vertical Separator -->
-            <div class="hidden sm:block h-6 w-px bg-slate-200/80 mx-0.5"></div>
-
-            <!-- Search Form -->
+            <!-- Global Search Form (Pill-shaped, Soft & Minimalist) -->
             <form action="{{ url_for('documents.index') }}" method="GET" class="relative w-full max-w-md hidden sm:block">
                 <div class="relative flex items-center">
-                    <span class="absolute left-3.5 flex items-center pointer-events-none text-slate-400">
-                        <i data-lucide="search" class="w-4 h-4"></i>
-                    </span>
+                    <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3.5 pointer-events-none"></i>
                     <input type="text" 
                            name="q" 
                            id="global-search-input"
                            value="{{ request.args.get('q', '') }}"
                            placeholder="Cari arsip, dokumen AKIP, atau nomor..." 
-                           class="w-full h-10 pl-10 pr-12 text-xs md:text-sm bg-slate-50/70 hover:bg-slate-100/60 focus:bg-white text-slate-800 placeholder-slate-400 rounded-xl border border-slate-200/80 focus:border-navy-main focus:ring-2 focus:ring-navy-main/15 transition-all outline-none shadow-xs">
-                    <span class="absolute right-3 pointer-events-none text-[10px] font-semibold text-slate-400 bg-white border border-slate-200 px-1.5 py-0.5 rounded shadow-2xs">Ctrl K</span>
+                           class="w-full h-9 pl-9 pr-14 text-xs bg-slate-100/60 hover:bg-slate-100/90 focus:bg-white text-slate-800 placeholder-slate-400 rounded-full border border-slate-200/70 focus:border-orange-500/40 focus:ring-4 focus:ring-orange-500/10 transition-all outline-none">
+                    <kbd class="absolute right-2.5 pointer-events-none text-[9px] font-mono font-bold text-slate-400 bg-white border border-slate-200/90 px-1.5 py-0.5 rounded-md shadow-2xs">Ctrl K</kbd>
                 </div>
             </form>
         </div>
 
-        <!-- Right Section: Action Buttons, Notification & User Profile -->
+        <!-- Right Section: Hub SIMPATIK, Unggah Dokumen, Notifikasi, & User Profile Capsule -->
         <div class="flex items-center gap-2 sm:gap-2.5">
             
-            <!-- Quick SIMPATIK Hub Launcher -->
+            <!-- Quick SIMPATIK Hub Launcher (Soft Warm Pill) -->
             <a href="{{ url_for('hub.index') }}" 
                title="Buka SIMPATIK Hub Terpadu (Mitra, Pegawai, Keuangan)"
-               class="h-10 px-3 inline-flex items-center gap-1.5 rounded-xl border border-slate-200/80 bg-slate-50/70 hover:bg-orange-50 hover:text-orange-600 hover:border-orange-200 text-slate-700 text-xs font-bold transition shadow-xs">
-                <i data-lucide="layout-grid" class="w-4 h-4 text-orange-500"></i>
+               class="h-9 px-3.5 inline-flex items-center gap-1.5 rounded-full border border-orange-200/80 bg-gradient-to-r from-orange-50/90 via-amber-50/50 to-orange-50/90 hover:from-orange-100 hover:to-amber-100 text-orange-700 text-xs font-bold transition shadow-2xs group active:scale-95">
+                <i data-lucide="layout-grid" class="w-3.5 h-3.5 text-orange-500 group-hover:rotate-12 transition-transform"></i>
                 <span class="hidden md:inline">Hub SIMPATIK</span>
+                <span class="relative flex h-1.5 w-1.5 ml-0.5">
+                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                    <span class="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500"></span>
+                </span>
             </a>
 
-            <!-- Quick Upload Button (Admin, Staf Umum, PPK) -->
+            <!-- Quick Upload Button (Executive Pill) -->
             {% if current_user.is_authenticated and current_user.can_manage_documents %}
             <a href="{{ url_for('documents.upload') }}" 
-               class="h-10 px-3.5 sm:px-4 inline-flex items-center gap-2 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white text-xs sm:text-sm font-semibold rounded-xl shadow-xs hover:shadow-md hover:shadow-orange-500/20 active:scale-[0.98] transition-all">
-                <i data-lucide="upload-cloud" class="w-4 h-4"></i>
-                <span class="hidden md:inline font-medium">Unggah Dokumen</span>
+               class="h-9 px-4 inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-orange-500 via-amber-500 to-orange-500 hover:opacity-95 text-white text-xs font-bold shadow-sm shadow-orange-500/25 hover:shadow-orange-500/40 active:scale-95 transition-all">
+                <i data-lucide="cloud-upload" class="w-3.5 h-3.5"></i>
+                <span class="hidden md:inline">Unggah Dokumen</span>
             </a>
             {% endif %}
 
             <!-- Notification / Status Dokumen Belum Lengkap -->
             <a href="{{ url_for('completeness.belum_lengkap') }}" 
                title="Dokumen Belum Lengkap"
-               class="relative w-10 h-10 rounded-xl border border-slate-200/80 bg-slate-50/70 hover:bg-slate-100 hover:border-slate-300 text-slate-600 hover:text-orange-500 flex items-center justify-center transition shadow-xs">
+               class="relative w-9 h-9 rounded-full text-slate-500 hover:text-slate-800 hover:bg-slate-100 transition flex items-center justify-center border border-transparent hover:border-slate-200/60">
                 <i data-lucide="bell" class="w-4 h-4"></i>
                 {% if pending_docs_count > 0 %}
-                <span class="absolute top-2 right-2 flex h-2 w-2">
+                <span class="absolute top-1.5 right-1.5 flex h-2 w-2">
                     <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75"></span>
                     <span class="relative inline-flex rounded-full h-2 w-2 bg-orange-500"></span>
                 </span>
                 {% endif %}
             </a>
 
-            <!-- Subtle Vertical Separator -->
-            <div class="hidden sm:block h-6 w-px bg-slate-200/80 mx-0.5"></div>
+            <!-- Subtle Hairline Divider -->
+            <div class="hidden sm:block h-5 w-px bg-slate-200/80 mx-0.5"></div>
 
-            <!-- User Section: Dropdown Menu when authenticated or Login Button -->
+            <!-- User Section: Modern Rounded Profile Capsule -->
             {% if current_user.is_authenticated %}
             <div class="relative">
                 <button id="user-menu-btn" 
                         type="button" 
-                        class="h-10 pl-1.5 pr-2.5 sm:pr-3 rounded-xl border border-slate-200/80 bg-slate-50/70 hover:bg-slate-100 hover:border-slate-300 flex items-center gap-2 sm:gap-2.5 transition shadow-xs focus:outline-none">
+                        class="h-9 pl-1 pr-2.5 sm:pr-3 rounded-full border border-slate-200/70 hover:border-slate-300 bg-white/70 hover:bg-white flex items-center gap-2 transition shadow-2xs focus:outline-none group">
                     <!-- User Avatar Initials -->
-                    <div class="w-7 h-7 rounded-lg bg-gradient-to-tr from-[#142B4A] to-[#1E3E66] text-white flex items-center justify-center font-bold text-xs shadow-xs">
+                    <div class="w-7 h-7 rounded-full bg-gradient-to-br from-[#0f172a] via-[#1e293b] to-[#334155] text-white flex items-center justify-center font-bold text-[11px] shadow-2xs ring-2 ring-white flex-shrink-0">
                         {{ (current_user.full_name or current_user.username)[:2].upper() }}
                     </div>
                     
                     <!-- User Name & Role -->
                     <div class="hidden sm:flex flex-col text-left leading-tight">
-                        <span class="text-xs font-bold text-slate-800 truncate max-w-[140px]">{{ current_user.full_name or current_user.username }}</span>
-                        <div class="flex items-center gap-1 mt-0.5">
-                            <span class="text-[9px] font-black uppercase tracking-wider text-orange-600 bg-orange-50 px-1 py-0.2 rounded border border-orange-200/60 leading-none">
+                        <span class="text-xs font-bold text-slate-800 truncate max-w-[130px]">{{ current_user.full_name or current_user.username }}</span>
+                        <div class="flex items-center gap-1">
+                            <span class="text-[9px] font-black uppercase tracking-wider text-orange-600 bg-orange-50 px-1.5 py-0.2 rounded-full border border-orange-200/60 leading-none">
                                 {{ current_user.role_display_name }}
                             </span>
                         </div>
                     </div>
 
                     <!-- Chevron Icon -->
-                    <i data-lucide="chevron-down" class="w-3.5 h-3.5 text-slate-400 ml-0.5"></i>
+                    <i data-lucide="chevron-down" class="w-3.5 h-3.5 text-slate-400 group-hover:text-slate-700 group-hover:translate-y-0.5 transition-all ml-0.5"></i>
                 </button>
 
                 <!-- Dropdown Card -->
-                <div id="user-dropdown" class="hidden absolute right-0 mt-2 w-60 bg-white rounded-2xl shadow-card border border-slate-200/80 py-2 z-50 transition-all">
+                <div id="user-dropdown" class="hidden absolute right-0 mt-2 w-60 bg-white rounded-3xl shadow-2xl border border-slate-200/80 py-2 z-50 transition-all">
                     <div class="px-4 py-2.5 border-b border-slate-100">
                         <p class="text-xs font-bold text-slate-800">{{ current_user.full_name or current_user.username }}</p>
                         <p class="text-[11px] text-slate-500 truncate">NIP: {{ current_user.nip or '-' }}</p>
-                        <span class="inline-block mt-1 text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-blue-50 text-blue-700">
+                        <span class="inline-block mt-1 text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-blue-50 text-blue-700 border border-blue-200/60">
                             Role: {{ current_user.role }}
                         </span>
                     </div>
@@ -408,7 +412,7 @@
             </div>
             {% else %}
             <a href="{{ url_for('auth.login') }}" 
-               class="h-10 px-4 inline-flex items-center gap-2 rounded-xl bg-navy-main hover:bg-navy-dark text-white text-xs font-semibold shadow-xs transition-all">
+               class="h-9 px-4 inline-flex items-center gap-2 rounded-full bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold shadow-2xs transition-all">
                 <i data-lucide="log-in" class="w-4 h-4"></i>
                 <span>Masuk</span>
             </a>
