@@ -71,9 +71,15 @@ def dashboard():
 @login_required
 def database():
     search = request.args.get('search', '').strip()
+    tahun_filter = request.args.get('tahun', '').strip()
+    bulan_filter = request.args.get('bulan', '').strip()
+    kegiatan_filter = request.args.get('kegiatan', '').strip()
     kec_filter = request.args.get('kecamatan', '').strip()
     jk_filter = request.args.get('jenis_kelamin', '').strip()
+
     query = Mitra.query
+
+    # 1. Pencarian teks nama, ID Sobat, kontak, alamat, atau domisili
     if search:
         query = query.filter(
             (Mitra.nama_lengkap.ilike(f'%{search}%')) | 
@@ -84,19 +90,67 @@ def database():
             (Mitra.no_hp.ilike(f'%{search}%')) |
             (Mitra.email.ilike(f'%{search}%'))
         )
+
+    # 2. Filter 3 Parameter Kegiatan: Tahun, Bulan, dan Kegiatan Sensus/Survei
+    has_keg_filter = False
+    keg_filters = []
+
+    if tahun_filter and tahun_filter != 'Semua':
+        try:
+            keg_filters.append(Kegiatan.tahun == int(tahun_filter))
+            has_keg_filter = True
+        except ValueError:
+            pass
+
+    if bulan_filter and bulan_filter != 'Semua':
+        keg_filters.append(
+            (Kegiatan.bulan == bulan_filter) |
+            (Kegiatan.tanggal_mulai.cast(db.String).ilike(f'%-{bulan_filter.zfill(2)}-%'))
+        )
+        has_keg_filter = True
+
+    if kegiatan_filter and kegiatan_filter != 'Semua':
+        keg_filters.append(
+            (Kegiatan.nama_kegiatan.ilike(f'%{kegiatan_filter}%')) |
+            (Kegiatan.kode_kegiatan.ilike(f'%{kegiatan_filter}%'))
+        )
+        has_keg_filter = True
+
+    if has_keg_filter:
+        query = query.join(Mitra.penugasan).join(PenugasanMitra.kegiatan).filter(*keg_filters).distinct()
+
+    # 3. Filter Demografi (Opsional)
     if kec_filter:
         query = query.filter(Mitra.kecamatan == kec_filter)
     if jk_filter:
         query = query.filter(Mitra.jenis_kelamin == jk_filter)
+
     mitra_list = query.order_by(Mitra.nama_lengkap.asc()).all()
 
+    # Data pendukung filter
+    all_kegiatans = Kegiatan.query.all()
+    years = sorted(list(set([k.tahun for k in all_kegiatans if k.tahun] + [2024, 2025, 2026])), reverse=True)
+    kegiatan_options = Kegiatan.query.order_by(Kegiatan.nama_kegiatan.asc()).all()
     kecamatans = [k[0] for k in db.session.query(Mitra.kecamatan).distinct().all() if k[0]]
+
+    months = [
+        ('01', 'Januari'), ('02', 'Februari'), ('03', 'Maret'), ('04', 'April'),
+        ('05', 'Mei'), ('06', 'Juni'), ('07', 'Juli'), ('08', 'Agustus'),
+        ('09', 'September'), ('10', 'Oktober'), ('11', 'November'), ('12', 'Desember')
+    ]
+
     return render_template(
         'mitra/database.html', 
         mitra_list=mitra_list, 
         search=search, 
+        tahun_filter=tahun_filter,
+        bulan_filter=bulan_filter,
+        kegiatan_filter=kegiatan_filter,
         kec_filter=kec_filter, 
         jk_filter=jk_filter,
+        years=years,
+        months=months,
+        kegiatan_options=kegiatan_options,
         kecamatans=kecamatans
     )
 

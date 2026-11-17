@@ -364,5 +364,44 @@ class BlackBoxSystemTest(unittest.TestCase):
         res_tpl_keg = self.client.get('/mitra/template?tim=Tim+PLS')
         self.assertEqual(res_tpl_keg.status_code, 200)
 
+        # 6. Uji Filter Database Mitra berdasarkan Tahun, Bulan, dan Kegiatan
+        # Buat penugasan mitra ke kegiatan PLS tersebut
+        penugasan_test = PenugasanMitra(
+            mitra_id=imported_mitra.id,
+            kegiatan_id=created_keg.id,
+            peran='PPL',
+            target_dokumen=25,
+            honor_total=2500000,
+            created_by=user.id
+        )
+        db.session.add(penugasan_test)
+        db.session.commit()
+
+        # Uji filter tahun
+        res_db_tahun = self.client.get('/mitra/database?tahun=2025')
+        self.assertEqual(res_db_tahun.status_code, 200)
+        self.assertIn(b'Mitra Templat CSV', res_db_tahun.data)
+
+        # Uji filter bulan
+        res_db_bulan = self.client.get('/mitra/database?bulan=06')
+        self.assertEqual(res_db_bulan.status_code, 200)
+        self.assertIn(b'Mitra Templat CSV', res_db_bulan.data)
+
+        # Uji filter kegiatan
+        res_db_keg = self.client.get('/mitra/database?kegiatan=PLS')
+        self.assertEqual(res_db_keg.status_code, 200)
+        self.assertIn(b'Mitra Templat CSV', res_db_keg.data)
+
+        # Uji filter gabungan (tahun, bulan, kegiatan)
+        res_db_all = self.client.get('/mitra/database?tahun=2025&bulan=06&kegiatan=PLS')
+        self.assertEqual(res_db_all.status_code, 200)
+        self.assertIn(b'Mitra Templat CSV', res_db_all.data)
+
+        # Clean up data uji
+        db.session.delete(penugasan_test)
+        db.session.delete(imported_mitra)
+        db.session.delete(created_keg)
+        db.session.commit()
+
 if __name__ == '__main__':
     unittest.main()

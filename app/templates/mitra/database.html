@@ -58,62 +58,122 @@
         </div>
     </div>
 
-    <!-- 2. Simple & Clean Filter Bar -->
-    <div class="bg-white rounded-2xl p-4 border border-slate-200/80 shadow-xs">
-        <form method="GET" action="{{ url_for('mitra.database') }}" class="grid grid-cols-1 sm:grid-cols-12 gap-3 items-end">
-            <!-- Search Text -->
-            <div class="sm:col-span-5">
-                <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-1 flex items-center gap-1.5">
+    <!-- 2. Filter Bar: Tahun, Bulan, Kegiatan, & Pencarian -->
+    <div class="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200/80 shadow-xs">
+        <form method="GET" action="{{ url_for('mitra.database') }}" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-3 items-end">
+            <!-- 1. Filter Tahun -->
+            <div class="lg:col-span-2">
+                <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-1.5 flex items-center gap-1.5">
+                    <i data-lucide="calendar" class="w-3.5 h-3.5 text-orange-500"></i>
+                    <span>Tahun</span>
+                </label>
+                <div class="relative">
+                    <select name="tahun" class="w-full pl-3 pr-8 py-2.5 text-xs rounded-xl border border-slate-200 bg-slate-50/50 hover:bg-white focus:bg-white focus:outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-500/10 font-semibold text-slate-700 transition">
+                        <option value="">Semua Tahun</option>
+                        {% for y in years %}
+                        <option value="{{ y }}" {% if tahun_filter == y|string %}selected{% endif %}>{{ y }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+
+            <!-- 2. Filter Bulan -->
+            <div class="lg:col-span-2">
+                <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-1.5 flex items-center gap-1.5">
+                    <i data-lucide="calendar-days" class="w-3.5 h-3.5 text-cyan-500"></i>
+                    <span>Bulan</span>
+                </label>
+                <div class="relative">
+                    <select name="bulan" class="w-full pl-3 pr-8 py-2.5 text-xs rounded-xl border border-slate-200 bg-slate-50/50 hover:bg-white focus:bg-white focus:outline-none focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/10 font-semibold text-slate-700 transition">
+                        <option value="">Semua Bulan</option>
+                        {% for m_code, m_name in months %}
+                        <option value="{{ m_code }}" {% if bulan_filter == m_code %}selected{% endif %}>{{ m_name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+
+            <!-- 3. Filter Kegiatan -->
+            <div class="lg:col-span-4">
+                <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-1.5 flex items-center gap-1.5">
+                    <i data-lucide="briefcase" class="w-3.5 h-3.5 text-emerald-500"></i>
+                    <span>Kegiatan Sensus / Survei</span>
+                </label>
+                <div class="relative">
+                    <select name="kegiatan" class="w-full pl-3 pr-8 py-2.5 text-xs rounded-xl border border-slate-200 bg-slate-50/50 hover:bg-white focus:bg-white focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/10 font-semibold text-slate-700 transition">
+                        <option value="">Semua Kegiatan</option>
+                        {% for kg in kegiatan_options %}
+                        <option value="{{ kg.nama_kegiatan }}" {% if kegiatan_filter == kg.nama_kegiatan %}selected{% endif %}>
+                            {{ kg.nama_kegiatan }} ({{ kg.tim_kerja }})
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+
+            <!-- 4. Pencarian Mitra (Nama / ID Sobat) -->
+            <div class="lg:col-span-3">
+                <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-1.5 flex items-center gap-1.5">
                     <i data-lucide="search" class="w-3.5 h-3.5 text-slate-400"></i>
-                    <span>Pencarian</span>
+                    <span>Pencarian Mitra</span>
                 </label>
                 <input type="text" 
                        name="search" 
                        value="{{ search }}" 
-                       placeholder="Cari nama, ID Sobat, alamat, desa, kontak..." 
-                       class="w-full pl-3 pr-3 py-2 text-xs rounded-xl border border-slate-200 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500">
+                       placeholder="Nama, ID Sobat, alamat..." 
+                       class="w-full px-3 py-2.5 text-xs rounded-xl border border-slate-200 bg-slate-50/50 hover:bg-white focus:bg-white focus:outline-none focus:border-slate-800 focus:ring-2 focus:ring-slate-800/10 font-medium text-slate-800 placeholder:text-slate-400 transition">
             </div>
 
-            <!-- Filter Kecamatan -->
-            <div class="sm:col-span-3">
-                <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-1 flex items-center gap-1.5">
-                    <i data-lucide="map-pin" class="w-3.5 h-3.5 text-cyan-500"></i>
-                    <span>Kecamatan</span>
-                </label>
-                <select name="kecamatan" class="w-full pl-3 pr-8 py-2 text-xs rounded-xl border border-slate-200 bg-white focus:outline-none focus:border-cyan-500 font-medium">
-                    <option value="">Semua Kecamatan</option>
-                    {% for k in kecamatans %}
-                    <option value="{{ k }}" {% if kec_filter == k %}selected{% endif %}>Kec. {{ k }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-
-            <!-- Filter Jenis Kelamin -->
-            <div class="sm:col-span-2">
-                <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-1 flex items-center gap-1.5">
-                    <i data-lucide="users" class="w-3.5 h-3.5 text-purple-500"></i>
-                    <span>Gender</span>
-                </label>
-                <select name="jenis_kelamin" class="w-full pl-3 pr-8 py-2 text-xs rounded-xl border border-slate-200 bg-white focus:outline-none focus:border-cyan-500 font-medium">
-                    <option value="">Semua</option>
-                    <option value="Laki-laki" {% if jk_filter == 'Laki-laki' %}selected{% endif %}>Laki-laki</option>
-                    <option value="Perempuan" {% if jk_filter == 'Perempuan' %}selected{% endif %}>Perempuan</option>
-                </select>
-            </div>
-
-            <!-- Tombol Filter -->
-            <div class="sm:col-span-2 flex items-center gap-1.5">
-                <button type="submit" class="flex-1 py-2 px-3 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs transition flex items-center justify-center gap-1.5 shadow-sm">
+            <!-- 5. Tombol Filter & Reset -->
+            <div class="lg:col-span-1 flex items-center gap-1.5">
+                <button type="submit" class="w-full py-2.5 px-3 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs transition flex items-center justify-center gap-1.5 shadow-sm active:scale-95">
                     <i data-lucide="filter" class="w-3.5 h-3.5 text-cyan-400"></i>
                     <span>Filter</span>
                 </button>
-                {% if search or kec_filter or jk_filter %}
-                <a href="{{ url_for('mitra.database') }}" title="Reset Filter" class="p-2 rounded-xl text-xs text-rose-600 hover:bg-rose-50 border border-rose-200 font-bold transition flex items-center justify-center">
+                {% if search or tahun_filter or bulan_filter or kegiatan_filter or kec_filter or jk_filter %}
+                <a href="{{ url_for('mitra.database') }}" title="Reset Semua Filter" class="p-2.5 rounded-xl text-xs text-rose-600 hover:bg-rose-50 border border-rose-200 font-bold transition flex items-center justify-center flex-shrink-0">
                     <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
                 </a>
                 {% endif %}
             </div>
         </form>
+
+        <!-- Active Filter Badges Info (Ketika Filter Salah Satu / Gabungan Aktif) -->
+        {% if tahun_filter or bulan_filter or kegiatan_filter or search %}
+        <div class="mt-3.5 pt-3 border-t border-slate-100 flex flex-wrap items-center gap-2 text-xs">
+            <span class="text-slate-400 text-[11px] font-semibold flex items-center gap-1">
+                <i data-lucide="info" class="w-3 h-3 text-cyan-500"></i>
+                <span>Filter Aktif:</span>
+            </span>
+            {% if tahun_filter %}
+            <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-orange-50 text-orange-700 border border-orange-200">
+                <i data-lucide="calendar" class="w-3 h-3"></i>
+                Tahun: {{ tahun_filter }}
+            </span>
+            {% endif %}
+            {% if bulan_filter %}
+            <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-cyan-50 text-cyan-700 border border-cyan-200">
+                <i data-lucide="calendar-days" class="w-3 h-3"></i>
+                Bulan: {% for m_code, m_name in months %}{% if bulan_filter == m_code %}{{ m_name }}{% endif %}{% endfor %}
+            </span>
+            {% endif %}
+            {% if kegiatan_filter %}
+            <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                <i data-lucide="briefcase" class="w-3 h-3"></i>
+                Kegiatan: {{ kegiatan_filter }}
+            </span>
+            {% endif %}
+            {% if search %}
+            <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-slate-100 text-slate-700 border border-slate-200">
+                <i data-lucide="search" class="w-3 h-3"></i>
+                Cari: "{{ search }}"
+            </span>
+            {% endif %}
+            <a href="{{ url_for('mitra.database') }}" class="text-[11px] font-bold text-rose-600 hover:text-rose-700 underline ml-auto">
+                Hapus Semua Filter
+            </a>
+        </div>
+        {% endif %}
     </div>
 
     <!-- 3. Tabel Database Master Mitra (Modern & Bersih) -->
@@ -248,84 +308,189 @@
 
 </div>
 
-<!-- Modal Tambah Mitra Baru (Lengkap) -->
-<div id="modalTambahMitra" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
-    <div class="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl max-h-[90vh] overflow-y-auto">
-        <div class="flex items-center justify-between pb-3 border-b border-slate-100 mb-4">
-            <div class="flex items-center gap-2">
-                <div class="w-8 h-8 rounded-xl bg-orange-50 text-orange-600 flex items-center justify-center">
-                    <i data-lucide="user-plus" class="w-4 h-4"></i>
+<!-- Modal Tambah Mitra Baru (Modern & Executive Design) -->
+<div id="modalTambahMitra" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-md flex items-center justify-center p-4 sm:p-6 transition-all">
+    <div class="bg-white rounded-3xl max-w-xl w-full shadow-2xl border border-slate-100 overflow-hidden max-h-[92vh] flex flex-col animate-in fade-in zoom-in-95 duration-200">
+        
+        <!-- Header Modal Menarik -->
+        <div class="bg-gradient-to-r from-orange-50/80 via-amber-50/40 to-white px-6 py-4.5 border-b border-orange-100/70 flex items-center justify-between flex-shrink-0">
+            <div class="flex items-center gap-3.5">
+                <div class="w-11 h-11 rounded-2xl bg-gradient-to-br from-orange-500 to-amber-500 text-white flex items-center justify-center shadow-md shadow-orange-500/25 flex-shrink-0">
+                    <i data-lucide="user-plus" class="w-5 h-5"></i>
                 </div>
                 <div>
-                    <h3 class="text-sm font-bold text-slate-800">Tambah Mitra Statistik Baru</h3>
-                    <p class="text-[11px] text-slate-400">Pengisian data induk mitra Sobat BPS</p>
+                    <div class="flex items-center gap-2">
+                        <h3 class="text-base font-bold text-slate-900">Tambah Mitra Statistik Baru</h3>
+                        <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-orange-100/80 text-orange-800 border border-orange-200/60">SOBAT BPS</span>
+                    </div>
+                    <p class="text-[11px] text-slate-500 mt-0.5">Formulir registrasi data induk mitra pendataan sensus & survei BPS</p>
                 </div>
             </div>
-            <button onclick="document.getElementById('modalTambahMitra').classList.add('hidden')" class="text-slate-400 hover:text-slate-600">
-                <i data-lucide="x" class="w-5 h-5"></i>
+            <button type="button" 
+                    onclick="document.getElementById('modalTambahMitra').classList.add('hidden')" 
+                    class="w-8 h-8 rounded-full text-slate-400 hover:text-slate-700 hover:bg-slate-200/60 transition flex items-center justify-center">
+                <i data-lucide="x" class="w-4 h-4"></i>
             </button>
         </div>
 
-        <form action="{{ url_for('mitra.create_mitra') }}" method="POST" class="space-y-3">
-            <div class="grid grid-cols-2 gap-3">
-                <div>
-                    <label class="block text-xs font-semibold text-slate-700 mb-1">ID Sobat BPS *</label>
-                    <input type="text" name="id_sobat" required placeholder="Contoh: 35102025004" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs font-mono">
+        <!-- Form Body dengan Grouping Jelas & Elegan -->
+        <form action="{{ url_for('mitra.create_mitra') }}" method="POST" class="overflow-y-auto p-6 space-y-5">
+            
+            <!-- Group 1: Identitas Pokok Sobat -->
+            <div class="space-y-3">
+                <div class="flex items-center gap-2 text-[11px] font-bold uppercase tracking-wider text-orange-700 pb-1 border-b border-slate-100">
+                    <i data-lucide="id-card" class="w-3.5 h-3.5 text-orange-500"></i>
+                    <span>1. Data Pokok & Identitas SOBAT</span>
                 </div>
-                <div>
-                    <label class="block text-xs font-semibold text-slate-700 mb-1">Nama Lengkap & Gelar *</label>
-                    <input type="text" name="nama_lengkap" required placeholder="Contoh: Ahmad Subandi, S.E." class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                    <div>
+                        <label class="block text-[11px] font-bold text-slate-700 uppercase tracking-wider mb-1">
+                            ID Sobat BPS <span class="text-rose-500">*</span>
+                        </label>
+                        <div class="relative">
+                            <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400 font-mono text-xs">#</span>
+                            <input type="text" 
+                                   name="id_sobat" 
+                                   required 
+                                   placeholder="Contoh: 35102025004" 
+                                   class="w-full pl-8 pr-3 py-2 text-xs rounded-xl border border-slate-200 bg-slate-50/50 hover:bg-white focus:bg-white focus:outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-500/15 font-mono font-semibold text-slate-800 transition">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-[11px] font-bold text-slate-700 uppercase tracking-wider mb-1">
+                            Nama Lengkap & Gelar <span class="text-rose-500">*</span>
+                        </label>
+                        <div class="relative">
+                            <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+                                <i data-lucide="user" class="w-3.5 h-3.5"></i>
+                            </span>
+                            <input type="text" 
+                                   name="nama_lengkap" 
+                                   required 
+                                   placeholder="Contoh: Ahmad Subandi, S.E." 
+                                   class="w-full pl-9 pr-3 py-2 text-xs rounded-xl border border-slate-200 bg-slate-50/50 hover:bg-white focus:bg-white focus:outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-500/15 font-medium text-slate-800 transition">
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <div class="grid grid-cols-2 gap-3">
-                <div>
-                    <label class="block text-xs font-semibold text-slate-700 mb-1">Jenis Kelamin *</label>
-                    <select name="jenis_kelamin" required class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs">
-                        <option value="Laki-laki">Laki-laki</option>
-                        <option value="Perempuan">Perempuan</option>
-                    </select>
+            <!-- Group 2: Demografi & Domisili -->
+            <div class="space-y-3">
+                <div class="flex items-center gap-2 text-[11px] font-bold uppercase tracking-wider text-cyan-700 pb-1 border-b border-slate-100">
+                    <i data-lucide="map-pin" class="w-3.5 h-3.5 text-cyan-500"></i>
+                    <span>2. Demografi & Domisili Banyuwangi</span>
                 </div>
-                <div>
-                    <label class="block text-xs font-semibold text-slate-700 mb-1">No. WhatsApp / HP</label>
-                    <input type="text" name="no_hp" placeholder="0812xxxxxxxx" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                    <div>
+                        <label class="block text-[11px] font-bold text-slate-700 uppercase tracking-wider mb-1">
+                            Jenis Kelamin <span class="text-rose-500">*</span>
+                        </label>
+                        <select name="jenis_kelamin" required class="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 bg-slate-50/50 hover:bg-white focus:bg-white focus:outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-500/15 font-semibold text-slate-700 transition">
+                            <option value="Laki-laki">Laki-laki</option>
+                            <option value="Perempuan">Perempuan</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-[11px] font-bold text-slate-700 uppercase tracking-wider mb-1">
+                            No. WhatsApp / HP
+                        </label>
+                        <div class="relative">
+                            <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+                                <i data-lucide="phone" class="w-3.5 h-3.5"></i>
+                            </span>
+                            <input type="text" 
+                                   name="no_hp" 
+                                   placeholder="081234567890" 
+                                   class="w-full pl-9 pr-3 py-2 text-xs rounded-xl border border-slate-200 bg-slate-50/50 hover:bg-white focus:bg-white focus:outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-500/15 font-mono text-slate-800 transition">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                    <div>
+                        <label class="block text-[11px] font-bold text-slate-700 uppercase tracking-wider mb-1">
+                            Kecamatan Domisili <span class="text-rose-500">*</span>
+                        </label>
+                        <input type="text" 
+                               name="kecamatan" 
+                               required 
+                               placeholder="Contoh: Rogojampi" 
+                               class="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 bg-slate-50/50 hover:bg-white focus:bg-white focus:outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-500/15 font-medium text-slate-800 transition">
+                    </div>
+                    <div>
+                        <label class="block text-[11px] font-bold text-slate-700 uppercase tracking-wider mb-1">
+                            Desa / Kelurahan
+                        </label>
+                        <input type="text" 
+                               name="desa" 
+                               placeholder="Contoh: Rogojampi" 
+                               class="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 bg-slate-50/50 hover:bg-white focus:bg-white focus:outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-500/15 font-medium text-slate-800 transition">
+                    </div>
                 </div>
             </div>
 
-            <div>
-                <label class="block text-xs font-semibold text-slate-700 mb-1">Email</label>
-                <input type="email" name="email" placeholder="mitra@gmail.com" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs">
-            </div>
-
-            <div class="grid grid-cols-2 gap-3">
-                <div>
-                    <label class="block text-xs font-semibold text-slate-700 mb-1">Desa / Kelurahan</label>
-                    <input type="text" name="desa" placeholder="Contoh: Rogojampi" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs">
+            <!-- Group 3: Kontak & Keahlian Survei -->
+            <div class="space-y-3">
+                <div class="flex items-center gap-2 text-[11px] font-bold uppercase tracking-wider text-emerald-700 pb-1 border-b border-slate-100">
+                    <i data-lucide="award" class="w-3.5 h-3.5 text-emerald-500"></i>
+                    <span>3. Kontak Surel & Spesialisasi Survei</span>
                 </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                    <div>
+                        <label class="block text-[11px] font-bold text-slate-700 uppercase tracking-wider mb-1">
+                            Alamat Email
+                        </label>
+                        <div class="relative">
+                            <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+                                <i data-lucide="mail" class="w-3.5 h-3.5"></i>
+                            </span>
+                            <input type="email" 
+                                   name="email" 
+                                   placeholder="mitra@gmail.com" 
+                                   class="w-full pl-9 pr-3 py-2 text-xs rounded-xl border border-slate-200 bg-slate-50/50 hover:bg-white focus:bg-white focus:outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-500/15 text-slate-800 transition">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-[11px] font-bold text-slate-700 uppercase tracking-wider mb-1">
+                            Keahlian Utama
+                        </label>
+                        <select name="keahlian" class="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 bg-slate-50/50 hover:bg-white focus:bg-white focus:outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-500/15 font-semibold text-slate-700 transition">
+                            <option value="Pendataan Lapangan (CAPI)">Pendataan Lapangan (CAPI)</option>
+                            <option value="PML & Pengawasan">PML & Pengawasan</option>
+                            <option value="Pengolahan Data & Entri">Pengolahan Data & Entri</option>
+                            <option value="Pemetaan Wilkerstat">Pemetaan Wilkerstat</option>
+                        </select>
+                    </div>
+                </div>
+
                 <div>
-                    <label class="block text-xs font-semibold text-slate-700 mb-1">Kecamatan Domisili *</label>
-                    <input type="text" name="kecamatan" required placeholder="Contoh: Rogojampi" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs">
+                    <label class="block text-[11px] font-bold text-slate-700 uppercase tracking-wider mb-1">
+                        Alamat Domisili Lengkap
+                    </label>
+                    <textarea name="alamat" 
+                              rows="2" 
+                              placeholder="Nama jalan, RT/RW, Dusun tempat tinggal mitra..." 
+                              class="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 bg-slate-50/50 hover:bg-white focus:bg-white focus:outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-500/15 text-slate-800 transition leading-relaxed"></textarea>
                 </div>
             </div>
 
-            <div>
-                <label class="block text-xs font-semibold text-slate-700 mb-1">Alamat Lengkap</label>
-                <textarea name="alamat" rows="2" placeholder="Jalan, RT/RW, Dusun..." class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs"></textarea>
-            </div>
-
-            <div>
-                <label class="block text-xs font-semibold text-slate-700 mb-1">Keahlian Utama</label>
-                <select name="keahlian" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs">
-                    <option value="Pendataan Lapangan (CAPI)">Pendataan Lapangan (CAPI)</option>
-                    <option value="PML & Pengawasan">PML & Pengawasan</option>
-                    <option value="Pengolahan Data & Entri">Pengolahan Data & Entri</option>
-                    <option value="Pemetaan Wilkerstat">Pemetaan Wilkerstat</option>
-                </select>
-            </div>
-
-            <div class="pt-3 flex justify-end gap-2 border-t border-slate-100">
-                <button type="button" onclick="document.getElementById('modalTambahMitra').classList.add('hidden')" class="px-4 py-2 rounded-xl text-xs font-semibold text-slate-600 hover:bg-slate-100">Batal</button>
-                <button type="submit" class="px-4 py-2 rounded-xl bg-orange-500 text-white text-xs font-semibold hover:bg-orange-600 shadow-sm shadow-orange-500/25">Simpan Mitra</button>
+            <!-- Footer Action Buttons -->
+            <div class="pt-4 border-t border-slate-100 flex items-center justify-between">
+                <span class="text-[11px] text-slate-400">
+                    <span class="text-rose-500 font-bold">*</span> Wajib diisi
+                </span>
+                <div class="flex items-center gap-2">
+                    <button type="button" 
+                            onclick="document.getElementById('modalTambahMitra').classList.add('hidden')" 
+                            class="px-4 py-2.5 rounded-xl text-xs font-semibold text-slate-600 hover:text-slate-800 hover:bg-slate-100 transition">
+                        Batal
+                    </button>
+                    <button type="submit" 
+                            class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white font-bold text-xs shadow-md shadow-orange-500/25 hover:shadow-orange-500/40 transition-all flex items-center gap-1.5 active:scale-95">
+                        <i data-lucide="check" class="w-3.5 h-3.5"></i>
+                        <span>Simpan Data Mitra</span>
+                    </button>
+                </div>
             </div>
         </form>
     </div>
