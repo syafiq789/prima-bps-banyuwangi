@@ -302,41 +302,32 @@
             </div>
         </div>
 
-        <!-- Center Section: Modern Pill Search Bar (Balanced & Centered) -->
-        <div class="flex-1 max-w-md mx-2 sm:mx-6 hidden sm:block">
+        <!-- Center Section: Modern Pill Search Bar (Prominent & Spacious) -->
+        <div class="flex-1 max-w-xl lg:max-w-2xl mx-3 sm:mx-6 md:mx-8 hidden sm:block">
             <form action="{{ url_for('documents.index') }}" method="GET" class="relative w-full">
                 <div class="relative flex items-center">
-                    <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3.5 pointer-events-none"></i>
+                    <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-4 pointer-events-none"></i>
                     <input type="text" 
                            name="q" 
                            id="global-search-input"
                            value="{{ request.args.get('q', '') }}"
-                           placeholder="Cari arsip, dokumen AKIP, atau nomor..." 
-                           class="w-full h-9 pl-9 pr-14 text-xs bg-slate-100/60 hover:bg-slate-100/90 focus:bg-white text-slate-800 placeholder-slate-400 rounded-full border border-slate-200/70 focus:border-orange-500/40 focus:ring-4 focus:ring-orange-500/10 transition-all outline-none">
-                    <kbd class="absolute right-2.5 pointer-events-none text-[9px] font-mono font-bold text-slate-400 bg-white border border-slate-200/90 px-1.5 py-0.5 rounded-md shadow-2xs">Ctrl K</kbd>
+                           placeholder="Cari arsip, dokumen AKIP, naskah dinas, atau nomor surat..." 
+                           class="w-full h-10 pl-11 pr-16 text-xs sm:text-sm bg-slate-100/70 hover:bg-slate-100 focus:bg-white text-slate-800 placeholder-slate-400 rounded-full border border-slate-200/80 focus:border-orange-500/40 focus:ring-4 focus:ring-orange-500/10 shadow-2xs transition-all outline-none font-medium">
+                    <kbd class="absolute right-3 pointer-events-none text-[10px] font-mono font-bold text-slate-400 bg-white border border-slate-200/90 px-2 py-0.5 rounded-md shadow-2xs">Ctrl K</kbd>
                 </div>
             </form>
         </div>
 
-        <!-- Right Section: Unggah Dokumen, Notifikasi, & User Profile Capsule -->
+        <!-- Right Section: Notifikasi & User Profile Capsule -->
         <div class="flex items-center gap-2 sm:gap-2.5">
             
-            <!-- Quick Upload Button (Executive Pill) -->
-            {% if current_user.is_authenticated and current_user.can_manage_documents %}
-            <a href="{{ url_for('documents.upload') }}" 
-               class="h-9 px-4 inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-orange-500 via-amber-500 to-orange-500 hover:opacity-95 text-white text-xs font-bold shadow-sm shadow-orange-500/25 hover:shadow-orange-500/40 active:scale-95 transition-all">
-                <i data-lucide="cloud-upload" class="w-3.5 h-3.5"></i>
-                <span class="hidden md:inline">Unggah Dokumen</span>
-            </a>
-            {% endif %}
-
             <!-- Notification / Status Dokumen Belum Lengkap -->
             <a href="{{ url_for('completeness.belum_lengkap') }}" 
                title="Dokumen Belum Lengkap"
-               class="relative w-9 h-9 rounded-full text-slate-500 hover:text-slate-800 hover:bg-slate-100 transition flex items-center justify-center border border-transparent hover:border-slate-200/60">
+               class="relative w-10 h-10 rounded-full text-slate-500 hover:text-slate-800 hover:bg-slate-100/80 border border-transparent hover:border-slate-200/70 transition flex items-center justify-center active:scale-95">
                 <i data-lucide="bell" class="w-4 h-4"></i>
                 {% if pending_docs_count > 0 %}
-                <span class="absolute top-1.5 right-1.5 flex h-2 w-2">
+                <span class="absolute top-2 right-2 flex h-2 w-2">
                     <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75"></span>
                     <span class="relative inline-flex rounded-full h-2 w-2 bg-orange-500"></span>
                 </span>
@@ -351,24 +342,27 @@
             <div class="relative">
                 <button id="user-menu-btn" 
                         type="button" 
-                        class="h-9 pl-1 pr-2.5 sm:pr-3 rounded-full border border-slate-200/70 hover:border-slate-300 bg-white/70 hover:bg-white flex items-center gap-2 transition shadow-2xs focus:outline-none group">
-                    <!-- User Avatar Initials -->
-                    <div class="w-7 h-7 rounded-full bg-gradient-to-br from-[#0f172a] via-[#1e293b] to-[#334155] text-white flex items-center justify-center font-bold text-[11px] shadow-2xs ring-2 ring-white flex-shrink-0">
-                        {{ (current_user.full_name or current_user.username)[:2].upper() }}
+                        class="h-10 pl-1.5 pr-3 rounded-full border border-slate-200/80 hover:border-slate-300 bg-white hover:bg-slate-50/80 flex items-center gap-2.5 transition-all shadow-2xs focus:outline-none group active:scale-95">
+                    <!-- User Avatar with live status dot -->
+                    <div class="relative flex-shrink-0">
+                        <div class="w-7.5 h-7.5 rounded-full bg-gradient-to-br from-slate-900 via-slate-800 to-slate-700 text-white flex items-center justify-center font-bold text-xs shadow-xs ring-2 ring-white">
+                            {{ (current_user.full_name or current_user.username)[:2].upper() }}
+                        </div>
+                        <span class="absolute bottom-0 right-0 w-2 h-2 rounded-full bg-emerald-500 ring-1.5 ring-white"></span>
                     </div>
                     
-                    <!-- User Name & Role -->
-                    <div class="hidden sm:flex flex-col text-left leading-tight">
-                        <span class="text-xs font-bold text-slate-800 truncate max-w-[130px]">{{ current_user.full_name or current_user.username }}</span>
-                        <div class="flex items-center gap-1">
-                            <span class="text-[9px] font-black uppercase tracking-wider text-orange-600 bg-orange-50 px-1.5 py-0.2 rounded-full border border-orange-200/60 leading-none">
-                                {{ current_user.role_display_name }}
-                            </span>
-                        </div>
+                    <!-- User Name & Role in a Clean Modern Layout -->
+                    <div class="hidden sm:flex items-center gap-2 text-left">
+                        <span class="text-xs font-bold text-slate-800 tracking-tight max-w-[140px] truncate">
+                            {{ current_user.full_name or current_user.username }}
+                        </span>
+                        <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-50 text-amber-700 border border-amber-200/70 shadow-2xs leading-none">
+                            {{ current_user.role_display_name }}
+                        </span>
                     </div>
 
                     <!-- Chevron Icon -->
-                    <i data-lucide="chevron-down" class="w-3.5 h-3.5 text-slate-400 group-hover:text-slate-700 group-hover:translate-y-0.5 transition-all ml-0.5"></i>
+                    <i data-lucide="chevron-down" class="w-3.5 h-3.5 text-slate-400 group-hover:text-slate-700 group-hover:translate-y-0.5 transition-all"></i>
                 </button>
 
                 <!-- Dropdown Card -->
