@@ -45,159 +45,42 @@
         </div>
     </div>
 
-    <!-- 2. Panduan Komprehensif: Spesifikasi Kolom & Ketentuan Upload Data Mitra CSV -->
-    <div class="bg-white rounded-3xl p-5 sm:p-6 border border-slate-200/90 shadow-sm relative overflow-hidden space-y-4">
-        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-slate-100">
-            <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-xl bg-cyan-50 text-cyan-600 border border-cyan-100 flex items-center justify-center flex-shrink-0">
-                    <i data-lucide="table-properties" class="w-5 h-5"></i>
-                </div>
-                <div>
-                    <h2 class="text-sm sm:text-base font-bold text-slate-900">Format Resmi & Spesifikasi 9 Kolom Templat Data Mitra</h2>
-                    <p class="text-xs text-slate-500">Panduan lengkap kebutuhan atribut saat melakukan unggah (upload) file CSV data induk mitra BPS</p>
-                </div>
+    <!-- 2. Simple & Modern CSV Template Card -->
+    <div class="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div class="flex items-start sm:items-center gap-3.5">
+            <div class="w-10 h-10 rounded-xl bg-cyan-50 border border-cyan-100 text-cyan-600 flex items-center justify-center flex-shrink-0">
+                <i data-lucide="file-spreadsheet" class="w-5 h-5"></i>
             </div>
-            <div class="flex items-center gap-2">
-                <a href="{{ url_for('mitra.download_template_mitra') }}" class="px-3.5 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs transition flex items-center gap-1.5 shadow-xs">
-                    <i data-lucide="download" class="w-3.5 h-3.5 text-cyan-400"></i>
-                    <span>Unduh File CSV (.csv)</span>
-                </a>
-                <a href="{{ url_for('mitra.database') }}" class="px-3 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-xs transition flex items-center gap-1">
-                    <span>Database Mitra</span>
-                    <i data-lucide="arrow-right" class="w-3 h-3"></i>
-                </a>
+            <div>
+                <div class="flex flex-wrap items-center gap-2 mb-1">
+                    <h2 class="text-sm font-bold text-slate-800">Format Impor Data Master Mitra (.CSV)</h2>
+                    <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-cyan-50 text-cyan-700 border border-cyan-200/60">Standard BPS</span>
+                </div>
+                <div class="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-slate-500">
+                    <span class="flex items-center gap-1">
+                        <span class="w-2 h-2 rounded-full bg-rose-500 inline-block"></span>
+                        <strong class="text-slate-700">Wajib (4):</strong> <code class="text-[11px] text-slate-600">id_sobat, nama_lengkap, jenis_kelamin, kecamatan</code>
+                    </span>
+                    <span class="flex items-center gap-1">
+                        <span class="w-2 h-2 rounded-full bg-slate-400 inline-block"></span>
+                        <strong class="text-slate-700">Opsional (5):</strong> <code class="text-[11px] text-slate-500">desa, no_hp, email, alamat, keahlian</code>
+                    </span>
+                </div>
             </div>
         </div>
 
-        <!-- Ketentuan Format Unggah -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
-            <div class="p-3.5 rounded-2xl bg-cyan-50/50 border border-cyan-100 text-xs">
-                <div class="flex items-center gap-2 text-cyan-800 font-bold mb-1">
-                    <i data-lucide="file-spreadsheet" class="w-4 h-4 text-cyan-600"></i>
-                    <span>Tipe File & Pemisah</span>
-                </div>
-                <p class="text-[11px] text-slate-600 leading-relaxed">
-                    Format berkas <strong>.csv</strong> teks standar UTF-8 (atau UTF-8 with BOM dari Microsoft Excel). Karakter pemisah kolom adalah tanda koma (<code>,</code>).
-                </p>
-            </div>
-
-            <div class="p-3.5 rounded-2xl bg-red-50/50 border border-red-100 text-xs">
-                <div class="flex items-center gap-2 text-red-800 font-bold mb-1">
-                    <i data-lucide="alert-circle" class="w-4 h-4 text-red-600"></i>
-                    <span>4 Kolom Wajib Diisi</span>
-                </div>
-                <p class="text-[11px] text-slate-600 leading-relaxed">
-                    Kolom <code>id_sobat</code>, <code>nama_lengkap</code>, <code>jenis_kelamin</code>, dan <code>kecamatan</code> harus memiliki nilai agar mitra berhasil diregistrasikan.
-                </p>
-            </div>
-
-            <div class="p-3.5 rounded-2xl bg-emerald-50/50 border border-emerald-100 text-xs">
-                <div class="flex items-center gap-2 text-emerald-800 font-bold mb-1">
-                    <i data-lucide="check-check" class="w-4 h-4 text-emerald-600"></i>
-                    <span>5 Kolom Opsional / Pendukung</span>
-                </div>
-                <p class="text-[11px] text-slate-600 leading-relaxed">
-                    Kolom <code>email</code>, <code>alamat</code>, <code>no_hp</code>, <code>desa</code>, dan <code>keahlian</code> boleh dikosongkan namun sangat dianjurkan untuk koordinasi lapangan.
-                </p>
-            </div>
-        </div>
-
-        <!-- Tabel Detail Spesifikasi Setiap Kolom -->
-        <div class="border border-slate-200/80 rounded-2xl overflow-hidden overflow-x-auto">
-            <table class="w-full text-left text-xs">
-                <thead class="bg-slate-50 text-slate-600 border-b border-slate-200 uppercase font-bold text-[10px]">
-                    <tr>
-                        <th class="py-2.5 px-3">Kolom Header</th>
-                        <th class="py-2.5 px-3">Kewajiban</th>
-                        <th class="py-2.5 px-3">Tipe Data</th>
-                        <th class="py-2.5 px-3">Ketentuan Format</th>
-                        <th class="py-2.5 px-3">Contoh Nilai Data</th>
-                    </tr>
-                </thead>
-                <tbody class="divide-y divide-slate-100">
-                    <tr>
-                        <td class="py-2 px-3 font-mono font-bold text-cyan-700">id_sobat</td>
-                        <td class="py-2 px-3"><span class="px-2 py-0.5 rounded-full text-[9px] font-extrabold bg-red-100 text-red-700">WAJIB</span></td>
-                        <td class="py-2 px-3 text-slate-500">String / Numerik</td>
-                        <td class="py-2 px-3 text-slate-700">Nomor registrasi unik mitra pada portal Sobat BPS</td>
-                        <td class="py-2 px-3 font-mono text-slate-600">35102025001</td>
-                    </tr>
-                    <tr>
-                        <td class="py-2 px-3 font-mono font-bold text-slate-900">nama_lengkap</td>
-                        <td class="py-2 px-3"><span class="px-2 py-0.5 rounded-full text-[9px] font-extrabold bg-red-100 text-red-700">WAJIB</span></td>
-                        <td class="py-2 px-3 text-slate-500">Teks</td>
-                        <td class="py-2 px-3 text-slate-700">Nama lengkap mitra pendataan beserta gelar</td>
-                        <td class="py-2 px-3 text-slate-800">Ahmad Subandi, S.E.</td>
-                    </tr>
-                    <tr>
-                        <td class="py-2 px-3 font-mono font-bold text-pink-700">jenis_kelamin</td>
-                        <td class="py-2 px-3"><span class="px-2 py-0.5 rounded-full text-[9px] font-extrabold bg-red-100 text-red-700">WAJIB</span></td>
-                        <td class="py-2 px-3 text-slate-500">Pilihan Teks</td>
-                        <td class="py-2 px-3 text-slate-700">Harus diisi dengan <code>Laki-laki</code> atau <code>Perempuan</code></td>
-                        <td class="py-2 px-3 text-slate-800">Laki-laki</td>
-                    </tr>
-                    <tr>
-                        <td class="py-2 px-3 font-mono font-bold text-indigo-700">kecamatan</td>
-                        <td class="py-2 px-3"><span class="px-2 py-0.5 rounded-full text-[9px] font-extrabold bg-red-100 text-red-700">WAJIB</span></td>
-                        <td class="py-2 px-3 text-slate-500">Teks</td>
-                        <td class="py-2 px-3 text-slate-700">Kecamatan domisili tugas di Kab. Banyuwangi</td>
-                        <td class="py-2 px-3 text-slate-800">Rogojampi</td>
-                    </tr>
-                    <tr>
-                        <td class="py-2 px-3 font-mono font-bold text-emerald-700">desa</td>
-                        <td class="py-2 px-3"><span class="px-2 py-0.5 rounded-full text-[9px] font-bold bg-amber-100 text-amber-800">DIANJURKAN</span></td>
-                        <td class="py-2 px-3 text-slate-500">Teks</td>
-                        <td class="py-2 px-3 text-slate-700">Desa atau kelurahan domisili tempat tinggal</td>
-                        <td class="py-2 px-3 text-slate-800">Rogojampi</td>
-                    </tr>
-                    <tr>
-                        <td class="py-2 px-3 font-mono font-bold text-slate-700">no_hp</td>
-                        <td class="py-2 px-3"><span class="px-2 py-0.5 rounded-full text-[9px] font-bold bg-amber-100 text-amber-800">DIANJURKAN</span></td>
-                        <td class="py-2 px-3 text-slate-500">Teks Telepon</td>
-                        <td class="py-2 px-3 text-slate-700">Nomor WhatsApp / HP aktif untuk koordinasi survei</td>
-                        <td class="py-2 px-3 text-slate-800">081234567890</td>
-                    </tr>
-                    <tr>
-                        <td class="py-2 px-3 font-mono font-bold text-blue-700">email</td>
-                        <td class="py-2 px-3"><span class="px-2 py-0.5 rounded-full text-[9px] font-bold bg-slate-100 text-slate-600">OPSIONAL</span></td>
-                        <td class="py-2 px-3 text-slate-500">Alamat Email</td>
-                        <td class="py-2 px-3 text-slate-700">Alamat surel aktif mitra</td>
-                        <td class="py-2 px-3 text-slate-500">ahmad.subandi@gmail.com</td>
-                    </tr>
-                    <tr>
-                        <td class="py-2 px-3 font-mono font-bold text-slate-700">alamat</td>
-                        <td class="py-2 px-3"><span class="px-2 py-0.5 rounded-full text-[9px] font-bold bg-slate-100 text-slate-600">OPSIONAL</span></td>
-                        <td class="py-2 px-3 text-slate-500">Teks Panjang</td>
-                        <td class="py-2 px-3 text-slate-700">Alamat rumah lengkap (Jalan, RT/RW, Dusun)</td>
-                        <td class="py-2 px-3 text-slate-500">Jl. Ahmad Yani No. 15 RT 01 RW 02</td>
-                    </tr>
-                    <tr>
-                        <td class="py-2 px-3 font-mono font-bold text-slate-700">keahlian</td>
-                        <td class="py-2 px-3"><span class="px-2 py-0.5 rounded-full text-[9px] font-bold bg-slate-100 text-slate-600">OPSIONAL</span></td>
-                        <td class="py-2 px-3 text-slate-500">Teks</td>
-                        <td class="py-2 px-3 text-slate-700">Keahlian (CAPI, PML, Entri Data, Pemetaan Wilkerstat)</td>
-                        <td class="py-2 px-3 text-slate-500">Pendataan Lapangan (CAPI)</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-
-        <!-- Box Contoh Kode CSV -->
-        <div class="p-3 bg-slate-900 rounded-2xl text-slate-200">
-            <div class="flex items-center justify-between text-[11px] text-slate-400 mb-1.5">
-                <span class="font-bold text-white flex items-center gap-1.5">
-                    <i data-lucide="code" class="w-3.5 h-3.5 text-cyan-400"></i>
-                    <span>Contoh Baris Berkas CSV Siap Diunggah:</span>
-                </span>
-                <button type="button" onclick="copyCsvExampleTpl()" class="text-xs text-cyan-400 hover:text-cyan-300 font-semibold flex items-center gap-1">
-                    <i data-lucide="copy" class="w-3.5 h-3.5"></i>
-                    <span id="copyTextTpl">Salin Teks CSV</span>
-                </button>
-            </div>
-            <pre id="csvCodeBlockTpl" class="text-[11px] font-mono overflow-x-auto text-emerald-400 p-2.5 bg-slate-950 rounded-xl leading-relaxed">id_sobat,nama_lengkap,email,alamat,no_hp,jenis_kelamin,desa,kecamatan,keahlian
-35102025001,Ahmad Subandi,ahmad.subandi@gmail.com,Jl. Ahmad Yani No. 15 RT 01 RW 02,081234567890,Laki-laki,Rogojampi,Rogojampi,Pendataan Lapangan (CAPI)
-35102025002,Siti Rahmawati,siti.rahma@gmail.com,Jl. Diponegoro No. 44 RT 02 RW 03,081298765432,Perempuan,Genteng Wetan,Genteng,PML & Pengawasan
-35102025003,Budi Santoso,budi.santoso@gmail.com,Jl. Hayam Wuruk No. 8,085712345678,Laki-laki,Mojopanggung,Giri,Pengolahan Data & Entri</pre>
+        <div class="flex items-center gap-2 flex-shrink-0">
+            <button type="button" 
+                    onclick="document.getElementById('modalDetailKolomMitra').classList.remove('hidden')" 
+                    class="px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold transition flex items-center gap-1.5">
+                <i data-lucide="info" class="w-3.5 h-3.5 text-slate-500"></i>
+                <span>Rincian Kolom</span>
+            </button>
+            <a href="{{ url_for('mitra.download_template_mitra') }}" 
+               class="px-3.5 py-2 rounded-xl bg-cyan-600 hover:bg-cyan-700 text-white text-xs font-semibold transition flex items-center gap-1.5 shadow-xs">
+                <i data-lucide="download" class="w-3.5 h-3.5"></i>
+                <span>Unduh Templat CSV</span>
+            </a>
         </div>
     </div>
 
@@ -354,16 +237,119 @@
     </div>
 </div>
 
+<!-- Modal Rincian Spesifikasi Kolom CSV -->
+<div id="modalDetailKolomMitra" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-2xl w-full p-6 shadow-2xl space-y-4 max-h-[90vh] overflow-y-auto">
+        <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+            <div class="flex items-center gap-2.5">
+                <div class="w-8 h-8 rounded-xl bg-cyan-50 text-cyan-600 flex items-center justify-center">
+                    <i data-lucide="table-properties" class="w-4 h-4"></i>
+                </div>
+                <div>
+                    <h3 class="text-sm font-bold text-slate-800">Spesifikasi Kolom Master Mitra BPS</h3>
+                    <p class="text-[11px] text-slate-400">9 Kolom resmi berkas CSV untuk impor data mitra</p>
+                </div>
+            </div>
+            <button onclick="document.getElementById('modalDetailKolomMitra').classList.add('hidden')" class="text-slate-400 hover:text-slate-600">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+        </div>
+
+        <div class="border border-slate-200/80 rounded-2xl overflow-hidden overflow-x-auto">
+            <table class="w-full text-left text-xs">
+                <thead class="bg-slate-50 text-slate-600 border-b border-slate-200 uppercase font-bold text-[10px]">
+                    <tr>
+                        <th class="py-2.5 px-3">Kolom Header</th>
+                        <th class="py-2.5 px-3">Kewajiban</th>
+                        <th class="py-2.5 px-3">Keterangan</th>
+                        <th class="py-2.5 px-3">Contoh</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100">
+                    <tr>
+                        <td class="py-2 px-3 font-mono font-bold text-cyan-700">id_sobat</td>
+                        <td class="py-2 px-3"><span class="px-2 py-0.5 rounded text-[9px] font-extrabold bg-rose-100 text-rose-700">WAJIB</span></td>
+                        <td class="py-2 px-3 text-slate-600">Nomor registrasi unik Sobat BPS</td>
+                        <td class="py-2 px-3 font-mono text-slate-500">35102025001</td>
+                    </tr>
+                    <tr>
+                        <td class="py-2 px-3 font-mono font-bold text-slate-900">nama_lengkap</td>
+                        <td class="py-2 px-3"><span class="px-2 py-0.5 rounded text-[9px] font-extrabold bg-rose-100 text-rose-700">WAJIB</span></td>
+                        <td class="py-2 px-3 text-slate-600">Nama lengkap mitra & gelar</td>
+                        <td class="py-2 px-3 text-slate-700">Ahmad Subandi, S.E.</td>
+                    </tr>
+                    <tr>
+                        <td class="py-2 px-3 font-mono font-bold text-pink-700">jenis_kelamin</td>
+                        <td class="py-2 px-3"><span class="px-2 py-0.5 rounded text-[9px] font-extrabold bg-rose-100 text-rose-700">WAJIB</span></td>
+                        <td class="py-2 px-3 text-slate-600"><code>Laki-laki</code> atau <code>Perempuan</code></td>
+                        <td class="py-2 px-3 text-slate-700">Laki-laki</td>
+                    </tr>
+                    <tr>
+                        <td class="py-2 px-3 font-mono font-bold text-indigo-700">kecamatan</td>
+                        <td class="py-2 px-3"><span class="px-2 py-0.5 rounded text-[9px] font-extrabold bg-rose-100 text-rose-700">WAJIB</span></td>
+                        <td class="py-2 px-3 text-slate-600">Kecamatan domisili tugas</td>
+                        <td class="py-2 px-3 text-slate-700">Rogojampi</td>
+                    </tr>
+                    <tr>
+                        <td class="py-2 px-3 font-mono font-bold text-emerald-700">desa</td>
+                        <td class="py-2 px-3"><span class="px-2 py-0.5 rounded text-[9px] font-bold bg-slate-100 text-slate-600">OPSIONAL</span></td>
+                        <td class="py-2 px-3 text-slate-600">Desa / kelurahan tinggal</td>
+                        <td class="py-2 px-3 text-slate-700">Rogojampi</td>
+                    </tr>
+                    <tr>
+                        <td class="py-2 px-3 font-mono font-bold text-slate-700">no_hp</td>
+                        <td class="py-2 px-3"><span class="px-2 py-0.5 rounded text-[9px] font-bold bg-slate-100 text-slate-600">OPSIONAL</span></td>
+                        <td class="py-2 px-3 text-slate-600">Nomor WhatsApp aktif</td>
+                        <td class="py-2 px-3 text-slate-700">081234567890</td>
+                    </tr>
+                    <tr>
+                        <td class="py-2 px-3 font-mono font-bold text-blue-700">email</td>
+                        <td class="py-2 px-3"><span class="px-2 py-0.5 rounded text-[9px] font-bold bg-slate-100 text-slate-600">OPSIONAL</span></td>
+                        <td class="py-2 px-3 text-slate-600">Alamat surel aktif</td>
+                        <td class="py-2 px-3 text-slate-500">ahmad.subandi@gmail.com</td>
+                    </tr>
+                    <tr>
+                        <td class="py-2 px-3 font-mono font-bold text-slate-700">alamat</td>
+                        <td class="py-2 px-3"><span class="px-2 py-0.5 rounded text-[9px] font-bold bg-slate-100 text-slate-600">OPSIONAL</span></td>
+                        <td class="py-2 px-3 text-slate-600">Alamat jalan/RT/RW</td>
+                        <td class="py-2 px-3 text-slate-500">Jl. Ahmad Yani No. 15</td>
+                    </tr>
+                    <tr>
+                        <td class="py-2 px-3 font-mono font-bold text-slate-700">keahlian</td>
+                        <td class="py-2 px-3"><span class="px-2 py-0.5 rounded text-[9px] font-bold bg-slate-100 text-slate-600">OPSIONAL</span></td>
+                        <td class="py-2 px-3 text-slate-600">Keahlian (CAPI, PML, Entri)</td>
+                        <td class="py-2 px-3 text-slate-500">Pendataan (CAPI)</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="flex items-center justify-end gap-2 pt-2 border-t border-slate-100">
+            <a href="{{ url_for('mitra.download_template_mitra') }}" class="px-3.5 py-2 rounded-xl bg-cyan-600 hover:bg-cyan-700 text-white text-xs font-semibold flex items-center gap-1.5 shadow-xs">
+                <i data-lucide="download" class="w-3.5 h-3.5"></i>
+                <span>Unduh File CSV (.csv)</span>
+            </a>
+            <button type="button" onclick="document.getElementById('modalDetailKolomMitra').classList.add('hidden')" class="px-4 py-2 rounded-xl text-xs font-semibold text-slate-600 hover:bg-slate-100">
+                Tutup
+            </button>
+        </div>
+    </div>
+</div>
+
 <script>
 function copyCsvExampleTpl() {
-    const code = document.getElementById('csvCodeBlockTpl').innerText;
-    navigator.clipboard.writeText(code).then(() => {
-        const copyTxt = document.getElementById('copyTextTpl');
-        copyTxt.innerText = 'Berhasil Disalin!';
-        setTimeout(() => {
-            copyTxt.innerText = 'Salin Teks CSV';
-        }, 2500);
-    });
+    const code = document.getElementById('csvCodeBlockTpl')?.innerText;
+    if (code) {
+        navigator.clipboard.writeText(code).then(() => {
+            const copyTxt = document.getElementById('copyTextTpl');
+            if (copyTxt) {
+                copyTxt.innerText = 'Berhasil Disalin!';
+                setTimeout(() => {
+                    copyTxt.innerText = 'Salin Teks CSV';
+                }, 2500);
+            }
+        });
+    }
 }
 </script>
 {% endblock %}
