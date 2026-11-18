@@ -571,15 +571,15 @@
                    class="nav-subitem flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold transition-all duration-200 group/sub {% if request.path == url_for('keuangan.pengajuan') %} bg-gradient-to-r from-[#F28C28] to-[#F47721] text-white font-bold shadow-md shadow-orange-500/25 {% else %} text-slate-300 hover:text-white hover:bg-slate-800/70 hover:translate-x-1 {% endif %}"
                    title="Tahap 1: Pengajuan Usulan Anggaran oleh Tim Kerja">
                     <span class="w-4 h-4 rounded-full bg-orange-500/20 text-orange-400 text-[10px] font-black flex items-center justify-center flex-shrink-0 {% if request.path == url_for('keuangan.pengajuan') %} bg-white text-orange-600 {% endif %}">1</span>
-                    <span class="truncate">1. Usulan Pengajuan</span>
+                    <span class="truncate">Pengajuan Anggaran</span>
                 </a>
 
                 <!-- 2. Persetujuan PPK (Tahap 2) -->
                 <a href="{{ url_for('keuangan.persetujuan') }}" 
                    class="nav-subitem flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold transition-all duration-200 group/sub {% if request.path == url_for('keuangan.persetujuan') %} bg-gradient-to-r from-[#F28C28] to-[#F47721] text-white font-bold shadow-md shadow-orange-500/25 {% else %} text-slate-300 hover:text-white hover:bg-slate-800/70 hover:translate-x-1 {% endif %}"
-                   title="Tahap 2: Verifikasi & Approval oleh PPK / KPA">
+                   title="Tahap 2: Verifikasi & Persetujuan oleh PPK / KPA">
                     <span class="w-4 h-4 rounded-full bg-teal-500/20 text-teal-400 text-[10px] font-black flex items-center justify-center flex-shrink-0 {% if request.path == url_for('keuangan.persetujuan') %} bg-white text-teal-600 {% endif %}">2</span>
-                    <span class="truncate">2. Verifikasi & Approval</span>
+                    <span class="truncate">Verifikasi & Persetujuan</span>
                 </a>
 
                 <!-- 3. Realisasi SP2D (Tahap 3) -->
@@ -587,7 +587,7 @@
                    class="nav-subitem flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold transition-all duration-200 group/sub {% if request.path == url_for('keuangan.realisasi') %} bg-gradient-to-r from-[#F28C28] to-[#F47721] text-white font-bold shadow-md shadow-orange-500/25 {% else %} text-slate-300 hover:text-white hover:bg-slate-800/70 hover:translate-x-1 {% endif %}"
                    title="Tahap 3: Pencairan Dana & Pencatatan SP2D KPPN">
                     <span class="w-4 h-4 rounded-full bg-emerald-500/20 text-emerald-400 text-[10px] font-black flex items-center justify-center flex-shrink-0 {% if request.path == url_for('keuangan.realisasi') %} bg-white text-emerald-600 {% endif %}">3</span>
-                    <span class="truncate">3. Pencairan & SP2D</span>
+                    <span class="truncate">Pencairan & Realisasi SP2D</span>
                 </a>
 
                 <!-- SECTION: MASTER DATA DIPA & LAPORAN -->
