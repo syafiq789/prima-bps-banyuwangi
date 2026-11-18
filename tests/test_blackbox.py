@@ -12,6 +12,7 @@ Fokus Uji:
 6. Integritas Basis Data & Relasi ORM (SQLAlchemy)
 """
 
+import io
 import unittest
 from datetime import datetime, date
 from app import create_app
@@ -401,6 +402,40 @@ class BlackBoxSystemTest(unittest.TestCase):
         db.session.delete(penugasan_test)
         db.session.delete(imported_mitra)
         db.session.delete(created_keg)
+        db.session.commit()
+
+    def test_template_and_upload_kegiatan_csv(self):
+        """Uji fitur Template & Upload Kegiatan: Unduh template dan unggah CSV langsung tampil otomatis."""
+        with self.client.session_transaction() as sess:
+            user = User.query.filter_by(role='admin').first()
+            sess['_user_id'] = str(user.id)
+            sess['_fresh'] = True
+
+        # 1. Unduh template CSV Kegiatan
+        res_dl = self.client.get('/mitra/template/download-kegiatan')
+        self.assertEqual(res_dl.status_code, 200)
+        self.assertIn(b'kode_kegiatan', res_dl.data)
+        self.assertIn(b'SRV-DIS-01', res_dl.data)
+
+        # 2. Unggah berkas CSV Kegiatan
+        unique_kode = f"SRV-AUTO-{int(datetime.utcnow().timestamp())}"
+        csv_data = f"kode_kegiatan,nama_kegiatan,tim_kerja,tahun,bulan,tanggal_mulai,tanggal_selesai\n{unique_kode},Survei Otomatis Unggah Template,Tim Produksi,2025,05,2025-05-01,2025-05-31\n"
+        data = {
+            'file': (io.BytesIO(csv_data.encode('utf-8')), 'kegiatan_test.csv')
+        }
+        res_up = self.client.post('/mitra/template/upload-kegiatan', data=data, content_type='multipart/form-data', follow_redirects=True)
+        self.assertEqual(res_up.status_code, 200)
+        self.assertIn(b'Unggah template berhasil!', res_up.data)
+        self.assertIn(unique_kode.encode('utf-8'), res_up.data)
+        self.assertIn(b'Survei Otomatis Unggah Template', res_up.data)
+
+        # 3. Verifikasi data tersimpan di database
+        keg_saved = Kegiatan.query.filter_by(kode_kegiatan=unique_kode).first()
+        self.assertIsNotNone(keg_saved)
+        self.assertEqual(keg_saved.tim_kerja, 'Tim Produksi')
+
+        # Bersihkan data uji
+        db.session.delete(keg_saved)
         db.session.commit()
 
 if __name__ == '__main__':

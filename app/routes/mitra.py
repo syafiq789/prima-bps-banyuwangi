@@ -2,7 +2,7 @@ import io
 import csv
 from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify, Response
 from flask_login import login_required, current_user
-from datetime import datetime
+from datetime import datetime, timedelta
 from sqlalchemy import func
 from app.models import (
     db, Kegiatan, TemplateKegiatan, Mitra, PenugasanMitra, EvaluasiMitra, Activity
@@ -666,10 +666,13 @@ def rekapitulasi():
 @login_required
 def template():
     tim_filter = request.args.get('tim', '').strip()
-    query = TemplateKegiatan.query
+    active_tab = request.args.get('tab', 'kegiatan').strip()
+
+    # Query Template Kegiatan (SBU)
+    query_tpl = TemplateKegiatan.query
     if tim_filter and tim_filter != 'Semua':
-        query = query.filter(TemplateKegiatan.tim_kerja == tim_filter)
-    template_list = query.order_by(TemplateKegiatan.created_at.desc()).all()
+        query_tpl = query_tpl.filter(TemplateKegiatan.tim_kerja == tim_filter)
+    template_list = query_tpl.order_by(TemplateKegiatan.created_at.desc()).all()
     
     all_tpls = TemplateKegiatan.query.all()
     count_all = len(all_tpls)
@@ -678,9 +681,25 @@ def template():
     count_produksi = len([t for t in all_tpls if t.tim_kerja == 'Tim Produksi'])
     count_pls = len([t for t in all_tpls if t.tim_kerja == 'Tim PLS'])
 
+    # Query Kegiatan untuk Tampilan Hasil Unggahan Otomatis
+    query_keg = Kegiatan.query
+    if tim_filter and tim_filter != 'Semua':
+        query_keg = query_keg.filter(Kegiatan.tim_kerja == tim_filter)
+    kegiatan_list = query_keg.order_by(Kegiatan.created_at.desc()).all()
+    total_kegiatan = Kegiatan.query.count()
+
+    # Query Mitra untuk Tab Mitra
+    mitra_list = Mitra.query.order_by(Mitra.created_at.desc()).limit(20).all()
+    total_mitra = Mitra.query.count()
+
     return render_template(
         'mitra/template.html', 
         template_list=template_list,
+        kegiatan_list=kegiatan_list,
+        mitra_list=mitra_list,
+        total_kegiatan=total_kegiatan,
+        total_mitra=total_mitra,
+        active_tab=active_tab,
         tim_filter=tim_filter or 'Semua',
         count_all=count_all,
         count_distribusi=count_distribusi,
@@ -688,6 +707,187 @@ def template():
         count_produksi=count_produksi,
         count_pls=count_pls
     )
+
+@mitra_bp.route('/template/download-kegiatan')
+@login_required
+def download_template_kegiatan():
+    output = io.StringIO()
+    writer = csv.writer(output)
+    writer.writerow(['kode_kegiatan', 'nama_kegiatan', 'tim_kerja', 'tahun', 'bulan', 'tanggal_mulai', 'tanggal_selesai'])
+    writer.writerow(['SRV-DIS-01', 'Survei Harga Perdagangan Besar (SHPB)', 'Tim Distribusi', '2025', 'Januari', '2025-01-05', '2025-01-31'])
+    writer.writerow(['SRV-NER-01', 'Survei Khusus Lembaga Non-Profit (SKLNP)', 'Tim Neraca', '2025', 'Januari', '2025-01-10', '2025-02-15'])
+    writer.writerow(['SRV-PRD-01', 'Kerangka Sampel Area (KSA) Padi Subround 1', 'Tim Produksi', '2025', 'Februari', '2025-02-01', '2025-02-28'])
+    writer.writerow(['SRV-PLS-01', 'Pemutakhiran Wilkerstat & Geotagging SLS', 'Tim PLS', '2025', 'Februari', '2025-02-10', '2025-03-15'])
+    
+    response = Response(output.getvalue().encode('utf-8-sig'), mimetype='text/csv')
+    response.headers['Content-Disposition'] = 'attachment; filename=Template_Kegiatan_Sensus_Survei_BPS.csv'
+    return response
+
+@mitra_bp.route('/template/upload-kegiatan', methods=['POST'])
+@login_required
+def upload_kegiatan():
+    file = request.files.get('file')
+    if not file or not file.filename:
+        flash('Silakan pilih berkas CSV kegiatan yang ingin diunggah.', 'warning')
+        return redirect(url_for('mitra.template', tab='kegiatan'))
+
+    if not (file.filename.lower().endswith('.csv') or file.filename.lower().endswith('.txt')):
+        flash('Format berkas harus berupa CSV.', 'danger')
+        return redirect(url_for('mitra.template', tab='kegiatan'))
+
+    try:
+        raw_bytes = file.stream.read()
+        for encoding in ['utf-8-sig', 'utf-8', 'latin-1', 'cp1252']:
+            try:
+                content = raw_bytes.decode(encoding)
+                break
+            except UnicodeDecodeError:
+                continue
+        else:
+            content = raw_bytes.decode('utf-8', errors='ignore')
+
+        first_line = content.splitlines()[0] if content.splitlines() else ''
+        delimiter = ';' if ';' in first_line and ',' not in first_line else ','
+
+        stream = io.StringIO(content, newline=None)
+        reader = csv.DictReader(stream, delimiter=delimiter)
+        
+        success_count = 0
+        updated_count = 0
+
+        for row in reader:
+            clean_row = {k.strip().lower(): (v.strip() if v else '') for k, v in row.items() if k}
+            
+            kode_kegiatan = clean_row.get('kode_kegiatan') or clean_row.get('kode') or clean_row.get('id')
+            nama_kegiatan = clean_row.get('nama_kegiatan') or clean_row.get('nama') or clean_row.get('kegiatan')
+            
+            if not kode_kegiatan or not nama_kegiatan:
+                continue
+
+            # Normalisasi Tim Kerja
+            tim_input = clean_row.get('tim_kerja') or clean_row.get('tim') or 'Tim Distribusi'
+            tim_upper = tim_input.upper()
+            if 'NERACA' in tim_upper:
+                tim_kerja = 'Tim Neraca'
+            elif 'PRODUKSI' in tim_upper or 'PERTANIAN' in tim_upper:
+                tim_kerja = 'Tim Produksi'
+            elif 'PLS' in tim_upper or 'PENGOLAHAN' in tim_upper or 'TI' in tim_upper:
+                tim_kerja = 'Tim PLS'
+            else:
+                tim_kerja = 'Tim Distribusi'
+
+            tahun_str = clean_row.get('tahun')
+            try:
+                tahun = int(tahun_str) if tahun_str else datetime.utcnow().year
+            except ValueError:
+                tahun = datetime.utcnow().year
+
+            bulan = clean_row.get('bulan') or '01'
+
+            def parse_date(date_str, fallback):
+                if not date_str:
+                    return fallback
+                for fmt in ('%Y-%m-%d', '%d/%m/%Y', '%d-%m-%Y', '%Y/%m/%d'):
+                    try:
+                        return datetime.strptime(date_str, fmt).date()
+                    except ValueError:
+                        pass
+                return fallback
+
+            today = datetime.utcnow().date()
+            tanggal_mulai = parse_date(clean_row.get('tanggal_mulai'), today)
+            tanggal_selesai = parse_date(clean_row.get('tanggal_selesai'), today + timedelta(days=30))
+
+            existing = Kegiatan.query.filter_by(kode_kegiatan=kode_kegiatan).first()
+            if existing:
+                existing.nama_kegiatan = nama_kegiatan
+                existing.tim_kerja = tim_kerja
+                existing.tahun = tahun
+                existing.bulan = bulan
+                existing.tanggal_mulai = tanggal_mulai
+                existing.tanggal_selesai = tanggal_selesai
+                updated_count += 1
+            else:
+                new_keg = Kegiatan(
+                    kode_kegiatan=kode_kegiatan,
+                    nama_kegiatan=nama_kegiatan,
+                    tim_kerja=tim_kerja,
+                    tahun=tahun,
+                    bulan=bulan,
+                    tanggal_mulai=tanggal_mulai,
+                    tanggal_selesai=tanggal_selesai,
+                    penanggung_jawab_id=current_user.id
+                )
+                db.session.add(new_keg)
+                success_count += 1
+
+        db.session.commit()
+        flash(f'Unggah template berhasil! {success_count} kegiatan baru otomatis ditambahkan, {updated_count} diperbarui.', 'success')
+    except Exception as e:
+        db.session.rollback()
+        flash(f'Gagal mengimpor berkas template: {str(e)}', 'danger')
+
+    return redirect(url_for('mitra.template', tab='kegiatan'))
+
+@mitra_bp.route('/template/upload-mitra', methods=['POST'])
+@login_required
+def upload_mitra_from_template():
+    file = request.files.get('file')
+    if not file or not file.filename:
+        flash('Silakan pilih berkas CSV template mitra yang akan diunggah.', 'warning')
+        return redirect(url_for('mitra.template', tab='mitra'))
+
+    if not file.filename.lower().endswith('.csv'):
+        flash('Format berkas harus berupa CSV.', 'danger')
+        return redirect(url_for('mitra.template', tab='mitra'))
+
+    try:
+        content = file.stream.read().decode('utf-8-sig')
+        stream = io.StringIO(content, newline=None)
+        reader = csv.DictReader(stream)
+        success_count = 0
+        updated_count = 0
+
+        for row in reader:
+            clean_row = {k.strip(): (v.strip() if v else '') for k, v in row.items() if k}
+            id_sobat = clean_row.get('id_sobat')
+            nama_lengkap = clean_row.get('nama_lengkap')
+            if not id_sobat or not nama_lengkap:
+                continue
+
+            existing = Mitra.query.filter_by(id_sobat=id_sobat).first()
+            if existing:
+                existing.nama_lengkap = nama_lengkap
+                if clean_row.get('email'): existing.email = clean_row.get('email')
+                if clean_row.get('alamat'): existing.alamat = clean_row.get('alamat')
+                if clean_row.get('no_hp'): existing.no_hp = clean_row.get('no_hp')
+                if clean_row.get('jenis_kelamin'): existing.jenis_kelamin = clean_row.get('jenis_kelamin')
+                if clean_row.get('desa'): existing.desa = clean_row.get('desa')
+                if clean_row.get('kecamatan'): existing.kecamatan = clean_row.get('kecamatan')
+                if clean_row.get('keahlian'): existing.keahlian = clean_row.get('keahlian')
+                updated_count += 1
+            else:
+                new_mitra = Mitra(
+                    id_sobat=id_sobat,
+                    nama_lengkap=nama_lengkap,
+                    email=clean_row.get('email') or None,
+                    alamat=clean_row.get('alamat') or None,
+                    no_hp=clean_row.get('no_hp') or None,
+                    jenis_kelamin=clean_row.get('jenis_kelamin') or 'Laki-laki',
+                    desa=clean_row.get('desa') or None,
+                    kecamatan=clean_row.get('kecamatan') or 'Banyuwangi',
+                    keahlian=clean_row.get('keahlian') or 'Pendataan Lapangan (CAPI)'
+                )
+                db.session.add(new_mitra)
+                success_count += 1
+
+        db.session.commit()
+        flash(f'Unggah template mitra selesai: {success_count} data mitra baru otomatis ditambahkan, {updated_count} diperbarui.', 'success')
+    except Exception as e:
+        db.session.rollback()
+        flash(f'Gagal mengimpor berkas template mitra: {str(e)}', 'danger')
+
+    return redirect(url_for('mitra.template', tab='mitra'))
 
 @mitra_bp.route('/template/create', methods=['POST'])
 @login_required

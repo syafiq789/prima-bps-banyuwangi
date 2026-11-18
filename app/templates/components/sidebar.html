@@ -445,11 +445,11 @@
                     <span class="truncate">Rekapitulasi Mitra</span>
                 </a>
 
-                <!-- Template Kegiatan -->
+                <!-- Template & Upload -->
                 <a href="{{ url_for('mitra.template') }}" 
                    class="nav-subitem flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold transition-all duration-200 group/sub {% if request.path == url_for('mitra.template') %} bg-gradient-to-r from-[#F28C28] to-[#F47721] text-white font-bold shadow-md shadow-orange-500/25 {% else %} text-slate-300 hover:text-white hover:bg-slate-800/70 hover:translate-x-1 {% endif %}">
-                    <i data-lucide="file-text" class="w-4 h-4 {% if request.path == url_for('mitra.template') %} text-white {% else %} text-blue-400 group-hover/sub:scale-110 {% endif %} flex-shrink-0 transition-transform"></i>
-                    <span class="truncate">Template Kegiatan</span>
+                    <i data-lucide="file-up" class="w-4 h-4 {% if request.path == url_for('mitra.template') %} text-white {% else %} text-blue-400 group-hover/sub:scale-110 {% endif %} flex-shrink-0 transition-transform"></i>
+                    <span class="truncate">Template & Upload</span>
                 </a>
             </div>
         </div>
