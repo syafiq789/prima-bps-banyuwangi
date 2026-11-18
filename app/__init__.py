@@ -505,12 +505,10 @@ def seed_initial_data():
 
         db.session.commit()
 
-        # 4. Tabel Document dikosongkan (0 dokumen diupload secara awal)
-        # Menghapus dokumen bawaan awal agar data mencerminkan unggahan riil pengguna
-        db.session.query(Document).delete()
-        db.session.commit()
+        # 4. Standard Dokumen & Kelengkapan AKIP
+        # Jangan hapus dokumen yang telah diunggah pengguna/seeder
 
-        # 5. Checklist Kelengkapan Dokumen Standard AKIP (Status Awal: Belum Lengkap / 0 Terpenuhi)
+        # 5. Checklist Kelengkapan Dokumen Standard AKIP
         checklist_templates = [
             {"cat_slug": "renstra", "year": 2025, "item": "Rencana Strategis (Renstra) BPS Banyuwangi 2025-2029"},
             {"cat_slug": "rencana-awal-renstra", "year": 2024, "item": "Dokumen Rancangan Awal Renstra"},
@@ -540,10 +538,6 @@ def seed_initial_data():
                         notes="Belum ada dokumen yang diunggah."
                     )
                     db.session.add(c_item)
-                else:
-                    c_item.is_fulfilled = False
-                    c_item.category_id = cat.id
-                    c_item.notes = "Belum ada dokumen yang diunggah."
 
         db.session.commit()
 
