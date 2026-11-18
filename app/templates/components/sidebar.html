@@ -1,19 +1,21 @@
-<!-- LENTERA Sidebar Navigation -->
+<!-- LENTERA Sidebar Navigation (Modern Sleek SaaS Edition) -->
 <aside id="sidebar" 
-       class="fixed top-0 left-0 z-40 w-72 h-screen transition-transform -translate-x-full lg:translate-x-0 bg-[#0D1B2A] text-slate-200 border-r border-slate-800 flex flex-col justify-between shadow-2xl select-none">
+       class="fixed top-0 left-0 z-40 w-72 h-screen transition-transform -translate-x-full lg:translate-x-0 bg-[#0B1120] text-slate-300 border-r border-slate-800/80 flex flex-col justify-between shadow-2xl select-none">
     
     <!-- Top Branding & Logo Header -->
-    <div class="p-4 border-b border-slate-800/80 flex items-center justify-between">
+    <div class="p-4 border-b border-slate-800/80 flex items-center justify-between bg-[#0B1120]">
         <a href="{{ url_for('dashboard.index') }}" class="flex items-center gap-3 group">
-            <div class="w-12 h-11 rounded-xl bg-white p-1 flex items-center justify-center group-hover:scale-105 transition-transform duration-200 shadow-md border border-white/20 overflow-hidden flex-shrink-0">
-                <img src="{{ url_for('static', filename='images/logo_lentera.jpg') }}" alt="Logo LENTERA BPS" class="w-full h-full object-contain">
+            <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-orange-500 via-amber-500 to-yellow-400 p-0.5 shadow-md shadow-orange-500/20 flex items-center justify-center overflow-hidden flex-shrink-0 group-hover:scale-105 transition-transform duration-200">
+                <div class="w-full h-full bg-[#0B1120] rounded-[10px] flex items-center justify-center">
+                    <img src="{{ url_for('static', filename='images/logo_lentera.jpg') }}" alt="Logo LENTERA" class="w-7 h-7 object-contain">
+                </div>
             </div>
             <div class="sidebar-text">
                 <div class="flex items-center gap-1.5">
-                    <span class="text-lg font-black tracking-wider text-white">LENTERA</span>
-                    <span class="text-[9px] font-bold uppercase tracking-wider bg-orange-500/20 text-[#F28C28] px-1.5 py-0.2 rounded border border-orange-500/30">BPS</span>
+                    <span class="text-base font-black tracking-tight text-white group-hover:text-orange-400 transition-colors">LENTERA</span>
+                    <span class="text-[9px] font-bold uppercase tracking-wider bg-orange-500/15 text-orange-400 px-1.5 py-0.5 rounded border border-orange-500/25 font-mono">BPS 3510</span>
                 </div>
-                <p class="text-[10px] text-slate-400 font-medium leading-tight line-clamp-1">BPS Kabupaten Banyuwangi</p>
+                <p class="text-[10px] text-slate-400 font-medium leading-tight line-clamp-1 mt-0.5">BPS Kabupaten Banyuwangi</p>
             </div>
         </a>
         
@@ -24,7 +26,7 @@
     </div>
 
     <!-- Navigation Area (Scrollable) -->
-    <div class="flex-1 overflow-y-auto px-3.5 py-4 space-y-3 sidebar-scroll">
+    <div class="flex-1 overflow-y-auto px-3 py-3.5 space-y-2.5 sidebar-scroll">
         
         <!-- DETEKSI MODUL AKTIF -->
         {% set is_mitra_active = request.path.startswith('/mitra') %}
@@ -34,62 +36,60 @@
 
         <!-- ============================================================== -->
         <!-- 1. MASTER MODUL: PRIMA                                         -->
-        <!-- Sesuai persis dengan tangkapan layar (Expand & Collapse)       -->
         <!-- ============================================================== -->
         <div class="sidebar-single-container">
             
-            <!-- Tombol Master Card PRIMA -->
+            <!-- Tombol Master PRIMA -->
             <button type="button" 
                     id="btn-prima-master"
                     onclick="togglePrimaMasterMenu()"
-                    class="w-full flex items-center justify-between p-2.5 rounded-2xl bg-gradient-to-r from-[#142338] via-[#101e30] to-[#0d1827] border border-[#d97706]/70 text-white font-bold text-sm hover:border-[#f97316] hover:shadow-lg hover:shadow-orange-500/10 hover:bg-[#15253b] transition-all duration-300 group shadow-md">
-                <span class="flex items-center gap-2.5">
-                    <div class="w-10 h-10 rounded-xl bg-white p-2 flex items-center justify-center group-hover:scale-105 transition-transform duration-200 shadow-sm ring-1 ring-black/5 overflow-hidden flex-shrink-0">
-                        <img src="{{ url_for('static', filename='images/logo_prima.png') }}" alt="PRIMA" class="w-full h-full object-contain">
+                    class="w-full flex items-center justify-between p-2 rounded-xl transition-all duration-200 group text-left {% if is_prima_active %} bg-slate-800/80 text-white border border-slate-700/80 shadow-xs {% else %} hover:bg-slate-800/40 text-slate-300 hover:text-white border border-transparent {% endif %}">
+                <span class="flex items-center gap-2.5 min-w-0">
+                    <div class="w-8 h-8 rounded-lg bg-sky-500/10 text-sky-400 border border-sky-500/20 flex items-center justify-center flex-shrink-0 group-hover:scale-105 group-hover:bg-sky-500/20 transition-all">
+                        <i data-lucide="archive" class="w-4 h-4"></i>
                     </div>
-                    <div class="text-left sidebar-text">
-                        <span class="block text-xs font-black uppercase tracking-wider text-white group-hover:text-orange-200 transition-colors">PRIMA</span>
-                        <span class="block text-[10px] text-[#f59e0b] font-semibold leading-tight mt-0.5">Pusat Arsip & Manajemen Akip</span>
+                    <div class="text-left sidebar-text min-w-0">
+                        <span class="block text-xs font-bold tracking-wide text-slate-200 group-hover:text-white truncate">PRIMA</span>
+                        <span class="block text-[10px] text-slate-400 truncate">Pusat Arsip & SAKIP</span>
                     </div>
                 </span>
-                <div class="flex items-center gap-2">
-                    <span class="relative flex h-2 w-2">
-                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                        <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500 ring-2 ring-emerald-950"></span>
-                    </span>
-                    <i data-lucide="chevron-down" id="chevron-prima-master" class="w-4 h-4 text-[#f59e0b] group-hover:text-white transition-transform duration-300 {% if is_prima_active %}rotate{% endif %}"></i>
+                <div class="flex items-center gap-2 flex-shrink-0">
+                    {% if is_prima_active %}
+                    <span class="w-1.5 h-1.5 rounded-full bg-sky-400 shadow-[0_0_8px_rgba(56,189,248,0.8)]"></span>
+                    {% endif %}
+                    <i data-lucide="chevron-down" id="chevron-prima-master" class="w-4 h-4 text-slate-500 group-hover:text-slate-300 transition-transform duration-200 {% if is_prima_active %}rotate{% endif %}"></i>
                 </div>
             </button>
 
             <!-- KONTEN FITUR-FITUR DI DALAM MENU PRIMA -->
-            <div id="container-prima-features" class="mt-2 space-y-1.5 px-1 {% if not is_prima_active %}closed{% endif %}">
+            <div id="container-prima-features" class="ml-3 pl-3 border-l border-slate-800/80 space-y-1 my-1.5 {% if not is_prima_active %}closed{% endif %}">
                 
-                <!-- 1. MENU UTAMA (Dashboard, Info, Guide) -->
+                <!-- 1. MENU UTAMA -->
                 <div class="sidebar-subgroup">
                     <button type="button" 
                             id="trigger-sub-utama"
                             onclick="toggleSubFeature('subcontent-utama', this)"
-                            class="subgroup-trigger w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-bold text-slate-300 hover:bg-slate-800/80 hover:text-white transition">
-                        <span class="flex items-center gap-2.5">
-                            <i data-lucide="layout-grid" class="w-3.5 h-3.5 text-orange-400"></i>
+                            class="subgroup-trigger w-full flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs font-semibold text-slate-300 hover:bg-slate-800/60 hover:text-white transition">
+                        <span class="flex items-center gap-2">
+                            <i data-lucide="layout-grid" class="w-3.5 h-3.5 text-sky-400"></i>
                             <span>Menu Utama</span>
                         </span>
-                        <i data-lucide="chevron-down" class="subgroup-chevron w-3.5 h-3.5 text-slate-400 transition-transform"></i>
+                        <i data-lucide="chevron-down" class="subgroup-chevron w-3 h-3 text-slate-500 transition-transform"></i>
                     </button>
-                    <div id="subcontent-utama" class="subgroup-content pl-3 pr-1 mt-1 space-y-0.5">
+                    <div id="subcontent-utama" class="subgroup-content pl-2 mt-0.5 space-y-0.5">
                         <a href="{{ url_for('dashboard.index') }}" 
-                           class="nav-subitem flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs transition group/sub {% if request.path == '/' or request.path == '/dashboard' %} bg-[#F28C28] text-white font-bold shadow-md shadow-orange-500/20 {% else %} text-slate-300 hover:text-white hover:bg-slate-800/60 {% endif %}">
-                            <i data-lucide="layout-dashboard" class="w-4 h-4 {% if request.path == '/' or request.path == '/dashboard' %} text-white {% else %} text-orange-400 group-hover/sub:scale-110 {% endif %} flex-shrink-0 transition-transform"></i>
+                           class="nav-subitem flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-xs transition {% if request.path == '/' or request.path == '/dashboard' %} bg-orange-500/15 text-orange-400 font-semibold border border-orange-500/30 {% else %} text-slate-400 hover:text-white hover:bg-slate-800/50 {% endif %}">
+                            <i data-lucide="layout-dashboard" class="w-3.5 h-3.5 flex-shrink-0"></i>
                             <span>Dashboard</span>
                         </a>
                         <a href="{{ url_for('info.about') }}" 
-                           class="nav-subitem flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs transition group/sub {% if request.path == '/info/about' %} bg-[#F28C28] text-white font-bold shadow-md shadow-orange-500/20 {% else %} text-slate-300 hover:text-white hover:bg-slate-800/60 {% endif %}">
-                            <i data-lucide="info" class="w-4 h-4 {% if request.path == '/info/about' %} text-white {% else %} text-sky-400 group-hover/sub:scale-110 {% endif %} flex-shrink-0 transition-transform"></i>
+                           class="nav-subitem flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-xs transition {% if request.path == '/info/about' %} bg-orange-500/15 text-orange-400 font-semibold border border-orange-500/30 {% else %} text-slate-400 hover:text-white hover:bg-slate-800/50 {% endif %}">
+                            <i data-lucide="info" class="w-3.5 h-3.5 flex-shrink-0"></i>
                             <span>Tentang PRIMA</span>
                         </a>
                         <a href="{{ url_for('info.guide') }}" 
-                           class="nav-subitem flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs transition group/sub {% if request.path == '/info/guide' %} bg-[#F28C28] text-white font-bold shadow-md shadow-orange-500/20 {% else %} text-slate-300 hover:text-white hover:bg-slate-800/60 {% endif %}">
-                            <i data-lucide="book-marked" class="w-4 h-4 {% if request.path == '/info/guide' %} text-white {% else %} text-amber-400 group-hover/sub:scale-110 {% endif %} flex-shrink-0 transition-transform"></i>
+                           class="nav-subitem flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-xs transition {% if request.path == '/info/guide' %} bg-orange-500/15 text-orange-400 font-semibold border border-orange-500/30 {% else %} text-slate-400 hover:text-white hover:bg-slate-800/50 {% endif %}">
+                            <i data-lucide="book-marked" class="w-3.5 h-3.5 flex-shrink-0"></i>
                             <span>Panduan Penggunaan</span>
                         </a>
                     </div>
@@ -100,14 +100,14 @@
                     <button type="button" 
                             id="trigger-sub-perencanaan"
                             onclick="toggleSubFeature('subcontent-perencanaan', this)"
-                            class="subgroup-trigger w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-bold text-slate-300 hover:bg-slate-800/80 hover:text-white transition">
-                        <span class="flex items-center gap-2.5">
+                            class="subgroup-trigger w-full flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs font-semibold text-slate-300 hover:bg-slate-800/60 hover:text-white transition">
+                        <span class="flex items-center gap-2">
                             <i data-lucide="compass" class="w-3.5 h-3.5 text-blue-400"></i>
                             <span>Perencanaan</span>
                         </span>
-                        <i data-lucide="chevron-down" class="subgroup-chevron w-3.5 h-3.5 text-slate-400 transition-transform"></i>
+                        <i data-lucide="chevron-down" class="subgroup-chevron w-3 h-3 text-slate-500 transition-transform"></i>
                     </button>
-                    <div id="subcontent-perencanaan" class="subgroup-content pl-3 pr-1 mt-1 space-y-0.5">
+                    <div id="subcontent-perencanaan" class="subgroup-content pl-2 mt-0.5 space-y-0.5">
                         {% set perenc_items = [
                             ('rencana-awal-renstra', 'Rencana Awal Renstra'),
                             ('renstra', 'Renstra'),
@@ -117,31 +117,30 @@
                         <a href="{{ url_for('documents.open_category_drive', slug=slug) }}" 
                            target="_blank" 
                            rel="noopener noreferrer" 
-                           class="nav-subitem flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs text-slate-400 hover:text-white hover:bg-slate-800/60 transition group/sub"
-                           title="Buka Google Drive {{ label }}">
+                           class="nav-subitem flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs text-slate-400 hover:text-white hover:bg-slate-800/50 transition group/sub">
                             <span class="flex items-center gap-2 truncate">
-                                <i data-lucide="file-text" class="w-3.5 h-3.5 text-blue-400 group-hover/sub:scale-110 flex-shrink-0 transition-transform"></i>
+                                <i data-lucide="file-text" class="w-3.5 h-3.5 text-blue-400 flex-shrink-0"></i>
                                 <span class="truncate">{{ label }}</span>
                             </span>
-                            <i data-lucide="external-link" class="w-3 h-3 text-slate-500 group-hover/sub:text-blue-400 opacity-60 group-hover/sub:opacity-100 flex-shrink-0 transition"></i>
+                            <i data-lucide="external-link" class="w-3 h-3 text-slate-500 opacity-60 group-hover/sub:opacity-100 flex-shrink-0 transition"></i>
                         </a>
                         {% endfor %}
                     </div>
                 </div>
 
-                <!-- 3. PENGUKURAN (Monitoring Capaian Kinerja) -->
+                <!-- 3. PENGUKURAN -->
                 <div class="sidebar-subgroup">
                     <button type="button" 
                             id="trigger-sub-pengukuran"
                             onclick="toggleSubFeature('subcontent-pengukuran', this)"
-                            class="subgroup-trigger w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-bold text-slate-300 hover:bg-slate-800/80 hover:text-white transition">
-                        <span class="flex items-center gap-2.5">
+                            class="subgroup-trigger w-full flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs font-semibold text-slate-300 hover:bg-slate-800/60 hover:text-white transition">
+                        <span class="flex items-center gap-2">
                             <i data-lucide="gauge" class="w-3.5 h-3.5 text-emerald-400"></i>
                             <span>Pengukuran</span>
                         </span>
-                        <i data-lucide="chevron-down" class="subgroup-chevron w-3.5 h-3.5 text-slate-400 transition-transform"></i>
+                        <i data-lucide="chevron-down" class="subgroup-chevron w-3 h-3 text-slate-500 transition-transform"></i>
                     </button>
-                    <div id="subcontent-pengukuran" class="subgroup-content pl-3 pr-1 mt-1 space-y-0.5">
+                    <div id="subcontent-pengukuran" class="subgroup-content pl-2 mt-0.5 space-y-0.5">
                         {% set peng_items = [
                             ('kkpk', 'KKPK'),
                             ('daha', 'DAHA'),
@@ -152,13 +151,12 @@
                         <a href="{{ url_for('documents.open_category_drive', slug=slug) }}" 
                            target="_blank" 
                            rel="noopener noreferrer" 
-                           class="nav-subitem flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs text-slate-400 hover:text-white hover:bg-slate-800/60 transition group/sub"
-                           title="Buka Google Drive {{ label }}">
+                           class="nav-subitem flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs text-slate-400 hover:text-white hover:bg-slate-800/50 transition group/sub">
                             <span class="flex items-center gap-2 truncate">
-                                <i data-lucide="bar-chart-2" class="w-3.5 h-3.5 text-emerald-400 group-hover/sub:scale-110 flex-shrink-0 transition-transform"></i>
+                                <i data-lucide="bar-chart-2" class="w-3.5 h-3.5 text-emerald-400 flex-shrink-0"></i>
                                 <span class="truncate">{{ label }}</span>
                             </span>
-                            <i data-lucide="external-link" class="w-3 h-3 text-slate-500 group-hover/sub:text-emerald-400 opacity-60 group-hover/sub:opacity-100 flex-shrink-0 transition"></i>
+                            <i data-lucide="external-link" class="w-3 h-3 text-slate-500 opacity-60 group-hover/sub:opacity-100 flex-shrink-0 transition"></i>
                         </a>
                         {% endfor %}
                     </div>
@@ -169,30 +167,24 @@
                     <button type="button" 
                             id="trigger-sub-pelaporan"
                             onclick="toggleSubFeature('subcontent-pelaporan', this)"
-                            class="subgroup-trigger w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-bold text-slate-300 hover:bg-slate-800/80 hover:text-white transition">
-                        <span class="flex items-center gap-2.5">
+                            class="subgroup-trigger w-full flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs font-semibold text-slate-300 hover:bg-slate-800/60 hover:text-white transition">
+                        <span class="flex items-center gap-2">
                             <i data-lucide="file-check-2" class="w-3.5 h-3.5 text-amber-400"></i>
                             <span>Pelaporan</span>
                         </span>
-                        <i data-lucide="chevron-down" class="subgroup-chevron w-3.5 h-3.5 text-slate-400 transition-transform"></i>
+                        <i data-lucide="chevron-down" class="subgroup-chevron w-3 h-3 text-slate-500 transition-transform"></i>
                     </button>
-                    <div id="subcontent-pelaporan" class="subgroup-content pl-3 pr-1 mt-1 space-y-0.5">
-                        {% set pel_items = [
-                            ('laporan-kinerja', 'Laporan Kinerja')
-                        ] %}
-                        {% for slug, label in pel_items %}
-                        <a href="{{ url_for('documents.open_category_drive', slug=slug) }}" 
+                    <div id="subcontent-pelaporan" class="subgroup-content pl-2 mt-0.5 space-y-0.5">
+                        <a href="{{ url_for('documents.open_category_drive', slug='laporan-kinerja') }}" 
                            target="_blank" 
                            rel="noopener noreferrer" 
-                           class="nav-subitem flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs text-slate-400 hover:text-white hover:bg-slate-800/60 transition group/sub"
-                           title="Buka Google Drive {{ label }}">
+                           class="nav-subitem flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs text-slate-400 hover:text-white hover:bg-slate-800/50 transition group/sub">
                             <span class="flex items-center gap-2 truncate">
-                                <i data-lucide="file-check" class="w-3.5 h-3.5 text-amber-400 group-hover/sub:scale-110 flex-shrink-0 transition-transform"></i>
-                                <span class="truncate">{{ label }}</span>
+                                <i data-lucide="file-check" class="w-3.5 h-3.5 text-amber-400 flex-shrink-0"></i>
+                                <span class="truncate">Laporan Kinerja</span>
                             </span>
-                            <i data-lucide="external-link" class="w-3 h-3 text-slate-500 group-hover/sub:text-amber-400 opacity-60 group-hover/sub:opacity-100 flex-shrink-0 transition"></i>
+                            <i data-lucide="external-link" class="w-3 h-3 text-slate-500 opacity-60 group-hover/sub:opacity-100 flex-shrink-0 transition"></i>
                         </a>
-                        {% endfor %}
                     </div>
                 </div>
 
@@ -201,14 +193,14 @@
                     <button type="button" 
                             id="trigger-sub-evaluasi"
                             onclick="toggleSubFeature('subcontent-evaluasi', this)"
-                            class="subgroup-trigger w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-bold text-slate-300 hover:bg-slate-800/80 hover:text-white transition">
-                        <span class="flex items-center gap-2.5">
+                            class="subgroup-trigger w-full flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs font-semibold text-slate-300 hover:bg-slate-800/60 hover:text-white transition">
+                        <span class="flex items-center gap-2">
                             <i data-lucide="clipboard-check" class="w-3.5 h-3.5 text-teal-400"></i>
                             <span>Evaluasi</span>
                         </span>
-                        <i data-lucide="chevron-down" class="subgroup-chevron w-3.5 h-3.5 text-slate-400 transition-transform"></i>
+                        <i data-lucide="chevron-down" class="subgroup-chevron w-3 h-3 text-slate-500 transition-transform"></i>
                     </button>
-                    <div id="subcontent-evaluasi" class="subgroup-content pl-3 pr-1 mt-1 space-y-0.5">
+                    <div id="subcontent-evaluasi" class="subgroup-content pl-2 mt-0.5 space-y-0.5">
                         {% set eval_items = [
                             ('permindok', 'PERMINDOK'),
                             ('lhe-akip', 'LHE AKIP'),
@@ -218,150 +210,101 @@
                         <a href="{{ url_for('documents.open_category_drive', slug=slug) }}" 
                            target="_blank" 
                            rel="noopener noreferrer" 
-                           class="nav-subitem flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs text-slate-400 hover:text-white hover:bg-slate-800/60 transition group/sub"
-                           title="Buka Google Drive {{ label }}">
+                           class="nav-subitem flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs text-slate-400 hover:text-white hover:bg-slate-800/50 transition group/sub">
                             <span class="flex items-center gap-2 truncate">
-                                <i data-lucide="clipboard-list" class="w-3.5 h-3.5 text-teal-400 group-hover/sub:scale-110 flex-shrink-0 transition-transform"></i>
+                                <i data-lucide="clipboard-list" class="w-3.5 h-3.5 text-teal-400 flex-shrink-0"></i>
                                 <span class="truncate">{{ label }}</span>
                             </span>
-                            <i data-lucide="external-link" class="w-3 h-3 text-slate-500 group-hover/sub:text-teal-400 opacity-60 group-hover/sub:opacity-100 flex-shrink-0 transition"></i>
+                            <i data-lucide="external-link" class="w-3 h-3 text-slate-500 opacity-60 group-hover/sub:opacity-100 flex-shrink-0 transition"></i>
                         </a>
                         {% endfor %}
                     </div>
                 </div>
 
-                <!-- 6. KELENGKAPAN SAKIP (Checklist Dokumen persis di screenshot) -->
+                <!-- 6. KELENGKAPAN SAKIP -->
                 <div class="sidebar-subgroup">
                     {% set is_sakip_active = request.path.startswith('/completeness') %}
                     <button type="button" 
                             id="trigger-sub-kelengkapan"
                             onclick="toggleSubFeature('subcontent-kelengkapan', this)"
-                            class="subgroup-trigger w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-bold {% if is_sakip_active %} bg-slate-800/80 text-orange-400 {% else %} text-slate-300 hover:bg-slate-800/80 hover:text-white {% endif %} transition">
-                        <span class="flex items-center gap-2.5">
+                            class="subgroup-trigger w-full flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs font-semibold {% if is_sakip_active %} bg-slate-800 text-orange-400 {% else %} text-slate-300 hover:bg-slate-800/60 hover:text-white {% endif %} transition">
+                        <span class="flex items-center gap-2">
                             <i data-lucide="check-square" class="w-3.5 h-3.5 text-purple-400"></i>
                             <span>Kelengkapan SAKIP</span>
                         </span>
                         <div class="flex items-center gap-1.5">
                             {% if pending_docs_count > 0 %}
-                            <span class="px-1.5 py-0.2 text-[9px] font-bold bg-amber-500/20 text-amber-400 border border-amber-500/30 rounded-full">
+                            <span class="px-1.5 py-0.2 text-[9px] font-bold bg-amber-500/20 text-amber-400 border border-amber-500/30 rounded-full font-mono">
                                 {{ pending_docs_count }}
                             </span>
                             {% endif %}
-                            <i data-lucide="chevron-down" class="subgroup-chevron w-3.5 h-3.5 text-slate-400 transition-transform {% if is_sakip_active %}rotate{% endif %}"></i>
+                            <i data-lucide="chevron-down" class="subgroup-chevron w-3 h-3 text-slate-500 transition-transform {% if is_sakip_active %}rotate{% endif %}"></i>
                         </div>
                     </button>
-                    <div id="subcontent-kelengkapan" class="subgroup-content pl-3 pr-1 mt-1 space-y-1 {% if is_sakip_active %}open{% endif %}" {% if is_sakip_active %}style="max-height: 600px; opacity: 1;"{% endif %}>
-                        {% set kel_items = [
-                            ('sk-tim-kerja-sakip', 'SK Tim Kerja SAKIP'),
-                            ('reward-dan-punishment', 'Reward & Punishment'),
-                            ('mph', 'MPH'),
-                            ('skp', 'SKP'),
-                            ('pedoman-teknis', 'Pedoman Teknis')
-                        ] %}
-                        {% for slug, label in kel_items %}
-                        <a href="{{ url_for('documents.open_category_drive', slug=slug) }}" 
-                           target="_blank" 
-                           rel="noopener noreferrer" 
-                           class="nav-subitem flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs text-slate-400 hover:text-white hover:bg-slate-800/60 transition group/sub"
-                           title="Buka Google Drive {{ label }}">
-                            <span class="flex items-center gap-2 truncate">
-                                <i data-lucide="folder-check" class="w-3.5 h-3.5 text-purple-400 group-hover/sub:scale-110 flex-shrink-0 transition-transform"></i>
-                                <span class="truncate">{{ label }}</span>
-                            </span>
-                            <i data-lucide="external-link" class="w-3 h-3 text-slate-500 group-hover/sub:text-purple-400 opacity-60 group-hover/sub:opacity-100 flex-shrink-0 transition"></i>
-                        </a>
-                        {% endfor %}
-                        
-                        <!-- Checklist Dokumen -->
+                    <div id="subcontent-kelengkapan" class="subgroup-content pl-2 mt-0.5 space-y-0.5 {% if is_sakip_active %}open{% endif %}">
                         <a href="{{ url_for('completeness.checklist') }}" 
-                           class="nav-subitem flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs transition group/sub {% if request.path == url_for('completeness.checklist') %} bg-[#F28C28] text-white font-bold shadow-md shadow-orange-500/20 {% else %} text-slate-300 hover:text-white hover:bg-slate-800/60 {% endif %}">
-                            <i data-lucide="check-circle-2" class="w-4 h-4 {% if request.path == url_for('completeness.checklist') %} text-white {% else %} text-emerald-400 group-hover/sub:scale-110 {% endif %} flex-shrink-0 transition-transform"></i>
-                            <span>Checklist Dokumen</span>
-                        </a>
-
-                        <a href="{{ url_for('completeness.administrasi') }}" 
-                           class="nav-subitem flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs transition group/sub {% if request.path == url_for('completeness.administrasi') %} bg-[#F28C28] text-white font-bold shadow-md shadow-orange-500/20 {% else %} text-slate-300 hover:text-white hover:bg-slate-800/60 {% endif %}">
-                            <i data-lucide="file-check-2" class="w-4 h-4 {% if request.path == url_for('completeness.administrasi') %} text-white {% else %} text-cyan-400 group-hover/sub:scale-110 {% endif %} flex-shrink-0 transition-transform"></i>
-                            <span>Kelengkapan Administrasi</span>
-                        </a>
-
-                        <a href="{{ url_for('completeness.belum_lengkap') }}" 
-                           class="nav-subitem flex items-center justify-between px-3 py-2 rounded-xl text-xs transition group/sub {% if request.path == url_for('completeness.belum_lengkap') %} bg-[#F28C28] text-white font-bold shadow-md shadow-orange-500/20 {% else %} text-slate-300 hover:text-white hover:bg-slate-800/60 {% endif %}">
-                            <span class="flex items-center gap-2.5">
-                                <i data-lucide="alert-circle" class="w-4 h-4 {% if request.path == url_for('completeness.belum_lengkap') %} text-white {% else %} text-amber-400 group-hover/sub:scale-110 {% endif %} flex-shrink-0 transition-transform"></i>
-                                <span>Belum Lengkap</span>
+                           class="nav-subitem flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs transition {% if request.path == url_for('completeness.checklist') %} bg-orange-500/15 text-orange-400 font-semibold border border-orange-500/30 {% else %} text-slate-400 hover:text-white hover:bg-slate-800/50 {% endif %}">
+                            <span class="flex items-center gap-2 truncate">
+                                <i data-lucide="check-circle" class="w-3.5 h-3.5 flex-shrink-0"></i>
+                                <span class="truncate">Checklist Dokumen</span>
                             </span>
-                            {% if pending_docs_count > 0 %}
-                            <span class="text-[9px] font-bold bg-amber-500/20 text-amber-300 px-1.5 py-0.2 rounded-full border border-amber-500/30">
-                                {{ pending_docs_count }}
-                            </span>
-                            {% endif %}
                         </a>
                     </div>
                 </div>
 
-                <!-- 7. LINK PENTING (SINERGI, KiPApp, MAJAPAHIT) -->
+                <!-- 7. DOKUMEN PENTING (EKSTERNAL) -->
                 <div class="sidebar-subgroup">
                     <button type="button" 
-                            id="trigger-sub-penting"
-                            onclick="toggleSubFeature('subcontent-penting', this)"
-                            class="subgroup-trigger w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-bold text-slate-300 hover:bg-slate-800/80 hover:text-white transition">
-                        <span class="flex items-center gap-2.5">
-                            <i data-lucide="star" class="w-3.5 h-3.5 text-orange-400"></i>
-                            <span>Link Penting</span>
+                            id="trigger-sub-external"
+                            onclick="toggleSubFeature('subcontent-external', this)"
+                            class="subgroup-trigger w-full flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs font-semibold text-slate-300 hover:bg-slate-800/60 hover:text-white transition">
+                        <span class="flex items-center gap-2">
+                            <i data-lucide="external-link" class="w-3.5 h-3.5 text-rose-400"></i>
+                            <span>Dokumen Penting</span>
                         </span>
-                        <i data-lucide="chevron-down" class="subgroup-chevron w-3.5 h-3.5 text-slate-400 transition-transform"></i>
+                        <i data-lucide="chevron-down" class="subgroup-chevron w-3 h-3 text-slate-500 transition-transform"></i>
                     </button>
-                    <div id="subcontent-penting" class="subgroup-content pl-3 pr-1 mt-1 space-y-0.5">
-                        {% set penting_items = [
-                            ('sinergi', 'SINERGI'),
-                            ('kipapp', 'KiPApp'),
-                            ('majapahit', 'MAJAPAHIT')
-                        ] %}
-                        {% for cslug, clabel in penting_items %}
-                        <a href="{{ url_for('important_links.open_link', code_slug=cslug) }}" 
+                    <div id="subcontent-external" class="subgroup-content pl-2 mt-0.5 space-y-0.5">
+                        {% for link in external_links %}
+                        <a href="{{ link.url }}" 
                            target="_blank" 
                            rel="noopener noreferrer" 
-                           class="nav-subitem flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs text-slate-400 hover:text-white hover:bg-slate-800/60 transition group/sub"
-                           title="Buka Portal {{ clabel }}">
-                            <span class="flex items-center gap-2 truncate">
-                                <i data-lucide="globe" class="w-3.5 h-3.5 text-orange-400 group-hover/sub:scale-110 flex-shrink-0 transition-transform"></i>
-                                <span class="truncate">{{ clabel }}</span>
-                            </span>
-                            <i data-lucide="external-link" class="w-3 h-3 text-slate-500 group-hover/sub:text-orange-400 opacity-60 group-hover/sub:opacity-100 flex-shrink-0 transition"></i>
+                           class="nav-subitem flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs text-slate-400 hover:text-white hover:bg-slate-800/50 transition group/sub">
+                            <span class="truncate">{{ link.title }}</span>
+                            <i data-lucide="external-link" class="w-3 h-3 text-slate-500 opacity-60 group-hover/sub:opacity-100 flex-shrink-0 transition"></i>
                         </a>
                         {% endfor %}
                     </div>
                 </div>
 
-                <!-- 8. MANAJEMEN ADMIN (Khusus Admin) -->
-                {% if current_user.is_authenticated and current_user.is_admin %}
-                <div class="sidebar-subgroup pt-2 border-t border-slate-800/60">
+                <!-- 8. ADMIN AREA -->
+                {% if current_user.is_authenticated and current_user.role == 'admin' %}
+                <div class="sidebar-subgroup">
                     <button type="button" 
                             id="trigger-sub-admin"
                             onclick="toggleSubFeature('subcontent-admin', this)"
-                            class="subgroup-trigger w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-bold text-orange-400 hover:bg-slate-800/80 hover:text-orange-300 transition">
-                        <span class="flex items-center gap-2.5">
-                            <i data-lucide="shield" class="w-3.5 h-3.5 text-orange-400"></i>
-                            <span>Manajemen Admin</span>
+                            class="subgroup-trigger w-full flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs font-semibold text-slate-300 hover:bg-slate-800/60 hover:text-white transition">
+                        <span class="flex items-center gap-2">
+                            <i data-lucide="shield" class="w-3.5 h-3.5 text-indigo-400"></i>
+                            <span>Panel Admin</span>
                         </span>
-                        <i data-lucide="chevron-down" class="subgroup-chevron w-3.5 h-3.5 text-orange-400 transition-transform"></i>
+                        <i data-lucide="chevron-down" class="subgroup-chevron w-3 h-3 text-slate-500 transition-transform"></i>
                     </button>
-                    <div id="subcontent-admin" class="subgroup-content pl-3 pr-1 mt-1 space-y-0.5">
-                        <a href="{{ url_for('users.index') }}" class="nav-subitem flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs text-slate-300 hover:text-white hover:bg-slate-800/60 transition group/sub">
-                            <i data-lucide="users" class="w-4 h-4 text-sky-400 group-hover/sub:scale-110 flex-shrink-0 transition-transform"></i>
+                    <div id="subcontent-admin" class="subgroup-content pl-2 mt-0.5 space-y-0.5">
+                        <a href="{{ url_for('users.index') }}" class="nav-subitem flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-xs text-slate-400 hover:text-white hover:bg-slate-800/50 transition">
+                            <i data-lucide="users" class="w-3.5 h-3.5 text-sky-400 flex-shrink-0"></i>
                             <span>Kelola Pengguna</span>
                         </a>
-                        <a href="{{ url_for('categories.index') }}" class="nav-subitem flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs text-slate-300 hover:text-white hover:bg-slate-800/60 transition group/sub">
-                            <i data-lucide="tags" class="w-4 h-4 text-amber-400 group-hover/sub:scale-110 flex-shrink-0 transition-transform"></i>
+                        <a href="{{ url_for('categories.index') }}" class="nav-subitem flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-xs text-slate-400 hover:text-white hover:bg-slate-800/50 transition">
+                            <i data-lucide="tags" class="w-3.5 h-3.5 text-amber-400 flex-shrink-0"></i>
                             <span>Kelola Kategori</span>
                         </a>
-                        <a href="{{ url_for('settings.links') }}" class="nav-subitem flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs text-slate-300 hover:text-white hover:bg-slate-800/60 transition group/sub">
-                            <i data-lucide="link" class="w-4 h-4 text-purple-400 group-hover/sub:scale-110 flex-shrink-0 transition-transform"></i>
+                        <a href="{{ url_for('settings.links') }}" class="nav-subitem flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-xs text-slate-400 hover:text-white hover:bg-slate-800/50 transition">
+                            <i data-lucide="link" class="w-3.5 h-3.5 text-purple-400 flex-shrink-0"></i>
                             <span>Pengaturan Link</span>
                         </a>
-                        <a href="{{ url_for('settings.activities') }}" class="nav-subitem flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs text-slate-300 hover:text-white hover:bg-slate-800/60 transition group/sub">
-                            <i data-lucide="activity" class="w-4 h-4 text-rose-400 group-hover/sub:scale-110 flex-shrink-0 transition-transform"></i>
+                        <a href="{{ url_for('settings.activities') }}" class="nav-subitem flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-xs text-slate-400 hover:text-white hover:bg-slate-800/50 transition">
+                            <i data-lucide="activity" class="w-3.5 h-3.5 text-rose-400 flex-shrink-0"></i>
                             <span>Log Aktivitas</span>
                         </a>
                     </div>
@@ -374,81 +317,79 @@
 
         <!-- ============================================================== -->
         <!-- 2. MASTER MODUL: MONITORING MITRA                              -->
-        <!-- Desain Card Menarik & Interaktif (Expand & Collapse)           -->
         <!-- ============================================================== -->
         <div class="sidebar-single-container">
             <!-- Tombol Master Monitoring Mitra -->
             <button type="button" 
                     id="btn-mitra-master"
                     onclick="toggleMitraMasterMenu()"
-                    class="w-full flex items-center justify-between p-2.5 rounded-2xl bg-gradient-to-r from-[#142338] via-[#101e30] to-[#0d1827] border border-[#d97706]/70 text-white font-bold text-sm hover:border-[#f97316] hover:shadow-lg hover:shadow-orange-500/10 hover:bg-[#15253b] transition-all duration-300 group shadow-md">
-                <span class="flex items-center gap-2.5">
-                    <div class="w-10 h-10 rounded-xl bg-white p-2 flex items-center justify-center text-[#F28C28] group-hover:scale-105 transition-transform duration-200 shadow-sm ring-1 ring-black/5 flex-shrink-0">
-                        <i data-lucide="users" class="w-5 h-5 text-[#F28C28]"></i>
+                    class="w-full flex items-center justify-between p-2 rounded-xl transition-all duration-200 group text-left {% if is_mitra_active %} bg-slate-800/80 text-white border border-slate-700/80 shadow-xs {% else %} hover:bg-slate-800/40 text-slate-300 hover:text-white border border-transparent {% endif %}">
+                <span class="flex items-center gap-2.5 min-w-0">
+                    <div class="w-8 h-8 rounded-lg bg-orange-500/10 text-orange-400 border border-orange-500/20 flex items-center justify-center flex-shrink-0 group-hover:scale-105 group-hover:bg-orange-500/20 transition-all">
+                        <i data-lucide="users" class="w-4 h-4"></i>
                     </div>
-                    <div class="text-left sidebar-text">
-                        <span class="block text-xs font-black uppercase tracking-wider text-white group-hover:text-orange-200 transition-colors">MONITORING MITRA</span>
-                        <span class="block text-[10px] text-[#f59e0b] font-semibold leading-tight mt-0.5">Pengelolaan & Evaluasi Mitra</span>
+                    <div class="text-left sidebar-text min-w-0">
+                        <span class="block text-xs font-bold tracking-wide text-slate-200 group-hover:text-white truncate">MONITORING MITRA</span>
+                        <span class="block text-[10px] text-slate-400 truncate">Sobat & Penugasan</span>
                     </div>
                 </span>
-                <div class="flex items-center gap-2">
-                    <span class="relative flex h-2 w-2">
-                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                        <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500 ring-2 ring-emerald-950"></span>
-                    </span>
-                    <i data-lucide="chevron-down" id="chevron-mitra-master" class="w-4 h-4 text-[#f59e0b] group-hover:text-white transition-transform duration-300 {% if is_mitra_active %}rotate{% endif %}"></i>
+                <div class="flex items-center gap-2 flex-shrink-0">
+                    {% if is_mitra_active %}
+                    <span class="w-1.5 h-1.5 rounded-full bg-orange-400 shadow-[0_0_8px_rgba(249,115,22,0.8)]"></span>
+                    {% endif %}
+                    <i data-lucide="chevron-down" id="chevron-mitra-master" class="w-4 h-4 text-slate-500 group-hover:text-slate-300 transition-transform duration-200 {% if is_mitra_active %}rotate{% endif %}"></i>
                 </div>
             </button>
 
             <!-- KONTEN FITUR-FITUR MONITORING MITRA -->
-            <div id="container-mitra-features" class="mt-2 space-y-1 px-1 {% if not is_mitra_active %}closed{% endif %}">
+            <div id="container-mitra-features" class="ml-3 pl-3 border-l border-slate-800/80 space-y-0.5 my-1.5 {% if not is_mitra_active %}closed{% endif %}">
                 
                 <!-- Dashboard Mitra -->
                 <a href="{{ url_for('mitra.dashboard') }}" 
-                   class="nav-subitem flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold transition-all duration-200 group/sub {% if request.path == url_for('mitra.dashboard') %} bg-gradient-to-r from-[#F28C28] to-[#F47721] text-white font-bold shadow-md shadow-orange-500/25 {% else %} text-slate-300 hover:text-white hover:bg-slate-800/70 hover:translate-x-1 {% endif %}">
-                    <i data-lucide="layout-grid" class="w-4 h-4 {% if request.path == url_for('mitra.dashboard') %} text-white {% else %} text-amber-400 group-hover/sub:scale-110 {% endif %} flex-shrink-0 transition-transform"></i>
+                   class="nav-subitem flex items-center gap-2.5 px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all group/sub {% if request.path == url_for('mitra.dashboard') %} bg-orange-500/15 text-orange-400 font-semibold border border-orange-500/30 {% else %} text-slate-400 hover:text-white hover:bg-slate-800/50 {% endif %}">
+                    <i data-lucide="layout-grid" class="w-3.5 h-3.5 flex-shrink-0"></i>
                     <span class="truncate">Dashboard Mitra</span>
                 </a>
 
                 <!-- Database Mitra -->
                 <a href="{{ url_for('mitra.database') }}" 
-                   class="nav-subitem flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold transition-all duration-200 group/sub {% if request.path == url_for('mitra.database') %} bg-gradient-to-r from-[#F28C28] to-[#F47721] text-white font-bold shadow-md shadow-orange-500/25 {% else %} text-slate-300 hover:text-white hover:bg-slate-800/70 hover:translate-x-1 {% endif %}">
-                    <i data-lucide="database" class="w-4 h-4 {% if request.path == url_for('mitra.database') %} text-white {% else %} text-cyan-400 group-hover/sub:scale-110 {% endif %} flex-shrink-0 transition-transform"></i>
+                   class="nav-subitem flex items-center gap-2.5 px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all group/sub {% if request.path == url_for('mitra.database') %} bg-orange-500/15 text-orange-400 font-semibold border border-orange-500/30 {% else %} text-slate-400 hover:text-white hover:bg-slate-800/50 {% endif %}">
+                    <i data-lucide="database" class="w-3.5 h-3.5 flex-shrink-0"></i>
                     <span class="truncate">Database Mitra</span>
                 </a>
 
                 <!-- Penugasan Mitra -->
                 <a href="{{ url_for('mitra.penugasan') }}" 
-                   class="nav-subitem flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold transition-all duration-200 group/sub {% if request.path == url_for('mitra.penugasan') %} bg-gradient-to-r from-[#F28C28] to-[#F47721] text-white font-bold shadow-md shadow-orange-500/25 {% else %} text-slate-300 hover:text-white hover:bg-slate-800/70 hover:translate-x-1 {% endif %}">
-                    <i data-lucide="clipboard-list" class="w-4 h-4 {% if request.path == url_for('mitra.penugasan') %} text-white {% else %} text-emerald-400 group-hover/sub:scale-110 {% endif %} flex-shrink-0 transition-transform"></i>
+                   class="nav-subitem flex items-center gap-2.5 px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all group/sub {% if request.path == url_for('mitra.penugasan') %} bg-orange-500/15 text-orange-400 font-semibold border border-orange-500/30 {% else %} text-slate-400 hover:text-white hover:bg-slate-800/50 {% endif %}">
+                    <i data-lucide="clipboard-list" class="w-3.5 h-3.5 flex-shrink-0"></i>
                     <span class="truncate">Penugasan Mitra</span>
                 </a>
 
                 <!-- Monitoring Kegiatan -->
                 <a href="{{ url_for('mitra.monitoring') }}" 
-                   class="nav-subitem flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold transition-all duration-200 group/sub {% if request.path.startswith('/mitra/monitoring') %} bg-gradient-to-r from-[#F28C28] to-[#F47721] text-white font-bold shadow-md shadow-orange-500/25 {% else %} text-slate-300 hover:text-white hover:bg-slate-800/70 hover:translate-x-1 {% endif %}">
-                    <i data-lucide="activity" class="w-4 h-4 {% if request.path.startswith('/mitra/monitoring') %} text-white {% else %} text-rose-400 group-hover/sub:scale-110 {% endif %} flex-shrink-0 transition-transform"></i>
+                   class="nav-subitem flex items-center gap-2.5 px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all group/sub {% if request.path.startswith('/mitra/monitoring') %} bg-orange-500/15 text-orange-400 font-semibold border border-orange-500/30 {% else %} text-slate-400 hover:text-white hover:bg-slate-800/50 {% endif %}">
+                    <i data-lucide="activity" class="w-3.5 h-3.5 flex-shrink-0"></i>
                     <span class="truncate">Monitoring Kegiatan</span>
                 </a>
 
                 <!-- Evaluasi Mitra -->
                 <a href="{{ url_for('mitra.evaluasi') }}" 
-                   class="nav-subitem flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold transition-all duration-200 group/sub {% if request.path == url_for('mitra.evaluasi') %} bg-gradient-to-r from-[#F28C28] to-[#F47721] text-white font-bold shadow-md shadow-orange-500/25 {% else %} text-slate-300 hover:text-white hover:bg-slate-800/70 hover:translate-x-1 {% endif %}">
-                    <i data-lucide="award" class="w-4 h-4 {% if request.path == url_for('mitra.evaluasi') %} text-white {% else %} text-yellow-300 group-hover/sub:scale-110 {% endif %} flex-shrink-0 transition-transform"></i>
+                   class="nav-subitem flex items-center gap-2.5 px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all group/sub {% if request.path == url_for('mitra.evaluasi') %} bg-orange-500/15 text-orange-400 font-semibold border border-orange-500/30 {% else %} text-slate-400 hover:text-white hover:bg-slate-800/50 {% endif %}">
+                    <i data-lucide="award" class="w-3.5 h-3.5 flex-shrink-0"></i>
                     <span class="truncate">Evaluasi Mitra</span>
                 </a>
 
                 <!-- Rekapitulasi Mitra -->
                 <a href="{{ url_for('mitra.rekapitulasi') }}" 
-                   class="nav-subitem flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold transition-all duration-200 group/sub {% if request.path == url_for('mitra.rekapitulasi') %} bg-gradient-to-r from-[#F28C28] to-[#F47721] text-white font-bold shadow-md shadow-orange-500/25 {% else %} text-slate-300 hover:text-white hover:bg-slate-800/70 hover:translate-x-1 {% endif %}">
-                    <i data-lucide="bar-chart-2" class="w-4 h-4 {% if request.path == url_for('mitra.rekapitulasi') %} text-white {% else %} text-purple-400 group-hover/sub:scale-110 {% endif %} flex-shrink-0 transition-transform"></i>
+                   class="nav-subitem flex items-center gap-2.5 px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all group/sub {% if request.path == url_for('mitra.rekapitulasi') %} bg-orange-500/15 text-orange-400 font-semibold border border-orange-500/30 {% else %} text-slate-400 hover:text-white hover:bg-slate-800/50 {% endif %}">
+                    <i data-lucide="bar-chart-2" class="w-3.5 h-3.5 flex-shrink-0"></i>
                     <span class="truncate">Rekapitulasi Mitra</span>
                 </a>
 
                 <!-- Template & Upload -->
                 <a href="{{ url_for('mitra.template') }}" 
-                   class="nav-subitem flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold transition-all duration-200 group/sub {% if request.path == url_for('mitra.template') %} bg-gradient-to-r from-[#F28C28] to-[#F47721] text-white font-bold shadow-md shadow-orange-500/25 {% else %} text-slate-300 hover:text-white hover:bg-slate-800/70 hover:translate-x-1 {% endif %}">
-                    <i data-lucide="file-up" class="w-4 h-4 {% if request.path == url_for('mitra.template') %} text-white {% else %} text-blue-400 group-hover/sub:scale-110 {% endif %} flex-shrink-0 transition-transform"></i>
+                   class="nav-subitem flex items-center gap-2.5 px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all group/sub {% if request.path == url_for('mitra.template') %} bg-orange-500/15 text-orange-400 font-semibold border border-orange-500/30 {% else %} text-slate-400 hover:text-white hover:bg-slate-800/50 {% endif %}">
+                    <i data-lucide="file-up" class="w-3.5 h-3.5 flex-shrink-0"></i>
                     <span class="truncate">Template & Upload</span>
                 </a>
             </div>
@@ -456,67 +397,65 @@
 
         <!-- ============================================================== -->
         <!-- 3. MASTER MODUL: KINERJA PEGAWAI                               -->
-        <!-- Desain Card Menarik & Interaktif (Expand & Collapse)           -->
         <!-- ============================================================== -->
         <div class="sidebar-single-container">
             <!-- Tombol Master Kinerja Pegawai -->
             <button type="button" 
                     id="btn-pegawai-master"
                     onclick="togglePegawaiMasterMenu()"
-                    class="w-full flex items-center justify-between p-2.5 rounded-2xl bg-gradient-to-r from-[#142338] via-[#101e30] to-[#0d1827] border border-[#d97706]/70 text-white font-bold text-sm hover:border-[#f97316] hover:shadow-lg hover:shadow-orange-500/10 hover:bg-[#15253b] transition-all duration-300 group shadow-md">
-                <span class="flex items-center gap-2.5">
-                    <div class="w-10 h-10 rounded-xl bg-white p-2 flex items-center justify-center text-[#1E3E66] group-hover:scale-105 transition-transform duration-200 shadow-sm ring-1 ring-black/5 flex-shrink-0">
-                        <i data-lucide="briefcase" class="w-5 h-5 text-[#1E3E66]"></i>
+                    class="w-full flex items-center justify-between p-2 rounded-xl transition-all duration-200 group text-left {% if is_pegawai_active %} bg-slate-800/80 text-white border border-slate-700/80 shadow-xs {% else %} hover:bg-slate-800/40 text-slate-300 hover:text-white border border-transparent {% endif %}">
+                <span class="flex items-center gap-2.5 min-w-0">
+                    <div class="w-8 h-8 rounded-lg bg-blue-500/10 text-blue-400 border border-blue-500/20 flex items-center justify-center flex-shrink-0 group-hover:scale-105 group-hover:bg-blue-500/20 transition-all">
+                        <i data-lucide="briefcase" class="w-4 h-4"></i>
                     </div>
-                    <div class="text-left sidebar-text">
-                        <span class="block text-xs font-black uppercase tracking-wider text-white group-hover:text-blue-200 transition-colors">KINERJA PEGAWAI</span>
-                        <span class="block text-[10px] text-[#f59e0b] font-semibold leading-tight mt-0.5">Monitoring Kinerja Pegawai</span>
+                    <div class="text-left sidebar-text min-w-0">
+                        <span class="block text-xs font-bold tracking-wide text-slate-200 group-hover:text-white truncate">KINERJA PEGAWAI</span>
+                        <span class="block text-[10px] text-slate-400 truncate">Aktivitas & Kinerja Organik</span>
                     </div>
                 </span>
-                <div class="flex items-center gap-2">
-                    <span class="relative flex h-2 w-2">
-                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                        <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500 ring-2 ring-emerald-950"></span>
-                    </span>
-                    <i data-lucide="chevron-down" id="chevron-pegawai-master" class="w-4 h-4 text-[#f59e0b] group-hover:text-white transition-transform duration-300 {% if is_pegawai_active %}rotate{% endif %}"></i>
+                <div class="flex items-center gap-2 flex-shrink-0">
+                    {% if is_pegawai_active %}
+                    <span class="w-1.5 h-1.5 rounded-full bg-blue-400 shadow-[0_0_8px_rgba(96,165,250,0.8)]"></span>
+                    {% endif %}
+                    <i data-lucide="chevron-down" id="chevron-pegawai-master" class="w-4 h-4 text-slate-500 group-hover:text-slate-300 transition-transform duration-200 {% if is_pegawai_active %}rotate{% endif %}"></i>
                 </div>
             </button>
 
             <!-- KONTEN FITUR-FITUR KINERJA PEGAWAI -->
-            <div id="container-pegawai-features" class="mt-2 space-y-1 px-1 {% if not is_pegawai_active %}closed{% endif %}">
+            <div id="container-pegawai-features" class="ml-3 pl-3 border-l border-slate-800/80 space-y-0.5 my-1.5 {% if not is_pegawai_active %}closed{% endif %}">
                 
                 <!-- Dashboard Pegawai -->
                 <a href="{{ url_for('pegawai.dashboard') }}" 
-                   class="nav-subitem flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold transition-all duration-200 group/sub {% if request.path == url_for('pegawai.dashboard') %} bg-gradient-to-r from-[#F28C28] to-[#F47721] text-white font-bold shadow-md shadow-orange-500/25 {% else %} text-slate-300 hover:text-white hover:bg-slate-800/70 hover:translate-x-1 {% endif %}">
-                    <i data-lucide="layout-grid" class="w-4 h-4 {% if request.path == url_for('pegawai.dashboard') %} text-white {% else %} text-blue-400 group-hover/sub:scale-110 {% endif %} flex-shrink-0 transition-transform"></i>
+                   class="nav-subitem flex items-center gap-2.5 px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all group/sub {% if request.path == url_for('pegawai.dashboard') %} bg-orange-500/15 text-orange-400 font-semibold border border-orange-500/30 {% else %} text-slate-400 hover:text-white hover:bg-slate-800/50 {% endif %}">
+                    <i data-lucide="layout-grid" class="w-3.5 h-3.5 flex-shrink-0"></i>
                     <span class="truncate">Dashboard Pegawai</span>
                 </a>
 
                 <!-- Database Pegawai -->
                 <a href="{{ url_for('pegawai.database') }}" 
-                   class="nav-subitem flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold transition-all duration-200 group/sub {% if request.path == url_for('pegawai.database') %} bg-gradient-to-r from-[#F28C28] to-[#F47721] text-white font-bold shadow-md shadow-orange-500/25 {% else %} text-slate-300 hover:text-white hover:bg-slate-800/70 hover:translate-x-1 {% endif %}">
-                    <i data-lucide="users" class="w-4 h-4 {% if request.path == url_for('pegawai.database') %} text-white {% else %} text-cyan-400 group-hover/sub:scale-110 {% endif %} flex-shrink-0 transition-transform"></i>
+                   class="nav-subitem flex items-center gap-2.5 px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all group/sub {% if request.path == url_for('pegawai.database') %} bg-orange-500/15 text-orange-400 font-semibold border border-orange-500/30 {% else %} text-slate-400 hover:text-white hover:bg-slate-800/50 {% endif %}">
+                    <i data-lucide="users" class="w-3.5 h-3.5 flex-shrink-0"></i>
                     <span class="truncate">Database Pegawai</span>
                 </a>
 
                 <!-- Aktivitas Pegawai -->
                 <a href="{{ url_for('pegawai.aktivitas') }}" 
-                   class="nav-subitem flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold transition-all duration-200 group/sub {% if request.path == url_for('pegawai.aktivitas') %} bg-gradient-to-r from-[#F28C28] to-[#F47721] text-white font-bold shadow-md shadow-orange-500/25 {% else %} text-slate-300 hover:text-white hover:bg-slate-800/70 hover:translate-x-1 {% endif %}">
-                    <i data-lucide="calendar" class="w-4 h-4 {% if request.path == url_for('pegawai.aktivitas') %} text-white {% else %} text-emerald-400 group-hover/sub:scale-110 {% endif %} flex-shrink-0 transition-transform"></i>
+                   class="nav-subitem flex items-center gap-2.5 px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all group/sub {% if request.path == url_for('pegawai.aktivitas') %} bg-orange-500/15 text-orange-400 font-semibold border border-orange-500/30 {% else %} text-slate-400 hover:text-white hover:bg-slate-800/50 {% endif %}">
+                    <i data-lucide="calendar" class="w-3.5 h-3.5 flex-shrink-0"></i>
                     <span class="truncate">Aktivitas Pegawai</span>
                 </a>
 
                 <!-- Monitoring Kinerja -->
                 <a href="{{ url_for('pegawai.monitoring') }}" 
-                   class="nav-subitem flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold transition-all duration-200 group/sub {% if request.path == url_for('pegawai.monitoring') %} bg-gradient-to-r from-[#F28C28] to-[#F47721] text-white font-bold shadow-md shadow-orange-500/25 {% else %} text-slate-300 hover:text-white hover:bg-slate-800/70 hover:translate-x-1 {% endif %}">
-                    <i data-lucide="line-chart" class="w-4 h-4 {% if request.path == url_for('pegawai.monitoring') %} text-white {% else %} text-rose-400 group-hover/sub:scale-110 {% endif %} flex-shrink-0 transition-transform"></i>
+                   class="nav-subitem flex items-center gap-2.5 px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all group/sub {% if request.path == url_for('pegawai.monitoring') %} bg-orange-500/15 text-orange-400 font-semibold border border-orange-500/30 {% else %} text-slate-400 hover:text-white hover:bg-slate-800/50 {% endif %}">
+                    <i data-lucide="line-chart" class="w-3.5 h-3.5 flex-shrink-0"></i>
                     <span class="truncate">Monitoring Kinerja</span>
                 </a>
 
                 <!-- Rekapitulasi Kinerja -->
                 <a href="{{ url_for('pegawai.rekapitulasi') }}" 
-                   class="nav-subitem flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold transition-all duration-200 group/sub {% if request.path == url_for('pegawai.rekapitulasi') %} bg-gradient-to-r from-[#F28C28] to-[#F47721] text-white font-bold shadow-md shadow-orange-500/25 {% else %} text-slate-300 hover:text-white hover:bg-slate-800/70 hover:translate-x-1 {% endif %}">
-                    <i data-lucide="bar-chart-2" class="w-4 h-4 {% if request.path == url_for('pegawai.rekapitulasi') %} text-white {% else %} text-amber-400 group-hover/sub:scale-110 {% endif %} flex-shrink-0 transition-transform"></i>
+                   class="nav-subitem flex items-center gap-2.5 px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all group/sub {% if request.path == url_for('pegawai.rekapitulasi') %} bg-orange-500/15 text-orange-400 font-semibold border border-orange-500/30 {% else %} text-slate-400 hover:text-white hover:bg-slate-800/50 {% endif %}">
+                    <i data-lucide="bar-chart-2" class="w-3.5 h-3.5 flex-shrink-0"></i>
                     <span class="truncate">Rekapitulasi Kinerja</span>
                 </a>
             </div>
@@ -524,95 +463,90 @@
 
         <!-- ============================================================== -->
         <!-- 4. MASTER MODUL: TRACKING KEUANGAN                             -->
-        <!-- Desain Card Menarik & Interaktif (Expand & Collapse)           -->
         <!-- ============================================================== -->
         <div class="sidebar-single-container">
             <!-- Tombol Master Tracking Keuangan -->
             <button type="button" 
                     id="btn-keuangan-master"
                     onclick="toggleKeuanganMasterMenu()"
-                    class="w-full flex items-center justify-between p-2.5 rounded-2xl bg-gradient-to-r from-[#142338] via-[#101e30] to-[#0d1827] border border-[#d97706]/70 text-white font-bold text-sm hover:border-[#f97316] hover:shadow-lg hover:shadow-orange-500/10 hover:bg-[#15253b] transition-all duration-300 group shadow-md">
-                <span class="flex items-center gap-2.5">
-                    <div class="w-10 h-10 rounded-xl bg-white p-2 flex items-center justify-center text-[#F28C28] group-hover:scale-105 transition-transform duration-200 shadow-sm ring-1 ring-black/5 flex-shrink-0">
-                        <i data-lucide="wallet" class="w-5 h-5 text-[#F28C28]"></i>
+                    class="w-full flex items-center justify-between p-2 rounded-xl transition-all duration-200 group text-left {% if is_keuangan_active %} bg-slate-800/80 text-white border border-slate-700/80 shadow-xs {% else %} hover:bg-slate-800/40 text-slate-300 hover:text-white border border-transparent {% endif %}">
+                <span class="flex items-center gap-2.5 min-w-0">
+                    <div class="w-8 h-8 rounded-lg bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 flex items-center justify-center flex-shrink-0 group-hover:scale-105 group-hover:bg-emerald-500/20 transition-all">
+                        <i data-lucide="wallet" class="w-4 h-4"></i>
                     </div>
-                    <div class="text-left sidebar-text">
-                        <span class="block text-xs font-black uppercase tracking-wider text-white group-hover:text-emerald-200 transition-colors">TRACKING KEUANGAN</span>
-                        <span class="block text-[10px] text-[#f59e0b] font-semibold leading-tight mt-0.5">Pengajuan & Realisasi Anggaran</span>
+                    <div class="text-left sidebar-text min-w-0">
+                        <span class="block text-xs font-bold tracking-wide text-slate-200 group-hover:text-white truncate">TRACKING KEUANGAN</span>
+                        <span class="block text-[10px] text-slate-400 truncate">Pengajuan & DIPA BPS</span>
                     </div>
                 </span>
-                <div class="flex items-center gap-2">
-                    <span class="relative flex h-2 w-2">
-                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                        <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500 ring-2 ring-emerald-950"></span>
-                    </span>
-                    <i data-lucide="chevron-down" id="chevron-keuangan-master" class="w-4 h-4 text-[#f59e0b] group-hover:text-white transition-transform duration-300 {% if is_keuangan_active %}rotate{% endif %}"></i>
+                <div class="flex items-center gap-2 flex-shrink-0">
+                    {% if is_keuangan_active %}
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.8)]"></span>
+                    {% endif %}
+                    <i data-lucide="chevron-down" id="chevron-keuangan-master" class="w-4 h-4 text-slate-500 group-hover:text-slate-300 transition-transform duration-200 {% if is_keuangan_active %}rotate{% endif %}"></i>
                 </div>
             </button>
 
             <!-- KONTEN FITUR-FITUR TRACKING KEUANGAN -->
-            <div id="container-keuangan-features" class="mt-2 space-y-1 px-1 {% if not is_keuangan_active %}closed{% endif %}">
+            <div id="container-keuangan-features" class="ml-3 pl-3 border-l border-slate-800/80 space-y-0.5 my-1.5 {% if not is_keuangan_active %}closed{% endif %}">
                 
                 <!-- 0. Ringkasan / Dashboard -->
                 <a href="{{ url_for('keuangan.dashboard') }}" 
-                   class="nav-subitem flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold transition-all duration-200 group/sub {% if request.path == url_for('keuangan.dashboard') %} bg-gradient-to-r from-[#F28C28] to-[#F47721] text-white font-bold shadow-md shadow-orange-500/25 {% else %} text-slate-300 hover:text-white hover:bg-slate-800/70 hover:translate-x-1 {% endif %}">
-                    <i data-lucide="layout-grid" class="w-4 h-4 {% if request.path == url_for('keuangan.dashboard') %} text-white {% else %} text-emerald-400 group-hover/sub:scale-110 {% endif %} flex-shrink-0 transition-transform"></i>
+                   class="nav-subitem flex items-center gap-2.5 px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all group/sub {% if request.path == url_for('keuangan.dashboard') %} bg-orange-500/15 text-orange-400 font-semibold border border-orange-500/30 {% else %} text-slate-400 hover:text-white hover:bg-slate-800/50 {% endif %}">
+                    <i data-lucide="layout-grid" class="w-3.5 h-3.5 flex-shrink-0"></i>
                     <span class="truncate">Dashboard Keuangan</span>
                 </a>
 
                 <!-- SECTION: ALUR TRANSAKSI ANGGARAN (3 LANGKAH) -->
-                <div class="pt-2 pb-1 px-2.5 flex items-center justify-between border-t border-slate-800/60 mt-1.5">
-                    <span class="text-[9px] font-black uppercase tracking-wider text-slate-400">Alur Transaksi Anggaran</span>
-                    <span class="text-[9px] font-mono text-emerald-400 font-bold bg-emerald-500/10 px-1.5 py-0.2 rounded">3 Tahap</span>
+                <div class="pt-2 pb-1 px-1 flex items-center justify-between border-t border-slate-800/60 mt-1">
+                    <span class="text-[9px] font-bold uppercase tracking-wider text-slate-400">Alur Transaksi</span>
+                    <span class="text-[9px] font-mono text-emerald-400 bg-emerald-500/10 px-1 rounded">3 Tahap</span>
                 </div>
 
                 <!-- 1. Pengajuan Anggaran (Tahap 1) -->
                 <a href="{{ url_for('keuangan.pengajuan') }}" 
-                   class="nav-subitem flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold transition-all duration-200 group/sub {% if request.path == url_for('keuangan.pengajuan') %} bg-gradient-to-r from-[#F28C28] to-[#F47721] text-white font-bold shadow-md shadow-orange-500/25 {% else %} text-slate-300 hover:text-white hover:bg-slate-800/70 hover:translate-x-1 {% endif %}"
-                   title="Tahap 1: Pengajuan Usulan Anggaran oleh Tim Kerja">
-                    <span class="w-4 h-4 rounded-full bg-orange-500/20 text-orange-400 text-[10px] font-black flex items-center justify-center flex-shrink-0 {% if request.path == url_for('keuangan.pengajuan') %} bg-white text-orange-600 {% endif %}">1</span>
-                    <span class="truncate">1. Usulan Pengajuan</span>
+                   class="nav-subitem flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all group/sub {% if request.path == url_for('keuangan.pengajuan') %} bg-orange-500/15 text-orange-400 font-semibold border border-orange-500/30 {% else %} text-slate-400 hover:text-white hover:bg-slate-800/50 {% endif %}">
+                    <span class="w-3.5 h-3.5 rounded-full bg-slate-800 text-slate-300 text-[9px] font-bold flex items-center justify-center flex-shrink-0 border border-slate-700">1</span>
+                    <span class="truncate">Usulan Pengajuan</span>
                 </a>
 
                 <!-- 2. Persetujuan PPK (Tahap 2) -->
                 <a href="{{ url_for('keuangan.persetujuan') }}" 
-                   class="nav-subitem flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold transition-all duration-200 group/sub {% if request.path == url_for('keuangan.persetujuan') %} bg-gradient-to-r from-[#F28C28] to-[#F47721] text-white font-bold shadow-md shadow-orange-500/25 {% else %} text-slate-300 hover:text-white hover:bg-slate-800/70 hover:translate-x-1 {% endif %}"
-                   title="Tahap 2: Verifikasi & Approval oleh PPK / KPA">
-                    <span class="w-4 h-4 rounded-full bg-teal-500/20 text-teal-400 text-[10px] font-black flex items-center justify-center flex-shrink-0 {% if request.path == url_for('keuangan.persetujuan') %} bg-white text-teal-600 {% endif %}">2</span>
-                    <span class="truncate">2. Verifikasi & Approval</span>
+                   class="nav-subitem flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all group/sub {% if request.path == url_for('keuangan.persetujuan') %} bg-orange-500/15 text-orange-400 font-semibold border border-orange-500/30 {% else %} text-slate-400 hover:text-white hover:bg-slate-800/50 {% endif %}">
+                    <span class="w-3.5 h-3.5 rounded-full bg-slate-800 text-slate-300 text-[9px] font-bold flex items-center justify-center flex-shrink-0 border border-slate-700">2</span>
+                    <span class="truncate">Verifikasi & Approval</span>
                 </a>
 
                 <!-- 3. Realisasi SP2D (Tahap 3) -->
                 <a href="{{ url_for('keuangan.realisasi') }}" 
-                   class="nav-subitem flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold transition-all duration-200 group/sub {% if request.path == url_for('keuangan.realisasi') %} bg-gradient-to-r from-[#F28C28] to-[#F47721] text-white font-bold shadow-md shadow-orange-500/25 {% else %} text-slate-300 hover:text-white hover:bg-slate-800/70 hover:translate-x-1 {% endif %}"
-                   title="Tahap 3: Pencairan Dana & Pencatatan SP2D KPPN">
-                    <span class="w-4 h-4 rounded-full bg-emerald-500/20 text-emerald-400 text-[10px] font-black flex items-center justify-center flex-shrink-0 {% if request.path == url_for('keuangan.realisasi') %} bg-white text-emerald-600 {% endif %}">3</span>
-                    <span class="truncate">3. Pencairan & SP2D</span>
+                   class="nav-subitem flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all group/sub {% if request.path == url_for('keuangan.realisasi') %} bg-orange-500/15 text-orange-400 font-semibold border border-orange-500/30 {% else %} text-slate-400 hover:text-white hover:bg-slate-800/50 {% endif %}">
+                    <span class="w-3.5 h-3.5 rounded-full bg-slate-800 text-slate-300 text-[9px] font-bold flex items-center justify-center flex-shrink-0 border border-slate-700">3</span>
+                    <span class="truncate">Pencairan & SP2D</span>
                 </a>
 
                 <!-- SECTION: MASTER DATA DIPA & LAPORAN -->
-                <div class="pt-2.5 pb-1 px-2.5 flex items-center justify-between border-t border-slate-800/60 mt-1.5">
-                    <span class="text-[9px] font-black uppercase tracking-wider text-slate-400">Master DIPA & Laporan</span>
+                <div class="pt-2 pb-1 px-1 flex items-center justify-between border-t border-slate-800/60 mt-1">
+                    <span class="text-[9px] font-bold uppercase tracking-wider text-slate-400">Master & Laporan</span>
                 </div>
 
                 <!-- Database Akun MAK -->
                 <a href="{{ url_for('keuangan.akun') }}" 
-                   class="nav-subitem flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold transition-all duration-200 group/sub {% if request.path == url_for('keuangan.akun') %} bg-gradient-to-r from-[#F28C28] to-[#F47721] text-white font-bold shadow-md shadow-orange-500/25 {% else %} text-slate-300 hover:text-white hover:bg-slate-800/70 hover:translate-x-1 {% endif %}">
-                    <i data-lucide="book-open" class="w-4 h-4 {% if request.path == url_for('keuangan.akun') %} text-white {% else %} text-sky-400 group-hover/sub:scale-110 {% endif %} flex-shrink-0 transition-transform"></i>
+                   class="nav-subitem flex items-center gap-2.5 px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all group/sub {% if request.path == url_for('keuangan.akun') %} bg-orange-500/15 text-orange-400 font-semibold border border-orange-500/30 {% else %} text-slate-400 hover:text-white hover:bg-slate-800/50 {% endif %}">
+                    <i data-lucide="book-open" class="w-3.5 h-3.5 flex-shrink-0"></i>
                     <span class="truncate">Database Akun (MAK)</span>
                 </a>
 
                 <!-- Komponen Anggaran -->
                 <a href="{{ url_for('keuangan.komponen') }}" 
-                   class="nav-subitem flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold transition-all duration-200 group/sub {% if request.path == url_for('keuangan.komponen') %} bg-gradient-to-r from-[#F28C28] to-[#F47721] text-white font-bold shadow-md shadow-orange-500/25 {% else %} text-slate-300 hover:text-white hover:bg-slate-800/70 hover:translate-x-1 {% endif %}">
-                    <i data-lucide="layers" class="w-4 h-4 {% if request.path == url_for('keuangan.komponen') %} text-white {% else %} text-amber-400 group-hover/sub:scale-110 {% endif %} flex-shrink-0 transition-transform"></i>
+                   class="nav-subitem flex items-center gap-2.5 px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all group/sub {% if request.path == url_for('keuangan.komponen') %} bg-orange-500/15 text-orange-400 font-semibold border border-orange-500/30 {% else %} text-slate-400 hover:text-white hover:bg-slate-800/50 {% endif %}">
+                    <i data-lucide="layers" class="w-3.5 h-3.5 flex-shrink-0"></i>
                     <span class="truncate">Komponen Anggaran</span>
                 </a>
 
                 <!-- Laporan Serapan DIPA -->
                 <a href="{{ url_for('keuangan.rekapitulasi') }}" 
-                   class="nav-subitem flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold transition-all duration-200 group/sub {% if request.path == url_for('keuangan.rekapitulasi') %} bg-gradient-to-r from-[#F28C28] to-[#F47721] text-white font-bold shadow-md shadow-orange-500/25 {% else %} text-slate-300 hover:text-white hover:bg-slate-800/70 hover:translate-x-1 {% endif %}">
-                    <i data-lucide="pie-chart" class="w-4 h-4 {% if request.path == url_for('keuangan.rekapitulasi') %} text-white {% else %} text-violet-400 group-hover/sub:scale-110 {% endif %} flex-shrink-0 transition-transform"></i>
+                   class="nav-subitem flex items-center gap-2.5 px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all group/sub {% if request.path == url_for('keuangan.rekapitulasi') %} bg-orange-500/15 text-orange-400 font-semibold border border-orange-500/30 {% else %} text-slate-400 hover:text-white hover:bg-slate-800/50 {% endif %}">
+                    <i data-lucide="pie-chart" class="w-3.5 h-3.5 flex-shrink-0"></i>
                     <span class="truncate">Laporan Serapan DIPA</span>
                 </a>
             </div>
@@ -621,15 +555,15 @@
     </div>
 
     <!-- User Profile Bar Bottom -->
-    <div class="p-3.5 border-t border-slate-800/80 bg-slate-900/60 flex items-center justify-between">
+    <div class="p-3 border-t border-slate-800/80 bg-[#080d19] flex items-center justify-between">
         {% if current_user.is_authenticated %}
         <a href="{{ url_for('auth.profile') }}" class="flex items-center gap-2.5 min-w-0 group">
-            <div class="w-8 h-8 rounded-lg bg-orange-500/20 text-[#F28C28] border border-orange-500/30 flex items-center justify-center font-bold text-xs flex-shrink-0 group-hover:scale-105 transition-transform">
+            <div class="w-8 h-8 rounded-lg bg-slate-800 text-orange-400 border border-slate-700/80 flex items-center justify-center font-bold text-xs flex-shrink-0 group-hover:scale-105 group-hover:border-orange-500/40 transition-all">
                 {{ (current_user.full_name or current_user.username or 'US')[:2].upper() }}
             </div>
             <div class="min-w-0 sidebar-text">
-                <p class="text-xs font-bold text-white truncate group-hover:text-[#F28C28] transition">{{ current_user.full_name or current_user.username }}</p>
-                <span class="inline-block text-[9px] font-black uppercase tracking-wider text-orange-400">
+                <p class="text-xs font-semibold text-slate-200 truncate group-hover:text-white transition">{{ current_user.full_name or current_user.username }}</p>
+                <span class="inline-block text-[10px] font-medium text-slate-400 truncate">
                     {{ current_user.role_display_name }}
                 </span>
             </div>
@@ -637,7 +571,7 @@
 
         <a href="{{ url_for('auth.logout') }}" 
            title="Keluar (Logout)" 
-           class="p-2 text-slate-400 hover:text-red-400 hover:bg-red-500/10 rounded-lg transition"
+           class="p-2 text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 rounded-lg transition"
            onclick="return confirm('Apakah Anda yakin ingin keluar dari PRIMA?');">
             <i data-lucide="log-out" class="w-4 h-4"></i>
         </a>
