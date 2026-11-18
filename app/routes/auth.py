@@ -216,7 +216,7 @@ def logout():
     uid = current_user.id
     logout_user()
     log_activity('LOGOUT', f"Pengguna {identifier} telah keluar dari sistem.", uid)
-    flash('Anda telah berhasil keluar dari sistem PRIMA.', 'info')
+    flash('Anda telah berhasil keluar dari sistem LENTERA.', 'info')
     return redirect(url_for('auth.login'))
 
 @auth_bp.route('/profile', methods=['GET', 'POST'])

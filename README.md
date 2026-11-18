@@ -14,13 +14,15 @@ PRIMA mengatasi tantangan pencarian berkas fisik yang terfragmentasi, memantau t
 
 ## 🚀 2. Tumpukan Teknologi (Tech Stack)
 
-Aplikasi dibangun murni menggunakan stack yang diwajibkan:
-- **Backend:** Python 3.12+ & **Flask 3.0+**
-- **Template Engine:** Jinja2
-- **Database:** **MySQL** (`prima_akip_banyuwangi`) dengan ORM **Flask-SQLAlchemy**
-- **Frontend & Styling:** **Tailwind CSS**, Lucide Icons, Chart.js
-- **Autentikasi & Keamanan:** **Flask-Login**, **Werkzeug Security** (Password Hashing dengan Scrypt / PBKDF2)
-- **Deployment:** Gunicorn (kompatibel dengan Linux, Render, VPS, Docker)
+Aplikasi dibangun murni menggunakan spesifikasi teknologi yang telah distandarisasi:
+| Komponen Arsitektur | Teknologi yang Digunakan |
+| :--- | :--- |
+| **Front-End** | **HTML5, CSS3, JavaScript, Bootstrap 5 / Tailwind CSS** |
+| **Back-End** | **Python (Flask Framework)** |
+| **Basis Data** | **MySQL 8** (dengan SQLite auto-fallback) |
+| **ORM** | **SQLAlchemy** (Flask-SQLAlchemy) |
+| **Autentikasi** | **Session Auth & Role-Based Access Control (RBAC)** |
+| **Pengujian** | **Black Box Testing & UAT (User Acceptance Testing)** |
 
 ---
 
