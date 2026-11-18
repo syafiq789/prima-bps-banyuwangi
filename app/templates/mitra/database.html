@@ -112,6 +112,14 @@
                     {% endfor %}
                 </select>
 
+                <!-- Filter 25 Kecamatan Banyuwangi -->
+                <select name="kecamatan" class="h-10 pl-4 pr-9 text-xs rounded-full border border-slate-200/80 bg-white font-semibold text-slate-700 hover:border-slate-300 focus:outline-none focus:border-orange-500 select-pill shadow-2xs transition-all max-w-[185px] truncate">
+                    <option value="">Semua Kecamatan (25)</option>
+                    {% for kc in kecamatan_options %}
+                    <option value="{{ kc }}" {% if kec_filter == kc %}selected{% endif %}>Kec. {{ kc }}</option>
+                    {% endfor %}
+                </select>
+
                 <!-- Tombol Submit Filter -->
                 <button type="submit" class="h-10 px-5 rounded-full bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs shadow-sm active:scale-95 transition-all flex items-center gap-1.5">
                     <i data-lucide="filter" class="w-3.5 h-3.5"></i>
@@ -128,7 +136,7 @@
         </form>
 
         <!-- Baris Filter Aktif (Ringkas & Sederhana) -->
-        {% if tahun_filter or bulan_filter or kegiatan_filter or search %}
+        {% if tahun_filter or bulan_filter or kegiatan_filter or kec_filter or search %}
         <div class="mt-2.5 pt-2 border-t border-slate-100 flex flex-wrap items-center gap-2 text-xs">
             <span class="text-slate-400 text-[11px] font-medium">Filter aktif:</span>
             {% if tahun_filter %}
@@ -144,6 +152,11 @@
             {% if kegiatan_filter %}
             <span class="px-2.5 py-0.5 rounded-full text-[11px] bg-slate-100 text-slate-700 font-medium border border-slate-200/60 truncate max-w-xs">
                 Kegiatan: {{ kegiatan_filter }}
+            </span>
+            {% endif %}
+            {% if kec_filter %}
+            <span class="px-2.5 py-0.5 rounded-full text-[11px] bg-orange-50 text-orange-700 font-semibold border border-orange-200/60">
+                Kec. {{ kec_filter }}
             </span>
             {% endif %}
             {% if search %}
@@ -426,13 +439,16 @@
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
                     <div>
                         <label class="block text-[11px] font-bold text-slate-700 uppercase tracking-wider mb-1">
-                            Kecamatan Domisili <span class="text-rose-500">*</span>
+                            Kecamatan Domisili (25 Wilayah BPS) <span class="text-rose-500">*</span>
                         </label>
-                        <input type="text" 
-                               name="kecamatan" 
-                               required 
-                               placeholder="Contoh: Rogojampi" 
-                               class="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 bg-slate-50/50 hover:bg-white focus:bg-white focus:outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-500/15 font-medium text-slate-800 transition">
+                        <select name="kecamatan" 
+                                required 
+                                class="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 bg-slate-50/50 hover:bg-white focus:bg-white focus:outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-500/15 font-semibold text-slate-800 transition">
+                            <option value="">-- Pilih Kecamatan di Banyuwangi --</option>
+                            {% for kc in kecamatan_options %}
+                            <option value="{{ kc }}">{{ kc }}</option>
+                            {% endfor %}
+                        </select>
                     </div>
                     <div>
                         <label class="block text-[11px] font-bold text-slate-700 uppercase tracking-wider mb-1">

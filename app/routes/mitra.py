@@ -10,6 +10,15 @@ from app.models import (
 
 mitra_bp = Blueprint('mitra', __name__, url_prefix='/mitra')
 
+# 25 Kecamatan Resmi di Kabupaten Banyuwangi (Wilayah Kerja BPS 3510)
+KECAMATAN_BANYUWANGI = [
+    'Bangorejo', 'Banyuwangi', 'Blimbingsari', 'Cluring', 'Gambiran',
+    'Genteng', 'Giri', 'Glagah', 'Glenmore', 'Kabat',
+    'Kalibaru', 'Kalipuro', 'Licin', 'Muncar', 'Pesanggaran',
+    'Purwoharjo', 'Rogojampi', 'Sempu', 'Siliragung', 'Singojuruh',
+    'Songgon', 'Srono', 'Tegaldlimo', 'Tegalsari', 'Wongsorejo'
+]
+
 @mitra_bp.route('/')
 @mitra_bp.route('/dashboard')
 @login_required
@@ -23,10 +32,24 @@ def dashboard():
     penugasan_terbaru = PenugasanMitra.query.order_by(PenugasanMitra.created_at.desc()).limit(8).all()
     kegiatan_aktif = Kegiatan.query.filter_by(status='BERJALAN').all()
 
-    # Data untuk Chart.js: Distribusi Mitra per Kecamatan
+    # Data untuk Chart.js & Matriks: Sebaran Mitra per 25 Kecamatan Banyuwangi
     kec_data = db.session.query(Mitra.kecamatan, func.count(Mitra.id)).group_by(Mitra.kecamatan).all()
-    chart_kec_labels = [k[0] for k in kec_data] if kec_data else ['Banyuwangi', 'Genteng', 'Rogojampi']
-    chart_kec_values = [k[1] for k in kec_data] if kec_data else [1, 1, 1]
+    kec_counts = dict(kec_data) if kec_data else {}
+    
+    sebaran_25_kecamatan = []
+    for kec in KECAMATAN_BANYUWANGI:
+        sebaran_25_kecamatan.append({
+            'kecamatan': kec,
+            'count': kec_counts.get(kec, 0)
+        })
+
+    active_kec = [(k, c) for k, c in kec_counts.items() if c > 0]
+    if active_kec:
+        chart_kec_labels = [k[0] for k in active_kec]
+        chart_kec_values = [k[1] for k in active_kec]
+    else:
+        chart_kec_labels = ['Rogojampi', 'Genteng', 'Banyuwangi', 'Muncar', 'Giri', 'Kabat']
+        chart_kec_values = [0, 0, 0, 0, 0, 0]
 
     # Data Performa & Skor Rata-rata
     eval_list = EvaluasiMitra.query.all()
@@ -64,7 +87,9 @@ def dashboard():
         count_keg_produksi=count_keg_produksi,
         count_keg_pls=count_keg_pls,
         total_honor_all=total_honor_all,
-        rasio_selesai=rasio_selesai
+        rasio_selesai=rasio_selesai,
+        kecamatan_options=KECAMATAN_BANYUWANGI,
+        sebaran_25_kecamatan=sebaran_25_kecamatan
     )
 
 @mitra_bp.route('/database')
@@ -151,7 +176,8 @@ def database():
         years=years,
         months=months,
         kegiatan_options=kegiatan_options,
-        kecamatans=kecamatans
+        kecamatans=kecamatans,
+        kecamatan_options=KECAMATAN_BANYUWANGI
     )
 
 @mitra_bp.route('/database/create', methods=['POST'])
@@ -291,6 +317,7 @@ def toggle_mitra_status(id):
 def penugasan():
     status_filter = request.args.get('status', '').strip()
     search_nama = request.args.get('nama', '').strip()
+    kec_filter = request.args.get('kecamatan', '').strip()
     tahun_filter = request.args.get('tahun', '').strip()
     bulan_filter = request.args.get('bulan', '').strip()
     kegiatan_filter = request.args.get('kegiatan', '').strip()
@@ -299,8 +326,12 @@ def penugasan():
     query = PenugasanMitra.query
     if status_filter:
         query = query.filter(PenugasanMitra.status == status_filter)
-    if search_nama:
-        query = query.join(PenugasanMitra.mitra).filter(Mitra.nama_lengkap.ilike(f'%{search_nama}%'))
+    if search_nama or kec_filter:
+        query = query.join(PenugasanMitra.mitra)
+        if search_nama:
+            query = query.filter(Mitra.nama_lengkap.ilike(f'%{search_nama}%'))
+        if kec_filter:
+            query = query.filter(Mitra.kecamatan == kec_filter)
     
     # Filter kegiatan properties
     if tahun_filter or bulan_filter or kegiatan_filter or tim_filter:
@@ -337,11 +368,13 @@ def penugasan():
         kegiatan_options=kegiatan_options, 
         status_filter=status_filter,
         search_nama=search_nama,
+        kec_filter=kec_filter,
         tahun_filter=tahun_filter,
         bulan_filter=bulan_filter,
         kegiatan_filter=kegiatan_filter,
         tim_filter=tim_filter,
-        years=years
+        years=years,
+        kecamatan_options=KECAMATAN_BANYUWANGI
     )
 
 @mitra_bp.route('/penugasan/create', methods=['POST'])
@@ -601,7 +634,33 @@ def rekapitulasi():
             'predikat': predikat,
             'total_honor': total_honor
         })
-    return render_template('mitra/rekapitulasi.html', rekap_data=rekap_data, total_honor_all=total_honor_all)
+
+    # Rekapitulasi Sebaran per 25 Kecamatan Kabupaten Banyuwangi
+    rekap_25_kecamatan = []
+    for kec in KECAMATAN_BANYUWANGI:
+        mitras_kec = Mitra.query.filter_by(kecamatan=kec).all()
+        tot_mitra_kec = len(mitras_kec)
+        mitra_ids = [m.id for m in mitras_kec]
+        if mitra_ids:
+            tot_tugas_kec = PenugasanMitra.query.filter(PenugasanMitra.mitra_id.in_(mitra_ids)).count()
+            tot_honor_kec = sum(p.honor_total for p in PenugasanMitra.query.filter(PenugasanMitra.mitra_id.in_(mitra_ids)).all())
+        else:
+            tot_tugas_kec = 0
+            tot_honor_kec = 0
+        rekap_25_kecamatan.append({
+            'kecamatan': kec,
+            'total_mitra': tot_mitra_kec,
+            'total_tugas': tot_tugas_kec,
+            'total_honor': tot_honor_kec
+        })
+
+    return render_template(
+        'mitra/rekapitulasi.html', 
+        rekap_data=rekap_data, 
+        total_honor_all=total_honor_all,
+        rekap_25_kecamatan=rekap_25_kecamatan,
+        kecamatan_options=KECAMATAN_BANYUWANGI
+    )
 
 @mitra_bp.route('/template')
 @login_required
