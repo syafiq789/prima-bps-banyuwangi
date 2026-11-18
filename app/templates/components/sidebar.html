@@ -62,7 +62,7 @@
             </button>
 
             <!-- KONTEN FITUR-FITUR DI DALAM MENU PRIMA -->
-            <div id="container-prima-features" class="mt-2.5 pl-2.5 pr-1 space-y-1.5 border-l-2 border-[#d97706]/40 ml-4.5 {% if not is_prima_active %}closed{% endif %}">
+            <div id="container-prima-features" class="mt-2 space-y-1.5 px-1 {% if not is_prima_active %}closed{% endif %}">
                 
                 <!-- 1. MENU UTAMA (Dashboard, Info, Guide) -->
                 <div class="sidebar-subgroup">
@@ -401,53 +401,53 @@
             </button>
 
             <!-- KONTEN FITUR-FITUR MONITORING MITRA -->
-            <div id="container-mitra-features" class="mt-2.5 pl-2.5 pr-1 space-y-1 border-l-2 border-[#d97706]/40 ml-4.5 {% if not is_mitra_active %}closed{% endif %}">
+            <div id="container-mitra-features" class="mt-2 space-y-1 px-1 {% if not is_mitra_active %}closed{% endif %}">
                 
                 <!-- Dashboard Mitra -->
                 <a href="{{ url_for('mitra.dashboard') }}" 
-                   class="nav-subitem flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs transition-all duration-200 group/sub {% if request.path == url_for('mitra.dashboard') %} bg-gradient-to-r from-[#F28C28] to-[#F47721] text-white font-bold shadow-md shadow-orange-500/25 {% else %} text-slate-300 hover:text-white hover:bg-slate-800/70 hover:translate-x-1 {% endif %}">
+                   class="nav-subitem flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold transition-all duration-200 group/sub {% if request.path == url_for('mitra.dashboard') %} bg-gradient-to-r from-[#F28C28] to-[#F47721] text-white font-bold shadow-md shadow-orange-500/25 {% else %} text-slate-300 hover:text-white hover:bg-slate-800/70 hover:translate-x-1 {% endif %}">
                     <i data-lucide="layout-grid" class="w-4 h-4 {% if request.path == url_for('mitra.dashboard') %} text-white {% else %} text-amber-400 group-hover/sub:scale-110 {% endif %} flex-shrink-0 transition-transform"></i>
                     <span class="truncate">Dashboard Mitra</span>
                 </a>
 
                 <!-- Database Mitra -->
                 <a href="{{ url_for('mitra.database') }}" 
-                   class="nav-subitem flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs transition-all duration-200 group/sub {% if request.path == url_for('mitra.database') %} bg-gradient-to-r from-[#F28C28] to-[#F47721] text-white font-bold shadow-md shadow-orange-500/25 {% else %} text-slate-300 hover:text-white hover:bg-slate-800/70 hover:translate-x-1 {% endif %}">
+                   class="nav-subitem flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold transition-all duration-200 group/sub {% if request.path == url_for('mitra.database') %} bg-gradient-to-r from-[#F28C28] to-[#F47721] text-white font-bold shadow-md shadow-orange-500/25 {% else %} text-slate-300 hover:text-white hover:bg-slate-800/70 hover:translate-x-1 {% endif %}">
                     <i data-lucide="database" class="w-4 h-4 {% if request.path == url_for('mitra.database') %} text-white {% else %} text-cyan-400 group-hover/sub:scale-110 {% endif %} flex-shrink-0 transition-transform"></i>
                     <span class="truncate">Database Mitra</span>
                 </a>
 
                 <!-- Penugasan Mitra -->
                 <a href="{{ url_for('mitra.penugasan') }}" 
-                   class="nav-subitem flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs transition-all duration-200 group/sub {% if request.path == url_for('mitra.penugasan') %} bg-gradient-to-r from-[#F28C28] to-[#F47721] text-white font-bold shadow-md shadow-orange-500/25 {% else %} text-slate-300 hover:text-white hover:bg-slate-800/70 hover:translate-x-1 {% endif %}">
+                   class="nav-subitem flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold transition-all duration-200 group/sub {% if request.path == url_for('mitra.penugasan') %} bg-gradient-to-r from-[#F28C28] to-[#F47721] text-white font-bold shadow-md shadow-orange-500/25 {% else %} text-slate-300 hover:text-white hover:bg-slate-800/70 hover:translate-x-1 {% endif %}">
                     <i data-lucide="clipboard-list" class="w-4 h-4 {% if request.path == url_for('mitra.penugasan') %} text-white {% else %} text-emerald-400 group-hover/sub:scale-110 {% endif %} flex-shrink-0 transition-transform"></i>
                     <span class="truncate">Penugasan Mitra</span>
                 </a>
 
                 <!-- Monitoring Kegiatan -->
                 <a href="{{ url_for('mitra.monitoring') }}" 
-                   class="nav-subitem flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs transition-all duration-200 group/sub {% if request.path.startswith('/mitra/monitoring') %} bg-gradient-to-r from-[#F28C28] to-[#F47721] text-white font-bold shadow-md shadow-orange-500/25 {% else %} text-slate-300 hover:text-white hover:bg-slate-800/70 hover:translate-x-1 {% endif %}">
+                   class="nav-subitem flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold transition-all duration-200 group/sub {% if request.path.startswith('/mitra/monitoring') %} bg-gradient-to-r from-[#F28C28] to-[#F47721] text-white font-bold shadow-md shadow-orange-500/25 {% else %} text-slate-300 hover:text-white hover:bg-slate-800/70 hover:translate-x-1 {% endif %}">
                     <i data-lucide="activity" class="w-4 h-4 {% if request.path.startswith('/mitra/monitoring') %} text-white {% else %} text-rose-400 group-hover/sub:scale-110 {% endif %} flex-shrink-0 transition-transform"></i>
                     <span class="truncate">Monitoring Kegiatan</span>
                 </a>
 
                 <!-- Evaluasi Mitra -->
                 <a href="{{ url_for('mitra.evaluasi') }}" 
-                   class="nav-subitem flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs transition-all duration-200 group/sub {% if request.path == url_for('mitra.evaluasi') %} bg-gradient-to-r from-[#F28C28] to-[#F47721] text-white font-bold shadow-md shadow-orange-500/25 {% else %} text-slate-300 hover:text-white hover:bg-slate-800/70 hover:translate-x-1 {% endif %}">
+                   class="nav-subitem flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold transition-all duration-200 group/sub {% if request.path == url_for('mitra.evaluasi') %} bg-gradient-to-r from-[#F28C28] to-[#F47721] text-white font-bold shadow-md shadow-orange-500/25 {% else %} text-slate-300 hover:text-white hover:bg-slate-800/70 hover:translate-x-1 {% endif %}">
                     <i data-lucide="award" class="w-4 h-4 {% if request.path == url_for('mitra.evaluasi') %} text-white {% else %} text-yellow-300 group-hover/sub:scale-110 {% endif %} flex-shrink-0 transition-transform"></i>
                     <span class="truncate">Evaluasi Mitra</span>
                 </a>
 
                 <!-- Rekapitulasi Mitra -->
                 <a href="{{ url_for('mitra.rekapitulasi') }}" 
-                   class="nav-subitem flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs transition-all duration-200 group/sub {% if request.path == url_for('mitra.rekapitulasi') %} bg-gradient-to-r from-[#F28C28] to-[#F47721] text-white font-bold shadow-md shadow-orange-500/25 {% else %} text-slate-300 hover:text-white hover:bg-slate-800/70 hover:translate-x-1 {% endif %}">
+                   class="nav-subitem flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold transition-all duration-200 group/sub {% if request.path == url_for('mitra.rekapitulasi') %} bg-gradient-to-r from-[#F28C28] to-[#F47721] text-white font-bold shadow-md shadow-orange-500/25 {% else %} text-slate-300 hover:text-white hover:bg-slate-800/70 hover:translate-x-1 {% endif %}">
                     <i data-lucide="bar-chart-2" class="w-4 h-4 {% if request.path == url_for('mitra.rekapitulasi') %} text-white {% else %} text-purple-400 group-hover/sub:scale-110 {% endif %} flex-shrink-0 transition-transform"></i>
                     <span class="truncate">Rekapitulasi Mitra</span>
                 </a>
 
                 <!-- Template Kegiatan -->
                 <a href="{{ url_for('mitra.template') }}" 
-                   class="nav-subitem flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs transition-all duration-200 group/sub {% if request.path == url_for('mitra.template') %} bg-gradient-to-r from-[#F28C28] to-[#F47721] text-white font-bold shadow-md shadow-orange-500/25 {% else %} text-slate-300 hover:text-white hover:bg-slate-800/70 hover:translate-x-1 {% endif %}">
+                   class="nav-subitem flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold transition-all duration-200 group/sub {% if request.path == url_for('mitra.template') %} bg-gradient-to-r from-[#F28C28] to-[#F47721] text-white font-bold shadow-md shadow-orange-500/25 {% else %} text-slate-300 hover:text-white hover:bg-slate-800/70 hover:translate-x-1 {% endif %}">
                     <i data-lucide="file-text" class="w-4 h-4 {% if request.path == url_for('mitra.template') %} text-white {% else %} text-blue-400 group-hover/sub:scale-110 {% endif %} flex-shrink-0 transition-transform"></i>
                     <span class="truncate">Template Kegiatan</span>
                 </a>
@@ -470,7 +470,7 @@
                     </div>
                     <div class="text-left sidebar-text">
                         <span class="block text-xs font-black uppercase tracking-wider text-white group-hover:text-blue-200 transition-colors">KINERJA PEGAWAI</span>
-                        <span class="block text-[10px] text-[#f59e0b] font-semibold leading-tight mt-0.5">Aparatur BPS Banyuwangi</span>
+                        <span class="block text-[10px] text-[#f59e0b] font-semibold leading-tight mt-0.5">Monitoring Kinerja Pegawai</span>
                     </div>
                 </span>
                 <div class="flex items-center gap-2">
@@ -483,39 +483,39 @@
             </button>
 
             <!-- KONTEN FITUR-FITUR KINERJA PEGAWAI -->
-            <div id="container-pegawai-features" class="mt-2.5 pl-2.5 pr-1 space-y-1 border-l-2 border-[#d97706]/40 ml-4.5 {% if not is_pegawai_active %}closed{% endif %}">
+            <div id="container-pegawai-features" class="mt-2 space-y-1 px-1 {% if not is_pegawai_active %}closed{% endif %}">
                 
                 <!-- Dashboard Pegawai -->
                 <a href="{{ url_for('pegawai.dashboard') }}" 
-                   class="nav-subitem flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs transition-all duration-200 group/sub {% if request.path == url_for('pegawai.dashboard') %} bg-gradient-to-r from-[#F28C28] to-[#F47721] text-white font-bold shadow-md shadow-orange-500/25 {% else %} text-slate-300 hover:text-white hover:bg-slate-800/70 hover:translate-x-1 {% endif %}">
+                   class="nav-subitem flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold transition-all duration-200 group/sub {% if request.path == url_for('pegawai.dashboard') %} bg-gradient-to-r from-[#F28C28] to-[#F47721] text-white font-bold shadow-md shadow-orange-500/25 {% else %} text-slate-300 hover:text-white hover:bg-slate-800/70 hover:translate-x-1 {% endif %}">
                     <i data-lucide="layout-grid" class="w-4 h-4 {% if request.path == url_for('pegawai.dashboard') %} text-white {% else %} text-blue-400 group-hover/sub:scale-110 {% endif %} flex-shrink-0 transition-transform"></i>
                     <span class="truncate">Dashboard Pegawai</span>
                 </a>
 
                 <!-- Database Pegawai -->
                 <a href="{{ url_for('pegawai.database') }}" 
-                   class="nav-subitem flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs transition-all duration-200 group/sub {% if request.path == url_for('pegawai.database') %} bg-gradient-to-r from-[#F28C28] to-[#F47721] text-white font-bold shadow-md shadow-orange-500/25 {% else %} text-slate-300 hover:text-white hover:bg-slate-800/70 hover:translate-x-1 {% endif %}">
+                   class="nav-subitem flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold transition-all duration-200 group/sub {% if request.path == url_for('pegawai.database') %} bg-gradient-to-r from-[#F28C28] to-[#F47721] text-white font-bold shadow-md shadow-orange-500/25 {% else %} text-slate-300 hover:text-white hover:bg-slate-800/70 hover:translate-x-1 {% endif %}">
                     <i data-lucide="users" class="w-4 h-4 {% if request.path == url_for('pegawai.database') %} text-white {% else %} text-cyan-400 group-hover/sub:scale-110 {% endif %} flex-shrink-0 transition-transform"></i>
                     <span class="truncate">Database Pegawai</span>
                 </a>
 
                 <!-- Aktivitas Pegawai -->
                 <a href="{{ url_for('pegawai.aktivitas') }}" 
-                   class="nav-subitem flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs transition-all duration-200 group/sub {% if request.path == url_for('pegawai.aktivitas') %} bg-gradient-to-r from-[#F28C28] to-[#F47721] text-white font-bold shadow-md shadow-orange-500/25 {% else %} text-slate-300 hover:text-white hover:bg-slate-800/70 hover:translate-x-1 {% endif %}">
+                   class="nav-subitem flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold transition-all duration-200 group/sub {% if request.path == url_for('pegawai.aktivitas') %} bg-gradient-to-r from-[#F28C28] to-[#F47721] text-white font-bold shadow-md shadow-orange-500/25 {% else %} text-slate-300 hover:text-white hover:bg-slate-800/70 hover:translate-x-1 {% endif %}">
                     <i data-lucide="calendar" class="w-4 h-4 {% if request.path == url_for('pegawai.aktivitas') %} text-white {% else %} text-emerald-400 group-hover/sub:scale-110 {% endif %} flex-shrink-0 transition-transform"></i>
                     <span class="truncate">Aktivitas Pegawai</span>
                 </a>
 
                 <!-- Monitoring Kinerja -->
                 <a href="{{ url_for('pegawai.monitoring') }}" 
-                   class="nav-subitem flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs transition-all duration-200 group/sub {% if request.path == url_for('pegawai.monitoring') %} bg-gradient-to-r from-[#F28C28] to-[#F47721] text-white font-bold shadow-md shadow-orange-500/25 {% else %} text-slate-300 hover:text-white hover:bg-slate-800/70 hover:translate-x-1 {% endif %}">
+                   class="nav-subitem flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold transition-all duration-200 group/sub {% if request.path == url_for('pegawai.monitoring') %} bg-gradient-to-r from-[#F28C28] to-[#F47721] text-white font-bold shadow-md shadow-orange-500/25 {% else %} text-slate-300 hover:text-white hover:bg-slate-800/70 hover:translate-x-1 {% endif %}">
                     <i data-lucide="line-chart" class="w-4 h-4 {% if request.path == url_for('pegawai.monitoring') %} text-white {% else %} text-rose-400 group-hover/sub:scale-110 {% endif %} flex-shrink-0 transition-transform"></i>
                     <span class="truncate">Monitoring Kinerja</span>
                 </a>
 
                 <!-- Rekapitulasi Kinerja -->
                 <a href="{{ url_for('pegawai.rekapitulasi') }}" 
-                   class="nav-subitem flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs transition-all duration-200 group/sub {% if request.path == url_for('pegawai.rekapitulasi') %} bg-gradient-to-r from-[#F28C28] to-[#F47721] text-white font-bold shadow-md shadow-orange-500/25 {% else %} text-slate-300 hover:text-white hover:bg-slate-800/70 hover:translate-x-1 {% endif %}">
+                   class="nav-subitem flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold transition-all duration-200 group/sub {% if request.path == url_for('pegawai.rekapitulasi') %} bg-gradient-to-r from-[#F28C28] to-[#F47721] text-white font-bold shadow-md shadow-orange-500/25 {% else %} text-slate-300 hover:text-white hover:bg-slate-800/70 hover:translate-x-1 {% endif %}">
                     <i data-lucide="bar-chart-2" class="w-4 h-4 {% if request.path == url_for('pegawai.rekapitulasi') %} text-white {% else %} text-amber-400 group-hover/sub:scale-110 {% endif %} flex-shrink-0 transition-transform"></i>
                     <span class="truncate">Rekapitulasi Kinerja</span>
                 </a>
@@ -538,7 +538,7 @@
                     </div>
                     <div class="text-left sidebar-text">
                         <span class="block text-xs font-black uppercase tracking-wider text-white group-hover:text-emerald-200 transition-colors">TRACKING KEUANGAN</span>
-                        <span class="block text-[10px] text-[#f59e0b] font-semibold leading-tight mt-0.5">DIPA Satker 429215 BPS</span>
+                        <span class="block text-[10px] text-[#f59e0b] font-semibold leading-tight mt-0.5">Pengajuan & Realisasi Anggaran</span>
                     </div>
                 </span>
                 <div class="flex items-center gap-2">
@@ -551,53 +551,53 @@
             </button>
 
             <!-- KONTEN FITUR-FITUR TRACKING KEUANGAN -->
-            <div id="container-keuangan-features" class="mt-2.5 pl-2.5 pr-1 space-y-1 border-l-2 border-[#d97706]/40 ml-4.5 {% if not is_keuangan_active %}closed{% endif %}">
+            <div id="container-keuangan-features" class="mt-2 space-y-1 px-1 {% if not is_keuangan_active %}closed{% endif %}">
                 
                 <!-- Dashboard Keuangan -->
                 <a href="{{ url_for('keuangan.dashboard') }}" 
-                   class="nav-subitem flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs transition-all duration-200 group/sub {% if request.path == url_for('keuangan.dashboard') %} bg-gradient-to-r from-[#F28C28] to-[#F47721] text-white font-bold shadow-md shadow-orange-500/25 {% else %} text-slate-300 hover:text-white hover:bg-slate-800/70 hover:translate-x-1 {% endif %}">
+                   class="nav-subitem flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold transition-all duration-200 group/sub {% if request.path == url_for('keuangan.dashboard') %} bg-gradient-to-r from-[#F28C28] to-[#F47721] text-white font-bold shadow-md shadow-orange-500/25 {% else %} text-slate-300 hover:text-white hover:bg-slate-800/70 hover:translate-x-1 {% endif %}">
                     <i data-lucide="layout-grid" class="w-4 h-4 {% if request.path == url_for('keuangan.dashboard') %} text-white {% else %} text-emerald-400 group-hover/sub:scale-110 {% endif %} flex-shrink-0 transition-transform"></i>
                     <span class="truncate">Dashboard Keuangan</span>
                 </a>
 
                 <!-- Database Akun -->
                 <a href="{{ url_for('keuangan.akun') }}" 
-                   class="nav-subitem flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs transition-all duration-200 group/sub {% if request.path == url_for('keuangan.akun') %} bg-gradient-to-r from-[#F28C28] to-[#F47721] text-white font-bold shadow-md shadow-orange-500/25 {% else %} text-slate-300 hover:text-white hover:bg-slate-800/70 hover:translate-x-1 {% endif %}">
+                   class="nav-subitem flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold transition-all duration-200 group/sub {% if request.path == url_for('keuangan.akun') %} bg-gradient-to-r from-[#F28C28] to-[#F47721] text-white font-bold shadow-md shadow-orange-500/25 {% else %} text-slate-300 hover:text-white hover:bg-slate-800/70 hover:translate-x-1 {% endif %}">
                     <i data-lucide="book-open" class="w-4 h-4 {% if request.path == url_for('keuangan.akun') %} text-white {% else %} text-sky-400 group-hover/sub:scale-110 {% endif %} flex-shrink-0 transition-transform"></i>
                     <span class="truncate">Database Akun</span>
                 </a>
 
                 <!-- Komponen Anggaran -->
                 <a href="{{ url_for('keuangan.komponen') }}" 
-                   class="nav-subitem flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs transition-all duration-200 group/sub {% if request.path == url_for('keuangan.komponen') %} bg-gradient-to-r from-[#F28C28] to-[#F47721] text-white font-bold shadow-md shadow-orange-500/25 {% else %} text-slate-300 hover:text-white hover:bg-slate-800/70 hover:translate-x-1 {% endif %}">
+                   class="nav-subitem flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold transition-all duration-200 group/sub {% if request.path == url_for('keuangan.komponen') %} bg-gradient-to-r from-[#F28C28] to-[#F47721] text-white font-bold shadow-md shadow-orange-500/25 {% else %} text-slate-300 hover:text-white hover:bg-slate-800/70 hover:translate-x-1 {% endif %}">
                     <i data-lucide="layers" class="w-4 h-4 {% if request.path == url_for('keuangan.komponen') %} text-white {% else %} text-amber-400 group-hover/sub:scale-110 {% endif %} flex-shrink-0 transition-transform"></i>
                     <span class="truncate">Komponen Anggaran</span>
                 </a>
 
                 <!-- Pengajuan Anggaran -->
                 <a href="{{ url_for('keuangan.pengajuan') }}" 
-                   class="nav-subitem flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs transition-all duration-200 group/sub {% if request.path == url_for('keuangan.pengajuan') %} bg-gradient-to-r from-[#F28C28] to-[#F47721] text-white font-bold shadow-md shadow-orange-500/25 {% else %} text-slate-300 hover:text-white hover:bg-slate-800/70 hover:translate-x-1 {% endif %}">
+                   class="nav-subitem flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold transition-all duration-200 group/sub {% if request.path == url_for('keuangan.pengajuan') %} bg-gradient-to-r from-[#F28C28] to-[#F47721] text-white font-bold shadow-md shadow-orange-500/25 {% else %} text-slate-300 hover:text-white hover:bg-slate-800/70 hover:translate-x-1 {% endif %}">
                     <i data-lucide="file-plus" class="w-4 h-4 {% if request.path == url_for('keuangan.pengajuan') %} text-white {% else %} text-orange-400 group-hover/sub:scale-110 {% endif %} flex-shrink-0 transition-transform"></i>
                     <span class="truncate">Pengajuan Anggaran</span>
                 </a>
 
                 <!-- Persetujuan Pengajuan -->
                 <a href="{{ url_for('keuangan.persetujuan') }}" 
-                   class="nav-subitem flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs transition-all duration-200 group/sub {% if request.path == url_for('keuangan.persetujuan') %} bg-gradient-to-r from-[#F28C28] to-[#F47721] text-white font-bold shadow-md shadow-orange-500/25 {% else %} text-slate-300 hover:text-white hover:bg-slate-800/70 hover:translate-x-1 {% endif %}">
+                   class="nav-subitem flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold transition-all duration-200 group/sub {% if request.path == url_for('keuangan.persetujuan') %} bg-gradient-to-r from-[#F28C28] to-[#F47721] text-white font-bold shadow-md shadow-orange-500/25 {% else %} text-slate-300 hover:text-white hover:bg-slate-800/70 hover:translate-x-1 {% endif %}">
                     <i data-lucide="check-square" class="w-4 h-4 {% if request.path == url_for('keuangan.persetujuan') %} text-white {% else %} text-teal-400 group-hover/sub:scale-110 {% endif %} flex-shrink-0 transition-transform"></i>
                     <span class="truncate">Persetujuan Pengajuan</span>
                 </a>
 
                 <!-- Realisasi Anggaran -->
                 <a href="{{ url_for('keuangan.realisasi') }}" 
-                   class="nav-subitem flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs transition-all duration-200 group/sub {% if request.path == url_for('keuangan.realisasi') %} bg-gradient-to-r from-[#F28C28] to-[#F47721] text-white font-bold shadow-md shadow-orange-500/25 {% else %} text-slate-300 hover:text-white hover:bg-slate-800/70 hover:translate-x-1 {% endif %}">
+                   class="nav-subitem flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold transition-all duration-200 group/sub {% if request.path == url_for('keuangan.realisasi') %} bg-gradient-to-r from-[#F28C28] to-[#F47721] text-white font-bold shadow-md shadow-orange-500/25 {% else %} text-slate-300 hover:text-white hover:bg-slate-800/70 hover:translate-x-1 {% endif %}">
                     <i data-lucide="receipt" class="w-4 h-4 {% if request.path == url_for('keuangan.realisasi') %} text-white {% else %} text-emerald-400 group-hover/sub:scale-110 {% endif %} flex-shrink-0 transition-transform"></i>
                     <span class="truncate">Realisasi Anggaran</span>
                 </a>
 
                 <!-- Rekapitulasi Keuangan -->
                 <a href="{{ url_for('keuangan.rekapitulasi') }}" 
-                   class="nav-subitem flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs transition-all duration-200 group/sub {% if request.path == url_for('keuangan.rekapitulasi') %} bg-gradient-to-r from-[#F28C28] to-[#F47721] text-white font-bold shadow-md shadow-orange-500/25 {% else %} text-slate-300 hover:text-white hover:bg-slate-800/70 hover:translate-x-1 {% endif %}">
+                   class="nav-subitem flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold transition-all duration-200 group/sub {% if request.path == url_for('keuangan.rekapitulasi') %} bg-gradient-to-r from-[#F28C28] to-[#F47721] text-white font-bold shadow-md shadow-orange-500/25 {% else %} text-slate-300 hover:text-white hover:bg-slate-800/70 hover:translate-x-1 {% endif %}">
                     <i data-lucide="pie-chart" class="w-4 h-4 {% if request.path == url_for('keuangan.rekapitulasi') %} text-white {% else %} text-violet-400 group-hover/sub:scale-110 {% endif %} flex-shrink-0 transition-transform"></i>
                     <span class="truncate">Rekapitulasi Keuangan</span>
                 </a>
