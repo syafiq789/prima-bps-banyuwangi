@@ -139,82 +139,82 @@
     <!-- ALUR TRANSAKSI & REALISASI ANGGARAN DIPA BPS BANYUWANGI       -->
     <!-- Menjelaskan tahapan proses dari Usulan hingga Pencairan SP2D   -->
     <!-- ============================================================== -->
-    <div class="bg-white rounded-3xl p-5 border border-slate-200/80 shadow-soft">
-        <div class="flex items-center justify-between pb-3.5 border-b border-slate-100 mb-4">
-            <div class="flex items-center gap-2.5">
-                <div class="w-8 h-8 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center border border-emerald-200/60 shadow-2xs">
-                    <i data-lucide="git-commit" class="w-4 h-4"></i>
+    <div class="bg-white rounded-2xl p-4 sm:p-4.5 border border-slate-200/80 shadow-xs">
+        <div class="flex items-center justify-between pb-3 border-b border-slate-100 mb-3.5">
+            <div class="flex items-center gap-2">
+                <div class="w-7 h-7 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center border border-emerald-200/60 shadow-2xs">
+                    <i data-lucide="git-commit" class="w-3.5 h-3.5"></i>
                 </div>
                 <div>
                     <h2 class="text-xs font-bold text-slate-800">Alur Transaksi & Realisasi Anggaran DIPA Satker 429215</h2>
-                    <p class="text-[11px] text-slate-400">Tahapan transparan dari usulan rincian kegiatan, verifikasi PPK, hingga pencairan SP2D</p>
+                    <p class="text-[10px] text-slate-400">Tahapan transparan dari usulan rincian kegiatan, verifikasi PPK, hingga pencairan SP2D</p>
                 </div>
             </div>
-            <span class="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-200/60 hidden sm:inline-block">
+            <span class="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200/60 hidden sm:inline-block">
                 SOP Keuangan BPS
             </span>
         </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5">
             <!-- Langkah 1: Input Pengajuan -->
-            <a href="{{ url_for('keuangan.pengajuan') }}" class="p-3.5 rounded-2xl bg-slate-50/70 hover:bg-orange-50/50 border border-slate-200/70 hover:border-orange-300 transition-all group flex items-start gap-3">
-                <span class="w-8 h-8 rounded-xl bg-orange-100 text-orange-700 font-black text-xs flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition-transform shadow-2xs">1</span>
+            <a href="{{ url_for('keuangan.pengajuan') }}" class="p-3 rounded-xl bg-slate-50/70 hover:bg-orange-50/60 border border-slate-200/70 hover:border-orange-300 transition-all group flex items-center gap-2.5">
+                <span class="w-6 h-6 rounded-lg bg-orange-100 text-orange-700 font-black text-[11px] flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition-transform shadow-2xs">1</span>
                 <div class="min-w-0 flex-1">
                     <div class="flex items-center justify-between">
                         <h3 class="text-xs font-bold text-slate-800 group-hover:text-orange-700 transition-colors">1. Usulan Pengajuan</h3>
-                        <i data-lucide="arrow-right" class="w-3.5 h-3.5 text-slate-400 group-hover:translate-x-1 transition-transform"></i>
+                        <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-slate-400 group-hover:translate-x-0.5 transition-transform"></i>
                     </div>
-                    <p class="text-[10px] text-slate-500 mt-0.5">Input MAK, volume & honor tim BPS</p>
+                    <p class="text-[10px] text-slate-500 truncate">Input MAK, volume & honor BPS</p>
                 </div>
             </a>
 
             <!-- Langkah 2: Persetujuan PPK -->
-            <a href="{{ url_for('keuangan.persetujuan') }}" class="p-3.5 rounded-2xl bg-slate-50/70 hover:bg-teal-50/50 border border-slate-200/70 hover:border-teal-300 transition-all group flex items-start gap-3">
-                <span class="w-8 h-8 rounded-xl bg-teal-100 text-teal-700 font-black text-xs flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition-transform shadow-2xs">2</span>
+            <a href="{{ url_for('keuangan.persetujuan') }}" class="p-3 rounded-xl bg-slate-50/70 hover:bg-teal-50/60 border border-slate-200/70 hover:border-teal-300 transition-all group flex items-center gap-2.5">
+                <span class="w-6 h-6 rounded-lg bg-teal-100 text-teal-700 font-black text-[11px] flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition-transform shadow-2xs">2</span>
                 <div class="min-w-0 flex-1">
                     <div class="flex items-center justify-between">
                         <h3 class="text-xs font-bold text-slate-800 group-hover:text-teal-700 transition-colors">2. Verifikasi & Approval</h3>
-                        <i data-lucide="arrow-right" class="w-3.5 h-3.5 text-slate-400 group-hover:translate-x-1 transition-transform"></i>
+                        <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-slate-400 group-hover:translate-x-0.5 transition-transform"></i>
                     </div>
-                    <p class="text-[10px] text-slate-500 mt-0.5">Pemeriksaan bukti dukung & ACC PPK</p>
+                    <p class="text-[10px] text-slate-500 truncate">Bukti dukung & ACC PPK</p>
                 </div>
             </a>
 
             <!-- Langkah 3: Pencairan SP2D -->
-            <a href="{{ url_for('keuangan.realisasi') }}" class="p-3.5 rounded-2xl bg-slate-50/70 hover:bg-emerald-50/50 border border-slate-200/70 hover:border-emerald-300 transition-all group flex items-start gap-3">
-                <span class="w-8 h-8 rounded-xl bg-emerald-100 text-emerald-700 font-black text-xs flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition-transform shadow-2xs">3</span>
+            <a href="{{ url_for('keuangan.realisasi') }}" class="p-3 rounded-xl bg-slate-50/70 hover:bg-emerald-50/60 border border-slate-200/70 hover:border-emerald-300 transition-all group flex items-center gap-2.5">
+                <span class="w-6 h-6 rounded-lg bg-emerald-100 text-emerald-700 font-black text-[11px] flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition-transform shadow-2xs">3</span>
                 <div class="min-w-0 flex-1">
                     <div class="flex items-center justify-between">
                         <h3 class="text-xs font-bold text-slate-800 group-hover:text-emerald-700 transition-colors">3. Pencairan & SP2D</h3>
-                        <i data-lucide="arrow-right" class="w-3.5 h-3.5 text-slate-400 group-hover:translate-x-1 transition-transform"></i>
+                        <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-slate-400 group-hover:translate-x-0.5 transition-transform"></i>
                     </div>
-                    <p class="text-[10px] text-slate-500 mt-0.5">Nomor SP2D KPPN & tanggal bayar</p>
+                    <p class="text-[10px] text-slate-500 truncate">Nomor SP2D KPPN & tgl bayar</p>
                 </div>
             </a>
 
             <!-- Langkah 4: Rekapitulasi Serapan -->
-            <a href="{{ url_for('keuangan.rekapitulasi') }}" class="p-3.5 rounded-2xl bg-slate-50/70 hover:bg-blue-50/50 border border-slate-200/70 hover:border-blue-300 transition-all group flex items-start gap-3">
-                <span class="w-8 h-8 rounded-xl bg-blue-100 text-blue-700 font-black text-xs flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition-transform shadow-2xs">4</span>
+            <a href="{{ url_for('keuangan.rekapitulasi') }}" class="p-3 rounded-xl bg-slate-50/70 hover:bg-blue-50/60 border border-slate-200/70 hover:border-blue-300 transition-all group flex items-center gap-2.5">
+                <span class="w-6 h-6 rounded-lg bg-blue-100 text-blue-700 font-black text-[11px] flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition-transform shadow-2xs">4</span>
                 <div class="min-w-0 flex-1">
                     <div class="flex items-center justify-between">
                         <h3 class="text-xs font-bold text-slate-800 group-hover:text-blue-700 transition-colors">4. Laporan Serapan</h3>
-                        <i data-lucide="arrow-right" class="w-3.5 h-3.5 text-slate-400 group-hover:translate-x-1 transition-transform"></i>
+                        <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-slate-400 group-hover:translate-x-0.5 transition-transform"></i>
                     </div>
-                    <p class="text-[10px] text-slate-500 mt-0.5">Matriks sisa pagu & evaluasi IKPA</p>
+                    <p class="text-[10px] text-slate-500 truncate">Matriks sisa pagu & evaluasi IKPA</p>
                 </div>
             </a>
         </div>
     </div>
 
-    <!-- 3. Charts Section with Modern Empty States -->
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <!-- 3. Charts Section with Balanced Heights -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 items-stretch">
         
         <!-- Chart 1: Bar Chart Pagu vs Realisasi -->
-        <div class="lg:col-span-2 bg-white rounded-3xl p-6 border border-slate-200/80 shadow-soft flex flex-col justify-between">
+        <div class="lg:col-span-2 bg-white rounded-3xl p-6 border border-slate-200/80 shadow-soft flex flex-col justify-between h-full">
             <div class="flex items-center justify-between pb-3.5 border-b border-slate-100 mb-4">
                 <div>
                     <h2 class="text-sm font-bold text-slate-800">Perbandingan Pagu vs Realisasi per Kategori Belanja</h2>
-                    <p class="text-[11px] text-slate-400">Honor Petugas Lapangan, Perjalanan Dinas (Perjadin), dan Belanja Bahan</p>
+                    <p class="text-[11px] text-slate-400">Honor Petugas Lapangan, Perjalanan Dinas, Belanja Bahan, dan Daya Jasa Satker</p>
                 </div>
                 <div class="w-8 h-8 rounded-lg bg-slate-50 text-slate-400 flex items-center justify-center">
                     <i data-lucide="bar-chart-3" class="w-4 h-4 text-emerald-500"></i>
@@ -237,7 +237,7 @@
         </div>
 
         <!-- Serapan Anggaran & Daya Serap BPS -->
-        <div class="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-soft flex flex-col justify-between">
+        <div class="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-soft flex flex-col justify-between h-full">
             <div>
                 <div class="pb-3.5 border-b border-slate-100 mb-4 flex items-center justify-between">
                     <div>
@@ -577,8 +577,13 @@
                         
                         <!-- Peran Tim -->
                         <div>
-                            <label class="block text-[11px] font-bold text-slate-700 mb-1">Peran dalam Tim BPS</label>
-                            <input type="text" name="peran_tim" value="Ketua Tim Pelaksana" placeholder="Contoh: Ketua Tim Teknis" class="w-full px-3 py-2 rounded-xl border border-blue-200 text-xs focus:ring-2 focus:ring-blue-500/20">
+                            <label class="block text-[11px] font-bold text-slate-700 mb-1">Peran dalam Tim Pengelola BPS</label>
+                            <select name="peran_tim" id="selectPeranTim" class="w-full px-3 py-2 rounded-xl border border-blue-200 text-xs bg-white focus:ring-2 focus:ring-blue-500/20">
+                                <option value="Ketua Tim Kerja">Ketua Tim Kerja</option>
+                                <option value="Penanggung Jawab Teknis">Penanggung Jawab Teknis</option>
+                                <option value="Koordinator Lapangan">Koordinator Lapangan</option>
+                                <option value="Pengolah Data / Sekretariat">Pengolah Data / Sekretariat</option>
+                            </select>
                         </div>
                     </div>
 
@@ -647,6 +652,8 @@ document.addEventListener('DOMContentLoaded', () => {
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
+                barPercentage: 0.65,
+                categoryPercentage: 0.75,
                 scales: {
                     y: {
                         beginAtZero: true,

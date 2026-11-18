@@ -135,41 +135,68 @@
 
         <div id="grid25Kecamatan" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
             {% for item in rekap_25_kecamatan %}
-            <div class="card-kecamatan p-3.5 rounded-2xl border transition-all flex flex-col justify-between group {% if item.total_mitra > 0 %} bg-white border-blue-200/80 shadow-xs hover:border-blue-400 hover:shadow-md {% else %} bg-slate-50/40 border-slate-200/60 hover:bg-white hover:border-slate-300 {% endif %}"
+            <div class="card-kecamatan p-3.5 rounded-2xl border transition-all flex flex-col justify-between group min-h-[148px] {% if item.total_mitra > 0 %} bg-white border-blue-200/80 shadow-xs hover:border-blue-400 hover:shadow-md {% else %} bg-slate-50/60 border-slate-200/70 hover:bg-white hover:border-slate-300 {% endif %}"
                  data-kecamatan="{{ item.kecamatan|lower }}">
                 <div>
+                    <!-- Kecamatan Header & Index Badge -->
                     <div class="flex items-center justify-between mb-2">
-                        <span class="font-bold text-xs truncate {% if item.total_mitra > 0 %} text-slate-900 group-hover:text-blue-600 {% else %} text-slate-600 {% endif %}" title="Kecamatan {{ item.kecamatan }}">
-                            {{ item.kecamatan }}
-                        </span>
-                        <span class="w-5 h-5 rounded-md {% if item.total_mitra > 0 %} bg-blue-100 text-blue-700 {% else %} bg-slate-200/70 text-slate-500 {% endif %} text-[9px] font-black flex items-center justify-center">
+                        <div class="flex items-center gap-1.5 min-w-0">
+                            {% if item.total_mitra > 0 %}
+                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse flex-shrink-0"></span>
+                            {% else %}
+                            <span class="w-1.5 h-1.5 rounded-full bg-slate-300 flex-shrink-0"></span>
+                            {% endif %}
+                            <span class="font-bold text-xs truncate {% if item.total_mitra > 0 %} text-slate-900 group-hover:text-blue-600 {% else %} text-slate-600 {% endif %}" title="Kecamatan {{ item.kecamatan }}">
+                                {{ item.kecamatan }}
+                            </span>
+                        </div>
+                        <span class="w-5 h-5 rounded-md {% if item.total_mitra > 0 %} bg-blue-100 text-blue-700 {% else %} bg-slate-200/70 text-slate-500 {% endif %} text-[9px] font-black flex items-center justify-center flex-shrink-0">
                             {{ loop.index }}
                         </span>
                     </div>
 
-                    {% if item.total_mitra > 0 %}
-                    <div class="space-y-1 text-[11px]">
-                        <div class="flex items-center justify-between text-slate-600">
+                    <!-- 3-Baris Terstruktur Seragam untuk Semua Kartu -->
+                    <div class="space-y-1.5 text-[11px]">
+                        <div class="flex items-center justify-between">
                             <span class="text-slate-400 text-[10px]">Mitra:</span>
+                            {% if item.total_mitra > 0 %}
                             <span class="font-bold text-slate-800">{{ item.total_mitra }} Orang</span>
+                            {% else %}
+                            <span class="font-medium text-slate-400">0 Orang</span>
+                            {% endif %}
                         </div>
-                        <div class="flex items-center justify-between text-slate-600">
+                        <div class="flex items-center justify-between">
                             <span class="text-slate-400 text-[10px]">Penugasan:</span>
+                            {% if item.total_tugas > 0 %}
                             <span class="font-bold text-blue-600">{{ item.total_tugas }} Tugas</span>
+                            {% else %}
+                            <span class="font-medium text-slate-400">0 Tugas</span>
+                            {% endif %}
                         </div>
-                        <div class="flex items-center justify-between pt-1.5 border-t border-slate-100 mt-1">
+                        <div class="flex items-center justify-between pt-1.5 border-t border-slate-100">
                             <span class="text-[10px] text-slate-400">Honor:</span>
+                            {% if item.total_honor > 0 %}
                             <span class="font-mono font-bold text-emerald-600 text-[10px]">
                                 Rp {{ "{:,}".format(item.total_honor).replace(',', '.') }}
                             </span>
+                            {% else %}
+                            <span class="font-mono font-medium text-slate-400 text-[10px]">Rp 0</span>
+                            {% endif %}
                         </div>
                     </div>
+                </div>
+
+                <!-- Status Badge Bawah Seragam -->
+                <div class="pt-2 mt-1">
+                    {% if item.total_mitra > 0 %}
+                    <span class="w-full inline-flex items-center justify-center gap-1 px-2 py-0.5 rounded-full text-[9px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200/60">
+                        <i data-lucide="check" class="w-2.5 h-2.5"></i>
+                        <span>Aktif Dialokasikan</span>
+                    </span>
                     {% else %}
-                    <div class="pt-2 text-center">
-                        <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[9px] font-semibold bg-slate-100 text-slate-400 border border-slate-200/60">
-                            Belum Ada Alokasi
-                        </span>
-                    </div>
+                    <span class="w-full inline-flex items-center justify-center gap-1 px-2 py-0.5 rounded-full text-[9px] font-medium bg-slate-100 text-slate-400 border border-slate-200/60">
+                        <span>Menunggu Alokasi</span>
+                    </span>
                     {% endif %}
                 </div>
             </div>

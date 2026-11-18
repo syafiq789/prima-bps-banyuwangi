@@ -31,17 +31,24 @@ def dashboard():
     transaksi_terbaru = PengajuanAnggaran.query.order_by(PengajuanAnggaran.created_at.desc()).limit(7).all()
     realisasi_terbaru = RealisasiAnggaran.query.order_by(RealisasiAnggaran.created_at.desc()).limit(5).all()
 
-    # Data Chart.js: Komposisi Pagu vs Realisasi per Kategori
-    kategori_list = ['HONOR', 'PERJADIN', 'BAHAN']
+    # Data Chart.js: Komposisi Pagu vs Realisasi per Kategori (Lengkap 4 Kategori DIPA)
+    kategori_mapping = [
+        ('HONOR', 'Honor Mitra & Survei'),
+        ('PERJADIN', 'Perjalanan Dinas'),
+        ('BAHAN', 'Belanja Bahan & ATK'),
+        ('LAINNYA', 'Daya & Jasa Satker')
+    ]
+    kategori_labels = []
     pagu_per_kat = []
     real_per_kat = []
-    for k in kategori_list:
-        pagu_k = db.session.query(func.sum(AkunAnggaran.pagu_awal)).filter(AkunAnggaran.kategori == k).scalar() or 0
+    for k_code, k_label in kategori_mapping:
+        pagu_k = db.session.query(func.sum(AkunAnggaran.pagu_awal)).filter(AkunAnggaran.kategori == k_code).scalar() or 0
         # hitung realisasi kategori k
         real_k = db.session.query(func.sum(RealisasiAnggaran.jumlah_realisasi))\
             .join(PengajuanAnggaran, RealisasiAnggaran.pengajuan_id == PengajuanAnggaran.id)\
             .join(AkunAnggaran, PengajuanAnggaran.akun_id == AkunAnggaran.id)\
-            .filter(AkunAnggaran.kategori == k).scalar() or 0
+            .filter(AkunAnggaran.kategori == k_code).scalar() or 0
+        kategori_labels.append(k_label)
         pagu_per_kat.append(pagu_k)
         real_per_kat.append(real_k)
 
@@ -62,7 +69,7 @@ def dashboard():
         persentase_serapan=persentase_serapan,
         transaksi_terbaru=transaksi_terbaru,
         realisasi_terbaru=realisasi_terbaru,
-        kategori_labels=kategori_list,
+        kategori_labels=kategori_labels,
         pagu_per_kat=pagu_per_kat,
         real_per_kat=real_per_kat,
         akun_options=akun_options,

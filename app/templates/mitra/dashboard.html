@@ -159,68 +159,68 @@
     <!-- ============================================================== -->
     <!-- 3. ALUR KERJA TERPADU (RINGKAS, RAPI & MODERN)                 -->
     <!-- ============================================================== -->
-    <div class="bg-white rounded-3xl p-5 border border-slate-200/80 shadow-soft">
-        <div class="flex items-center justify-between pb-3.5 border-b border-slate-100 mb-4">
-            <div class="flex items-center gap-2.5">
-                <div class="w-8 h-8 rounded-xl bg-orange-50 text-orange-600 flex items-center justify-center border border-orange-200/60">
-                    <i data-lucide="workflow" class="w-4 h-4"></i>
+    <div class="bg-white rounded-2xl p-4 sm:p-4.5 border border-slate-200/80 shadow-xs">
+        <div class="flex items-center justify-between pb-3 border-b border-slate-100 mb-3.5">
+            <div class="flex items-center gap-2">
+                <div class="w-7 h-7 rounded-lg bg-orange-50 text-orange-600 flex items-center justify-center border border-orange-200/60 shadow-2xs">
+                    <i data-lucide="workflow" class="w-3.5 h-3.5"></i>
                 </div>
                 <div>
                     <h2 class="text-xs font-bold text-slate-800">Alur Kerja Pengelolaan Mitra BPS Banyuwangi</h2>
-                    <p class="text-[11px] text-slate-400">4 tahapan terintegrasi dari input master data Sobat BPS hingga evaluasi & rekapitulasi</p>
+                    <p class="text-[10px] text-slate-400">4 tahapan terintegrasi: database Sobat BPS, alokasi tim, penugasan target, dan evaluasi capaian</p>
                 </div>
             </div>
-            <span class="text-[10px] font-bold text-orange-700 bg-orange-50 px-2.5 py-1 rounded-full border border-orange-200/60 hidden sm:inline-block">
+            <span class="text-[10px] font-bold text-orange-700 bg-orange-50 px-2.5 py-0.5 rounded-full border border-orange-200/60 hidden sm:inline-block">
                 Sistem Terpadu BPS
             </span>
         </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5">
             <!-- Langkah 1: Master Data -->
-            <a href="{{ url_for('mitra.database') }}" class="p-3.5 rounded-2xl bg-slate-50/70 hover:bg-cyan-50/50 border border-slate-200/70 hover:border-cyan-300 transition-all group flex items-start gap-3">
-                <span class="w-8 h-8 rounded-xl bg-cyan-100 text-cyan-700 font-black text-xs flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition-transform shadow-2xs">1</span>
+            <a href="{{ url_for('mitra.database') }}" class="p-3 rounded-xl bg-slate-50/70 hover:bg-cyan-50/60 border border-slate-200/70 hover:border-cyan-300 transition-all group flex items-center gap-2.5">
+                <span class="w-6 h-6 rounded-lg bg-cyan-100 text-cyan-700 font-black text-[11px] flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition-transform shadow-2xs">1</span>
                 <div class="min-w-0 flex-1">
                     <div class="flex items-center justify-between">
-                        <h3 class="text-xs font-bold text-slate-800 group-hover:text-cyan-700 transition-colors">Master Data Mitra</h3>
-                        <i data-lucide="arrow-right" class="w-3.5 h-3.5 text-slate-400 group-hover:translate-x-1 transition-transform"></i>
+                        <h3 class="text-xs font-bold text-slate-800 group-hover:text-cyan-700 transition-colors">Master Data</h3>
+                        <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-slate-400 group-hover:translate-x-0.5 transition-transform"></i>
                     </div>
-                    <p class="text-[10px] text-slate-500 mt-0.5">Database Sobat, kontak, domisili</p>
+                    <p class="text-[10px] text-slate-500 truncate">Database Sobat & domisili</p>
                 </div>
             </a>
 
             <!-- Langkah 2: Alokasi Tim -->
-            <a href="{{ url_for('mitra.monitoring') }}" class="p-3.5 rounded-2xl bg-slate-50/70 hover:bg-blue-50/50 border border-slate-200/70 hover:border-blue-300 transition-all group flex items-start gap-3">
-                <span class="w-8 h-8 rounded-xl bg-blue-100 text-blue-700 font-black text-xs flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition-transform shadow-2xs">2</span>
+            <a href="{{ url_for('mitra.monitoring') }}" class="p-3 rounded-xl bg-slate-50/70 hover:bg-blue-50/60 border border-slate-200/70 hover:border-blue-300 transition-all group flex items-center gap-2.5">
+                <span class="w-6 h-6 rounded-lg bg-blue-100 text-blue-700 font-black text-[11px] flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition-transform shadow-2xs">2</span>
                 <div class="min-w-0 flex-1">
                     <div class="flex items-center justify-between">
-                        <h3 class="text-xs font-bold text-slate-800 group-hover:text-blue-700 transition-colors">Alokasi 4 Tim Kerja</h3>
-                        <i data-lucide="arrow-right" class="w-3.5 h-3.5 text-slate-400 group-hover:translate-x-1 transition-transform"></i>
+                        <h3 class="text-xs font-bold text-slate-800 group-hover:text-blue-700 transition-colors">Alokasi 4 Tim</h3>
+                        <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-slate-400 group-hover:translate-x-0.5 transition-transform"></i>
                     </div>
-                    <p class="text-[10px] text-slate-500 mt-0.5">Distribusi, Neraca, Produksi, PLS</p>
+                    <p class="text-[10px] text-slate-500 truncate">Distribusi, Neraca, Produksi, PLS</p>
                 </div>
             </a>
 
             <!-- Langkah 3: Penugasan -->
-            <a href="{{ url_for('mitra.penugasan') }}" class="p-3.5 rounded-2xl bg-slate-50/70 hover:bg-amber-50/50 border border-slate-200/70 hover:border-amber-300 transition-all group flex items-start gap-3">
-                <span class="w-8 h-8 rounded-xl bg-amber-100 text-amber-700 font-black text-xs flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition-transform shadow-2xs">3</span>
+            <a href="{{ url_for('mitra.penugasan') }}" class="p-3 rounded-xl bg-slate-50/70 hover:bg-amber-50/60 border border-slate-200/70 hover:border-amber-300 transition-all group flex items-center gap-2.5">
+                <span class="w-6 h-6 rounded-lg bg-amber-100 text-amber-700 font-black text-[11px] flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition-transform shadow-2xs">3</span>
                 <div class="min-w-0 flex-1">
                     <div class="flex items-center justify-between">
-                        <h3 class="text-xs font-bold text-slate-800 group-hover:text-amber-700 transition-colors">Penugasan & Target</h3>
-                        <i data-lucide="arrow-right" class="w-3.5 h-3.5 text-slate-400 group-hover:translate-x-1 transition-transform"></i>
+                        <h3 class="text-xs font-bold text-slate-800 group-hover:text-amber-700 transition-colors">Penugasan Lapangan</h3>
+                        <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-slate-400 group-hover:translate-x-0.5 transition-transform"></i>
                     </div>
-                    <p class="text-[10px] text-slate-500 mt-0.5">Peran PPL/PML, target & honor</p>
+                    <p class="text-[10px] text-slate-500 truncate">Target dokumen & honor</p>
                 </div>
             </a>
 
             <!-- Langkah 4: Evaluasi & Rekap -->
-            <a href="{{ url_for('mitra.evaluasi') }}" class="p-3.5 rounded-2xl bg-slate-50/70 hover:bg-emerald-50/50 border border-slate-200/70 hover:border-emerald-300 transition-all group flex items-start gap-3">
-                <span class="w-8 h-8 rounded-xl bg-emerald-100 text-emerald-700 font-black text-xs flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition-transform shadow-2xs">4</span>
+            <a href="{{ url_for('mitra.evaluasi') }}" class="p-3 rounded-xl bg-slate-50/70 hover:bg-emerald-50/60 border border-slate-200/70 hover:border-emerald-300 transition-all group flex items-center gap-2.5">
+                <span class="w-6 h-6 rounded-lg bg-emerald-100 text-emerald-700 font-black text-[11px] flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition-transform shadow-2xs">4</span>
                 <div class="min-w-0 flex-1">
                     <div class="flex items-center justify-between">
-                        <h3 class="text-xs font-bold text-slate-800 group-hover:text-emerald-700 transition-colors">Evaluasi & Mutu</h3>
-                        <i data-lucide="arrow-right" class="w-3.5 h-3.5 text-slate-400 group-hover:translate-x-1 transition-transform"></i>
+                        <h3 class="text-xs font-bold text-slate-800 group-hover:text-emerald-700 transition-colors">Evaluasi & Rekap</h3>
+                        <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-slate-400 group-hover:translate-x-0.5 transition-transform"></i>
                     </div>
-                    <p class="text-[10px] text-slate-500 mt-0.5">Skor kualitas & rekap honor</p>
+                    <p class="text-[10px] text-slate-500 truncate">Skor mutu & rekap honor</p>
                 </div>
             </a>
         </div>
