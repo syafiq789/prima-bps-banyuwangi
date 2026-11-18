@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}Monitoring Kegiatan Terpadu - SIMPATIK BPS Banyuwangi{% endblock %}
+{% block title %}Monitoring Kegiatan Terpadu - LENTERA BPS Banyuwangi{% endblock %}
 
 {% block content %}
 <div class="space-y-6">
@@ -19,7 +19,7 @@
                 <div>
                     <div class="flex items-center gap-1.5 text-[11px] text-slate-400 mb-1">
                         <a href="{{ url_for('dashboard.index') }}" class="hover:text-slate-600 transition flex items-center gap-1">
-                            <i data-lucide="home" class="w-3 h-3"></i> PRIMA
+                            <i data-lucide="home" class="w-3 h-3"></i> LENTERA
                         </a>
                         <span>/</span>
                         <a href="{{ url_for('mitra.dashboard') }}" class="hover:text-slate-600 transition">Monitoring Mitra</a>
@@ -31,7 +31,7 @@
                         <h1 class="text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900">Monitoring Kegiatan Sensus & Survei</h1>
                         <span class="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full text-[11px] font-bold bg-blue-50 text-blue-700 border border-blue-200/70 shadow-2xs">
                             <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                            SIMPATIK 360°
+                            LENTERA 360°
                         </span>
                         <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-slate-100 text-slate-600 border border-slate-200/70">
                             {{ count_all }} Kegiatan

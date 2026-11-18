@@ -638,13 +638,13 @@
         <a href="{{ url_for('auth.logout') }}" 
            title="Keluar (Logout)" 
            class="p-2 text-slate-400 hover:text-red-400 hover:bg-red-500/10 rounded-lg transition"
-           onclick="return confirm('Apakah Anda yakin ingin keluar dari PRIMA?');">
+           onclick="return confirm('Apakah Anda yakin ingin keluar dari LENTERA?');">
             <i data-lucide="log-out" class="w-4 h-4"></i>
         </a>
         {% else %}
         <a href="{{ url_for('auth.login') }}" class="w-full py-2 px-3 bg-orange-500 hover:bg-orange-600 text-white rounded-xl text-xs font-bold text-center transition flex items-center justify-center gap-1.5 shadow-sm">
             <i data-lucide="log-in" class="w-3.5 h-3.5"></i>
-            <span>Masuk ke PRIMA</span>
+            <span>Masuk ke LENTERA</span>
         </a>
         {% endif %}
     </div>
