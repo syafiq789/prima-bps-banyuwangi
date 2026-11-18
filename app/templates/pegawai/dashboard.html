@@ -189,7 +189,7 @@
                             class="h-10 pl-3.5 pr-8 rounded-full border border-slate-200/90 bg-white text-xs font-semibold text-slate-700 focus:outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-500/15 appearance-none cursor-pointer">
                         <option value="">Semua Tim Kerja</option>
                         {% for t in all_tims %}
-                        <option value="{{ t }}" {% if tim_filter == t %}selected{% endif %}>Tim {{ t }}</option>
+                        <option value="{{ t }}" {% if tim_filter == t %}selected{% endif %}>{{ t }}</option>
                         {% endfor %}
                     </select>
                     <i data-lucide="chevron-down" class="w-3.5 h-3.5 text-slate-400 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none"></i>
@@ -250,8 +250,9 @@
 
                     <!-- Jabatan & Tim Kerja -->
                     <div class="flex flex-wrap items-center gap-1.5 mb-3 text-[10px]">
-                        <span class="px-2 py-0.5 rounded-md bg-blue-50 text-blue-700 font-semibold border border-blue-100">
-                            Tim {{ item.pegawai.tim_kerja }}
+                        <span class="px-2 py-0.5 rounded-md bg-blue-50 text-blue-700 font-semibold border border-blue-100 flex items-center gap-1">
+                            <i data-lucide="users" class="w-2.5 h-2.5 text-blue-500"></i>
+                            {{ item.pegawai.tim_kerja }}
                         </span>
                         <span class="text-slate-500 truncate max-w-[180px]">{{ item.pegawai.jabatan }}</span>
                     </div>

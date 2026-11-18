@@ -113,9 +113,10 @@
             <div class="my-2">
                 <div class="text-2xl sm:text-3xl font-extrabold text-amber-600 tracking-tight font-sans">{{ avg_total }}%</div>
             </div>
-            <div class="w-full h-1.5 rounded-full bg-slate-100 overflow-hidden">
-                <div class="h-full bg-amber-500 rounded-full transition-all duration-300" style="width: {{ avg_total }}%"></div>
-            </div>
+            <p class="text-[11px] text-slate-400 flex items-center gap-1">
+                <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
+                <span>Indeks produktivitas aparatur</span>
+            </p>
         </div>
     </div>
 
@@ -166,7 +167,7 @@
 
                         <!-- Total Tugas -->
                         <td class="py-3.5 px-4 whitespace-nowrap text-center font-mono font-bold text-slate-800">
-                            {{ r.total_aktivitas }} Tugas
+                            <span class="px-2 py-0.5 rounded-lg bg-slate-100 text-slate-700 text-xs font-bold">{{ r.total_aktivitas }} Tugas</span>
                         </td>
 
                         <!-- Selesai -->
@@ -185,13 +186,13 @@
 
                         <!-- Capaian -->
                         <td class="py-3.5 px-4 whitespace-nowrap">
-                            <div class="w-28">
-                                <div class="flex items-center justify-between text-[10px] font-bold text-slate-700 mb-1">
-                                    <span>Indeks</span>
-                                    <span class="{% if r.avg_pct == 100 %}text-emerald-600{% else %}text-orange-600{% endif %} font-mono">{{ r.avg_pct }}%</span>
+                            <div class="w-36">
+                                <div class="flex items-center justify-between text-[11px] font-bold mb-1">
+                                    <span class="text-slate-500 font-medium">Capaian</span>
+                                    <span class="{% if r.avg_pct == 100 %}text-emerald-600{% elif r.avg_pct >= 70 %}text-blue-600{% else %}text-amber-600{% endif %} font-mono">{{ r.avg_pct }}%</span>
                                 </div>
-                                <div class="w-full h-1.5 rounded-full bg-slate-100 overflow-hidden">
-                                    <div class="h-full {% if r.avg_pct == 100 %}bg-emerald-500{% else %}bg-orange-500{% endif %} rounded-full transition-all duration-300" style="width: {{ r.avg_pct }}%"></div>
+                                <div class="w-full h-2 rounded-full bg-slate-100 overflow-hidden">
+                                    <div class="h-full {% if r.avg_pct == 100 %}bg-emerald-500{% elif r.avg_pct >= 70 %}bg-blue-500{% else %}bg-amber-500{% endif %} rounded-full transition-all duration-300" style="width: {{ r.avg_pct }}%"></div>
                                 </div>
                             </div>
                         </td>

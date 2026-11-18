@@ -553,18 +553,53 @@
             <!-- KONTEN FITUR-FITUR TRACKING KEUANGAN -->
             <div id="container-keuangan-features" class="mt-2 space-y-1 px-1 {% if not is_keuangan_active %}closed{% endif %}">
                 
-                <!-- Dashboard Keuangan -->
+                <!-- 0. Ringkasan / Dashboard -->
                 <a href="{{ url_for('keuangan.dashboard') }}" 
                    class="nav-subitem flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold transition-all duration-200 group/sub {% if request.path == url_for('keuangan.dashboard') %} bg-gradient-to-r from-[#F28C28] to-[#F47721] text-white font-bold shadow-md shadow-orange-500/25 {% else %} text-slate-300 hover:text-white hover:bg-slate-800/70 hover:translate-x-1 {% endif %}">
                     <i data-lucide="layout-grid" class="w-4 h-4 {% if request.path == url_for('keuangan.dashboard') %} text-white {% else %} text-emerald-400 group-hover/sub:scale-110 {% endif %} flex-shrink-0 transition-transform"></i>
                     <span class="truncate">Dashboard Keuangan</span>
                 </a>
 
-                <!-- Database Akun -->
+                <!-- SECTION: ALUR TRANSAKSI ANGGARAN (3 LANGKAH) -->
+                <div class="pt-2 pb-1 px-2.5 flex items-center justify-between border-t border-slate-800/60 mt-1.5">
+                    <span class="text-[9px] font-black uppercase tracking-wider text-slate-400">Alur Transaksi Anggaran</span>
+                    <span class="text-[9px] font-mono text-emerald-400 font-bold bg-emerald-500/10 px-1.5 py-0.2 rounded">3 Tahap</span>
+                </div>
+
+                <!-- 1. Pengajuan Anggaran (Tahap 1) -->
+                <a href="{{ url_for('keuangan.pengajuan') }}" 
+                   class="nav-subitem flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold transition-all duration-200 group/sub {% if request.path == url_for('keuangan.pengajuan') %} bg-gradient-to-r from-[#F28C28] to-[#F47721] text-white font-bold shadow-md shadow-orange-500/25 {% else %} text-slate-300 hover:text-white hover:bg-slate-800/70 hover:translate-x-1 {% endif %}"
+                   title="Tahap 1: Pengajuan Usulan Anggaran oleh Tim Kerja">
+                    <span class="w-4 h-4 rounded-full bg-orange-500/20 text-orange-400 text-[10px] font-black flex items-center justify-center flex-shrink-0 {% if request.path == url_for('keuangan.pengajuan') %} bg-white text-orange-600 {% endif %}">1</span>
+                    <span class="truncate">1. Usulan Pengajuan</span>
+                </a>
+
+                <!-- 2. Persetujuan PPK (Tahap 2) -->
+                <a href="{{ url_for('keuangan.persetujuan') }}" 
+                   class="nav-subitem flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold transition-all duration-200 group/sub {% if request.path == url_for('keuangan.persetujuan') %} bg-gradient-to-r from-[#F28C28] to-[#F47721] text-white font-bold shadow-md shadow-orange-500/25 {% else %} text-slate-300 hover:text-white hover:bg-slate-800/70 hover:translate-x-1 {% endif %}"
+                   title="Tahap 2: Verifikasi & Approval oleh PPK / KPA">
+                    <span class="w-4 h-4 rounded-full bg-teal-500/20 text-teal-400 text-[10px] font-black flex items-center justify-center flex-shrink-0 {% if request.path == url_for('keuangan.persetujuan') %} bg-white text-teal-600 {% endif %}">2</span>
+                    <span class="truncate">2. Verifikasi & Approval</span>
+                </a>
+
+                <!-- 3. Realisasi SP2D (Tahap 3) -->
+                <a href="{{ url_for('keuangan.realisasi') }}" 
+                   class="nav-subitem flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold transition-all duration-200 group/sub {% if request.path == url_for('keuangan.realisasi') %} bg-gradient-to-r from-[#F28C28] to-[#F47721] text-white font-bold shadow-md shadow-orange-500/25 {% else %} text-slate-300 hover:text-white hover:bg-slate-800/70 hover:translate-x-1 {% endif %}"
+                   title="Tahap 3: Pencairan Dana & Pencatatan SP2D KPPN">
+                    <span class="w-4 h-4 rounded-full bg-emerald-500/20 text-emerald-400 text-[10px] font-black flex items-center justify-center flex-shrink-0 {% if request.path == url_for('keuangan.realisasi') %} bg-white text-emerald-600 {% endif %}">3</span>
+                    <span class="truncate">3. Pencairan & SP2D</span>
+                </a>
+
+                <!-- SECTION: MASTER DATA DIPA & LAPORAN -->
+                <div class="pt-2.5 pb-1 px-2.5 flex items-center justify-between border-t border-slate-800/60 mt-1.5">
+                    <span class="text-[9px] font-black uppercase tracking-wider text-slate-400">Master DIPA & Laporan</span>
+                </div>
+
+                <!-- Database Akun MAK -->
                 <a href="{{ url_for('keuangan.akun') }}" 
                    class="nav-subitem flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold transition-all duration-200 group/sub {% if request.path == url_for('keuangan.akun') %} bg-gradient-to-r from-[#F28C28] to-[#F47721] text-white font-bold shadow-md shadow-orange-500/25 {% else %} text-slate-300 hover:text-white hover:bg-slate-800/70 hover:translate-x-1 {% endif %}">
                     <i data-lucide="book-open" class="w-4 h-4 {% if request.path == url_for('keuangan.akun') %} text-white {% else %} text-sky-400 group-hover/sub:scale-110 {% endif %} flex-shrink-0 transition-transform"></i>
-                    <span class="truncate">Database Akun</span>
+                    <span class="truncate">Database Akun (MAK)</span>
                 </a>
 
                 <!-- Komponen Anggaran -->
@@ -574,32 +609,11 @@
                     <span class="truncate">Komponen Anggaran</span>
                 </a>
 
-                <!-- Pengajuan Anggaran -->
-                <a href="{{ url_for('keuangan.pengajuan') }}" 
-                   class="nav-subitem flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold transition-all duration-200 group/sub {% if request.path == url_for('keuangan.pengajuan') %} bg-gradient-to-r from-[#F28C28] to-[#F47721] text-white font-bold shadow-md shadow-orange-500/25 {% else %} text-slate-300 hover:text-white hover:bg-slate-800/70 hover:translate-x-1 {% endif %}">
-                    <i data-lucide="file-plus" class="w-4 h-4 {% if request.path == url_for('keuangan.pengajuan') %} text-white {% else %} text-orange-400 group-hover/sub:scale-110 {% endif %} flex-shrink-0 transition-transform"></i>
-                    <span class="truncate">Pengajuan Anggaran</span>
-                </a>
-
-                <!-- Persetujuan Pengajuan -->
-                <a href="{{ url_for('keuangan.persetujuan') }}" 
-                   class="nav-subitem flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold transition-all duration-200 group/sub {% if request.path == url_for('keuangan.persetujuan') %} bg-gradient-to-r from-[#F28C28] to-[#F47721] text-white font-bold shadow-md shadow-orange-500/25 {% else %} text-slate-300 hover:text-white hover:bg-slate-800/70 hover:translate-x-1 {% endif %}">
-                    <i data-lucide="check-square" class="w-4 h-4 {% if request.path == url_for('keuangan.persetujuan') %} text-white {% else %} text-teal-400 group-hover/sub:scale-110 {% endif %} flex-shrink-0 transition-transform"></i>
-                    <span class="truncate">Persetujuan Pengajuan</span>
-                </a>
-
-                <!-- Realisasi Anggaran -->
-                <a href="{{ url_for('keuangan.realisasi') }}" 
-                   class="nav-subitem flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold transition-all duration-200 group/sub {% if request.path == url_for('keuangan.realisasi') %} bg-gradient-to-r from-[#F28C28] to-[#F47721] text-white font-bold shadow-md shadow-orange-500/25 {% else %} text-slate-300 hover:text-white hover:bg-slate-800/70 hover:translate-x-1 {% endif %}">
-                    <i data-lucide="receipt" class="w-4 h-4 {% if request.path == url_for('keuangan.realisasi') %} text-white {% else %} text-emerald-400 group-hover/sub:scale-110 {% endif %} flex-shrink-0 transition-transform"></i>
-                    <span class="truncate">Realisasi Anggaran</span>
-                </a>
-
-                <!-- Rekapitulasi Keuangan -->
+                <!-- Laporan Serapan DIPA -->
                 <a href="{{ url_for('keuangan.rekapitulasi') }}" 
                    class="nav-subitem flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold transition-all duration-200 group/sub {% if request.path == url_for('keuangan.rekapitulasi') %} bg-gradient-to-r from-[#F28C28] to-[#F47721] text-white font-bold shadow-md shadow-orange-500/25 {% else %} text-slate-300 hover:text-white hover:bg-slate-800/70 hover:translate-x-1 {% endif %}">
                     <i data-lucide="pie-chart" class="w-4 h-4 {% if request.path == url_for('keuangan.rekapitulasi') %} text-white {% else %} text-violet-400 group-hover/sub:scale-110 {% endif %} flex-shrink-0 transition-transform"></i>
-                    <span class="truncate">Rekapitulasi Keuangan</span>
+                    <span class="truncate">Laporan Serapan DIPA</span>
                 </a>
             </div>
         </div>
