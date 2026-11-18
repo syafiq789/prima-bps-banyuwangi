@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify
 from flask_login import login_required, current_user
 from datetime import datetime
-from sqlalchemy import func
+from sqlalchemy import func, or_
 from app.models import (
     db, AkunAnggaran, KomponenAnggaran, PengajuanAnggaran, PersetujuanAnggaran, RealisasiAnggaran, Kegiatan, Pegawai
 )
@@ -136,10 +136,18 @@ def create_komponen():
 @keuangan_bp.route('/pengajuan')
 @login_required
 def pengajuan():
+    search = request.args.get('search', '').strip()
     status_filter = request.args.get('status', '').strip()
     query = PengajuanAnggaran.query
     if status_filter:
         query = query.filter_by(status=status_filter)
+    if search:
+        query = query.filter(
+            or_(
+                PengajuanAnggaran.nomor_pengajuan.ilike(f'%{search}%'),
+                PengajuanAnggaran.judul_pengajuan.ilike(f'%{search}%')
+            )
+        )
     pengajuan_list = query.order_by(PengajuanAnggaran.created_at.desc()).all()
     akun_options = AkunAnggaran.query.all()
     komponen_options = KomponenAnggaran.query.all()
@@ -152,7 +160,8 @@ def pengajuan():
         komponen_options=komponen_options, 
         kegiatan_options=kegiatan_options,
         pegawai_options=pegawai_options,
-        status_filter=status_filter
+        status_filter=status_filter,
+        search=search
     )
 
 @keuangan_bp.route('/pengajuan/create', methods=['POST'])

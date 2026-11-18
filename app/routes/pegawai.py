@@ -264,4 +264,15 @@ def rekapitulasi():
             'avg_pct': avg_pct,
             'produktivitas': produktivitas
         })
-    return render_template('pegawai/rekapitulasi.html', rekap=rekap)
+    total_peg = len(rekap)
+    total_tugas = sum(r['total_aktivitas'] for r in rekap)
+    total_selesai = sum(r['selesai'] for r in rekap)
+    avg_total = round(sum(r['avg_pct'] for r in rekap) / total_peg, 1) if total_peg else 0
+    return render_template(
+        'pegawai/rekapitulasi.html', 
+        rekap=rekap,
+        total_peg=total_peg,
+        total_tugas=total_tugas,
+        total_selesai=total_selesai,
+        avg_total=avg_total
+    )

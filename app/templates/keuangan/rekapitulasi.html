@@ -50,77 +50,148 @@
     </div>
 
     <!-- Ringkasan Anggaran Cards -->
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <div class="bg-white rounded-2xl p-4 border border-slate-200/80 shadow-soft">
-            <div class="text-xs text-slate-400 font-semibold uppercase mb-1">Total Pagu DIPA</div>
-            <div class="text-lg sm:text-xl font-black text-slate-800 font-mono">Rp {{ "{:,}".format(total_pagu_all).replace(',', '.') }}</div>
-            <p class="text-[10px] text-slate-400 mt-0.5">Alokasi seluruh MAK</p>
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-3.5 sm:gap-4">
+        <!-- Total Pagu DIPA -->
+        <div class="bg-white rounded-2xl p-4.5 border border-slate-200/70 shadow-[0_1px_3px_rgba(0,0,0,0.03)] hover:shadow-md hover:border-slate-300 transition-all group flex flex-col justify-between">
+            <div class="flex items-center justify-between text-slate-500">
+                <span class="text-xs font-medium">Total Pagu DIPA</span>
+                <div class="w-8 h-8 rounded-lg bg-slate-100 text-slate-600 ring-1 ring-slate-500/10 flex items-center justify-center group-hover:scale-105 transition-transform">
+                    <i data-lucide="landmark" class="w-4 h-4"></i>
+                </div>
+            </div>
+            <div class="my-2">
+                <div class="text-lg sm:text-xl font-extrabold text-slate-900 tracking-tight font-sans">Rp {{ "{:,}".format(total_pagu_all).replace(',', '.') }}</div>
+            </div>
+            <p class="text-[11px] text-slate-400 flex items-center gap-1">
+                <span class="w-1.5 h-1.5 rounded-full bg-slate-400"></span>
+                <span>Alokasi seluruh MAK</span>
+            </p>
         </div>
-        <div class="bg-white rounded-2xl p-4 border border-slate-200/80 shadow-soft">
-            <div class="text-xs text-slate-400 font-semibold uppercase mb-1">Total Realisasi SP2D</div>
-            <div class="text-lg sm:text-xl font-black text-emerald-600 font-mono">Rp {{ "{:,}".format(total_realisasi_all).replace(',', '.') }}</div>
-            <p class="text-[10px] text-slate-400 mt-0.5">Telah dicairkan KPPN</p>
+
+        <!-- Total Realisasi SP2D -->
+        <div class="bg-white rounded-2xl p-4.5 border border-slate-200/70 shadow-[0_1px_3px_rgba(0,0,0,0.03)] hover:shadow-md hover:border-slate-300 transition-all group flex flex-col justify-between">
+            <div class="flex items-center justify-between text-slate-500">
+                <span class="text-xs font-medium">Realisasi SP2D</span>
+                <div class="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-600 ring-1 ring-emerald-500/10 flex items-center justify-center group-hover:scale-105 transition-transform">
+                    <i data-lucide="check-check" class="w-4 h-4"></i>
+                </div>
+            </div>
+            <div class="my-2">
+                <div class="text-lg sm:text-xl font-extrabold text-emerald-600 tracking-tight font-sans">Rp {{ "{:,}".format(total_realisasi_all).replace(',', '.') }}</div>
+            </div>
+            <p class="text-[11px] text-slate-400 flex items-center gap-1">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                <span>Telah dicairkan KPPN</span>
+            </p>
         </div>
-        <div class="bg-white rounded-2xl p-4 border border-slate-200/80 shadow-soft">
-            <div class="text-xs text-slate-400 font-semibold uppercase mb-1">Sisa Anggaran</div>
-            <div class="text-lg sm:text-xl font-black text-orange-600 font-mono">Rp {{ "{:,}".format(total_pagu_all - total_realisasi_all).replace(',', '.') }}</div>
-            <p class="text-[10px] text-slate-400 mt-0.5">Sisa pagu tersedia</p>
+
+        <!-- Sisa Anggaran -->
+        <div class="bg-white rounded-2xl p-4.5 border border-slate-200/70 shadow-[0_1px_3px_rgba(0,0,0,0.03)] hover:shadow-md hover:border-slate-300 transition-all group flex flex-col justify-between">
+            <div class="flex items-center justify-between text-slate-500">
+                <span class="text-xs font-medium">Sisa Anggaran</span>
+                <div class="w-8 h-8 rounded-lg bg-orange-50 text-orange-600 ring-1 ring-orange-500/10 flex items-center justify-center group-hover:scale-105 transition-transform">
+                    <i data-lucide="pie-chart" class="w-4 h-4"></i>
+                </div>
+            </div>
+            <div class="my-2">
+                <div class="text-lg sm:text-xl font-extrabold text-orange-600 tracking-tight font-sans">Rp {{ "{:,}".format(total_pagu_all - total_realisasi_all).replace(',', '.') }}</div>
+            </div>
+            <p class="text-[11px] text-slate-400 flex items-center gap-1">
+                <span class="w-1.5 h-1.5 rounded-full bg-orange-500"></span>
+                <span>Sisa pagu tersedia</span>
+            </p>
         </div>
-        <div class="bg-white rounded-2xl p-4 border border-slate-200/80 shadow-soft">
-            <div class="text-xs text-slate-400 font-semibold uppercase mb-1">Rata-Rata Serapan</div>
-            <div class="text-lg sm:text-xl font-black text-blue-600">{{ avg_serapan_all }}%</div>
-            <div class="w-full h-1.5 rounded-full bg-slate-100 overflow-hidden mt-1">
-                <div class="h-full bg-blue-500 rounded-full" style="width: {{ avg_serapan_all }}%"></div>
+
+        <!-- Rata-Rata Serapan -->
+        <div class="bg-white rounded-2xl p-4.5 border border-slate-200/70 shadow-[0_1px_3px_rgba(0,0,0,0.03)] hover:shadow-md hover:border-slate-300 transition-all group flex flex-col justify-between">
+            <div class="flex items-center justify-between text-slate-500">
+                <span class="text-xs font-medium">Rata-Rata Serapan</span>
+                <div class="w-8 h-8 rounded-lg bg-blue-50 text-blue-600 ring-1 ring-blue-500/10 flex items-center justify-center group-hover:scale-105 transition-transform">
+                    <i data-lucide="trending-up" class="w-4 h-4"></i>
+                </div>
+            </div>
+            <div class="my-2">
+                <div class="text-lg sm:text-xl font-extrabold text-blue-600 tracking-tight font-sans">{{ avg_serapan_all }}%</div>
+            </div>
+            <div class="w-full h-1.5 rounded-full bg-slate-100 overflow-hidden">
+                <div class="h-full bg-blue-500 rounded-full transition-all duration-300" style="width: {{ avg_serapan_all }}%"></div>
             </div>
         </div>
     </div>
 
     <!-- Table Matriks Serapan -->
-    <div class="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-soft overflow-x-auto">
-        <table class="w-full text-left text-xs">
-            <thead>
-                <tr class="text-slate-400 border-b border-slate-100 uppercase font-semibold">
-                    <th class="pb-3">Kode Akun (MAK)</th>
-                    <th class="pb-3">Uraian Nama Akun</th>
-                    <th class="pb-3">Pagu Awal</th>
-                    <th class="pb-3">Total Diajukan</th>
-                    <th class="pb-3">Disetujui PPK</th>
-                    <th class="pb-3">Realisasi (SP2D)</th>
-                    <th class="pb-3">Sisa Anggaran</th>
-                    <th class="pb-3">Daya Serap</th>
-                </tr>
-            </thead>
-            <tbody class="divide-y divide-slate-100">
-                {% for r in rekap %}
-                <tr class="hover:bg-slate-50">
-                    <td class="py-3 font-mono font-bold text-navy-main">
-                        <div>{{ r.akun.kode_akun }}</div>
-                        <span class="px-2 py-0.5 rounded-full text-[9px] font-bold bg-slate-100 text-slate-600">{{ r.akun.kategori }}</span>
-                    </td>
-                    <td class="py-3 font-semibold text-slate-800">{{ r.akun.nama_akun }}</td>
-                    <td class="py-3 font-mono text-slate-700">Rp {{ "{:,}".format(r.pagu).replace(',', '.') }}</td>
-                    <td class="py-3 font-mono text-slate-500">Rp {{ "{:,}".format(r.diajukan).replace(',', '.') }}</td>
-                    <td class="py-3 font-mono text-blue-600 font-semibold">Rp {{ "{:,}".format(r.disetujui).replace(',', '.') }}</td>
-                    <td class="py-3 font-mono font-bold text-emerald-600">Rp {{ "{:,}".format(r.realisasi).replace(',', '.') }}</td>
-                    <td class="py-3 font-mono font-black text-orange-600">Rp {{ "{:,}".format(r.sisa).replace(',', '.') }}</td>
-                    <td class="py-3">
-                        <div class="flex items-center gap-2">
-                            <span class="font-bold {% if r.serapan_persen >= 75 %}text-emerald-600{% elif r.serapan_persen >= 50 %}text-amber-600{% else %}text-slate-600{% endif %}">
-                                {{ r.serapan_persen }}%
+    <div class="bg-white rounded-3xl border border-slate-200/80 shadow-[0_4px_20px_-4px_rgba(20,43,74,0.04)] overflow-hidden">
+        <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs table-modern">
+                <thead>
+                    <tr class="bg-slate-50/80 border-b border-slate-200/80 text-slate-500 uppercase font-bold text-[10px] tracking-wider">
+                        <th class="py-3.5 px-4 whitespace-nowrap">Kode Akun (MAK)</th>
+                        <th class="py-3.5 px-4 whitespace-nowrap">Uraian Nama Akun</th>
+                        <th class="py-3.5 px-4 whitespace-nowrap">Pagu Awal DIPA</th>
+                        <th class="py-3.5 px-4 whitespace-nowrap">Total Diajukan</th>
+                        <th class="py-3.5 px-4 whitespace-nowrap">Disetujui PPK</th>
+                        <th class="py-3.5 px-4 whitespace-nowrap">Realisasi (SP2D)</th>
+                        <th class="py-3.5 px-4 whitespace-nowrap">Sisa Anggaran</th>
+                        <th class="py-3.5 px-4 whitespace-nowrap">Daya Serap</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100">
+                    {% for r in rekap %}
+                    <tr class="hover:bg-slate-50/80 transition group">
+                        <td class="py-3.5 px-4 whitespace-nowrap">
+                            <span class="inline-flex items-center px-2.5 py-1 rounded-lg bg-emerald-50 text-emerald-800 font-mono text-xs font-bold border border-emerald-200/70 shadow-2xs">
+                                {{ r.akun.kode_akun }}
                             </span>
-                            <div class="w-16 h-1.5 rounded-full bg-slate-100 overflow-hidden">
-                                <div class="h-full {% if r.serapan_persen >= 75 %}bg-emerald-500{% elif r.serapan_persen >= 50 %}bg-amber-500{% else %}bg-blue-500{% endif %} rounded-full" style="width: {{ r.serapan_persen }}%"></div>
+                            <div class="mt-1">
+                                <span class="px-2 py-0.5 rounded-full text-[9px] font-bold bg-slate-100 text-slate-600 border border-slate-200/60">{{ r.akun.kategori }}</span>
                             </div>
-                        </div>
-                    </td>
-                </tr>
-                {% else %}
-                <tr>
-                    <td colspan="8" class="py-8 text-center text-slate-400">Belum ada data akun anggaran.</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+                        </td>
+                        <td class="py-3.5 px-4 min-w-[200px]">
+                            <div class="font-bold text-slate-900 text-xs">{{ r.akun.nama_akun }}</div>
+                            <div class="text-[10px] text-slate-400">DIPA BPS Kabupaten Banyuwangi</div>
+                        </td>
+                        <td class="py-3.5 px-4 whitespace-nowrap font-mono text-slate-700 font-semibold text-xs">
+                            Rp {{ "{:,}".format(r.pagu).replace(',', '.') }}
+                        </td>
+                        <td class="py-3.5 px-4 whitespace-nowrap font-mono text-slate-500 text-xs">
+                            Rp {{ "{:,}".format(r.diajukan).replace(',', '.') }}
+                        </td>
+                        <td class="py-3.5 px-4 whitespace-nowrap font-mono text-blue-600 font-bold text-xs">
+                            Rp {{ "{:,}".format(r.disetujui).replace(',', '.') }}
+                        </td>
+                        <td class="py-3.5 px-4 whitespace-nowrap font-mono font-bold text-emerald-600 text-xs">
+                            Rp {{ "{:,}".format(r.realisasi).replace(',', '.') }}
+                        </td>
+                        <td class="py-3.5 px-4 whitespace-nowrap font-mono font-bold text-orange-600 text-xs">
+                            Rp {{ "{:,}".format(r.sisa).replace(',', '.') }}
+                        </td>
+                        <td class="py-3.5 px-4 whitespace-nowrap">
+                            <div class="flex items-center gap-2">
+                                <span class="font-bold font-mono text-xs {% if r.serapan_persen >= 75 %}text-emerald-600{% elif r.serapan_persen >= 50 %}text-amber-600{% else %}text-slate-600{% endif %}">
+                                    {{ r.serapan_persen }}%
+                                </span>
+                                <div class="w-16 h-1.5 rounded-full bg-slate-100 overflow-hidden">
+                                    <div class="h-full {% if r.serapan_persen >= 75 %}bg-emerald-500{% elif r.serapan_persen >= 50 %}bg-amber-500{% else %}bg-blue-500{% endif %} rounded-full" style="width: {{ r.serapan_persen }}%"></div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="8" class="py-16 text-center text-slate-400">
+                            <div class="flex flex-col items-center justify-center gap-2 max-w-sm mx-auto">
+                                <div class="w-14 h-14 rounded-2xl bg-emerald-50 border border-emerald-100 text-emerald-500 flex items-center justify-center shadow-sm shadow-emerald-500/10 mb-1">
+                                    <i data-lucide="pie-chart" class="w-6 h-6"></i>
+                                </div>
+                                <p class="font-bold text-slate-800 text-sm">Belum Ada Rekapitulasi DIPA</p>
+                                <p class="text-xs text-slate-400">Matriks penyerapan anggaran akan terhitung otomatis saat akun MAK dimasukkan.</p>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 {% endblock %}
