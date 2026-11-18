@@ -14,17 +14,11 @@ window.togglePrimaMasterMenu = function() {
     if (isClosed) {
         container.classList.remove('closed');
         if (chevron) chevron.classList.add('rotate');
-        if (btn) {
-            btn.classList.add('bg-slate-800/80', 'border-slate-700/80', 'text-white');
-            btn.classList.remove('border-transparent', 'text-slate-400');
-        }
+        if (btn) btn.classList.add('border-[#e5832a]', 'bg-[#15253b]');
     } else {
         container.classList.add('closed');
         if (chevron) chevron.classList.remove('rotate');
-        if (btn) {
-            btn.classList.remove('bg-slate-800/80', 'border-slate-700/80', 'text-white');
-            btn.classList.add('border-transparent', 'text-slate-400');
-        }
+        if (btn) btn.classList.remove('border-[#e5832a]', 'bg-[#15253b]');
     }
 };
 
@@ -41,17 +35,11 @@ window.toggleMitraMasterMenu = function() {
     if (isClosed) {
         container.classList.remove('closed');
         if (chevron) chevron.classList.add('rotate');
-        if (btn) {
-            btn.classList.add('bg-slate-800/80', 'border-slate-700/80', 'text-white');
-            btn.classList.remove('border-transparent', 'text-slate-400');
-        }
+        if (btn) btn.classList.add('border-[#e5832a]', 'bg-[#15253b]');
     } else {
         container.classList.add('closed');
         if (chevron) chevron.classList.remove('rotate');
-        if (btn) {
-            btn.classList.remove('bg-slate-800/80', 'border-slate-700/80', 'text-white');
-            btn.classList.add('border-transparent', 'text-slate-400');
-        }
+        if (btn) btn.classList.remove('border-[#e5832a]', 'bg-[#15253b]');
     }
 };
 
@@ -68,17 +56,11 @@ window.togglePegawaiMasterMenu = function() {
     if (isClosed) {
         container.classList.remove('closed');
         if (chevron) chevron.classList.add('rotate');
-        if (btn) {
-            btn.classList.add('bg-slate-800/80', 'border-slate-700/80', 'text-white');
-            btn.classList.remove('border-transparent', 'text-slate-400');
-        }
+        if (btn) btn.classList.add('border-[#e5832a]', 'bg-[#15253b]');
     } else {
         container.classList.add('closed');
         if (chevron) chevron.classList.remove('rotate');
-        if (btn) {
-            btn.classList.remove('bg-slate-800/80', 'border-slate-700/80', 'text-white');
-            btn.classList.add('border-transparent', 'text-slate-400');
-        }
+        if (btn) btn.classList.remove('border-[#e5832a]', 'bg-[#15253b]');
     }
 };
 
@@ -95,17 +77,11 @@ window.toggleKeuanganMasterMenu = function() {
     if (isClosed) {
         container.classList.remove('closed');
         if (chevron) chevron.classList.add('rotate');
-        if (btn) {
-            btn.classList.add('bg-slate-800/80', 'border-slate-700/80', 'text-white');
-            btn.classList.remove('border-transparent', 'text-slate-400');
-        }
+        if (btn) btn.classList.add('border-[#e5832a]', 'bg-[#15253b]');
     } else {
         container.classList.add('closed');
         if (chevron) chevron.classList.remove('rotate');
-        if (btn) {
-            btn.classList.remove('bg-slate-800/80', 'border-slate-700/80', 'text-white');
-            btn.classList.add('border-transparent', 'text-slate-400');
-        }
+        if (btn) btn.classList.remove('border-[#e5832a]', 'bg-[#15253b]');
     }
 };
 
