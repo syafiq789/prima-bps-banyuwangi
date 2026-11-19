@@ -363,6 +363,12 @@ def penugasan():
     all_kegiatans = Kegiatan.query.all()
     years = sorted(list(set([k.tahun for k in all_kegiatans if k.tahun] + [2024, 2025, 2026])), reverse=True)
 
+    all_penugasan = PenugasanMitra.query.all()
+    total_penugasan_all = len(all_penugasan)
+    penugasan_proses_count = sum(1 for p in all_penugasan if p.status != 'SELESAI')
+    penugasan_selesai_count = sum(1 for p in all_penugasan if p.status == 'SELESAI')
+    total_honor_penugasan = sum(p.honor_total for p in all_penugasan)
+
     return render_template(
         'mitra/penugasan.html', 
         penugasan_list=penugasan_list, 
@@ -376,7 +382,11 @@ def penugasan():
         kegiatan_filter=kegiatan_filter,
         tim_filter=tim_filter,
         years=years,
-        kecamatan_options=KECAMATAN_BANYUWANGI
+        kecamatan_options=KECAMATAN_BANYUWANGI,
+        total_penugasan_all=total_penugasan_all,
+        penugasan_proses_count=penugasan_proses_count,
+        penugasan_selesai_count=penugasan_selesai_count,
+        total_honor_penugasan=total_honor_penugasan
     )
 
 @mitra_bp.route('/penugasan/create', methods=['POST'])
@@ -504,8 +514,8 @@ def create_kegiatan():
     tanggal_mulai_raw = request.form.get('tanggal_mulai', '').strip()
     tanggal_selesai_raw = request.form.get('tanggal_selesai', '').strip()
 
-    if not kode_kegiatan or not nama_kegiatan or not tanggal_mulai_raw or not tanggal_selesai_raw:
-        flash('Kode, Nama Kegiatan, Tanggal Mulai dan Selesai wajib diisi.', 'danger')
+    if not nama_kegiatan or not tanggal_mulai_raw or not tanggal_selesai_raw:
+        flash('Nama Kegiatan, Tanggal Mulai, dan Tanggal Selesai wajib diisi.', 'danger')
         return redirect(url_for('mitra.monitoring'))
 
     try:
@@ -515,7 +525,20 @@ def create_kegiatan():
         flash('Format tanggal tidak valid (gunakan format YYYY-MM-DD).', 'danger')
         return redirect(url_for('mitra.monitoring'))
 
-    if Kegiatan.query.filter_by(kode_kegiatan=kode_kegiatan).first():
+    if not kode_kegiatan:
+        prefix_map = {
+            'Tim Distribusi': 'DIS',
+            'Tim Neraca': 'NER',
+            'Tim Produksi': 'PRD',
+            'Tim PLS': 'PLS'
+        }
+        pfx = prefix_map.get(tim_kerja, 'KEG')
+        seq = Kegiatan.query.count() + 1
+        kode_kegiatan = f"KEG-{pfx}-{tahun}-{seq:03d}"
+        while Kegiatan.query.filter_by(kode_kegiatan=kode_kegiatan).first():
+            seq += 1
+            kode_kegiatan = f"KEG-{pfx}-{tahun}-{seq:03d}"
+    elif Kegiatan.query.filter_by(kode_kegiatan=kode_kegiatan).first():
         flash(f'Kegiatan dengan kode {kode_kegiatan} sudah terdaftar.', 'warning')
         return redirect(url_for('mitra.monitoring'))
 
@@ -577,31 +600,69 @@ def monitoring_detail(kegiatan_id):
 def evaluasi():
     evaluasi_list = EvaluasiMitra.query.order_by(EvaluasiMitra.created_at.desc()).all()
     penugasan_belum_eval = PenugasanMitra.query.filter(~PenugasanMitra.evaluasi.has()).all()
-    return render_template('mitra/evaluasi.html', evaluasi_list=evaluasi_list, penugasan_belum_eval=penugasan_belum_eval)
+    mitra_options = Mitra.query.filter_by(status_aktif=True).order_by(Mitra.nama_lengkap.asc()).all()
+    kegiatan_options = Kegiatan.query.order_by(Kegiatan.nama_kegiatan.asc()).all()
+    return render_template(
+        'mitra/evaluasi.html',
+        evaluasi_list=evaluasi_list,
+        penugasan_belum_eval=penugasan_belum_eval,
+        mitra_options=mitra_options,
+        kegiatan_options=kegiatan_options
+    )
 
 @mitra_bp.route('/evaluasi/create', methods=['POST'])
 @login_required
 def create_evaluasi():
     penugasan_id = request.form.get('penugasan_id', type=int)
+    mitra_id = request.form.get('mitra_id', type=int)
+    kegiatan_id = request.form.get('kegiatan_id', type=int)
     nilai_kualitas = request.form.get('nilai_kualitas', 85, type=int)
     nilai_ketepatan = request.form.get('nilai_ketepatan', 85, type=int)
     nilai_kerjasama = request.form.get('nilai_kerjasama', 85, type=int)
     catatan = request.form.get('catatan', '')
 
-    penugasan = PenugasanMitra.query.get_or_404(penugasan_id)
-    eval_item = EvaluasiMitra(
-        penugasan_id=penugasan.id,
-        mitra_id=penugasan.mitra_id,
-        nilai_kualitas=nilai_kualitas,
-        nilai_ketepatan=nilai_ketepatan,
-        nilai_kerjasama=nilai_kerjasama,
-        catatan=catatan,
-        evaluator_id=current_user.id
-    )
+    if penugasan_id:
+        penugasan = PenugasanMitra.query.get_or_404(penugasan_id)
+    elif mitra_id and kegiatan_id:
+        penugasan = PenugasanMitra.query.filter_by(mitra_id=mitra_id, kegiatan_id=kegiatan_id).first()
+        if not penugasan:
+            penugasan = PenugasanMitra(
+                mitra_id=mitra_id,
+                kegiatan_id=kegiatan_id,
+                peran='PPL',
+                target_dokumen=10,
+                realisasi_dokumen=10,
+                honor_total=0,
+                status='SELESAI',
+                created_by=current_user.id
+            )
+            db.session.add(penugasan)
+            db.session.flush()
+    else:
+        flash('Pilih penugasan atau pilih Mitra & Kegiatan yang akan dinilai.', 'warning')
+        return redirect(url_for('mitra.evaluasi'))
+
+    if penugasan.evaluasi:
+        penugasan.evaluasi.nilai_kualitas = nilai_kualitas
+        penugasan.evaluasi.nilai_ketepatan = nilai_ketepatan
+        penugasan.evaluasi.nilai_kerjasama = nilai_kerjasama
+        penugasan.evaluasi.catatan = catatan
+        penugasan.evaluasi.evaluator_id = current_user.id
+    else:
+        eval_item = EvaluasiMitra(
+            penugasan_id=penugasan.id,
+            mitra_id=penugasan.mitra_id,
+            nilai_kualitas=nilai_kualitas,
+            nilai_ketepatan=nilai_ketepatan,
+            nilai_kerjasama=nilai_kerjasama,
+            catatan=catatan,
+            evaluator_id=current_user.id
+        )
+        db.session.add(eval_item)
+
     penugasan.status = 'SELESAI'
-    db.session.add(eval_item)
     db.session.commit()
-    flash('Evaluasi mitra berhasil disimpan.', 'success')
+    flash('Penilaian mitra berhasil disimpan dan otomatis masuk ke Laporan & Honor.', 'success')
     return redirect(url_for('mitra.evaluasi'))
 
 @mitra_bp.route('/rekapitulasi')
@@ -1018,19 +1079,30 @@ def ephemeral_sync():
                 'id_sobat': p.mitra.id_sobat,
                 'kode_kegiatan': p.kegiatan.kode_kegiatan,
                 'peran': p.peran or 'PPL',
-                'target_unit': p.target_unit or 0,
-                'realisasi_unit': p.realisasi_unit or 0,
-                'honor_satuan': p.honor_satuan or 0,
+                'target_dokumen': p.target_dokumen or 10,
+                'realisasi_dokumen': p.realisasi_dokumen or 0,
                 'honor_total': p.honor_total or 0,
-                'status': p.status or 'DITUGASKAN',
+                'status': p.status or 'PROSES',
             }
             for p in PenugasanMitra.query.all() if p.mitra and p.kegiatan
+        ]
+        evaluasis = [
+            {
+                'id_sobat': e.mitra.id_sobat,
+                'kode_kegiatan': e.penugasan.kegiatan.kode_kegiatan,
+                'nilai_kualitas': e.nilai_kualitas or 85,
+                'nilai_ketepatan': e.nilai_ketepatan or 85,
+                'nilai_kerjasama': e.nilai_kerjasama or 85,
+                'catatan': e.catatan or '',
+            }
+            for e in EvaluasiMitra.query.all() if e.mitra and e.penugasan and e.penugasan.kegiatan
         ]
         return jsonify({
             'ok': True,
             'mitra': mitras,
             'kegiatan': kegiatans,
             'penugasan': penugasans,
+            'evaluasi': evaluasis,
         })
 
     # POST: Restore snapshot idempotently
@@ -1038,6 +1110,7 @@ def ephemeral_sync():
     restored_mitra = 0
     restored_kegiatan = 0
     restored_penugasan = 0
+    restored_evaluasi = 0
 
     try:
         for item in payload.get('mitra', []):
@@ -1098,13 +1171,32 @@ def ephemeral_sync():
                     mitra_id=m.id,
                     kegiatan_id=k.id,
                     peran=item.get('peran') or 'PPL',
-                    target_unit=int(item.get('target_unit') or 0),
-                    realisasi_unit=int(item.get('realisasi_unit') or 0),
-                    honor_satuan=int(item.get('honor_satuan') or 0),
+                    target_dokumen=int(item.get('target_dokumen') or 10),
+                    realisasi_dokumen=int(item.get('realisasi_dokumen') or 0),
                     honor_total=int(item.get('honor_total') or 0),
-                    status=item.get('status') or 'DITUGASKAN',
+                    status=item.get('status') or 'PROSES',
+                    created_by=current_user.id,
                 ))
                 restored_penugasan += 1
+
+        db.session.flush()
+
+        for item in payload.get('evaluasi', []):
+            m = Mitra.query.filter_by(id_sobat=item.get('id_sobat')).first()
+            k = Kegiatan.query.filter_by(kode_kegiatan=item.get('kode_kegiatan')).first()
+            if m and k:
+                p = PenugasanMitra.query.filter_by(mitra_id=m.id, kegiatan_id=k.id).first()
+                if p and not p.evaluasi:
+                    db.session.add(EvaluasiMitra(
+                        penugasan_id=p.id,
+                        mitra_id=m.id,
+                        nilai_kualitas=int(item.get('nilai_kualitas') or 85),
+                        nilai_ketepatan=int(item.get('nilai_ketepatan') or 85),
+                        nilai_kerjasama=int(item.get('nilai_kerjasama') or 85),
+                        catatan=item.get('catatan') or '',
+                        evaluator_id=current_user.id,
+                    ))
+                    restored_evaluasi += 1
 
         db.session.commit()
         return jsonify({
@@ -1112,6 +1204,7 @@ def ephemeral_sync():
             'restored_mitra': restored_mitra,
             'restored_kegiatan': restored_kegiatan,
             'restored_penugasan': restored_penugasan,
+            'restored_evaluasi': restored_evaluasi,
         })
     except Exception as e:
         db.session.rollback()

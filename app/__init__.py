@@ -126,9 +126,13 @@ def create_app(config_name=None):
         try:
             ephemeral_mitra_count = Mitra.query.count() if is_ephemeral_db else -1
             ephemeral_kegiatan_count = Kegiatan.query.count() if is_ephemeral_db else -1
+            ephemeral_penugasan_count = PenugasanMitra.query.count() if is_ephemeral_db else -1
+            ephemeral_evaluasi_count = EvaluasiMitra.query.count() if is_ephemeral_db else -1
         except Exception:
             ephemeral_mitra_count = 0
             ephemeral_kegiatan_count = 0
+            ephemeral_penugasan_count = 0
+            ephemeral_evaluasi_count = 0
 
         return dict(
             categories_nav=categories_by_group,
@@ -138,6 +142,8 @@ def create_app(config_name=None):
             is_ephemeral_db=is_ephemeral_db,
             ephemeral_mitra_count=ephemeral_mitra_count,
             ephemeral_kegiatan_count=ephemeral_kegiatan_count,
+            ephemeral_penugasan_count=ephemeral_penugasan_count,
+            ephemeral_evaluasi_count=ephemeral_evaluasi_count,
             app_name="PRIMA",
             app_fullname="Pusat Arsip dan Manajemen AKIP Banyuwangi",
             app_tagline="Arsip Tertata, Akuntabilitas Terjaga, Kinerja Prima.",

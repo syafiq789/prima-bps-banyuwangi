@@ -110,19 +110,22 @@
         const RELOAD_GUARD = 'lentera_mitra_sync_reloaded';
         const serverMitra = {{ ephemeral_mitra_count|default(0) }};
         const serverKegiatan = {{ ephemeral_kegiatan_count|default(0) }};
+        const serverPenugasan = {{ ephemeral_penugasan_count|default(0) }};
+        const serverEvaluasi = {{ ephemeral_evaluasi_count|default(0) }};
 
         function readLocal() {
             try {
                 const raw = localStorage.getItem(STORAGE_KEY);
-                if (!raw) return { mitra: [], kegiatan: [], penugasan: [] };
+                if (!raw) return { mitra: [], kegiatan: [], penugasan: [], evaluasi: [] };
                 const parsed = JSON.parse(raw);
                 return {
                     mitra: Array.isArray(parsed.mitra) ? parsed.mitra : [],
                     kegiatan: Array.isArray(parsed.kegiatan) ? parsed.kegiatan : [],
-                    penugasan: Array.isArray(parsed.penugasan) ? parsed.penugasan : []
+                    penugasan: Array.isArray(parsed.penugasan) ? parsed.penugasan : [],
+                    evaluasi: Array.isArray(parsed.evaluasi) ? parsed.evaluasi : []
                 };
             } catch (e) {
-                return { mitra: [], kegiatan: [], penugasan: [] };
+                return { mitra: [], kegiatan: [], penugasan: [], evaluasi: [] };
             }
         }
 
@@ -135,7 +138,10 @@
 
         async function runSync() {
             const localData = readLocal();
-            const needRestore = (localData.mitra.length > serverMitra) || (localData.kegiatan.length > serverKegiatan);
+            const needRestore = (localData.mitra.length > serverMitra)
+                || (localData.kegiatan.length > serverKegiatan)
+                || (localData.penugasan.length > serverPenugasan)
+                || (localData.evaluasi.length > serverEvaluasi);
 
             if (needRestore) {
                 try {
@@ -145,7 +151,7 @@
                         body: JSON.stringify(localData)
                     });
                     const data = await res.json();
-                    if (data.ok && (data.restored_mitra > 0 || data.restored_kegiatan > 0 || data.restored_penugasan > 0)) {
+                    if (data.ok && (data.restored_mitra > 0 || data.restored_kegiatan > 0 || data.restored_penugasan > 0 || data.restored_evaluasi > 0)) {
                         const guardKey = window.location.pathname + window.location.search;
                         if (sessionStorage.getItem(RELOAD_GUARD) !== guardKey) {
                             sessionStorage.setItem(RELOAD_GUARD, guardKey);
@@ -160,7 +166,7 @@
 
             sessionStorage.removeItem(RELOAD_GUARD);
 
-            if (serverMitra > 0 || serverKegiatan > 0) {
+            if (serverMitra > 0 || serverKegiatan > 0 || serverPenugasan > 0 || serverEvaluasi > 0) {
                 try {
                     const res = await fetch('/mitra/api/ephemeral-sync');
                     const fresh = await res.json();
@@ -168,7 +174,8 @@
                         const merged = {
                             mitra: mergeByKey(localData.mitra, fresh.mitra || [], x => x.id_sobat),
                             kegiatan: mergeByKey(localData.kegiatan, fresh.kegiatan || [], x => x.kode_kegiatan),
-                            penugasan: mergeByKey(localData.penugasan, fresh.penugasan || [], x => x.id_sobat + '::' + x.kode_kegiatan)
+                            penugasan: mergeByKey(localData.penugasan, fresh.penugasan || [], x => x.id_sobat + '::' + x.kode_kegiatan),
+                            evaluasi: mergeByKey(localData.evaluasi, fresh.evaluasi || [], x => x.id_sobat + '::' + x.kode_kegiatan)
                         };
                         localStorage.setItem(STORAGE_KEY, JSON.stringify(merged));
                     }
