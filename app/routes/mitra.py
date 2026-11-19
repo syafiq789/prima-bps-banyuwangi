@@ -656,10 +656,43 @@ def rekapitulasi():
             'total_honor': tot_honor_kec
         })
 
+    # Rekapitulasi per 4 Tim Kerja Teknis BPS (selaras dengan Daftar Kegiatan & Penugasan Mitra)
+    tim_meta = [
+        ('Tim Distribusi', 'SHPB, VHTS, Transportasi & Jasa', 'truck'),
+        ('Tim Neraca', 'PDRB, SKLNP, SKPS & Analisis Makro', 'scale'),
+        ('Tim Produksi', 'KSA Padi/Jagung, Ubinan & Pertanian', 'sprout'),
+        ('Tim PLS', 'Pengolahan Data, TI & Wilkerstat', 'database'),
+    ]
+    rekap_tim_kerja = []
+    for tim_nama, tim_desc, tim_icon in tim_meta:
+        keg_tim = Kegiatan.query.filter_by(tim_kerja=tim_nama).all()
+        keg_ids = [k.id for k in keg_tim]
+        if keg_ids:
+            tugas_tim = PenugasanMitra.query.filter(PenugasanMitra.kegiatan_id.in_(keg_ids)).all()
+            tot_tugas_tim = len(tugas_tim)
+            tot_honor_tim = sum(p.honor_total for p in tugas_tim)
+        else:
+            tot_tugas_tim = 0
+            tot_honor_tim = 0
+        rekap_tim_kerja.append({
+            'nama': tim_nama,
+            'desc': tim_desc,
+            'icon': tim_icon,
+            'total_kegiatan': len(keg_tim),
+            'total_tugas': tot_tugas_tim,
+            'total_honor': tot_honor_tim
+        })
+
+    total_kegiatan = Kegiatan.query.count()
+    total_penugasan = PenugasanMitra.query.count()
+
     return render_template(
         'mitra/rekapitulasi.html', 
         rekap_data=rekap_data, 
         total_honor_all=total_honor_all,
+        rekap_tim_kerja=rekap_tim_kerja,
+        total_kegiatan=total_kegiatan,
+        total_penugasan=total_penugasan,
         rekap_25_kecamatan=rekap_25_kecamatan,
         kecamatan_options=KECAMATAN_BANYUWANGI
     )
