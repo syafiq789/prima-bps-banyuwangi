@@ -2,38 +2,16 @@
 // Master Single-Accordion Sidebar Navigation Handler
 
 function toggleMasterModule(activeKey) {
-    const moduleThemes = {
-        prima: {
-            activeBg: 'linear-gradient(135deg, rgba(249, 115, 22, 0.26) 0%, rgba(20, 42, 74, 0.72) 60%, rgba(13, 27, 46, 0.85) 100%)',
-            inactiveBg: 'linear-gradient(135deg, rgba(249, 115, 22, 0.12) 0%, rgba(20, 42, 74, 0.72) 60%, rgba(13, 27, 46, 0.85) 100%)',
-            activeBorder: 'border-orange-400/50',
-            chevron: 'text-orange-400'
-        },
-        mitra: {
-            activeBg: 'linear-gradient(135deg, rgba(6, 182, 212, 0.26) 0%, rgba(20, 42, 74, 0.72) 60%, rgba(13, 27, 46, 0.85) 100%)',
-            inactiveBg: 'linear-gradient(135deg, rgba(6, 182, 212, 0.12) 0%, rgba(20, 42, 74, 0.72) 60%, rgba(13, 27, 46, 0.85) 100%)',
-            activeBorder: 'border-cyan-400/50',
-            chevron: 'text-cyan-400'
-        },
-        pegawai: {
-            activeBg: 'linear-gradient(135deg, rgba(59, 130, 246, 0.28) 0%, rgba(20, 42, 74, 0.72) 60%, rgba(13, 27, 46, 0.85) 100%)',
-            inactiveBg: 'linear-gradient(135deg, rgba(59, 130, 246, 0.13) 0%, rgba(20, 42, 74, 0.72) 60%, rgba(13, 27, 46, 0.85) 100%)',
-            activeBorder: 'border-blue-400/50',
-            chevron: 'text-blue-400'
-        },
-        keuangan: {
-            activeBg: 'linear-gradient(135deg, rgba(16, 185, 129, 0.26) 0%, rgba(20, 42, 74, 0.72) 60%, rgba(13, 27, 46, 0.85) 100%)',
-            inactiveBg: 'linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(20, 42, 74, 0.72) 60%, rgba(13, 27, 46, 0.85) 100%)',
-            activeBorder: 'border-emerald-400/50',
-            chevron: 'text-emerald-400'
-        }
-    };
+    const modules = ['prima', 'mitra', 'pegawai', 'keuangan'];
+    const activeBg = 'linear-gradient(135deg, rgba(37, 99, 235, 0.32) 0%, rgba(20, 42, 74, 0.78) 60%, rgba(13, 27, 46, 0.88) 100%)';
+    const inactiveBg = 'linear-gradient(135deg, rgba(37, 99, 235, 0.11) 0%, rgba(20, 42, 74, 0.72) 60%, rgba(13, 27, 46, 0.85) 100%)';
+
     const activeContainer = document.getElementById(`container-${activeKey}-features`);
     if (!activeContainer) return;
 
     const shouldOpen = activeContainer.classList.contains('closed');
 
-    Object.entries(moduleThemes).forEach(([key, theme]) => {
+    modules.forEach(key => {
         const container = document.getElementById(`container-${key}-features`);
         const chevron = document.getElementById(`chevron-${key}-master`);
         const btn = document.getElementById(`btn-${key}-master`);
@@ -43,13 +21,13 @@ function toggleMasterModule(activeKey) {
         if (key === activeKey && shouldOpen) {
             container.classList.remove('closed');
             if (chevron) {
-                chevron.classList.remove('text-slate-500', 'text-orange-400');
-                chevron.classList.add('rotate', theme.chevron);
+                chevron.classList.remove('text-slate-500');
+                chevron.classList.add('rotate', 'text-sky-400');
             }
             if (btn) {
-                btn.style.background = theme.activeBg;
+                btn.style.background = activeBg;
                 btn.classList.remove('border-white/10');
-                btn.classList.add(theme.activeBorder, 'shadow-lg');
+                btn.classList.add('border-blue-400/50', 'shadow-lg');
             }
             if (accent) {
                 accent.classList.add('opacity-100');
@@ -58,12 +36,12 @@ function toggleMasterModule(activeKey) {
         } else {
             container.classList.add('closed');
             if (chevron) {
-                chevron.classList.remove('rotate', theme.chevron, 'text-orange-400');
+                chevron.classList.remove('rotate', 'text-sky-400');
                 chevron.classList.add('text-slate-500');
             }
             if (btn) {
-                btn.style.background = theme.inactiveBg;
-                btn.classList.remove(theme.activeBorder, 'shadow-lg');
+                btn.style.background = inactiveBg;
+                btn.classList.remove('border-blue-400/50', 'shadow-lg');
                 btn.classList.add('border-white/10');
             }
             if (accent) {
@@ -116,7 +94,7 @@ window.toggleSubFeature = function(targetId, triggerElement) {
 
     allTriggers.forEach(t => {
         if (t !== triggerElement) {
-            t.classList.remove('bg-slate-800/80', 'text-orange-400');
+            t.classList.remove('bg-slate-800/80', 'text-sky-400');
         }
     });
 
@@ -131,12 +109,12 @@ window.toggleSubFeature = function(targetId, triggerElement) {
         targetContent.classList.remove('open');
         targetContent.style.maxHeight = null;
         if (chevron) chevron.classList.remove('rotate');
-        if (triggerElement) triggerElement.classList.remove('bg-slate-800/80', 'text-orange-400');
+        if (triggerElement) triggerElement.classList.remove('bg-slate-800/80', 'text-sky-400');
     } else {
         targetContent.classList.add('open');
         targetContent.style.maxHeight = (targetContent.scrollHeight + 40) + "px";
         if (chevron) chevron.classList.add('rotate');
-        if (triggerElement) triggerElement.classList.add('bg-slate-800/80', 'text-orange-400');
+        if (triggerElement) triggerElement.classList.add('bg-slate-800/80', 'text-sky-400');
     }
 };
 
