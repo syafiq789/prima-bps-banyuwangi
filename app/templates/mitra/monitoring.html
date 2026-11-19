@@ -1,18 +1,18 @@
 {% extends 'base.html' %}
 
-{% block title %}Monitoring Kegiatan Terpadu - LENTERA BPS Banyuwangi{% endblock %}
+{% block title %}Daftar Kegiatan - LENTERA BPS Banyuwangi{% endblock %}
 
 {% block content %}
 <div class="space-y-6">
 
-    <!-- 1. Header Halaman Modern & Berkelas (Harmonized Executive Card) -->
+    <!-- 1. Header Halaman Modern Executive Blue -->
     <div style="background: linear-gradient(135deg, #0F2547 0%, #173B6D 55%, #1D4ED8 100%);"
          class="rounded-3xl p-5 sm:p-6 text-white shadow-xl shadow-blue-950/15 border border-blue-400/20 relative overflow-hidden">
-        <div class="absolute -right-10 -top-10 w-56 h-56 bg-gradient-to-br from-blue-400/10 via-sky-300/10 to-transparent rounded-full blur-2xl pointer-events-none"></div>
-        <div class="absolute right-1/3 -bottom-12 w-64 h-64 bg-gradient-to-tr from-blue-400/5 to-transparent rounded-full blur-2xl pointer-events-none"></div>
+        <div class="absolute -right-12 -top-12 w-60 h-60 bg-sky-400/20 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute left-1/3 -bottom-16 w-64 h-64 bg-blue-400/15 rounded-full blur-3xl pointer-events-none"></div>
 
         <div class="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-5">
-            <!-- Left: Breadcrumb, Icon, Title & Badges -->
+            <!-- Left: Breadcrumb, Logo, Title & Badges -->
             <div class="flex items-start sm:items-center gap-4">
                 <div class="w-14 h-14 rounded-2xl bg-white/95 p-1.5 shadow-lg shadow-black/20 ring-2 ring-white/25 flex items-center justify-center flex-shrink-0">
                     <img src="{{ url_for('static', filename='images/logo_mitra.svg') }}" alt="Logo Monitoring Mitra" class="w-full h-full object-contain">
@@ -22,37 +22,38 @@
                         <a href="{{ url_for('dashboard.index') }}" class="hover:text-white transition flex items-center gap-1">
                             <i data-lucide="home" class="w-3 h-3"></i> LENTERA
                         </a>
-                        <span>/</span>
+                        <span class="text-blue-300/50">/</span>
                         <a href="{{ url_for('mitra.dashboard') }}" class="hover:text-white transition">Monitoring Mitra</a>
-                        <span>/</span>
-                        <span class="text-white font-semibold">Pantau Kegiatan</span>
+                        <span class="text-blue-300/50">/</span>
+                        <span class="text-white font-semibold">Daftar Kegiatan</span>
                     </div>
                     
                     <div class="flex flex-wrap items-center gap-2.5">
-                        <h1 class="text-xl sm:text-2xl font-extrabold tracking-tight text-white">Pantau Kegiatan</h1>
-                        <span class="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full text-[11px] font-bold bg-white/15 text-sky-100 border border-white/20 backdrop-blur-sm">
-                            <span class="w-2 h-2 rounded-full bg-sky-300"></span>
-                            LENTERA 360°
+                        <h1 class="text-xl sm:text-2xl font-extrabold tracking-tight text-white">Daftar Kegiatan</h1>
+                        <span class="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full text-[11px] font-semibold bg-white/15 text-sky-100 border border-white/20 backdrop-blur-sm">
+                            <span class="w-1.5 h-1.5 rounded-full bg-sky-300"></span>
+                            BPS Banyuwangi (3510)
                         </span>
-                        <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-blue-950/40 text-blue-100 border border-white/15">
+                        <span class="px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-blue-950/40 text-blue-100 border border-white/15">
                             {{ count_all }} Kegiatan
                         </span>
                     </div>
-                    <p class="text-xs text-blue-100/80 mt-1.5">Pemantauan lintas modul terintegrasi: alokasi mitra, penugasan pegawai teknis, dan serapan anggaran DIPA BPS Banyuwangi</p>
+                    <p class="text-xs text-blue-100/80 mt-1.5">Lihat dan kelola seluruh kegiatan sensus &amp; survei per tim kerja beserta jadwal dan progres mitra yang bertugas</p>
                 </div>
             </div>
             
             <!-- Right: Action Buttons -->
             <div class="flex flex-wrap items-center gap-2 pt-1 lg:pt-0">
-                <a href="{{ url_for('hub.index') }}" class="h-9 px-4 rounded-full border border-slate-200/90 bg-white hover:bg-slate-50 text-white font-semibold text-xs shadow-2xs transition-all flex items-center gap-1.5 active:scale-95 hover:border-slate-300">
-                    <i data-lucide="layers" class="w-3.5 h-3.5 text-sky-200"></i>
-                    <span>Matriks Hub 360°</span>
+                <a href="{{ url_for('mitra.template', tab='kegiatan') }}"
+                   class="h-10 px-4 rounded-xl bg-white/10 hover:bg-white/20 text-white border border-white/20 font-semibold text-xs transition-all flex items-center gap-1.5 backdrop-blur-sm">
+                    <i data-lucide="file-up" class="w-3.5 h-3.5 text-sky-200"></i>
+                    <span>Template &amp; Upload</span>
                 </a>
                 <button type="button" 
                         onclick="document.getElementById('modalTambahKegiatan').classList.remove('hidden')" 
                         class="h-10 px-4 rounded-xl bg-white hover:bg-blue-50 text-blue-700 font-bold text-xs shadow-lg shadow-black/15 active:scale-95 transition-all flex items-center gap-1.5">
                     <i data-lucide="plus" class="w-3.5 h-3.5"></i>
-                    <span>Tambah Kegiatan Baru</span>
+                    <span>Tambah Kegiatan</span>
                 </button>
             </div>
         </div>
@@ -246,8 +247,8 @@
             </div>
 
             <div class="pt-4 mt-5 border-t border-slate-100">
-                <a href="{{ url_for('mitra.monitoring_detail', kegiatan_id=k.id) }}" class="w-full py-2.5 rounded-xl bg-blue-50 hover:bg-blue-500 text-blue-600 hover:text-white font-bold text-xs flex items-center justify-center gap-2 transition-all border border-blue-200/80 hover:border-blue-500 shadow-2xs">
-                    <span>Lihat Detail Terpadu 360°</span>
+                <a href="{{ url_for('mitra.monitoring_detail', kegiatan_id=k.id) }}" class="w-full py-2.5 rounded-xl bg-blue-50 hover:bg-blue-600 text-blue-700 hover:text-white font-bold text-xs flex items-center justify-center gap-2 transition-all border border-blue-200/80 hover:border-blue-600 shadow-2xs">
+                    <span>Lihat Detail Kegiatan</span>
                     <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
                 </a>
             </div>
@@ -256,17 +257,18 @@
         <!-- Modern Empty State -->
         <div class="col-span-full py-12 px-6 text-center border-2 border-dashed border-slate-200 rounded-3xl bg-slate-50/50 flex flex-col items-center justify-center">
             <div class="w-14 h-14 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center mb-3">
-                <i data-lucide="calendar-x" class="w-7 h-7"></i>
+                <i data-lucide="calendar-plus" class="w-7 h-7"></i>
             </div>
-            <h4 class="text-sm font-bold text-slate-800">Tidak Ada Kegiatan yang Sesuai Filter</h4>
-            <p class="text-xs text-slate-400 mt-1 max-w-md">Silakan ubah kata kunci pencarian, sesuaikan filter tahun/bulan, atau pilih tab tim kerja lainnya.</p>
-            <div class="mt-4 flex gap-2">
-                <a href="{{ url_for('mitra.monitoring') }}" class="px-3.5 py-2 rounded-xl bg-slate-200 hover:bg-slate-300 text-slate-700 text-xs font-semibold transition">
-                    Reset Filter
+            <h4 class="text-sm font-bold text-slate-800">Belum Ada Daftar Kegiatan</h4>
+            <p class="text-xs text-slate-500 mt-1 max-w-md">Tambahkan kegiatan baru secara manual atau upload sekaligus melalui menu Template &amp; Upload agar langsung tampil di sini.</p>
+            <div class="mt-4 flex flex-wrap justify-center gap-2">
+                <a href="{{ url_for('mitra.template', tab='kegiatan') }}" class="px-4 py-2 rounded-xl bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-200 text-xs font-bold transition flex items-center gap-1.5">
+                    <i data-lucide="file-up" class="w-3.5 h-3.5"></i>
+                    <span>Upload dari Template</span>
                 </a>
-                <button type="button" onclick="document.getElementById('modalTambahKegiatan').classList.remove('hidden')" class="px-3.5 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold transition flex items-center gap-1.5">
+                <button type="button" onclick="document.getElementById('modalTambahKegiatan').classList.remove('hidden')" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-sm">
                     <i data-lucide="plus" class="w-3.5 h-3.5"></i>
-                    <span>Tambah Kegiatan Baru</span>
+                    <span>Tambah Kegiatan</span>
                 </button>
             </div>
         </div>

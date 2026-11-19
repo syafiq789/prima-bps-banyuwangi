@@ -445,11 +445,11 @@
                     <span class="truncate">Penugasan Mitra</span>
                 </a>
 
-                <!-- Pantau Kegiatan -->
+                <!-- Daftar Kegiatan -->
                 <a href="{{ url_for('mitra.monitoring') }}" 
                    class="nav-subitem flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold transition-all duration-200 group/sub {% if request.path.startswith('/mitra/monitoring') %} bg-gradient-to-r from-blue-600 to-sky-500 text-white font-bold shadow-md shadow-blue-600/25 {% else %} text-slate-300 hover:text-white hover:bg-slate-800/70 hover:translate-x-1 {% endif %}">
                     <i data-lucide="activity" class="w-4 h-4 {% if request.path.startswith('/mitra/monitoring') %} text-white {% else %} text-sky-400 group-hover/sub:scale-110 {% endif %} flex-shrink-0 transition-transform"></i>
-                    <span class="truncate">Pantau Kegiatan</span>
+                    <span class="truncate">Daftar Kegiatan</span>
                 </a>
 
                 <!-- Penilaian Mitra -->
