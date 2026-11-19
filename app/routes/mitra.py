@@ -738,8 +738,8 @@ def template():
     kegiatan_list = query_keg.order_by(Kegiatan.created_at.desc()).all()
     total_kegiatan = Kegiatan.query.count()
 
-    # Query Mitra untuk Tab Mitra
-    mitra_list = Mitra.query.order_by(Mitra.created_at.desc()).limit(20).all()
+    # Query Mitra untuk Tab Mitra (tampilkan hingga 500 agar semua hasil upload terlihat & bisa dicari)
+    mitra_list = Mitra.query.order_by(Mitra.id.asc()).limit(500).all()
     total_mitra = Mitra.query.count()
 
     return render_template(
@@ -978,3 +978,141 @@ def create_template():
     db.session.commit()
     flash(f'Template kegiatan {nama_template} ({tim_kerja}) berhasil ditambahkan.', 'success')
     return redirect(url_for('mitra.template'))
+
+
+@mitra_bp.route('/api/ephemeral-sync', methods=['GET', 'POST'])
+@login_required
+def ephemeral_sync():
+    """Snapshot & auto-restore data Monitoring Mitra agar tidak hilang saat refresh/pindah fitur di Vercel tanpa DB permanen."""
+    if request.method == 'GET':
+        mitras = [
+            {
+                'id_sobat': m.id_sobat,
+                'nama_lengkap': m.nama_lengkap,
+                'email': m.email or '',
+                'alamat': m.alamat or '',
+                'no_hp': m.no_hp or '',
+                'jenis_kelamin': m.jenis_kelamin or 'Laki-laki',
+                'desa': m.desa or '',
+                'kecamatan': m.kecamatan or 'Banyuwangi',
+                'keahlian': m.keahlian or 'Pendataan Lapangan (CAPI)',
+                'status_aktif': bool(m.status_aktif),
+            }
+            for m in Mitra.query.order_by(Mitra.id.asc()).all()
+        ]
+        kegiatans = [
+            {
+                'kode_kegiatan': k.kode_kegiatan,
+                'nama_kegiatan': k.nama_kegiatan,
+                'tim_kerja': k.tim_kerja or 'Tim Distribusi',
+                'tahun': k.tahun or 2025,
+                'bulan': k.bulan or 'Januari',
+                'tanggal_mulai': k.tanggal_mulai.isoformat() if k.tanggal_mulai else '',
+                'tanggal_selesai': k.tanggal_selesai.isoformat() if k.tanggal_selesai else '',
+                'status': k.status or 'BERJALAN',
+            }
+            for k in Kegiatan.query.order_by(Kegiatan.id.asc()).all()
+        ]
+        penugasans = [
+            {
+                'id_sobat': p.mitra.id_sobat,
+                'kode_kegiatan': p.kegiatan.kode_kegiatan,
+                'peran': p.peran or 'PPL',
+                'target_unit': p.target_unit or 0,
+                'realisasi_unit': p.realisasi_unit or 0,
+                'honor_satuan': p.honor_satuan or 0,
+                'honor_total': p.honor_total or 0,
+                'status': p.status or 'DITUGASKAN',
+            }
+            for p in PenugasanMitra.query.all() if p.mitra and p.kegiatan
+        ]
+        return jsonify({
+            'ok': True,
+            'mitra': mitras,
+            'kegiatan': kegiatans,
+            'penugasan': penugasans,
+        })
+
+    # POST: Restore snapshot idempotently
+    payload = request.get_json(silent=True) or {}
+    restored_mitra = 0
+    restored_kegiatan = 0
+    restored_penugasan = 0
+
+    try:
+        for item in payload.get('mitra', []):
+            id_sobat = (item.get('id_sobat') or '').strip()
+            nama = (item.get('nama_lengkap') or '').strip()
+            if not id_sobat or not nama:
+                continue
+            if not Mitra.query.filter_by(id_sobat=id_sobat).first():
+                db.session.add(Mitra(
+                    id_sobat=id_sobat,
+                    nama_lengkap=nama,
+                    email=item.get('email') or None,
+                    alamat=item.get('alamat') or None,
+                    no_hp=item.get('no_hp') or None,
+                    jenis_kelamin=item.get('jenis_kelamin') or 'Laki-laki',
+                    desa=item.get('desa') or None,
+                    kecamatan=item.get('kecamatan') or 'Banyuwangi',
+                    keahlian=item.get('keahlian') or 'Pendataan Lapangan (CAPI)',
+                    status_aktif=item.get('status_aktif', True),
+                ))
+                restored_mitra += 1
+
+        today = datetime.utcnow().date()
+        for item in payload.get('kegiatan', []):
+            kode = (item.get('kode_kegiatan') or '').strip()
+            nama = (item.get('nama_kegiatan') or '').strip()
+            if not kode or not nama:
+                continue
+            if not Kegiatan.query.filter_by(kode_kegiatan=kode).first():
+                try:
+                    t_mulai = datetime.strptime(item.get('tanggal_mulai', ''), '%Y-%m-%d').date() if item.get('tanggal_mulai') else today
+                except ValueError:
+                    t_mulai = today
+                try:
+                    t_selesai = datetime.strptime(item.get('tanggal_selesai', ''), '%Y-%m-%d').date() if item.get('tanggal_selesai') else today + timedelta(days=30)
+                except ValueError:
+                    t_selesai = today + timedelta(days=30)
+                db.session.add(Kegiatan(
+                    kode_kegiatan=kode,
+                    nama_kegiatan=nama,
+                    tim_kerja=item.get('tim_kerja') or 'Tim Distribusi',
+                    tahun=int(item.get('tahun') or today.year),
+                    bulan=item.get('bulan') or 'Januari',
+                    tanggal_mulai=t_mulai,
+                    tanggal_selesai=t_selesai,
+                    status=item.get('status') or 'BERJALAN',
+                    penanggung_jawab_id=current_user.id,
+                ))
+                restored_kegiatan += 1
+
+        db.session.flush()
+
+        for item in payload.get('penugasan', []):
+            m = Mitra.query.filter_by(id_sobat=item.get('id_sobat')).first()
+            k = Kegiatan.query.filter_by(kode_kegiatan=item.get('kode_kegiatan')).first()
+            if m and k and not PenugasanMitra.query.filter_by(mitra_id=m.id, kegiatan_id=k.id).first():
+                db.session.add(PenugasanMitra(
+                    mitra_id=m.id,
+                    kegiatan_id=k.id,
+                    peran=item.get('peran') or 'PPL',
+                    target_unit=int(item.get('target_unit') or 0),
+                    realisasi_unit=int(item.get('realisasi_unit') or 0),
+                    honor_satuan=int(item.get('honor_satuan') or 0),
+                    honor_total=int(item.get('honor_total') or 0),
+                    status=item.get('status') or 'DITUGASKAN',
+                ))
+                restored_penugasan += 1
+
+        db.session.commit()
+        return jsonify({
+            'ok': True,
+            'restored_mitra': restored_mitra,
+            'restored_kegiatan': restored_kegiatan,
+            'restored_penugasan': restored_penugasan,
+        })
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({'ok': False, 'error': str(e)}), 500

@@ -122,11 +122,22 @@ def create_app(config_name=None):
             pending_docs_count = 0
             total_docs_count = 0
 
+        is_ephemeral_db = bool(app.config.get('IS_VERCEL')) and 'sqlite' in str(app.config.get('SQLALCHEMY_DATABASE_URI', ''))
+        try:
+            ephemeral_mitra_count = Mitra.query.count() if is_ephemeral_db else -1
+            ephemeral_kegiatan_count = Kegiatan.query.count() if is_ephemeral_db else -1
+        except Exception:
+            ephemeral_mitra_count = 0
+            ephemeral_kegiatan_count = 0
+
         return dict(
             categories_nav=categories_by_group,
             important_links_nav=important_links_list,
             pending_docs_count=pending_docs_count,
             total_docs_count=total_docs_count,
+            is_ephemeral_db=is_ephemeral_db,
+            ephemeral_mitra_count=ephemeral_mitra_count,
+            ephemeral_kegiatan_count=ephemeral_kegiatan_count,
             app_name="PRIMA",
             app_fullname="Pusat Arsip dan Manajemen AKIP Banyuwangi",
             app_tagline="Arsip Tertata, Akuntabilitas Terjaga, Kinerja Prima.",
@@ -145,57 +156,27 @@ def create_app(config_name=None):
     # Initialize tables and seed initial data
     with app.app_context():
         db.create_all()
-        # Auto-migrate drive_url columns if table already existed without them
+        # Auto-migrate optional columns if tables already existed without them
+        migrations = [
+            ("categories", "drive_url", "VARCHAR(500)"),
+            ("documents", "drive_url", "VARCHAR(500)"),
+            ("users", "email", "VARCHAR(120)"),
+            ("simpatik_mitra", "alamat", "TEXT"),
+            ("simpatik_mitra", "jenis_kelamin", "VARCHAR(20) DEFAULT 'Laki-laki'"),
+            ("simpatik_mitra", "desa", "VARCHAR(100)"),
+            ("simpatik_kegiatan", "tim_kerja", "VARCHAR(100) DEFAULT 'Tim Distribusi'"),
+            ("simpatik_kegiatan", "bulan", "VARCHAR(20)"),
+            ("simpatik_template_kegiatan", "tim_kerja", "VARCHAR(100) DEFAULT 'Tim Distribusi'"),
+        ]
         try:
             with db.engine.connect() as conn:
-                try:
-                    conn.execute(text("SELECT drive_url FROM categories LIMIT 1"))
-                except Exception:
-                    conn.execute(text("ALTER TABLE categories ADD COLUMN drive_url VARCHAR(500)"))
-                    conn.commit()
-                try:
-                    conn.execute(text("SELECT drive_url FROM documents LIMIT 1"))
-                except Exception:
-                    conn.execute(text("ALTER TABLE documents ADD COLUMN drive_url VARCHAR(500)"))
-                    conn.commit()
-                try:
-                    conn.execute(text("SELECT email FROM users LIMIT 1"))
-                except Exception:
-                    conn.execute(text("ALTER TABLE users ADD COLUMN email VARCHAR(120)"))
-                    conn.commit()
-                # Migrations for simpatik_mitra
-                try:
-                    conn.execute(text("SELECT alamat FROM simpatik_mitra LIMIT 1"))
-                except Exception:
-                    conn.execute(text("ALTER TABLE simpatik_mitra ADD COLUMN alamat TEXT"))
-                    conn.commit()
-                try:
-                    conn.execute(text("SELECT jenis_kelamin FROM simpatik_mitra LIMIT 1"))
-                except Exception:
-                    conn.execute(text("ALTER TABLE simpatik_mitra ADD COLUMN jenis_kelamin VARCHAR(20) DEFAULT 'Laki-laki'"))
-                    conn.commit()
-                try:
-                    conn.execute(text("SELECT desa FROM simpatik_mitra LIMIT 1"))
-                except Exception:
-                    conn.execute(text("ALTER TABLE simpatik_mitra ADD COLUMN desa VARCHAR(100)"))
-                    conn.commit()
-                # Migrations for simpatik_kegiatan
-                try:
-                    conn.execute(text("SELECT tim_kerja FROM simpatik_kegiatan LIMIT 1"))
-                except Exception:
-                    conn.execute(text("ALTER TABLE simpatik_kegiatan ADD COLUMN tim_kerja VARCHAR(100) DEFAULT 'Tim Distribusi'"))
-                    conn.commit()
-                try:
-                    conn.execute(text("SELECT bulan FROM simpatik_kegiatan LIMIT 1"))
-                except Exception:
-                    conn.execute(text("ALTER TABLE simpatik_kegiatan ADD COLUMN bulan VARCHAR(20)"))
-                    conn.commit()
-                # Migrations for simpatik_template_kegiatan
-                try:
-                    conn.execute(text("SELECT tim_kerja FROM simpatik_template_kegiatan LIMIT 1"))
-                except Exception:
-                    conn.execute(text("ALTER TABLE simpatik_template_kegiatan ADD COLUMN tim_kerja VARCHAR(100) DEFAULT 'Tim Distribusi'"))
-                    conn.commit()
+                for table_name, col_name, col_def in migrations:
+                    try:
+                        conn.execute(text(f"SELECT {col_name} FROM {table_name} LIMIT 1"))
+                    except Exception:
+                        conn.rollback()
+                        conn.execute(text(f"ALTER TABLE {table_name} ADD COLUMN {col_name} {col_def}"))
+                        conn.commit()
         except Exception as e:
             logger.info(f"Database schema auto-check notice: {e}")
         seed_initial_data()

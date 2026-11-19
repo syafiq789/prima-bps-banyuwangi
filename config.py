@@ -22,11 +22,19 @@ class Config:
     DB_PORT = os.environ.get('DB_PORT', '3306')
     DB_NAME = os.environ.get('DB_NAME', 'prima_akip_banyuwangi')
     
-    # Priority: explicit DATABASE_URL, else construct MySQL URL
-    raw_db_url = os.environ.get('DATABASE_URL')
+    # Priority: explicit cloud DATABASE_URL / Vercel Postgres URLs, else construct MySQL URL
+    raw_db_url = (
+        os.environ.get('DATABASE_URL')
+        or os.environ.get('POSTGRES_URL')
+        or os.environ.get('POSTGRES_URL_NON_POOLING')
+        or os.environ.get('POSTGRES_PRISMA_URL')
+    )
     if raw_db_url and raw_db_url.startswith('postgres://'):
         # Fix legacy postgres:// URI for SQLAlchemy compatibility
         raw_db_url = raw_db_url.replace('postgres://', 'postgresql://', 1)
+    if raw_db_url and 'pgbouncer=true' in raw_db_url:
+        # Remove pgbouncer query param unsupported by psycopg2
+        raw_db_url = raw_db_url.replace('&pgbouncer=true', '').replace('?pgbouncer=true&', '?').replace('?pgbouncer=true', '')
         
     DEFAULT_MYSQL_URI = f"mysql+pymysql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}?charset=utf8mb4"
     SQLALCHEMY_DATABASE_URI = raw_db_url or DEFAULT_MYSQL_URI
