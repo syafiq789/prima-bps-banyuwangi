@@ -658,10 +658,10 @@ def rekapitulasi():
 
     # Rekapitulasi per 4 Tim Kerja Teknis BPS (selaras dengan Daftar Kegiatan & Penugasan Mitra)
     tim_meta = [
-        ('Tim Distribusi', 'Statistik Harga, Perdagangan & Jasa', 'truck'),
-        ('Tim Neraca', 'Neraca Wilayah & Analisis Ekonomi', 'scale'),
-        ('Tim Produksi', 'Statistik Pertanian & Industri', 'sprout'),
-        ('Tim PLS', 'Pengolahan Data & Teknologi Informasi', 'database'),
+        ('Tim Distribusi', 'SHPB, VHTS, Transportasi & Jasa', 'truck'),
+        ('Tim Neraca', 'PDRB, SKLNP, SKPS & Analisis Makro', 'scale'),
+        ('Tim Produksi', 'KSA Padi/Jagung, Ubinan & Pertanian', 'sprout'),
+        ('Tim PLS', 'Pengolahan Data, TI & Wilkerstat', 'database'),
     ]
     rekap_tim_kerja = []
     for tim_nama, tim_desc, tim_icon in tim_meta:
