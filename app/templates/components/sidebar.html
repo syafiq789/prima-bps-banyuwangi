@@ -38,27 +38,22 @@
         <!-- ============================================================== -->
         <div class="sidebar-single-container">
             
-            <!-- Tombol Master Card PRIMA -->
+            <!-- Tombol Master Card PRIMA (Modern Glass SaaS) -->
             <button type="button" 
                     id="btn-prima-master"
                     onclick="togglePrimaMasterMenu()"
-                    class="w-full flex items-center justify-between p-2.5 rounded-2xl bg-gradient-to-r from-[#142338] via-[#101e30] to-[#0d1827] border border-[#d97706]/70 text-white font-bold text-sm hover:border-[#f97316] hover:shadow-lg hover:shadow-orange-500/10 hover:bg-[#15253b] transition-all duration-300 group shadow-md">
-                <span class="flex items-center gap-2.5">
-                    <div class="w-10 h-10 rounded-xl bg-white p-2 flex items-center justify-center group-hover:scale-105 transition-transform duration-200 shadow-sm ring-1 ring-black/5 overflow-hidden flex-shrink-0">
-                        <img src="{{ url_for('static', filename='images/logo_prima.png') }}" alt="PRIMA" class="w-full h-full object-contain">
+                    class="master-module-btn relative w-full flex items-center justify-between p-2.5 rounded-xl border transition-all duration-200 group overflow-hidden {% if is_prima_active %} bg-slate-800/80 border-orange-500/40 shadow-lg shadow-black/20 {% else %} bg-slate-800/35 hover:bg-slate-800/65 border-slate-700/40 hover:border-slate-600/70 {% endif %}">
+                <span id="accent-prima-master" class="absolute left-0 top-2 bottom-2 w-[3px] rounded-r-full bg-gradient-to-b from-orange-400 to-amber-500 transition-opacity duration-200 {% if is_prima_active %}opacity-100{% else %}opacity-0{% endif %}"></span>
+                <span class="flex items-center gap-3 pl-1 min-w-0">
+                    <div class="w-9 h-9 rounded-lg bg-orange-500/15 text-orange-400 ring-1 ring-orange-500/25 flex items-center justify-center group-hover:scale-105 transition-transform duration-200 flex-shrink-0">
+                        <i data-lucide="archive" class="w-4 h-4"></i>
                     </div>
-                    <div class="text-left sidebar-text">
-                        <span class="block text-xs font-black uppercase tracking-wider text-white group-hover:text-orange-200 transition-colors">PRIMA</span>
-                        <span class="block text-[10px] text-[#f59e0b] font-semibold leading-tight mt-0.5">Pusat Arsip & Manajemen Akip</span>
+                    <div class="text-left sidebar-text min-w-0">
+                        <span class="block text-xs font-bold tracking-wide text-slate-100 group-hover:text-white transition-colors truncate">PRIMA</span>
+                        <span class="block text-[10px] font-medium leading-tight mt-0.5 truncate {% if is_prima_active %}text-orange-300/90{% else %}text-slate-400 group-hover:text-slate-300{% endif %}">Pusat Arsip & Manajemen AKIP</span>
                     </div>
                 </span>
-                <div class="flex items-center gap-2">
-                    <span class="relative flex h-2 w-2">
-                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                        <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500 ring-2 ring-emerald-950"></span>
-                    </span>
-                    <i data-lucide="chevron-down" id="chevron-prima-master" class="w-4 h-4 text-[#f59e0b] group-hover:text-white transition-transform duration-300 {% if is_prima_active %}rotate{% endif %}"></i>
-                </div>
+                <i data-lucide="chevron-down" id="chevron-prima-master" class="w-4 h-4 flex-shrink-0 transition-transform duration-200 {% if is_prima_active %}text-orange-400 rotate{% else %}text-slate-500 group-hover:text-slate-300{% endif %}"></i>
             </button>
 
             <!-- KONTEN FITUR-FITUR DI DALAM MENU PRIMA -->
@@ -384,27 +379,22 @@
         <!-- Desain Card Menarik & Interaktif (Expand & Collapse)           -->
         <!-- ============================================================== -->
         <div class="sidebar-single-container">
-            <!-- Tombol Master Monitoring Mitra -->
+            <!-- Tombol Master Monitoring Mitra (Modern Glass SaaS) -->
             <button type="button" 
                     id="btn-mitra-master"
                     onclick="toggleMitraMasterMenu()"
-                    class="w-full flex items-center justify-between p-2.5 rounded-2xl bg-gradient-to-r from-[#142338] via-[#101e30] to-[#0d1827] border border-[#d97706]/70 text-white font-bold text-sm hover:border-[#f97316] hover:shadow-lg hover:shadow-orange-500/10 hover:bg-[#15253b] transition-all duration-300 group shadow-md">
-                <span class="flex items-center gap-2.5">
-                    <div class="w-10 h-10 rounded-xl bg-white p-2 flex items-center justify-center text-[#F28C28] group-hover:scale-105 transition-transform duration-200 shadow-sm ring-1 ring-black/5 flex-shrink-0">
-                        <i data-lucide="users" class="w-5 h-5 text-[#F28C28]"></i>
+                    class="master-module-btn relative w-full flex items-center justify-between p-2.5 rounded-xl border transition-all duration-200 group overflow-hidden {% if is_mitra_active %} bg-slate-800/80 border-orange-500/40 shadow-lg shadow-black/20 {% else %} bg-slate-800/35 hover:bg-slate-800/65 border-slate-700/40 hover:border-slate-600/70 {% endif %}">
+                <span id="accent-mitra-master" class="absolute left-0 top-2 bottom-2 w-[3px] rounded-r-full bg-gradient-to-b from-orange-400 to-amber-500 transition-opacity duration-200 {% if is_mitra_active %}opacity-100{% else %}opacity-0{% endif %}"></span>
+                <span class="flex items-center gap-3 pl-1 min-w-0">
+                    <div class="w-9 h-9 rounded-lg bg-cyan-500/15 text-cyan-400 ring-1 ring-cyan-500/25 flex items-center justify-center group-hover:scale-105 transition-transform duration-200 flex-shrink-0">
+                        <i data-lucide="users" class="w-4 h-4"></i>
                     </div>
-                    <div class="text-left sidebar-text">
-                        <span class="block text-xs font-black uppercase tracking-wider text-white group-hover:text-orange-200 transition-colors">MONITORING MITRA</span>
-                        <span class="block text-[10px] text-[#f59e0b] font-semibold leading-tight mt-0.5">Pengelolaan & Evaluasi Mitra</span>
+                    <div class="text-left sidebar-text min-w-0">
+                        <span class="block text-xs font-bold tracking-wide text-slate-100 group-hover:text-white transition-colors truncate">MONITORING MITRA</span>
+                        <span class="block text-[10px] font-medium leading-tight mt-0.5 truncate {% if is_mitra_active %}text-orange-300/90{% else %}text-slate-400 group-hover:text-slate-300{% endif %}">Pengelolaan & Evaluasi Mitra</span>
                     </div>
                 </span>
-                <div class="flex items-center gap-2">
-                    <span class="relative flex h-2 w-2">
-                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                        <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500 ring-2 ring-emerald-950"></span>
-                    </span>
-                    <i data-lucide="chevron-down" id="chevron-mitra-master" class="w-4 h-4 text-[#f59e0b] group-hover:text-white transition-transform duration-300 {% if is_mitra_active %}rotate{% endif %}"></i>
-                </div>
+                <i data-lucide="chevron-down" id="chevron-mitra-master" class="w-4 h-4 flex-shrink-0 transition-transform duration-200 {% if is_mitra_active %}text-orange-400 rotate{% else %}text-slate-500 group-hover:text-slate-300{% endif %}"></i>
             </button>
 
             <!-- KONTEN FITUR-FITUR MONITORING MITRA -->
@@ -476,27 +466,22 @@
         <!-- Desain Card Menarik & Interaktif (Expand & Collapse)           -->
         <!-- ============================================================== -->
         <div class="sidebar-single-container">
-            <!-- Tombol Master Kinerja Pegawai -->
+            <!-- Tombol Master Kinerja Pegawai (Modern Glass SaaS) -->
             <button type="button" 
                     id="btn-pegawai-master"
                     onclick="togglePegawaiMasterMenu()"
-                    class="w-full flex items-center justify-between p-2.5 rounded-2xl bg-gradient-to-r from-[#142338] via-[#101e30] to-[#0d1827] border border-[#d97706]/70 text-white font-bold text-sm hover:border-[#f97316] hover:shadow-lg hover:shadow-orange-500/10 hover:bg-[#15253b] transition-all duration-300 group shadow-md">
-                <span class="flex items-center gap-2.5">
-                    <div class="w-10 h-10 rounded-xl bg-white p-2 flex items-center justify-center text-[#1E3E66] group-hover:scale-105 transition-transform duration-200 shadow-sm ring-1 ring-black/5 flex-shrink-0">
-                        <i data-lucide="briefcase" class="w-5 h-5 text-[#1E3E66]"></i>
+                    class="master-module-btn relative w-full flex items-center justify-between p-2.5 rounded-xl border transition-all duration-200 group overflow-hidden {% if is_pegawai_active %} bg-slate-800/80 border-orange-500/40 shadow-lg shadow-black/20 {% else %} bg-slate-800/35 hover:bg-slate-800/65 border-slate-700/40 hover:border-slate-600/70 {% endif %}">
+                <span id="accent-pegawai-master" class="absolute left-0 top-2 bottom-2 w-[3px] rounded-r-full bg-gradient-to-b from-orange-400 to-amber-500 transition-opacity duration-200 {% if is_pegawai_active %}opacity-100{% else %}opacity-0{% endif %}"></span>
+                <span class="flex items-center gap-3 pl-1 min-w-0">
+                    <div class="w-9 h-9 rounded-lg bg-blue-500/15 text-blue-400 ring-1 ring-blue-500/25 flex items-center justify-center group-hover:scale-105 transition-transform duration-200 flex-shrink-0">
+                        <i data-lucide="briefcase" class="w-4 h-4"></i>
                     </div>
-                    <div class="text-left sidebar-text">
-                        <span class="block text-xs font-black uppercase tracking-wider text-white group-hover:text-blue-200 transition-colors">KINERJA PEGAWAI</span>
-                        <span class="block text-[10px] text-[#f59e0b] font-semibold leading-tight mt-0.5">Monitoring Kinerja Pegawai</span>
+                    <div class="text-left sidebar-text min-w-0">
+                        <span class="block text-xs font-bold tracking-wide text-slate-100 group-hover:text-white transition-colors truncate">KINERJA PEGAWAI</span>
+                        <span class="block text-[10px] font-medium leading-tight mt-0.5 truncate {% if is_pegawai_active %}text-orange-300/90{% else %}text-slate-400 group-hover:text-slate-300{% endif %}">Monitoring Kinerja Pegawai</span>
                     </div>
                 </span>
-                <div class="flex items-center gap-2">
-                    <span class="relative flex h-2 w-2">
-                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                        <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500 ring-2 ring-emerald-950"></span>
-                    </span>
-                    <i data-lucide="chevron-down" id="chevron-pegawai-master" class="w-4 h-4 text-[#f59e0b] group-hover:text-white transition-transform duration-300 {% if is_pegawai_active %}rotate{% endif %}"></i>
-                </div>
+                <i data-lucide="chevron-down" id="chevron-pegawai-master" class="w-4 h-4 flex-shrink-0 transition-transform duration-200 {% if is_pegawai_active %}text-orange-400 rotate{% else %}text-slate-500 group-hover:text-slate-300{% endif %}"></i>
             </button>
 
             <!-- KONTEN FITUR-FITUR KINERJA PEGAWAI -->
@@ -554,27 +539,22 @@
         <!-- Desain Card Menarik & Interaktif (Expand & Collapse)           -->
         <!-- ============================================================== -->
         <div class="sidebar-single-container">
-            <!-- Tombol Master Tracking Keuangan -->
+            <!-- Tombol Master Tracking Keuangan (Modern Glass SaaS) -->
             <button type="button" 
                     id="btn-keuangan-master"
                     onclick="toggleKeuanganMasterMenu()"
-                    class="w-full flex items-center justify-between p-2.5 rounded-2xl bg-gradient-to-r from-[#142338] via-[#101e30] to-[#0d1827] border border-[#d97706]/70 text-white font-bold text-sm hover:border-[#f97316] hover:shadow-lg hover:shadow-orange-500/10 hover:bg-[#15253b] transition-all duration-300 group shadow-md">
-                <span class="flex items-center gap-2.5">
-                    <div class="w-10 h-10 rounded-xl bg-white p-2 flex items-center justify-center text-[#F28C28] group-hover:scale-105 transition-transform duration-200 shadow-sm ring-1 ring-black/5 flex-shrink-0">
-                        <i data-lucide="wallet" class="w-5 h-5 text-[#F28C28]"></i>
+                    class="master-module-btn relative w-full flex items-center justify-between p-2.5 rounded-xl border transition-all duration-200 group overflow-hidden {% if is_keuangan_active %} bg-slate-800/80 border-orange-500/40 shadow-lg shadow-black/20 {% else %} bg-slate-800/35 hover:bg-slate-800/65 border-slate-700/40 hover:border-slate-600/70 {% endif %}">
+                <span id="accent-keuangan-master" class="absolute left-0 top-2 bottom-2 w-[3px] rounded-r-full bg-gradient-to-b from-orange-400 to-amber-500 transition-opacity duration-200 {% if is_keuangan_active %}opacity-100{% else %}opacity-0{% endif %}"></span>
+                <span class="flex items-center gap-3 pl-1 min-w-0">
+                    <div class="w-9 h-9 rounded-lg bg-emerald-500/15 text-emerald-400 ring-1 ring-emerald-500/25 flex items-center justify-center group-hover:scale-105 transition-transform duration-200 flex-shrink-0">
+                        <i data-lucide="wallet" class="w-4 h-4"></i>
                     </div>
-                    <div class="text-left sidebar-text">
-                        <span class="block text-xs font-black uppercase tracking-wider text-white group-hover:text-emerald-200 transition-colors">TRACKING KEUANGAN</span>
-                        <span class="block text-[10px] text-[#f59e0b] font-semibold leading-tight mt-0.5">Pengajuan & Realisasi Anggaran</span>
+                    <div class="text-left sidebar-text min-w-0">
+                        <span class="block text-xs font-bold tracking-wide text-slate-100 group-hover:text-white transition-colors truncate">TRACKING KEUANGAN</span>
+                        <span class="block text-[10px] font-medium leading-tight mt-0.5 truncate {% if is_keuangan_active %}text-orange-300/90{% else %}text-slate-400 group-hover:text-slate-300{% endif %}">Pengajuan & Realisasi Anggaran</span>
                     </div>
                 </span>
-                <div class="flex items-center gap-2">
-                    <span class="relative flex h-2 w-2">
-                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                        <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500 ring-2 ring-emerald-950"></span>
-                    </span>
-                    <i data-lucide="chevron-down" id="chevron-keuangan-master" class="w-4 h-4 text-[#f59e0b] group-hover:text-white transition-transform duration-300 {% if is_keuangan_active %}rotate{% endif %}"></i>
-                </div>
+                <i data-lucide="chevron-down" id="chevron-keuangan-master" class="w-4 h-4 flex-shrink-0 transition-transform duration-200 {% if is_keuangan_active %}text-orange-400 rotate{% else %}text-slate-500 group-hover:text-slate-300{% endif %}"></i>
             </button>
 
             <!-- KONTEN FITUR-FITUR TRACKING KEUANGAN -->
