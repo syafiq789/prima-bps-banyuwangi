@@ -23,17 +23,17 @@
                         <span>/</span>
                         <a href="{{ url_for('keuangan.dashboard') }}" class="hover:text-slate-600 transition">Tracking Keuangan</a>
                         <span>/</span>
-                        <span class="text-slate-700 font-semibold">Realisasi SP2D</span>
+                        <span class="text-slate-700 font-semibold">Pencairan Anggaran</span>
                     </div>
                     
                     <div class="flex flex-wrap items-center gap-2.5">
-                        <h1 class="text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900">Pencairan Anggaran & SP2D</h1>
+                        <h1 class="text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900">Pencairan Anggaran</h1>
                         <span class="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full text-[11px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200/70 shadow-2xs">
                             <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                            Tahap 3: Realisasi SP2D KPPN
+                            Tahap 3: Pencairan Dana
                         </span>
                         <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-slate-100 text-slate-600 border border-slate-200/70">
-                            {{ realisasi_list|length }} SP2D Terbit
+                            {{ realisasi_list|length }} Transaksi Cair
                         </span>
                     </div>
                     <p class="text-xs text-slate-500 mt-1">Pencatatan realisasi pencairan dari KPPN Banyuwangi untuk pengajuan anggaran yang telah disetujui PPK</p>
