@@ -12,7 +12,7 @@
             <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
             <span class="uppercase tracking-wider font-semibold text-slate-400">{{ category.group }}</span>
             <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
-            <span class="text-orange-600 font-bold">{{ category.name }}</span>
+            <span class="text-blue-600 font-bold">{{ category.name }}</span>
         </div>
         <span class="text-xs text-slate-400 font-medium">BPS Kabupaten Banyuwangi</span>
     </div>
@@ -20,16 +20,16 @@
     <!-- GOOGLE DRIVE DIRECT ACCESS HERO BANNER -->
     <div class="bg-gradient-to-br from-[#0D1B2A] via-[#142B4A] to-[#1E3E66] text-white p-6 sm:p-7 rounded-3xl border border-blue-500/25 shadow-xl relative overflow-hidden">
         <!-- Ambient lighting -->
-        <div class="absolute -top-20 -right-20 w-60 h-60 bg-orange-500/15 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute -top-20 -right-20 w-60 h-60 bg-blue-500/20 rounded-full blur-3xl pointer-events-none"></div>
 
         <div class="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-5">
             <div class="flex items-start gap-4">
                 <div class="w-13 h-13 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 p-3 flex items-center justify-center text-blue-300 shadow-md flex-shrink-0">
-                    <i data-lucide="folder-symlink" class="w-7 h-7 text-orange-400"></i>
+                    <i data-lucide="folder-symlink" class="w-7 h-7 text-sky-400"></i>
                 </div>
                 <div>
                     <div class="flex items-center gap-2 mb-1">
-                        <span class="text-[10px] font-extrabold uppercase tracking-widest text-orange-400 bg-orange-500/20 px-2.5 py-0.5 rounded-full border border-orange-500/30">
+                        <span class="text-[10px] font-extrabold uppercase tracking-widest text-sky-400 bg-blue-500/20 px-2.5 py-0.5 rounded-full border border-orange-500/30">
                             Penyimpanan Terintegrasi Google Drive
                         </span>
                     </div>
@@ -40,7 +40,7 @@
                         {{ category.description or 'Folder arsip dan dokumen akuntabilitas kinerja BPS Kabupaten Banyuwangi.' }}
                     </p>
                     <div class="mt-2.5 flex items-center gap-2 text-[11px] text-blue-200 font-mono bg-white/5 px-3 py-1.5 rounded-xl border border-white/10 max-w-xl truncate">
-                        <i data-lucide="link" class="w-3.5 h-3.5 flex-shrink-0 text-orange-400"></i>
+                        <i data-lucide="link" class="w-3.5 h-3.5 flex-shrink-0 text-sky-400"></i>
                         <span class="truncate">{{ category.gdrive_link }}</span>
                     </div>
                 </div>
@@ -172,7 +172,7 @@
                                         {% elif doc.file_type == 'pdf' %} bg-red-50 text-red-600 border border-red-200
                                         {% elif doc.file_type in ['xlsx', 'xls'] %} bg-emerald-50 text-emerald-600 border border-emerald-200
                                         {% elif doc.file_type in ['docx', 'doc'] %} bg-blue-50 text-blue-600 border border-blue-200
-                                        {% else %} bg-orange-50 text-orange-600 border border-orange-200 {% endif %}">
+                                        {% else %} bg-blue-50 text-blue-600 border border-orange-200 {% endif %}">
                                         {% if doc.file_type == 'folder' %}
                                             <i data-lucide="folder" class="w-4 h-4"></i>
                                         {% else %}
@@ -180,7 +180,7 @@
                                         {% endif %}
                                     </div>
                                     <div class="min-w-0">
-                                        <a href="{{ doc.access_url }}" target="_blank" class="font-bold text-slate-900 hover:text-orange-600 transition flex items-center gap-1.5">
+                                        <a href="{{ doc.access_url }}" target="_blank" class="font-bold text-slate-900 hover:text-blue-600 transition flex items-center gap-1.5">
                                             <span>{{ doc.title }}</span>
                                             {% if doc.drive_url %}
                                             <i data-lucide="external-link" class="w-3 h-3 text-blue-500"></i>
@@ -275,7 +275,7 @@
                     {% else %}
                         <tr>
                             <td colspan="6" class="py-12 text-center">
-                                <div class="w-14 h-14 bg-orange-50 text-orange-500 rounded-2xl flex items-center justify-center mx-auto mb-3">
+                                <div class="w-14 h-14 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-3">
                                     <i data-lucide="folder-search" class="w-7 h-7"></i>
                                 </div>
                                 <h3 class="text-sm font-bold text-slate-800">Belum ada dokumen yang ditautkan</h3>
@@ -283,7 +283,7 @@
                                     Dokumen untuk kategori {{ category.name }} dapat dibuka langsung di Google Drive atau ditambahkan link-nya ke daftar ini.
                                 </p>
                                 <div class="mt-4 flex items-center justify-center gap-2">
-                                    <a href="{{ category.gdrive_link }}" target="_blank" class="inline-flex items-center gap-1.5 px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white rounded-xl text-xs font-bold transition">
+                                    <a href="{{ category.gdrive_link }}" target="_blank" class="inline-flex items-center gap-1.5 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-xs font-bold transition">
                                         <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
                                         <span>Buka Google Drive Langsung</span>
                                     </a>

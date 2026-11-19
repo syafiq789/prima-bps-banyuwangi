@@ -6,13 +6,13 @@
 <div class="space-y-6">
     <!-- 1. Header Halaman Modern & Berkelas (Harmonized Executive Card) -->
     <div class="bg-white/90 backdrop-blur-xl rounded-3xl p-5 sm:p-6 border border-slate-200/80 shadow-[0_4px_20px_-4px_rgba(20,43,74,0.03)] relative overflow-hidden">
-        <div class="absolute -right-10 -top-10 w-56 h-56 bg-gradient-to-br from-emerald-400/10 via-teal-300/10 to-transparent rounded-full blur-2xl pointer-events-none"></div>
+        <div class="absolute -right-10 -top-10 w-56 h-56 bg-gradient-to-br from-blue-500/10 via-sky-300/10 to-transparent rounded-full blur-2xl pointer-events-none"></div>
         <div class="absolute right-1/3 -bottom-12 w-64 h-64 bg-gradient-to-tr from-cyan-400/5 to-transparent rounded-full blur-2xl pointer-events-none"></div>
 
         <div class="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-5">
             <!-- Left: Breadcrumb, Icon, Title & Badges -->
             <div class="flex items-start sm:items-center gap-4">
-                <div class="w-14 h-14 rounded-2xl bg-white p-1.5 border border-emerald-200/80 shadow-md shadow-emerald-500/15 flex items-center justify-center flex-shrink-0">
+                <div class="w-14 h-14 rounded-2xl bg-white p-1.5 border border-blue-200/80 shadow-md shadow-blue-500/15 flex items-center justify-center flex-shrink-0">
                     <img src="{{ url_for('static', filename='images/logo_keuangan.svg') }}" alt="Logo Tracking Keuangan" class="w-full h-full object-contain">
                 </div>
                 <div>
@@ -28,7 +28,7 @@
                     
                     <div class="flex flex-wrap items-center gap-2.5">
                         <h1 class="text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900">Rekapitulasi Penyerapan DIPA</h1>
-                        <span class="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full text-[11px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200/70 shadow-2xs">
+                        <span class="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full text-[11px] font-bold bg-blue-50 text-blue-700 border border-blue-200/70 shadow-2xs">
                             <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
                             Satker 429215 BPS Banyuwangi
                         </span>
@@ -89,15 +89,15 @@
         <div class="bg-white rounded-2xl p-4.5 border border-slate-200/70 shadow-[0_1px_3px_rgba(0,0,0,0.03)] hover:shadow-md hover:border-slate-300 transition-all group flex flex-col justify-between">
             <div class="flex items-center justify-between text-slate-500">
                 <span class="text-xs font-medium">Sisa Anggaran</span>
-                <div class="w-8 h-8 rounded-lg bg-orange-50 text-orange-600 ring-1 ring-orange-500/10 flex items-center justify-center group-hover:scale-105 transition-transform">
+                <div class="w-8 h-8 rounded-lg bg-blue-50 text-blue-600 ring-1 ring-orange-500/10 flex items-center justify-center group-hover:scale-105 transition-transform">
                     <i data-lucide="pie-chart" class="w-4 h-4"></i>
                 </div>
             </div>
             <div class="my-2">
-                <div class="text-lg sm:text-xl font-extrabold text-orange-600 tracking-tight font-sans">Rp {{ "{:,}".format(total_pagu_all - total_realisasi_all).replace(',', '.') }}</div>
+                <div class="text-lg sm:text-xl font-extrabold text-blue-600 tracking-tight font-sans">Rp {{ "{:,}".format(total_pagu_all - total_realisasi_all).replace(',', '.') }}</div>
             </div>
             <p class="text-[11px] text-slate-400 flex items-center gap-1">
-                <span class="w-1.5 h-1.5 rounded-full bg-orange-500"></span>
+                <span class="w-1.5 h-1.5 rounded-full bg-blue-500"></span>
                 <span>Sisa pagu tersedia</span>
             </p>
         </div>
@@ -162,7 +162,7 @@
                         <td class="py-3.5 px-4 whitespace-nowrap font-mono font-bold text-emerald-600 text-xs">
                             Rp {{ "{:,}".format(r.realisasi).replace(',', '.') }}
                         </td>
-                        <td class="py-3.5 px-4 whitespace-nowrap font-mono font-bold text-orange-600 text-xs">
+                        <td class="py-3.5 px-4 whitespace-nowrap font-mono font-bold text-blue-600 text-xs">
                             Rp {{ "{:,}".format(r.sisa).replace(',', '.') }}
                         </td>
                         <td class="py-3.5 px-4 whitespace-nowrap">

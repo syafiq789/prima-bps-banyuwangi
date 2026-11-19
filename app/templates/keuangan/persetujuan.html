@@ -6,13 +6,13 @@
 <div class="space-y-6">
     <!-- 1. Header Halaman Modern & Berkelas (Harmonized Executive Card) -->
     <div class="bg-white/90 backdrop-blur-xl rounded-3xl p-5 sm:p-6 border border-slate-200/80 shadow-[0_4px_20px_-4px_rgba(20,43,74,0.03)] relative overflow-hidden">
-        <div class="absolute -right-10 -top-10 w-56 h-56 bg-gradient-to-br from-teal-400/10 via-emerald-300/10 to-transparent rounded-full blur-2xl pointer-events-none"></div>
+        <div class="absolute -right-10 -top-10 w-56 h-56 bg-gradient-to-br from-blue-500/10 via-sky-300/10 to-transparent rounded-full blur-2xl pointer-events-none"></div>
         <div class="absolute right-1/3 -bottom-12 w-64 h-64 bg-gradient-to-tr from-cyan-400/5 to-transparent rounded-full blur-2xl pointer-events-none"></div>
 
         <div class="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-5">
             <!-- Left: Breadcrumb, Icon, Title & Badges -->
             <div class="flex items-start sm:items-center gap-4">
-                <div class="w-14 h-14 rounded-2xl bg-white p-1.5 border border-emerald-200/80 shadow-md shadow-emerald-500/15 flex items-center justify-center flex-shrink-0">
+                <div class="w-14 h-14 rounded-2xl bg-white p-1.5 border border-blue-200/80 shadow-md shadow-blue-500/15 flex items-center justify-center flex-shrink-0">
                     <img src="{{ url_for('static', filename='images/logo_keuangan.svg') }}" alt="Logo Tracking Keuangan" class="w-full h-full object-contain">
                 </div>
                 <div>
@@ -28,7 +28,7 @@
                     
                     <div class="flex flex-wrap items-center gap-2.5">
                         <h1 class="text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900">Verifikasi & Persetujuan PPK</h1>
-                        <span class="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full text-[11px] font-bold bg-teal-50 text-teal-700 border border-teal-200/70 shadow-2xs">
+                        <span class="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full text-[11px] font-bold bg-blue-50 text-blue-700 border border-blue-200/70 shadow-2xs">
                             <span class="w-2 h-2 rounded-full bg-teal-500 animate-pulse"></span>
                             Tahap 2: Otorisasi PPK / KPA
                         </span>
@@ -125,7 +125,7 @@
                         <td class="py-3.5 px-4 whitespace-nowrap text-right">
                             <form action="{{ url_for('keuangan.action_persetujuan') }}" method="POST" class="inline-flex flex-col items-end gap-1.5">
                                 <input type="hidden" name="pengajuan_id" value="{{ item.id }}">
-                                <input type="text" name="catatan" placeholder="Catatan PPK..." class="w-48 px-3 py-1.5 text-xs rounded-xl border border-slate-200/90 focus:outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-500/15 transition">
+                                <input type="text" name="catatan" placeholder="Catatan PPK..." class="w-48 px-3 py-1.5 text-xs rounded-xl border border-slate-200/90 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/15 transition">
                                 <div class="flex items-center gap-1.5">
                                     <button type="submit" name="status" value="YA" class="h-8 px-3 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-sm flex items-center gap-1 active:scale-95 transition" title="Setujui Usulan Pengajuan">
                                         <i data-lucide="check" class="w-3.5 h-3.5"></i>

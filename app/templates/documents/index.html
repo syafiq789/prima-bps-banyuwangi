@@ -11,7 +11,7 @@
             <div class="flex items-center gap-2 text-xs text-slate-500 mb-1">
                 <span>Arsip & Manajemen</span>
                 <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
-                <span class="text-orange-600 font-semibold">Semua Dokumen</span>
+                <span class="text-blue-600 font-semibold">Semua Dokumen</span>
             </div>
             <h1 class="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
                 Pusat Arsip Dokumen AKIP
@@ -23,7 +23,7 @@
 
         {% if current_user.can_manage_documents %}
         <a href="{{ url_for('documents.upload') }}" 
-           class="inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white text-xs sm:text-sm font-bold rounded-xl shadow-md shadow-orange-500/20 transition hover:scale-[1.02] active:scale-[0.98]">
+           class="inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white text-xs sm:text-sm font-bold rounded-xl shadow-md shadow-blue-600/20 transition hover:scale-[1.02] active:scale-[0.98]">
             <i data-lucide="plus-circle" class="w-4 h-4"></i>
             <span>Tambah Dokumen / Link Drive</span>
         </a>
@@ -120,11 +120,11 @@
                                         {% if doc.file_type == 'pdf' %} bg-red-50 text-red-600 border border-red-100
                                         {% elif doc.file_type in ['xlsx', 'xls'] %} bg-emerald-50 text-emerald-600 border border-emerald-100
                                         {% elif doc.file_type in ['docx', 'doc'] %} bg-blue-50 text-blue-600 border border-blue-100
-                                        {% else %} bg-orange-50 text-orange-600 border border-orange-100 {% endif %}">
+                                        {% else %} bg-blue-50 text-blue-600 border border-orange-100 {% endif %}">
                                         {{ doc.file_type }}
                                     </div>
                                     <div class="min-w-0">
-                                        <a href="{{ url_for('documents.detail', doc_id=doc.id) }}" class="font-bold text-slate-900 hover:text-orange-600 transition line-clamp-1">
+                                        <a href="{{ url_for('documents.detail', doc_id=doc.id) }}" class="font-bold text-slate-900 hover:text-blue-600 transition line-clamp-1">
                                             {{ doc.title }}
                                         </a>
                                         <p class="text-[11px] text-slate-500 line-clamp-1 mt-0.5">
@@ -193,7 +193,7 @@
                                     </button>
 
                                     <a href="{{ url_for('documents.download', doc_id=doc.id) }}" 
-                                       class="p-1.5 text-slate-500 hover:text-orange-600 hover:bg-orange-50 rounded-lg transition" 
+                                       class="p-1.5 text-slate-500 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition" 
                                        title="Unduh">
                                         <i data-lucide="download" class="w-4 h-4"></i>
                                     </a>
@@ -254,7 +254,7 @@
                 {% for p in pagination.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
                     {% if p %}
                         {% if p == pagination.page %}
-                        <span class="px-3 py-1.5 rounded-lg bg-orange-500 text-white font-bold">{{ p }}</span>
+                        <span class="px-3 py-1.5 rounded-lg bg-blue-600 text-white font-bold">{{ p }}</span>
                         {% else %}
                         <a href="{{ url_for('documents.index', page=p, q=search_query, category=selected_category.slug if selected_category else '', year=year_filter, status=status_filter) }}" 
                            class="px-3 py-1.5 rounded-lg border border-slate-200 text-slate-700 hover:bg-slate-50 font-semibold transition">

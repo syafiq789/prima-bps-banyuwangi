@@ -11,7 +11,7 @@
             <div class="flex items-center gap-2 text-xs text-slate-500 mb-1">
                 <span>Kelengkapan</span>
                 <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
-                <span class="text-orange-600 font-bold">Checklist Dokumen</span>
+                <span class="text-blue-600 font-bold">Checklist Dokumen</span>
             </div>
             <h1 class="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
                 Checklist Dokumen AKIP Tahun {{ selected_year }}
@@ -42,7 +42,7 @@
                 <h3 class="text-lg font-black text-slate-900">{{ fulfilled_items }} dari {{ total_items }} Item Terpenuhi</h3>
             </div>
             <div class="text-right">
-                <span class="text-2xl font-black text-orange-600">{{ percentage }}%</span>
+                <span class="text-2xl font-black text-blue-600">{{ percentage }}%</span>
                 <span class="text-xs text-slate-400 block font-medium">Tingkat Kepatuhan</span>
             </div>
         </div>
@@ -80,7 +80,7 @@
                         <tr class="hover:bg-slate-50/80 transition-colors">
                             <td class="py-4 px-6 font-bold text-slate-800">
                                 <div class="flex items-center gap-3">
-                                    <div class="w-6 h-6 rounded-lg flex items-center justify-center flex-shrink-0 {% if item.is_fulfilled %} bg-emerald-100 text-emerald-700 {% else %} bg-slate-100 text-slate-400 {% endif %}">
+                                    <div class="w-6 h-6 rounded-lg flex items-center justify-center flex-shrink-0 {% if item.is_fulfilled %} bg-blue-100 text-blue-700 {% else %} bg-slate-100 text-slate-400 {% endif %}">
                                         <i data-lucide="{% if item.is_fulfilled %}check{% else %}circle{% endif %}" class="w-3.5 h-3.5"></i>
                                     </div>
                                     <span>{{ item.item_name }}</span>
@@ -142,7 +142,7 @@
         {% if current_user.is_admin %}
         <div class="p-6 bg-slate-50 border-t border-slate-100">
             <h4 class="text-xs font-bold uppercase tracking-wider text-slate-700 mb-3 flex items-center gap-1.5">
-                <i data-lucide="plus-circle" class="w-4 h-4 text-orange-500"></i>
+                <i data-lucide="plus-circle" class="w-4 h-4 text-blue-600"></i>
                 <span>Tambah Dokumen ke Checklist Tahun {{ selected_year }}</span>
             </h4>
             <form action="{{ url_for('completeness.add_item') }}" method="POST" class="grid grid-cols-1 sm:grid-cols-4 gap-3">

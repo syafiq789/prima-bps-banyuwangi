@@ -8,13 +8,13 @@
     <!-- 1. Header Halaman Modern, Elegan & Berkelas (Harmonized Executive Card) -->
     <div class="bg-white/90 backdrop-blur-xl rounded-3xl p-5 sm:p-6 border border-slate-200/80 shadow-[0_4px_20px_-4px_rgba(20,43,74,0.03)] relative overflow-hidden">
         <!-- Subtle Ambient Glow -->
-        <div class="absolute -right-10 -top-10 w-56 h-56 bg-gradient-to-br from-orange-400/10 via-amber-300/10 to-transparent rounded-full blur-2xl pointer-events-none"></div>
+        <div class="absolute -right-10 -top-10 w-56 h-56 bg-gradient-to-br from-blue-500/10 via-sky-300/10 to-transparent rounded-full blur-2xl pointer-events-none"></div>
         <div class="absolute right-1/3 -bottom-12 w-64 h-64 bg-gradient-to-tr from-blue-400/5 to-transparent rounded-full blur-2xl pointer-events-none"></div>
 
         <div class="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-5">
             <!-- Left: Breadcrumb, Icon, Title & Badges -->
             <div class="flex items-start sm:items-center gap-4">
-                <div class="w-14 h-14 rounded-2xl bg-white p-1.5 border border-cyan-200/80 shadow-md shadow-cyan-500/15 flex items-center justify-center flex-shrink-0">
+                <div class="w-14 h-14 rounded-2xl bg-white p-1.5 border border-blue-200/80 shadow-md shadow-blue-500/15 flex items-center justify-center flex-shrink-0">
                     <img src="{{ url_for('static', filename='images/logo_mitra.svg') }}" alt="Logo Monitoring Mitra" class="w-full h-full object-contain">
                 </div>
                 <div>
@@ -30,7 +30,7 @@
                     
                     <div class="flex flex-wrap items-center gap-2.5">
                         <h1 class="text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900">Database Master Mitra</h1>
-                        <span class="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full text-[11px] font-bold bg-orange-50 text-orange-700 border border-orange-200/70 shadow-2xs">
+                        <span class="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full text-[11px] font-bold bg-blue-50 text-blue-700 border border-blue-200/70 shadow-2xs">
                             <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
                             SOBAT BPS
                         </span>
@@ -63,7 +63,7 @@
                 <!-- Tambah Mitra Manual -->
                 <button type="button" 
                         onclick="document.getElementById('modalTambahMitra').classList.remove('hidden')" 
-                        class="h-9 px-4 rounded-full bg-gradient-to-r from-orange-500 via-amber-500 to-orange-500 hover:opacity-95 text-white font-bold text-xs shadow-sm shadow-orange-500/25 active:scale-95 transition-all flex items-center gap-1.5">
+                        class="h-9 px-4 rounded-full bg-gradient-to-r from-blue-600 via-blue-600 to-sky-500 hover:opacity-95 text-white font-bold text-xs shadow-sm shadow-blue-600/25 active:scale-95 transition-all flex items-center gap-1.5">
                     <i data-lucide="plus" class="w-3.5 h-3.5"></i>
                     <span>Tambah Mitra</span>
                 </button>
@@ -81,13 +81,13 @@
                        name="search" 
                        value="{{ search }}" 
                        placeholder="Cari nama mitra, ID Sobat, alamat..." 
-                       class="w-full h-10 pl-10 pr-4 text-xs rounded-full bg-slate-50/70 hover:bg-slate-100/60 focus:bg-white border border-slate-200/80 focus:border-orange-500/40 focus:ring-4 focus:ring-orange-500/10 font-medium text-slate-800 placeholder:text-slate-400 transition-all outline-none">
+                       class="w-full h-10 pl-10 pr-4 text-xs rounded-full bg-slate-50/70 hover:bg-slate-100/60 focus:bg-white border border-slate-200/80 focus:border-blue-500/40 focus:ring-4 focus:ring-blue-500/10 font-medium text-slate-800 placeholder:text-slate-400 transition-all outline-none">
             </div>
 
             <!-- Group Filter Dropdown: Tahun, Bulan, Kegiatan -->
             <div class="flex flex-wrap items-center gap-2">
                 <!-- Filter Tahun -->
-                <select name="tahun" class="h-10 pl-4 pr-9 text-xs rounded-full border border-slate-200/80 bg-white font-semibold text-slate-700 hover:border-slate-300 focus:outline-none focus:border-orange-500 select-pill shadow-2xs transition-all">
+                <select name="tahun" class="h-10 pl-4 pr-9 text-xs rounded-full border border-slate-200/80 bg-white font-semibold text-slate-700 hover:border-slate-300 focus:outline-none focus:border-blue-500 select-pill shadow-2xs transition-all">
                     <option value="">Semua Tahun</option>
                     {% for y in years %}
                     <option value="{{ y }}" {% if tahun_filter == y|string %}selected{% endif %}>{{ y }}</option>
@@ -95,7 +95,7 @@
                 </select>
 
                 <!-- Filter Bulan -->
-                <select name="bulan" class="h-10 pl-4 pr-9 text-xs rounded-full border border-slate-200/80 bg-white font-semibold text-slate-700 hover:border-slate-300 focus:outline-none focus:border-orange-500 select-pill shadow-2xs transition-all">
+                <select name="bulan" class="h-10 pl-4 pr-9 text-xs rounded-full border border-slate-200/80 bg-white font-semibold text-slate-700 hover:border-slate-300 focus:outline-none focus:border-blue-500 select-pill shadow-2xs transition-all">
                     <option value="">Semua Bulan</option>
                     {% for m_code, m_name in months %}
                     <option value="{{ m_code }}" {% if bulan_filter == m_code %}selected{% endif %}>{{ m_name }}</option>
@@ -103,7 +103,7 @@
                 </select>
 
                 <!-- Filter Kegiatan -->
-                <select name="kegiatan" class="h-10 pl-4 pr-9 text-xs rounded-full border border-slate-200/80 bg-white font-semibold text-slate-700 hover:border-slate-300 focus:outline-none focus:border-orange-500 select-pill shadow-2xs transition-all max-w-[210px] truncate">
+                <select name="kegiatan" class="h-10 pl-4 pr-9 text-xs rounded-full border border-slate-200/80 bg-white font-semibold text-slate-700 hover:border-slate-300 focus:outline-none focus:border-blue-500 select-pill shadow-2xs transition-all max-w-[210px] truncate">
                     <option value="">Semua Kegiatan</option>
                     {% for kg in kegiatan_options %}
                     <option value="{{ kg.nama_kegiatan }}" {% if kegiatan_filter == kg.nama_kegiatan %}selected{% endif %}>
@@ -113,7 +113,7 @@
                 </select>
 
                 <!-- Filter 25 Kecamatan Banyuwangi -->
-                <select name="kecamatan" class="h-10 pl-4 pr-9 text-xs rounded-full border border-slate-200/80 bg-white font-semibold text-slate-700 hover:border-slate-300 focus:outline-none focus:border-orange-500 select-pill shadow-2xs transition-all max-w-[185px] truncate">
+                <select name="kecamatan" class="h-10 pl-4 pr-9 text-xs rounded-full border border-slate-200/80 bg-white font-semibold text-slate-700 hover:border-slate-300 focus:outline-none focus:border-blue-500 select-pill shadow-2xs transition-all max-w-[185px] truncate">
                     <option value="">Semua Kecamatan (25)</option>
                     {% for kc in kecamatan_options %}
                     <option value="{{ kc }}" {% if kec_filter == kc %}selected{% endif %}>Kec. {{ kc }}</option>
@@ -155,7 +155,7 @@
             </span>
             {% endif %}
             {% if kec_filter %}
-            <span class="px-2.5 py-0.5 rounded-full text-[11px] bg-orange-50 text-orange-700 font-semibold border border-orange-200/60">
+            <span class="px-2.5 py-0.5 rounded-full text-[11px] bg-blue-50 text-orange-700 font-semibold border border-orange-200/60">
                 Kec. {{ kec_filter }}
             </span>
             {% endif %}
@@ -206,7 +206,7 @@
                                     {{ m.nama_lengkap[:2]|upper }}
                                 </div>
                                 <div>
-                                    <div class="font-bold text-slate-900 text-xs group-hover:text-orange-600 transition">{{ m.nama_lengkap }}</div>
+                                    <div class="font-bold text-slate-900 text-xs group-hover:text-blue-600 transition">{{ m.nama_lengkap }}</div>
                                     {% if m.keahlian %}
                                     <div class="text-[10px] text-slate-400">{{ m.keahlian }}</div>
                                     {% endif %}
@@ -310,7 +310,7 @@
                     <tr>
                         <td colspan="10" class="py-16 text-center text-slate-400">
                             <div class="flex flex-col items-center justify-center gap-2 max-w-sm mx-auto">
-                                <div class="w-14 h-14 rounded-2xl bg-gradient-to-tr from-orange-50 to-amber-50 border border-orange-100/80 text-orange-500 flex items-center justify-center shadow-sm shadow-orange-500/10 mb-1">
+                                <div class="w-14 h-14 rounded-2xl bg-gradient-to-tr from-orange-50 to-amber-50 border border-orange-100/80 text-blue-600 flex items-center justify-center shadow-sm shadow-orange-500/10 mb-1">
                                     <i data-lucide="users" class="w-6 h-6"></i>
                                 </div>
                                 <p class="font-bold text-slate-800 text-sm">Belum Ada Data Mitra</p>
@@ -318,7 +318,7 @@
                                 <div class="flex items-center gap-2 mt-3">
                                     <button type="button" 
                                             onclick="document.getElementById('modalTambahMitra').classList.remove('hidden')" 
-                                            class="h-9 px-4 rounded-full bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white text-xs font-bold shadow-sm shadow-orange-500/20 active:scale-95 transition-all">
+                                            class="h-9 px-4 rounded-full bg-gradient-to-r from-blue-600 to-sky-500 hover:from-orange-600 hover:to-amber-600 text-white text-xs font-bold shadow-sm shadow-blue-600/20 active:scale-95 transition-all">
                                         + Tambah Mitra Baru
                                     </button>
                                     <button type="button" 
@@ -345,7 +345,7 @@
         <!-- Header Modal Menarik -->
         <div class="bg-gradient-to-r from-orange-50/80 via-amber-50/40 to-white px-6 py-4.5 border-b border-orange-100/70 flex items-center justify-between flex-shrink-0">
             <div class="flex items-center gap-3.5">
-                <div class="w-11 h-11 rounded-2xl bg-gradient-to-br from-orange-500 to-amber-500 text-white flex items-center justify-center shadow-md shadow-orange-500/25 flex-shrink-0">
+                <div class="w-11 h-11 rounded-2xl bg-gradient-to-br from-blue-600 to-sky-500 text-white flex items-center justify-center shadow-md shadow-blue-600/25 flex-shrink-0">
                     <i data-lucide="user-plus" class="w-5 h-5"></i>
                 </div>
                 <div>
@@ -369,7 +369,7 @@
             <!-- Group 1: Identitas Pokok Sobat -->
             <div class="space-y-3">
                 <div class="flex items-center gap-2 text-[11px] font-bold uppercase tracking-wider text-orange-700 pb-1 border-b border-slate-100">
-                    <i data-lucide="id-card" class="w-3.5 h-3.5 text-orange-500"></i>
+                    <i data-lucide="id-card" class="w-3.5 h-3.5 text-blue-600"></i>
                     <span>1. Data Pokok & Identitas SOBAT</span>
                 </div>
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
@@ -383,7 +383,7 @@
                                    name="id_sobat" 
                                    required 
                                    placeholder="Contoh: 35102025004" 
-                                   class="w-full pl-8 pr-3 py-2 text-xs rounded-xl border border-slate-200 bg-slate-50/50 hover:bg-white focus:bg-white focus:outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-500/15 font-mono font-semibold text-slate-800 transition">
+                                   class="w-full pl-8 pr-3 py-2 text-xs rounded-xl border border-slate-200 bg-slate-50/50 hover:bg-white focus:bg-white focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/15 font-mono font-semibold text-slate-800 transition">
                         </div>
                     </div>
                     <div>
@@ -398,7 +398,7 @@
                                    name="nama_lengkap" 
                                    required 
                                    placeholder="Contoh: Ahmad Subandi, S.E." 
-                                   class="w-full pl-9 pr-3 py-2 text-xs rounded-xl border border-slate-200 bg-slate-50/50 hover:bg-white focus:bg-white focus:outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-500/15 font-medium text-slate-800 transition">
+                                   class="w-full pl-9 pr-3 py-2 text-xs rounded-xl border border-slate-200 bg-slate-50/50 hover:bg-white focus:bg-white focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/15 font-medium text-slate-800 transition">
                         </div>
                     </div>
                 </div>
@@ -415,7 +415,7 @@
                         <label class="block text-[11px] font-bold text-slate-700 uppercase tracking-wider mb-1">
                             Jenis Kelamin <span class="text-rose-500">*</span>
                         </label>
-                        <select name="jenis_kelamin" required class="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 bg-slate-50/50 hover:bg-white focus:bg-white focus:outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-500/15 font-semibold text-slate-700 transition">
+                        <select name="jenis_kelamin" required class="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 bg-slate-50/50 hover:bg-white focus:bg-white focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/15 font-semibold text-slate-700 transition">
                             <option value="Laki-laki">Laki-laki</option>
                             <option value="Perempuan">Perempuan</option>
                         </select>
@@ -431,7 +431,7 @@
                             <input type="text" 
                                    name="no_hp" 
                                    placeholder="081234567890" 
-                                   class="w-full pl-9 pr-3 py-2 text-xs rounded-xl border border-slate-200 bg-slate-50/50 hover:bg-white focus:bg-white focus:outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-500/15 font-mono text-slate-800 transition">
+                                   class="w-full pl-9 pr-3 py-2 text-xs rounded-xl border border-slate-200 bg-slate-50/50 hover:bg-white focus:bg-white focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/15 font-mono text-slate-800 transition">
                         </div>
                     </div>
                 </div>
@@ -443,7 +443,7 @@
                         </label>
                         <select name="kecamatan" 
                                 required 
-                                class="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 bg-slate-50/50 hover:bg-white focus:bg-white focus:outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-500/15 font-semibold text-slate-800 transition">
+                                class="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 bg-slate-50/50 hover:bg-white focus:bg-white focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/15 font-semibold text-slate-800 transition">
                             <option value="">-- Pilih Kecamatan di Banyuwangi --</option>
                             {% for kc in kecamatan_options %}
                             <option value="{{ kc }}">{{ kc }}</option>
@@ -457,7 +457,7 @@
                         <input type="text" 
                                name="desa" 
                                placeholder="Contoh: Rogojampi" 
-                               class="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 bg-slate-50/50 hover:bg-white focus:bg-white focus:outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-500/15 font-medium text-slate-800 transition">
+                               class="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 bg-slate-50/50 hover:bg-white focus:bg-white focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/15 font-medium text-slate-800 transition">
                     </div>
                 </div>
             </div>
@@ -480,14 +480,14 @@
                             <input type="email" 
                                    name="email" 
                                    placeholder="mitra@gmail.com" 
-                                   class="w-full pl-9 pr-3 py-2 text-xs rounded-xl border border-slate-200 bg-slate-50/50 hover:bg-white focus:bg-white focus:outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-500/15 text-slate-800 transition">
+                                   class="w-full pl-9 pr-3 py-2 text-xs rounded-xl border border-slate-200 bg-slate-50/50 hover:bg-white focus:bg-white focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/15 text-slate-800 transition">
                         </div>
                     </div>
                     <div>
                         <label class="block text-[11px] font-bold text-slate-700 uppercase tracking-wider mb-1">
                             Keahlian Utama
                         </label>
-                        <select name="keahlian" class="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 bg-slate-50/50 hover:bg-white focus:bg-white focus:outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-500/15 font-semibold text-slate-700 transition">
+                        <select name="keahlian" class="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 bg-slate-50/50 hover:bg-white focus:bg-white focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/15 font-semibold text-slate-700 transition">
                             <option value="Pendataan Lapangan (CAPI)">Pendataan Lapangan (CAPI)</option>
                             <option value="PML & Pengawasan">PML & Pengawasan</option>
                             <option value="Pengolahan Data & Entri">Pengolahan Data & Entri</option>
@@ -503,7 +503,7 @@
                     <textarea name="alamat" 
                               rows="2" 
                               placeholder="Nama jalan, RT/RW, Dusun tempat tinggal mitra..." 
-                              class="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 bg-slate-50/50 hover:bg-white focus:bg-white focus:outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-500/15 text-slate-800 transition leading-relaxed"></textarea>
+                              class="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 bg-slate-50/50 hover:bg-white focus:bg-white focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/15 text-slate-800 transition leading-relaxed"></textarea>
                 </div>
             </div>
 
@@ -519,7 +519,7 @@
                         Batal
                     </button>
                     <button type="submit" 
-                            class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white font-bold text-xs shadow-md shadow-orange-500/25 hover:shadow-orange-500/40 transition-all flex items-center gap-1.5 active:scale-95">
+                            class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-blue-600 to-sky-500 hover:from-orange-600 hover:to-amber-600 text-white font-bold text-xs shadow-md shadow-blue-600/25 hover:shadow-orange-500/40 transition-all flex items-center gap-1.5 active:scale-95">
                         <i data-lucide="check" class="w-3.5 h-3.5"></i>
                         <span>Simpan Data Mitra</span>
                     </button>

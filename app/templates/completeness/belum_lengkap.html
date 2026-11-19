@@ -55,7 +55,7 @@
                         {% for doc in pending_documents %}
                         <tr class="hover:bg-slate-50/80 transition-colors">
                             <td class="py-4 px-6 font-bold text-slate-800">
-                                <a href="{{ url_for('documents.detail', doc_id=doc.id) }}" class="hover:text-orange-600 transition">
+                                <a href="{{ url_for('documents.detail', doc_id=doc.id) }}" class="hover:text-blue-600 transition">
                                     {{ doc.title }}
                                 </a>
                             </td>
@@ -76,7 +76,7 @@
                                         Periksa
                                     </a>
                                     {% if current_user.is_admin %}
-                                    <a href="{{ url_for('documents.edit', doc_id=doc.id) }}" class="px-3 py-1.5 bg-orange-500 hover:bg-orange-600 text-white rounded-lg text-xs font-bold transition">
+                                    <a href="{{ url_for('documents.edit', doc_id=doc.id) }}" class="px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs font-bold transition">
                                         Lengkapi & Edit
                                     </a>
                                     {% endif %}
@@ -107,7 +107,7 @@
                 <i data-lucide="list-checks" class="w-5 h-5 text-purple-500"></i>
                 <h3 class="text-sm font-bold text-slate-800">Item Checklist Wajib yang Belum Terpenuhi</h3>
             </div>
-            <a href="{{ url_for('completeness.checklist') }}" class="text-xs font-semibold text-orange-600 hover:text-orange-700">
+            <a href="{{ url_for('completeness.checklist') }}" class="text-xs font-semibold text-blue-600 hover:text-blue-700">
                 Buka Checklist Lengkap &rarr;
             </a>
         </div>
@@ -128,7 +128,7 @@
 
                     {% if current_user.is_admin %}
                     <form action="{{ url_for('completeness.toggle', item_id=item.id) }}" method="POST">
-                        <button type="submit" class="px-3 py-1.5 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-200 rounded-lg text-xs font-bold transition flex items-center gap-1">
+                        <button type="submit" class="px-3 py-1.5 bg-emerald-50 hover:bg-blue-100 text-blue-700 border border-emerald-200 rounded-lg text-xs font-bold transition flex items-center gap-1">
                             <i data-lucide="check" class="w-3.5 h-3.5"></i>
                             <span>Tandai Selesai</span>
                         </button>
