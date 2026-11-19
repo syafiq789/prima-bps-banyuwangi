@@ -34,7 +34,7 @@
                             LENTERA Pegawai BPS
                         </span>
                     </div>
-                    <p class="text-xs text-slate-500 mt-1">Pencatatan penugasan harian, kegiatan survei/sensus, dan progres capaian aparatur organik BPS Banyuwangi</p>
+                    <p class="text-xs text-slate-500 mt-1">Pencatatan penugasan harian, kegiatan survei/sensus, dan progres capaian pegawai BPS Banyuwangi</p>
                 </div>
             </div>
             
@@ -75,7 +75,7 @@
             <table class="w-full text-left text-xs table-modern">
                 <thead>
                     <tr class="bg-slate-50/80 border-b border-slate-200/80 text-slate-500 uppercase font-bold text-[10px] tracking-wider">
-                        <th class="py-3.5 px-4 whitespace-nowrap">Aparatur BPS</th>
+                        <th class="py-3.5 px-4 whitespace-nowrap">Pegawai BPS</th>
                         <th class="py-3.5 px-4 whitespace-nowrap">Uraian Tugas / Aktivitas</th>
                         <th class="py-3.5 px-4 whitespace-nowrap">Kegiatan Terkait</th>
                         <th class="py-3.5 px-4 whitespace-nowrap">Periode Kerja</th>
@@ -242,7 +242,7 @@
                     <i data-lucide="plus-circle" class="w-5 h-5"></i>
                 </div>
                 <div>
-                    <h3 class="text-sm font-bold text-slate-800">Catat Penugasan Aparatur BPS</h3>
+                    <h3 class="text-sm font-bold text-slate-800">Catat Penugasan Pegawai BPS</h3>
                     <p class="text-[11px] text-slate-400">Pengisian log aktivitas dinas BPS Banyuwangi</p>
                 </div>
             </div>
@@ -252,7 +252,7 @@
         </div>
         <form action="{{ url_for('pegawai.create_aktivitas') }}" method="POST" class="space-y-3.5">
             <div>
-                <label class="block text-xs font-semibold text-slate-700 mb-1">Aparatur BPS Pelaksana *</label>
+                <label class="block text-xs font-semibold text-slate-700 mb-1">Pegawai BPS Pelaksana *</label>
                 <select name="pegawai_id" required class="w-full px-3 py-2 rounded-xl border border-slate-200 bg-slate-50/50 hover:bg-white text-xs font-semibold text-slate-800 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/15">
                     {% for p in pegawai_options %}
                     <option value="{{ p.id }}">{{ p.nama_lengkap }} ({{ p.tim_kerja }})</option>

@@ -29,13 +29,13 @@
                         <h1 class="text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900">Kinerja & Aktivitas Pegawai</h1>
                         <span class="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full text-[11px] font-bold bg-blue-50 text-blue-700 border border-blue-200/70 shadow-2xs">
                             <span class="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></span>
-                            Aparatur BPS Banyuwangi (3510)
+                            Pegawai BPS Banyuwangi (3510)
                         </span>
                         <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-slate-100 text-slate-600 border border-slate-200/70">
                             {{ total_pegawai }} Pegawai Terdata
                         </span>
                     </div>
-                    <p class="text-xs text-slate-500 mt-1">Monitoring beban kerja, target penugasan, dan capaian aparatur organik BPS Kabupaten Banyuwangi</p>
+                    <p class="text-xs text-slate-500 mt-1">Monitoring beban kerja, target penugasan, dan capaian pegawai BPS Kabupaten Banyuwangi</p>
                 </div>
             </div>
             
@@ -68,7 +68,7 @@
             <div class="absolute -right-6 -bottom-6 w-24 h-24 bg-gradient-to-br from-blue-500/10 to-transparent rounded-full blur-xl pointer-events-none group-hover:scale-125 transition-transform duration-500"></div>
             <div>
                 <div class="flex items-center justify-between mb-2">
-                    <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Aparatur Organik</span>
+                    <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Pegawai</span>
                     <div class="w-9 h-9 rounded-xl bg-blue-50 text-blue-600 ring-1 ring-blue-500/15 flex items-center justify-center shadow-2xs group-hover:scale-110 transition-transform">
                         <i data-lucide="users" class="w-4 h-4"></i>
                     </div>
@@ -193,7 +193,7 @@
                 <div class="flex items-center justify-between pb-4 border-b border-slate-100 mb-4">
                     <div>
                         <h2 class="text-base font-bold text-slate-800">Daftar Aktivitas & Penugasan Terbaru</h2>
-                        <p class="text-xs text-slate-400">Pantau dan perbarui progres pelaksanaan tugas dinas aparatur BPS</p>
+                        <p class="text-xs text-slate-400">Pantau dan perbarui progres pelaksanaan tugas dinas pegawai BPS</p>
                     </div>
                     <a href="{{ url_for('pegawai.aktivitas') }}" class="text-xs font-semibold text-blue-600 hover:text-blue-700 flex items-center gap-1 transition">
                         <span>Lihat Semua Log</span>
@@ -271,7 +271,7 @@
                                     <div class="flex flex-col items-center justify-center gap-2">
                                         <i data-lucide="calendar-check" class="w-8 h-8 text-slate-300"></i>
                                         <p class="font-bold text-slate-700 text-xs">Belum Ada Aktivitas Pegawai</p>
-                                        <p class="text-[11px] text-slate-400">Catat tugas dinas pertama aparatur melalui tombol Catat Aktivitas.</p>
+                                        <p class="text-[11px] text-slate-400">Catat tugas dinas pertama pegawai melalui tombol Catat Aktivitas.</p>
                                     </div>
                                 </td>
                             </tr>
@@ -312,9 +312,9 @@
                     {% endif %}
                 </div>
 
-                <!-- Ringkasan Aparatur Kinerja Unggul -->
+                <!-- Ringkasan Pegawai Kinerja Unggul -->
                 <div class="space-y-2.5">
-                    <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Aparatur Berkinerja Aktif:</span>
+                    <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Pegawai Berkinerja Aktif:</span>
                     {% for p in pegawai_list[:4] %}
                     <div class="p-2.5 rounded-xl bg-slate-50/70 border border-slate-100 flex items-center justify-between gap-2">
                         <div class="flex items-center gap-2 min-w-0">
