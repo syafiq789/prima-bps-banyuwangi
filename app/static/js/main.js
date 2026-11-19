@@ -3,10 +3,30 @@
 
 function toggleMasterModule(activeKey) {
     const moduleThemes = {
-        prima: { active: ['from-orange-500/[0.15]', 'via-slate-800/80', 'to-slate-900/70', 'border-orange-500/40', 'shadow-lg', 'shadow-black/20'], inactive: ['from-orange-500/[0.06]', 'via-slate-800/40', 'to-slate-900/35', 'border-slate-700/45'], chevron: 'text-orange-400' },
-        mitra: { active: ['from-cyan-500/[0.15]', 'via-slate-800/80', 'to-slate-900/70', 'border-cyan-500/40', 'shadow-lg', 'shadow-black/20'], inactive: ['from-cyan-500/[0.06]', 'via-slate-800/40', 'to-slate-900/35', 'border-slate-700/45'], chevron: 'text-cyan-400' },
-        pegawai: { active: ['from-blue-500/[0.15]', 'via-slate-800/80', 'to-slate-900/70', 'border-blue-500/40', 'shadow-lg', 'shadow-black/20'], inactive: ['from-blue-500/[0.06]', 'via-slate-800/40', 'to-slate-900/35', 'border-slate-700/45'], chevron: 'text-blue-400' },
-        keuangan: { active: ['from-emerald-500/[0.15]', 'via-slate-800/80', 'to-slate-900/70', 'border-emerald-500/40', 'shadow-lg', 'shadow-black/20'], inactive: ['from-emerald-500/[0.06]', 'via-slate-800/40', 'to-slate-900/35', 'border-slate-700/45'], chevron: 'text-emerald-400' }
+        prima: {
+            activeBg: 'linear-gradient(135deg, rgba(249, 115, 22, 0.26) 0%, rgba(20, 42, 74, 0.72) 60%, rgba(13, 27, 46, 0.85) 100%)',
+            inactiveBg: 'linear-gradient(135deg, rgba(249, 115, 22, 0.12) 0%, rgba(20, 42, 74, 0.72) 60%, rgba(13, 27, 46, 0.85) 100%)',
+            activeBorder: 'border-orange-400/50',
+            chevron: 'text-orange-400'
+        },
+        mitra: {
+            activeBg: 'linear-gradient(135deg, rgba(6, 182, 212, 0.26) 0%, rgba(20, 42, 74, 0.72) 60%, rgba(13, 27, 46, 0.85) 100%)',
+            inactiveBg: 'linear-gradient(135deg, rgba(6, 182, 212, 0.12) 0%, rgba(20, 42, 74, 0.72) 60%, rgba(13, 27, 46, 0.85) 100%)',
+            activeBorder: 'border-cyan-400/50',
+            chevron: 'text-cyan-400'
+        },
+        pegawai: {
+            activeBg: 'linear-gradient(135deg, rgba(59, 130, 246, 0.28) 0%, rgba(20, 42, 74, 0.72) 60%, rgba(13, 27, 46, 0.85) 100%)',
+            inactiveBg: 'linear-gradient(135deg, rgba(59, 130, 246, 0.13) 0%, rgba(20, 42, 74, 0.72) 60%, rgba(13, 27, 46, 0.85) 100%)',
+            activeBorder: 'border-blue-400/50',
+            chevron: 'text-blue-400'
+        },
+        keuangan: {
+            activeBg: 'linear-gradient(135deg, rgba(16, 185, 129, 0.26) 0%, rgba(20, 42, 74, 0.72) 60%, rgba(13, 27, 46, 0.85) 100%)',
+            inactiveBg: 'linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(20, 42, 74, 0.72) 60%, rgba(13, 27, 46, 0.85) 100%)',
+            activeBorder: 'border-emerald-400/50',
+            chevron: 'text-emerald-400'
+        }
     };
     const activeContainer = document.getElementById(`container-${activeKey}-features`);
     if (!activeContainer) return;
@@ -23,13 +43,13 @@ function toggleMasterModule(activeKey) {
         if (key === activeKey && shouldOpen) {
             container.classList.remove('closed');
             if (chevron) {
-                chevron.classList.add('rotate', theme.chevron);
                 chevron.classList.remove('text-slate-500', 'text-orange-400');
-                chevron.classList.add(theme.chevron);
+                chevron.classList.add('rotate', theme.chevron);
             }
             if (btn) {
-                btn.classList.remove(...theme.inactive);
-                btn.classList.add(...theme.active);
+                btn.style.background = theme.activeBg;
+                btn.classList.remove('border-white/10');
+                btn.classList.add(theme.activeBorder, 'shadow-lg');
             }
             if (accent) {
                 accent.classList.add('opacity-100');
@@ -42,8 +62,9 @@ function toggleMasterModule(activeKey) {
                 chevron.classList.add('text-slate-500');
             }
             if (btn) {
-                btn.classList.remove(...theme.active);
-                btn.classList.add(...theme.inactive);
+                btn.style.background = theme.inactiveBg;
+                btn.classList.remove(theme.activeBorder, 'shadow-lg');
+                btn.classList.add('border-white/10');
             }
             if (accent) {
                 accent.classList.remove('opacity-100');
