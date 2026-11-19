@@ -117,52 +117,59 @@
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-4 border-b border-slate-100 mb-5">
             <div>
                 <h2 class="text-base font-extrabold text-slate-900">Ringkasan per Tim Kerja</h2>
-                <p class="text-xs text-slate-500">Rekap kegiatan, penugasan mitra, dan total honor pada masing-masing tim kerja</p>
+                <p class="text-xs text-slate-500">Klik salah satu tim untuk melihat daftar kegiatannya</p>
             </div>
-            <a href="{{ url_for('mitra.monitoring') }}" class="text-xs font-bold text-blue-600 hover:underline inline-flex items-center gap-1">
-                <span>Lihat Daftar Kegiatan</span>
+            <a href="{{ url_for('mitra.monitoring') }}" class="text-xs font-bold text-blue-600 hover:text-blue-700 inline-flex items-center gap-1 bg-blue-50 hover:bg-blue-100 px-3 py-1.5 rounded-xl transition">
+                <span>Semua Kegiatan</span>
                 <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
             </a>
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {% for tim in rekap_tim_kerja %}
-            <div class="p-4 rounded-2xl bg-slate-50/70 hover:bg-blue-50/50 border border-slate-200/80 hover:border-blue-300 transition-all flex flex-col justify-between gap-3">
-                <div class="flex items-start justify-between gap-2">
-                    <div>
-                        <h3 class="text-sm font-extrabold text-slate-900">{{ tim.nama }}</h3>
-                        <p class="text-[11px] text-slate-500 mt-0.5 line-clamp-1">{{ tim.desc }}</p>
+            <a href="{{ url_for('mitra.monitoring', tim=tim.nama) }}"
+               class="group relative overflow-hidden rounded-2xl bg-gradient-to-b from-white to-slate-50/70 hover:to-blue-50/60 border border-slate-200/80 hover:border-blue-400 p-4 shadow-2xs hover:shadow-lg hover:shadow-blue-900/5 hover:-translate-y-0.5 transition-all duration-200 flex flex-col justify-between gap-4">
+                <!-- Top Blue Accent Line -->
+                <div class="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-blue-600 to-sky-400 opacity-75 group-hover:opacity-100 transition"></div>
+
+                <div class="flex items-start justify-between gap-2 pt-1">
+                    <div class="min-w-0">
+                        <h3 class="text-sm font-extrabold text-slate-900 group-hover:text-blue-700 transition-colors">{{ tim.nama }}</h3>
+                        <p class="text-[11px] text-slate-500 mt-0.5 leading-snug">{{ tim.desc }}</p>
                     </div>
-                    <div class="w-9 h-9 rounded-xl bg-blue-50 text-blue-600 border border-blue-100 flex items-center justify-center flex-shrink-0">
+                    <div class="w-9 h-9 rounded-xl bg-blue-50 group-hover:bg-blue-600 text-blue-600 group-hover:text-white border border-blue-100 flex items-center justify-center flex-shrink-0 transition-colors">
                         <i data-lucide="{{ tim.icon }}" class="w-4 h-4"></i>
                     </div>
                 </div>
 
-                <div class="space-y-1.5 pt-2.5 border-t border-slate-200/70 text-xs">
-                    <div class="flex items-center justify-between">
-                        <span class="text-slate-500">Kegiatan</span>
-                        <span class="font-bold text-slate-800">{{ tim.total_kegiatan }} Kegiatan</span>
+                <!-- Mini Stat Grid -->
+                <div class="grid grid-cols-2 gap-2">
+                    <div class="p-2.5 rounded-xl bg-white border border-slate-200/70 text-center">
+                        <div class="text-base font-black text-slate-900 leading-none">{{ tim.total_kegiatan }}</div>
+                        <div class="text-[10px] font-semibold text-slate-400 mt-1">Kegiatan</div>
                     </div>
-                    <div class="flex items-center justify-between">
-                        <span class="text-slate-500">Penugasan</span>
-                        <span class="font-bold text-slate-800">{{ tim.total_tugas }} Tugas</span>
-                    </div>
-                    <div class="flex items-center justify-between pt-1">
-                        <span class="text-slate-500">Total Honor</span>
-                        <span class="font-mono font-extrabold text-blue-700">Rp {{ "{:,}".format(tim.total_honor).replace(',', '.') }}</span>
+                    <div class="p-2.5 rounded-xl bg-white border border-slate-200/70 text-center">
+                        <div class="text-base font-black text-slate-900 leading-none">{{ tim.total_tugas }}</div>
+                        <div class="text-[10px] font-semibold text-slate-400 mt-1">Penugasan</div>
                     </div>
                 </div>
-            </div>
+
+                <!-- Highlighted Total Honor Bar -->
+                <div class="px-3 py-2 rounded-xl bg-blue-50/80 border border-blue-100 flex items-center justify-between text-xs">
+                    <span class="text-[11px] font-semibold text-blue-700">Total Honor</span>
+                    <span class="font-mono font-extrabold text-blue-700">Rp {{ "{:,}".format(tim.total_honor).replace(',', '.') }}</span>
+                </div>
+            </a>
             {% endfor %}
         </div>
     </div>
 
-    <!-- 4. Tabel Laporan Kinerja & Honor per Mitra -->
+    <!-- 4. Tabel Daftar Honor & Nilai Mitra -->
     <div class="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-soft">
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-slate-100 mb-4">
             <div>
-                <h2 class="text-base font-extrabold text-slate-900">Rincian Laporan &amp; Honor per Mitra</h2>
-                <p class="text-xs text-slate-500">Gabungan data penugasan, penilaian mitra, dan total honorarium masing-masing mitra</p>
+                <h2 class="text-base font-extrabold text-slate-900">Daftar Honor &amp; Nilai Mitra</h2>
+                <p class="text-xs text-slate-500">Lihat jumlah tugas, nilai penilaian, dan total honor yang diterima setiap mitra</p>
             </div>
             <div class="relative w-full sm:w-64">
                 <i data-lucide="search" class="w-3.5 h-3.5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none"></i>
@@ -179,9 +186,9 @@
                 <thead>
                     <tr class="bg-slate-50/90 border-b border-slate-200/80 text-slate-500 uppercase font-bold text-[10px] tracking-wider">
                         <th class="py-3 px-4">Nama Mitra</th>
-                        <th class="py-3 px-4 text-center">Total Tugas</th>
-                        <th class="py-3 px-4 text-center">Nilai Rata-Rata</th>
-                        <th class="py-3 px-4 text-center">Predikat</th>
+                        <th class="py-3 px-4 text-center">Jumlah Tugas</th>
+                        <th class="py-3 px-4 text-center">Nilai</th>
+                        <th class="py-3 px-4 text-center">Kategori</th>
                         <th class="py-3 px-4 text-right">Total Honor</th>
                     </tr>
                 </thead>
@@ -215,8 +222,26 @@
                     </tr>
                     {% else %}
                     <tr>
-                        <td colspan="5" class="py-12 text-center text-slate-400 text-xs">
-                            Belum ada data mitra untuk ditampilkan. Tambahkan melalui <strong>Data Mitra</strong> atau <strong>Template &amp; Upload</strong>.
+                        <td colspan="5" class="py-12 px-4 text-center">
+                            <div class="flex flex-col items-center justify-center gap-2.5">
+                                <div class="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center">
+                                    <i data-lucide="file-spreadsheet" class="w-6 h-6"></i>
+                                </div>
+                                <div>
+                                    <p class="text-sm font-bold text-slate-800">Belum Ada Data Mitra</p>
+                                    <p class="text-xs text-slate-400 mt-0.5">Tambahkan data mitra terlebih dahulu agar laporan &amp; honor muncul otomatis di sini.</p>
+                                </div>
+                                <div class="flex flex-wrap justify-center gap-2 mt-1">
+                                    <a href="{{ url_for('mitra.database') }}" class="px-3.5 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition inline-flex items-center gap-1.5 shadow-sm">
+                                        <i data-lucide="user-plus" class="w-3.5 h-3.5"></i>
+                                        <span>Buka Data Mitra</span>
+                                    </a>
+                                    <a href="{{ url_for('mitra.template', tab='mitra') }}" class="px-3.5 py-2 rounded-xl bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-200 text-xs font-bold transition inline-flex items-center gap-1.5">
+                                        <i data-lucide="file-up" class="w-3.5 h-3.5"></i>
+                                        <span>Upload dari Template</span>
+                                    </a>
+                                </div>
+                            </div>
                         </td>
                     </tr>
                     {% endfor %}
