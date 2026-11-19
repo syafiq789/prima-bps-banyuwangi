@@ -1,88 +1,49 @@
-// PRIMA - Pusat Arsip dan Manajemen AKIP Banyuwangi
-// Master Single-Sidebar Navigation Handler (Sesuai Desain Tangkapan Layar)
+// LENTERA BPS - Portal Terpadu BPS Kabupaten Banyuwangi
+// Master Single-Accordion Sidebar Navigation Handler
 
-// 1. Toggle Master PRIMA Menu (Buka / Tutup seluruh fitur di bawah PRIMA)
+function toggleMasterModule(activeKey) {
+    const modules = ['prima', 'mitra', 'pegawai', 'keuangan'];
+    const activeContainer = document.getElementById(`container-${activeKey}-features`);
+    if (!activeContainer) return;
+
+    const shouldOpen = activeContainer.classList.contains('closed');
+
+    modules.forEach(key => {
+        const container = document.getElementById(`container-${key}-features`);
+        const chevron = document.getElementById(`chevron-${key}-master`);
+        const btn = document.getElementById(`btn-${key}-master`);
+        if (!container) return;
+
+        if (key === activeKey && shouldOpen) {
+            container.classList.remove('closed');
+            if (chevron) chevron.classList.add('rotate');
+            if (btn) btn.classList.add('border-[#e5832a]', 'bg-[#15253b]');
+        } else {
+            container.classList.add('closed');
+            if (chevron) chevron.classList.remove('rotate');
+            if (btn) btn.classList.remove('border-[#e5832a]', 'bg-[#15253b]');
+        }
+    });
+}
+
+// 1. Toggle Master PRIMA Menu
 window.togglePrimaMasterMenu = function() {
-    const container = document.getElementById('container-prima-features');
-    const chevron = document.getElementById('chevron-prima-master');
-    const btn = document.getElementById('btn-prima-master');
-
-    if (!container) return;
-
-    const isClosed = container.classList.contains('closed');
-
-    if (isClosed) {
-        container.classList.remove('closed');
-        if (chevron) chevron.classList.add('rotate');
-        if (btn) btn.classList.add('border-[#e5832a]', 'bg-[#15253b]');
-    } else {
-        container.classList.add('closed');
-        if (chevron) chevron.classList.remove('rotate');
-        if (btn) btn.classList.remove('border-[#e5832a]', 'bg-[#15253b]');
-    }
+    toggleMasterModule('prima');
 };
 
 // 1.b Toggle Master MONITORING MITRA Menu
 window.toggleMitraMasterMenu = function() {
-    const container = document.getElementById('container-mitra-features');
-    const chevron = document.getElementById('chevron-mitra-master');
-    const btn = document.getElementById('btn-mitra-master');
-
-    if (!container) return;
-
-    const isClosed = container.classList.contains('closed');
-
-    if (isClosed) {
-        container.classList.remove('closed');
-        if (chevron) chevron.classList.add('rotate');
-        if (btn) btn.classList.add('border-[#e5832a]', 'bg-[#15253b]');
-    } else {
-        container.classList.add('closed');
-        if (chevron) chevron.classList.remove('rotate');
-        if (btn) btn.classList.remove('border-[#e5832a]', 'bg-[#15253b]');
-    }
+    toggleMasterModule('mitra');
 };
 
 // 1.c Toggle Master KINERJA PEGAWAI Menu
 window.togglePegawaiMasterMenu = function() {
-    const container = document.getElementById('container-pegawai-features');
-    const chevron = document.getElementById('chevron-pegawai-master');
-    const btn = document.getElementById('btn-pegawai-master');
-
-    if (!container) return;
-
-    const isClosed = container.classList.contains('closed');
-
-    if (isClosed) {
-        container.classList.remove('closed');
-        if (chevron) chevron.classList.add('rotate');
-        if (btn) btn.classList.add('border-[#e5832a]', 'bg-[#15253b]');
-    } else {
-        container.classList.add('closed');
-        if (chevron) chevron.classList.remove('rotate');
-        if (btn) btn.classList.remove('border-[#e5832a]', 'bg-[#15253b]');
-    }
+    toggleMasterModule('pegawai');
 };
 
 // 1.d Toggle Master TRACKING KEUANGAN Menu
 window.toggleKeuanganMasterMenu = function() {
-    const container = document.getElementById('container-keuangan-features');
-    const chevron = document.getElementById('chevron-keuangan-master');
-    const btn = document.getElementById('btn-keuangan-master');
-
-    if (!container) return;
-
-    const isClosed = container.classList.contains('closed');
-
-    if (isClosed) {
-        container.classList.remove('closed');
-        if (chevron) chevron.classList.add('rotate');
-        if (btn) btn.classList.add('border-[#e5832a]', 'bg-[#15253b]');
-    } else {
-        container.classList.add('closed');
-        if (chevron) chevron.classList.remove('rotate');
-        if (btn) btn.classList.remove('border-[#e5832a]', 'bg-[#15253b]');
-    }
+    toggleMasterModule('keuangan');
 };
 
 // 2. Toggle Subkelompok Fitur di dalam PRIMA (Menu Utama, Perencanaan, Pengukuran, dll)

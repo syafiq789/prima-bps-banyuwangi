@@ -64,23 +64,29 @@
             <!-- KONTEN FITUR-FITUR DI DALAM MENU PRIMA -->
             <div id="container-prima-features" class="mt-2 space-y-1.5 px-1 {% if not is_prima_active %}closed{% endif %}">
                 
-                <!-- 1. MENU UTAMA (Dashboard, Info, Guide) -->
+                <!-- 1. MENU UTAMA (Dashboard, Arsip, Info, Guide) -->
+                {% set is_utama_active = request.path == '/' or request.path == '/dashboard' or request.path.startswith('/documents') or request.path.startswith('/info') %}
                 <div class="sidebar-subgroup">
                     <button type="button" 
                             id="trigger-sub-utama"
                             onclick="toggleSubFeature('subcontent-utama', this)"
-                            class="subgroup-trigger w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-bold text-slate-300 hover:bg-slate-800/80 hover:text-white transition">
+                            class="subgroup-trigger w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-bold {% if is_utama_active %} bg-slate-800/80 text-orange-400 {% else %} text-slate-300 hover:bg-slate-800/80 hover:text-white {% endif %} transition">
                         <span class="flex items-center gap-2.5">
                             <i data-lucide="layout-grid" class="w-3.5 h-3.5 text-orange-400"></i>
                             <span>Menu Utama</span>
                         </span>
-                        <i data-lucide="chevron-down" class="subgroup-chevron w-3.5 h-3.5 text-slate-400 transition-transform"></i>
+                        <i data-lucide="chevron-down" class="subgroup-chevron w-3.5 h-3.5 text-slate-400 transition-transform {% if is_utama_active %}rotate{% endif %}"></i>
                     </button>
-                    <div id="subcontent-utama" class="subgroup-content pl-3 pr-1 mt-1 space-y-0.5">
+                    <div id="subcontent-utama" class="subgroup-content pl-3 pr-1 mt-1 space-y-0.5 {% if is_utama_active %}open{% endif %}" {% if is_utama_active %}style="max-height: 400px; opacity: 1;"{% endif %}>
                         <a href="{{ url_for('dashboard.index') }}" 
                            class="nav-subitem flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs transition group/sub {% if request.path == '/' or request.path == '/dashboard' %} bg-[#F28C28] text-white font-bold shadow-md shadow-orange-500/20 {% else %} text-slate-300 hover:text-white hover:bg-slate-800/60 {% endif %}">
                             <i data-lucide="layout-dashboard" class="w-4 h-4 {% if request.path == '/' or request.path == '/dashboard' %} text-white {% else %} text-orange-400 group-hover/sub:scale-110 {% endif %} flex-shrink-0 transition-transform"></i>
-                            <span>Dashboard</span>
+                            <span>Dashboard PRIMA</span>
+                        </a>
+                        <a href="{{ url_for('documents.index') }}" 
+                           class="nav-subitem flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs transition group/sub {% if request.path.startswith('/documents') %} bg-[#F28C28] text-white font-bold shadow-md shadow-orange-500/20 {% else %} text-slate-300 hover:text-white hover:bg-slate-800/60 {% endif %}">
+                            <i data-lucide="folder-archive" class="w-4 h-4 {% if request.path.startswith('/documents') %} text-white {% else %} text-emerald-400 group-hover/sub:scale-110 {% endif %} flex-shrink-0 transition-transform"></i>
+                            <span>Arsip Dokumen AKIP</span>
                         </a>
                         <a href="{{ url_for('info.about') }}" 
                            class="nav-subitem flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs transition group/sub {% if request.path == '/info/about' %} bg-[#F28C28] text-white font-bold shadow-md shadow-orange-500/20 {% else %} text-slate-300 hover:text-white hover:bg-slate-800/60 {% endif %}">
@@ -336,33 +342,34 @@
 
                 <!-- 8. MANAJEMEN ADMIN (Khusus Admin) -->
                 {% if current_user.is_authenticated and current_user.is_admin %}
+                {% set is_admin_active = request.path.startswith('/users') or request.path.startswith('/categories') or request.path.startswith('/settings') %}
                 <div class="sidebar-subgroup pt-2 border-t border-slate-800/60">
                     <button type="button" 
                             id="trigger-sub-admin"
                             onclick="toggleSubFeature('subcontent-admin', this)"
-                            class="subgroup-trigger w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-bold text-orange-400 hover:bg-slate-800/80 hover:text-orange-300 transition">
+                            class="subgroup-trigger w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-bold {% if is_admin_active %} bg-slate-800/80 text-orange-400 {% else %} text-orange-400 hover:bg-slate-800/80 hover:text-orange-300 {% endif %} transition">
                         <span class="flex items-center gap-2.5">
                             <i data-lucide="shield" class="w-3.5 h-3.5 text-orange-400"></i>
                             <span>Manajemen Admin</span>
                         </span>
-                        <i data-lucide="chevron-down" class="subgroup-chevron w-3.5 h-3.5 text-orange-400 transition-transform"></i>
+                        <i data-lucide="chevron-down" class="subgroup-chevron w-3.5 h-3.5 text-orange-400 transition-transform {% if is_admin_active %}rotate{% endif %}"></i>
                     </button>
-                    <div id="subcontent-admin" class="subgroup-content pl-3 pr-1 mt-1 space-y-0.5">
-                        <a href="{{ url_for('users.index') }}" class="nav-subitem flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs text-slate-300 hover:text-white hover:bg-slate-800/60 transition group/sub">
-                            <i data-lucide="users" class="w-4 h-4 text-sky-400 group-hover/sub:scale-110 flex-shrink-0 transition-transform"></i>
+                    <div id="subcontent-admin" class="subgroup-content pl-3 pr-1 mt-1 space-y-0.5 {% if is_admin_active %}open{% endif %}" {% if is_admin_active %}style="max-height: 400px; opacity: 1;"{% endif %}>
+                        <a href="{{ url_for('users.index') }}" class="nav-subitem flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs transition group/sub {% if request.path.startswith('/users') %} bg-[#F28C28] text-white font-bold shadow-md shadow-orange-500/20 {% else %} text-slate-300 hover:text-white hover:bg-slate-800/60 {% endif %}">
+                            <i data-lucide="users" class="w-4 h-4 {% if request.path.startswith('/users') %} text-white {% else %} text-sky-400 group-hover/sub:scale-110 {% endif %} flex-shrink-0 transition-transform"></i>
                             <span>Kelola Pengguna</span>
                         </a>
-                        <a href="{{ url_for('categories.index') }}" class="nav-subitem flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs text-slate-300 hover:text-white hover:bg-slate-800/60 transition group/sub">
-                            <i data-lucide="tags" class="w-4 h-4 text-amber-400 group-hover/sub:scale-110 flex-shrink-0 transition-transform"></i>
+                        <a href="{{ url_for('categories.index') }}" class="nav-subitem flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs transition group/sub {% if request.path.startswith('/categories') %} bg-[#F28C28] text-white font-bold shadow-md shadow-orange-500/20 {% else %} text-slate-300 hover:text-white hover:bg-slate-800/60 {% endif %}">
+                            <i data-lucide="tags" class="w-4 h-4 {% if request.path.startswith('/categories') %} text-white {% else %} text-amber-400 group-hover/sub:scale-110 {% endif %} flex-shrink-0 transition-transform"></i>
                             <span>Kelola Kategori</span>
                         </a>
-                        <a href="{{ url_for('settings.links') }}" class="nav-subitem flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs text-slate-300 hover:text-white hover:bg-slate-800/60 transition group/sub">
-                            <i data-lucide="link" class="w-4 h-4 text-purple-400 group-hover/sub:scale-110 flex-shrink-0 transition-transform"></i>
+                        <a href="{{ url_for('settings.links') }}" class="nav-subitem flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs transition group/sub {% if request.path == url_for('settings.links') %} bg-[#F28C28] text-white font-bold shadow-md shadow-orange-500/20 {% else %} text-slate-300 hover:text-white hover:bg-slate-800/60 {% endif %}">
+                            <i data-lucide="link" class="w-4 h-4 {% if request.path == url_for('settings.links') %} text-white {% else %} text-purple-400 group-hover/sub:scale-110 {% endif %} flex-shrink-0 transition-transform"></i>
                             <span>Pengaturan Link</span>
                         </a>
-                        <a href="{{ url_for('settings.activities') }}" class="nav-subitem flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs text-slate-300 hover:text-white hover:bg-slate-800/60 transition group/sub">
-                            <i data-lucide="activity" class="w-4 h-4 text-rose-400 group-hover/sub:scale-110 flex-shrink-0 transition-transform"></i>
-                            <span>Log Aktivitas</span>
+                        <a href="{{ url_for('settings.activities') }}" class="nav-subitem flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs transition group/sub {% if request.path == url_for('settings.activities') %} bg-[#F28C28] text-white font-bold shadow-md shadow-orange-500/20 {% else %} text-slate-300 hover:text-white hover:bg-slate-800/60 {% endif %}">
+                            <i data-lucide="activity" class="w-4 h-4 {% if request.path == url_for('settings.activities') %} text-white {% else %} text-rose-400 group-hover/sub:scale-110 {% endif %} flex-shrink-0 transition-transform"></i>
+                            <span>Log Aktivitas Sistem</span>
                         </a>
                     </div>
                 </div>
@@ -410,12 +417,29 @@
                     <span class="truncate">Dashboard Mitra</span>
                 </a>
 
+                <!-- SECTION: DATA MASTER & IMPOR -->
+                <div class="pt-2 pb-1 px-2.5 flex items-center justify-between border-t border-slate-800/60 mt-1.5">
+                    <span class="text-[9px] font-black uppercase tracking-wider text-slate-400">Data Master & Impor</span>
+                </div>
+
                 <!-- Database Mitra -->
                 <a href="{{ url_for('mitra.database') }}" 
                    class="nav-subitem flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold transition-all duration-200 group/sub {% if request.path == url_for('mitra.database') %} bg-gradient-to-r from-[#F28C28] to-[#F47721] text-white font-bold shadow-md shadow-orange-500/25 {% else %} text-slate-300 hover:text-white hover:bg-slate-800/70 hover:translate-x-1 {% endif %}">
                     <i data-lucide="database" class="w-4 h-4 {% if request.path == url_for('mitra.database') %} text-white {% else %} text-cyan-400 group-hover/sub:scale-110 {% endif %} flex-shrink-0 transition-transform"></i>
                     <span class="truncate">Database Mitra</span>
                 </a>
+
+                <!-- Template & Impor Data -->
+                <a href="{{ url_for('mitra.template') }}" 
+                   class="nav-subitem flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold transition-all duration-200 group/sub {% if request.path == url_for('mitra.template') %} bg-gradient-to-r from-[#F28C28] to-[#F47721] text-white font-bold shadow-md shadow-orange-500/25 {% else %} text-slate-300 hover:text-white hover:bg-slate-800/70 hover:translate-x-1 {% endif %}">
+                    <i data-lucide="file-up" class="w-4 h-4 {% if request.path == url_for('mitra.template') %} text-white {% else %} text-blue-400 group-hover/sub:scale-110 {% endif %} flex-shrink-0 transition-transform"></i>
+                    <span class="truncate">Template & Impor Data</span>
+                </a>
+
+                <!-- SECTION: PENUGASAN & EVALUASI -->
+                <div class="pt-2.5 pb-1 px-2.5 flex items-center justify-between border-t border-slate-800/60 mt-1.5">
+                    <span class="text-[9px] font-black uppercase tracking-wider text-slate-400">Penugasan & Evaluasi</span>
+                </div>
 
                 <!-- Penugasan Mitra -->
                 <a href="{{ url_for('mitra.penugasan') }}" 
@@ -431,25 +455,18 @@
                     <span class="truncate">Monitoring Kegiatan</span>
                 </a>
 
-                <!-- Evaluasi Mitra -->
+                <!-- Evaluasi Mutu Mitra -->
                 <a href="{{ url_for('mitra.evaluasi') }}" 
                    class="nav-subitem flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold transition-all duration-200 group/sub {% if request.path == url_for('mitra.evaluasi') %} bg-gradient-to-r from-[#F28C28] to-[#F47721] text-white font-bold shadow-md shadow-orange-500/25 {% else %} text-slate-300 hover:text-white hover:bg-slate-800/70 hover:translate-x-1 {% endif %}">
                     <i data-lucide="award" class="w-4 h-4 {% if request.path == url_for('mitra.evaluasi') %} text-white {% else %} text-yellow-300 group-hover/sub:scale-110 {% endif %} flex-shrink-0 transition-transform"></i>
-                    <span class="truncate">Evaluasi Mitra</span>
+                    <span class="truncate">Evaluasi Mutu Mitra</span>
                 </a>
 
-                <!-- Rekapitulasi Mitra -->
+                <!-- Rekapitulasi & Honor -->
                 <a href="{{ url_for('mitra.rekapitulasi') }}" 
                    class="nav-subitem flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold transition-all duration-200 group/sub {% if request.path == url_for('mitra.rekapitulasi') %} bg-gradient-to-r from-[#F28C28] to-[#F47721] text-white font-bold shadow-md shadow-orange-500/25 {% else %} text-slate-300 hover:text-white hover:bg-slate-800/70 hover:translate-x-1 {% endif %}">
                     <i data-lucide="bar-chart-2" class="w-4 h-4 {% if request.path == url_for('mitra.rekapitulasi') %} text-white {% else %} text-purple-400 group-hover/sub:scale-110 {% endif %} flex-shrink-0 transition-transform"></i>
-                    <span class="truncate">Rekapitulasi Mitra</span>
-                </a>
-
-                <!-- Template & Upload -->
-                <a href="{{ url_for('mitra.template') }}" 
-                   class="nav-subitem flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold transition-all duration-200 group/sub {% if request.path == url_for('mitra.template') %} bg-gradient-to-r from-[#F28C28] to-[#F47721] text-white font-bold shadow-md shadow-orange-500/25 {% else %} text-slate-300 hover:text-white hover:bg-slate-800/70 hover:translate-x-1 {% endif %}">
-                    <i data-lucide="file-up" class="w-4 h-4 {% if request.path == url_for('mitra.template') %} text-white {% else %} text-blue-400 group-hover/sub:scale-110 {% endif %} flex-shrink-0 transition-transform"></i>
-                    <span class="truncate">Template & Upload</span>
+                    <span class="truncate">Rekapitulasi & Honor</span>
                 </a>
             </div>
         </div>
@@ -492,6 +509,11 @@
                     <span class="truncate">Dashboard Pegawai</span>
                 </a>
 
+                <!-- SECTION: DATA & AKTIVITAS -->
+                <div class="pt-2 pb-1 px-2.5 flex items-center justify-between border-t border-slate-800/60 mt-1.5">
+                    <span class="text-[9px] font-black uppercase tracking-wider text-slate-400">Data & Aktivitas</span>
+                </div>
+
                 <!-- Database Pegawai -->
                 <a href="{{ url_for('pegawai.database') }}" 
                    class="nav-subitem flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold transition-all duration-200 group/sub {% if request.path == url_for('pegawai.database') %} bg-gradient-to-r from-[#F28C28] to-[#F47721] text-white font-bold shadow-md shadow-orange-500/25 {% else %} text-slate-300 hover:text-white hover:bg-slate-800/70 hover:translate-x-1 {% endif %}">
@@ -499,18 +521,23 @@
                     <span class="truncate">Database Pegawai</span>
                 </a>
 
-                <!-- Aktivitas Pegawai -->
+                <!-- Log Aktivitas Harian -->
                 <a href="{{ url_for('pegawai.aktivitas') }}" 
                    class="nav-subitem flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold transition-all duration-200 group/sub {% if request.path == url_for('pegawai.aktivitas') %} bg-gradient-to-r from-[#F28C28] to-[#F47721] text-white font-bold shadow-md shadow-orange-500/25 {% else %} text-slate-300 hover:text-white hover:bg-slate-800/70 hover:translate-x-1 {% endif %}">
                     <i data-lucide="calendar" class="w-4 h-4 {% if request.path == url_for('pegawai.aktivitas') %} text-white {% else %} text-emerald-400 group-hover/sub:scale-110 {% endif %} flex-shrink-0 transition-transform"></i>
-                    <span class="truncate">Aktivitas Pegawai</span>
+                    <span class="truncate">Log Aktivitas Harian</span>
                 </a>
 
-                <!-- Monitoring Kinerja -->
+                <!-- SECTION: PEMANTAUAN & LAPORAN -->
+                <div class="pt-2.5 pb-1 px-2.5 flex items-center justify-between border-t border-slate-800/60 mt-1.5">
+                    <span class="text-[9px] font-black uppercase tracking-wider text-slate-400">Pemantauan & Laporan</span>
+                </div>
+
+                <!-- Monitoring Tim Kerja -->
                 <a href="{{ url_for('pegawai.monitoring') }}" 
                    class="nav-subitem flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold transition-all duration-200 group/sub {% if request.path == url_for('pegawai.monitoring') %} bg-gradient-to-r from-[#F28C28] to-[#F47721] text-white font-bold shadow-md shadow-orange-500/25 {% else %} text-slate-300 hover:text-white hover:bg-slate-800/70 hover:translate-x-1 {% endif %}">
                     <i data-lucide="line-chart" class="w-4 h-4 {% if request.path == url_for('pegawai.monitoring') %} text-white {% else %} text-rose-400 group-hover/sub:scale-110 {% endif %} flex-shrink-0 transition-transform"></i>
-                    <span class="truncate">Monitoring Kinerja</span>
+                    <span class="truncate">Monitoring Tim Kerja</span>
                 </a>
 
                 <!-- Rekapitulasi Kinerja -->
