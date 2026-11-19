@@ -21,10 +21,10 @@
         <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-4 pb-6 border-b border-slate-100">
             <div class="flex items-start gap-4">
                 <div class="w-14 h-14 rounded-2xl flex items-center justify-center flex-shrink-0 font-bold text-sm uppercase shadow-sm
-                    {% if document.file_type == 'pdf' %} bg-red-50 text-red-600 border border-red-200
-                    {% elif document.file_type in ['xlsx', 'xls'] %} bg-emerald-50 text-emerald-600 border border-emerald-200
+                    {% if document.file_type == 'pdf' %} bg-blue-50 text-blue-600 border border-blue-200
+                    {% elif document.file_type in ['xlsx', 'xls'] %} bg-blue-50 text-blue-600 border border-blue-200
                     {% elif document.file_type in ['docx', 'doc'] %} bg-blue-50 text-blue-600 border border-blue-200
-                    {% else %} bg-blue-50 text-blue-600 border border-orange-200 {% endif %}">
+                    {% else %} bg-blue-50 text-blue-600 border border-blue-200 {% endif %}">
                     {{ document.file_type }}
                 </div>
                 <div>
@@ -36,11 +36,11 @@
                             Tahun {{ document.year }}
                         </span>
                         {% if document.status == 'lengkap' %}
-                            <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-teal-50 text-teal-700 border border-teal-200">
+                            <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-sky-50 text-sky-700 border border-sky-200">
                                 Lengkap
                             </span>
                         {% else %}
-                            <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-amber-50 text-amber-700 border border-amber-200">
+                            <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-sky-50 text-sky-700 border border-sky-200">
                                 Belum Lengkap
                             </span>
                         {% endif %}
@@ -70,7 +70,7 @@
                 </button>
 
                 <a href="{{ url_for('documents.download', doc_id=document.id) }}" 
-                   class="px-4 py-2 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white rounded-xl text-xs font-bold shadow-md shadow-blue-600/20 transition flex items-center gap-1.5">
+                   class="px-4 py-2 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white rounded-xl text-xs font-bold shadow-md shadow-blue-600/20 transition flex items-center gap-1.5">
                     <i data-lucide="download" class="w-4 h-4"></i>
                     <span>Unduh File</span>
                 </a>
@@ -83,7 +83,7 @@
                 </a>
 
                 <form action="{{ url_for('documents.delete', doc_id=document.id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus dokumen ini secara permanen?');" class="inline">
-                    <button type="submit" class="px-3.5 py-2 bg-red-50 hover:bg-red-100 text-red-600 rounded-xl text-xs font-bold transition flex items-center gap-1" title="Hapus Dokumen">
+                    <button type="submit" class="px-3.5 py-2 bg-blue-50 hover:bg-blue-100 text-blue-600 rounded-xl text-xs font-bold transition flex items-center gap-1" title="Hapus Dokumen">
                         <i data-lucide="trash-2" class="w-4 h-4"></i>
                     </button>
                 </form>
@@ -123,7 +123,7 @@
             {% if document.notes %}
             <div>
                 <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">Catatan Kelengkapan & Validasi</h3>
-                <div class="p-4 bg-amber-50/70 border border-amber-200/60 rounded-2xl text-amber-900 text-xs sm:text-sm leading-relaxed">
+                <div class="p-4 bg-sky-50/70 border border-sky-200/60 rounded-2xl text-sky-900 text-xs sm:text-sm leading-relaxed">
                     {{ document.notes }}
                 </div>
             </div>

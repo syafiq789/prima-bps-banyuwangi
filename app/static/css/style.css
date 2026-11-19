@@ -7,8 +7,8 @@
   --navy-main: #142B4A;
   --navy-dark: #0D1B2A;
   --navy-light: #1E3E66;
-  --orange-prima: #F28C28;
-  --orange-hover: #D9771C;
+  --orange-prima: #2563EB;
+  --orange-hover: #1D4ED8;
   --light-bg: #F4F6F9;
 }
 
@@ -104,7 +104,7 @@ body {
 }
 
 .sidebar-scroll::-webkit-scrollbar-thumb:hover {
-  background: #F28C28;
+  background: #3B82F6;
 }
 
 /* Master PRIMA Container Animation */

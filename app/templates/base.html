@@ -18,8 +18,8 @@
                         'navy-main': '#142B4A',
                         'navy-dark': '#0D1B2A',
                         'navy-light': '#1E3E66',
-                        'orange-prima': '#F28C28',
-                        'orange-hover': '#D9771C',
+                        'orange-prima': '#2563EB',
+                        'orange-hover': '#1D4ED8',
                         'light-bg': '#F4F6F9',
                     },
                     fontFamily: {
@@ -45,7 +45,7 @@
     
     {% block extra_head %}{% endblock %}
 </head>
-<body class="h-full flex bg-[#F4F6F9] text-slate-800 antialiased selection:bg-orange-500 selection:text-white">
+<body class="h-full flex bg-[#F4F6F9] text-slate-800 antialiased selection:bg-blue-500 selection:text-white">
 
     <!-- Vertical Sidebar -->
     {% include 'components/sidebar.html' %}
@@ -63,17 +63,17 @@
                     <div class="space-y-2 mb-4">
                         {% for category, message in messages %}
                             <div class="flash-alert flex items-center justify-between p-4 rounded-xl border text-sm font-medium shadow-sm transition-all
-                                {% if category == 'success' %} bg-emerald-50 text-emerald-800 border-emerald-200
-                                {% elif category == 'danger' or category == 'error' %} bg-red-50 text-red-800 border-red-200
-                                {% elif category == 'warning' %} bg-amber-50 text-amber-800 border-amber-200
+                                {% if category == 'success' %} bg-blue-50 text-blue-800 border-blue-200
+                                {% elif category == 'danger' or category == 'error' %} bg-blue-50 text-blue-800 border-blue-200
+                                {% elif category == 'warning' %} bg-sky-50 text-sky-800 border-sky-200
                                 {% else %} bg-blue-50 text-blue-800 border-blue-200 {% endif %}">
                                 <div class="flex items-center gap-3">
                                     {% if category == 'success' %}
-                                        <i data-lucide="check-circle" class="w-5 h-5 text-emerald-600 flex-shrink-0"></i>
+                                        <i data-lucide="check-circle" class="w-5 h-5 text-blue-600 flex-shrink-0"></i>
                                     {% elif category == 'danger' or category == 'error' %}
-                                        <i data-lucide="alert-octagon" class="w-5 h-5 text-red-600 flex-shrink-0"></i>
+                                        <i data-lucide="alert-octagon" class="w-5 h-5 text-blue-600 flex-shrink-0"></i>
                                     {% elif category == 'warning' %}
-                                        <i data-lucide="alert-triangle" class="w-5 h-5 text-amber-600 flex-shrink-0"></i>
+                                        <i data-lucide="alert-triangle" class="w-5 h-5 text-sky-600 flex-shrink-0"></i>
                                     {% else %}
                                         <i data-lucide="info" class="w-5 h-5 text-blue-600 flex-shrink-0"></i>
                                     {% endif %}

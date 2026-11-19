@@ -35,9 +35,9 @@
 
                 <div class="flex items-center gap-3 self-start md:self-auto">
                     {% if kegiatan.status == 'SELESAI' %}
-                    <span class="px-4 py-1.5 rounded-xl text-xs font-black bg-emerald-500/20 text-emerald-400 border border-emerald-500/40">KEGIATAN SELESAI</span>
+                    <span class="px-4 py-1.5 rounded-xl text-xs font-black bg-blue-500/20 text-blue-400 border border-blue-500/40">KEGIATAN SELESAI</span>
                     {% else %}
-                    <span class="px-4 py-1.5 rounded-xl text-xs font-black bg-blue-500/20 text-sky-400 border border-orange-500/40 animate-pulse">BERJALAN</span>
+                    <span class="px-4 py-1.5 rounded-xl text-xs font-black bg-blue-500/20 text-sky-400 border border-blue-500/40 animate-pulse">BERJALAN</span>
                     {% endif %}
                 </div>
             </div>
@@ -106,11 +106,11 @@
         <!-- Dimensi 3: Keuangan -->
         <div class="bg-white rounded-3xl p-6 border border-slate-200/90 shadow-soft">
             <div class="flex items-center justify-between pb-3 border-b border-slate-100 mb-3">
-                <span class="text-xs font-bold uppercase tracking-wider text-emerald-600 flex items-center gap-1.5">
+                <span class="text-xs font-bold uppercase tracking-wider text-blue-600 flex items-center gap-1.5">
                     <i data-lucide="wallet" class="w-4 h-4"></i>
                     <span>Dimensi 3: Keuangan DIPA</span>
                 </span>
-                <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-600 font-mono">{{ pengajuans|length }} Pengajuan</span>
+                <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-blue-50 text-blue-600 font-mono">{{ pengajuans|length }} Pengajuan</span>
             </div>
             <div class="space-y-2">
                 <div class="flex justify-between items-baseline">
@@ -118,11 +118,11 @@
                     <span class="text-sm font-black text-slate-800 font-mono">Rp {{ "{:,}".format(total_anggaran_diajukan).replace(',', '.') }}</span>
                 </div>
                 <div class="w-full h-2 rounded-full bg-slate-100 overflow-hidden">
-                    <div class="h-full bg-emerald-500 rounded-full" style="width: {% if total_anggaran_diajukan > 0 %}{{ min(100, (total_anggaran_cair / total_anggaran_diajukan * 100)) }}{% else %}0{% endif %}%"></div>
+                    <div class="h-full bg-blue-500 rounded-full" style="width: {% if total_anggaran_diajukan > 0 %}{{ min(100, (total_anggaran_cair / total_anggaran_diajukan * 100)) }}{% else %}0{% endif %}%"></div>
                 </div>
                 <div class="flex justify-between text-xs text-slate-500 pt-1">
                     <span>Realisasi SP2D Cair:</span>
-                    <span class="font-bold font-mono text-emerald-600">Rp {{ "{:,}".format(total_anggaran_cair).replace(',', '.') }}</span>
+                    <span class="font-bold font-mono text-blue-600">Rp {{ "{:,}".format(total_anggaran_cair).replace(',', '.') }}</span>
                 </div>
                 <div class="flex justify-between text-xs text-slate-500">
                     <span>Sisa Pagu Belum Cair:</span>
@@ -202,9 +202,9 @@
                             <td class="py-3 font-mono font-bold text-slate-800">Rp {{ "{:,}".format(p.honor_total).replace(',', '.') }}</td>
                             <td class="py-3">
                                 {% if p.status == 'SELESAI' %}
-                                <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-600 border border-emerald-200">SELESAI</span>
+                                <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-blue-50 text-blue-600 border border-blue-200">SELESAI</span>
                                 {% else %}
-                                <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-50 text-amber-600 border border-amber-200">PROSES</span>
+                                <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-sky-50 text-sky-600 border border-sky-200">PROSES</span>
                                 {% endif %}
                             </td>
                         </tr>
@@ -264,9 +264,9 @@
                             </td>
                             <td class="py-3">
                                 {% if a.status == 'SELESAI' %}
-                                <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-600 border border-emerald-200">SELESAI</span>
+                                <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-blue-50 text-blue-600 border border-blue-200">SELESAI</span>
                                 {% else %}
-                                <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-50 text-amber-600 border border-amber-200">PROSES</span>
+                                <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-sky-50 text-sky-600 border border-sky-200">PROSES</span>
                                 {% endif %}
                             </td>
                         </tr>
@@ -287,7 +287,7 @@
                     <h3 class="text-sm font-bold text-slate-800">Pengajuan Anggaran & Realisasi SP2D</h3>
                     <p class="text-xs text-slate-400">Dukungan pendanaan DIPA untuk honorarium dan perjalanan dinas</p>
                 </div>
-                <a href="{{ url_for('keuangan.pengajuan') }}" class="px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold flex items-center gap-1.5 shadow-sm">
+                <a href="{{ url_for('keuangan.pengajuan') }}" class="px-3 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold flex items-center gap-1.5 shadow-sm">
                     <i data-lucide="file-plus" class="w-3.5 h-3.5"></i>
                     <span>Ajukan Anggaran</span>
                 </a>
@@ -317,16 +317,16 @@
                             <td class="py-3 font-mono font-bold text-slate-800">Rp {{ "{:,}".format(aj.jumlah_diajukan).replace(',', '.') }}</td>
                             <td class="py-3">
                                 {% if aj.status == 'DISETUJUI' %}
-                                <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-600 border border-emerald-200">DISETUJUI</span>
+                                <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-blue-50 text-blue-600 border border-blue-200">DISETUJUI</span>
                                 {% elif aj.status == 'DITOLAK' %}
-                                <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-rose-50 text-rose-600 border border-rose-200">DITOLAK</span>
+                                <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-blue-50 text-blue-600 border border-blue-200">DITOLAK</span>
                                 {% else %}
-                                <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-50 text-amber-600 border border-amber-200">MENUNGGU</span>
+                                <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-sky-50 text-sky-600 border border-sky-200">MENUNGGU</span>
                                 {% endif %}
                             </td>
                             <td class="py-3 font-mono">
                                 {% if aj.realisasi %}
-                                <span class="text-emerald-700 font-bold">{{ aj.realisasi.nomor_sp2d }}</span>
+                                <span class="text-blue-700 font-bold">{{ aj.realisasi.nomor_sp2d }}</span>
                                 <div class="text-[10px] text-slate-400">Rp {{ "{:,}".format(aj.realisasi.jumlah_realisasi).replace(',', '.') }}</div>
                                 {% else %}
                                 <span class="text-slate-400 italic">Belum Dicairkan</span>
@@ -365,7 +365,7 @@ function switchDetailTab(tabId, btn) {
     } else if (tabId === 'tab-pegawai') {
         btn.className = "tab-btn px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 bg-blue-600 text-white shadow-sm";
     } else if (tabId === 'tab-keuangan') {
-        btn.className = "tab-btn px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 bg-emerald-600 text-white shadow-sm";
+        btn.className = "tab-btn px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 bg-blue-600 text-white shadow-sm";
     }
 }
 </script>

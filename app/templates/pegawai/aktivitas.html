@@ -30,7 +30,7 @@
                     <div class="flex flex-wrap items-center gap-2.5">
                         <h1 class="text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900">Log Aktivitas & Penugasan Harian</h1>
                         <span class="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full text-[11px] font-bold bg-blue-50 text-blue-700 border border-blue-200/70 shadow-2xs">
-                            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                            <span class="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></span>
                             LENTERA Pegawai BPS
                         </span>
                     </div>
@@ -59,12 +59,12 @@
         </a>
         <a href="{{ url_for('pegawai.aktivitas', status='PROSES') }}" 
            class="h-9 px-4 rounded-full text-xs font-semibold transition-all flex items-center gap-1.5 active:scale-95 {% if status_filter == 'PROSES' %} bg-slate-900 text-white shadow-sm ring-1 ring-slate-900 {% else %} bg-white text-slate-600 hover:text-slate-900 hover:bg-slate-50 border border-slate-200/90 shadow-2xs {% endif %}">
-            <span class="w-2 h-2 rounded-full bg-amber-500"></span>
+            <span class="w-2 h-2 rounded-full bg-sky-500"></span>
             <span>Dalam Proses (On-Going)</span>
         </a>
         <a href="{{ url_for('pegawai.aktivitas', status='SELESAI') }}" 
            class="h-9 px-4 rounded-full text-xs font-semibold transition-all flex items-center gap-1.5 active:scale-95 {% if status_filter == 'SELESAI' %} bg-slate-900 text-white shadow-sm ring-1 ring-slate-900 {% else %} bg-white text-slate-600 hover:text-slate-900 hover:bg-slate-50 border border-slate-200/90 shadow-2xs {% endif %}">
-            <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+            <span class="w-2 h-2 rounded-full bg-blue-500"></span>
             <span>Selesai (100%)</span>
         </a>
     </div>
@@ -90,7 +90,7 @@
                         <!-- Pegawai -->
                         <td class="py-3.5 px-4 whitespace-nowrap">
                             <div class="flex items-center gap-2.5">
-                                <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-blue-100 to-indigo-100 border border-blue-200/60 text-blue-700 flex items-center justify-center font-bold text-xs flex-shrink-0 shadow-2xs">
+                                <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-blue-100 to-blue-100 border border-blue-200/60 text-blue-700 flex items-center justify-center font-bold text-xs flex-shrink-0 shadow-2xs">
                                     {{ a.pegawai.nama_lengkap[:2]|upper }}
                                 </div>
                                 <div>
@@ -136,10 +136,10 @@
                             <div class="w-28">
                                 <div class="flex items-center justify-between text-[10px] font-bold text-slate-700 mb-1">
                                     <span>Target</span>
-                                    <span class="{% if a.persentase_selesai == 100 %}text-emerald-600{% else %}text-blue-600{% endif %} font-mono">{{ a.persentase_selesai }}%</span>
+                                    <span class="{% if a.persentase_selesai == 100 %}text-blue-600{% else %}text-blue-600{% endif %} font-mono">{{ a.persentase_selesai }}%</span>
                                 </div>
                                 <div class="w-full h-1.5 rounded-full bg-slate-100 overflow-hidden">
-                                    <div class="h-full {% if a.persentase_selesai == 100 %}bg-emerald-500{% else %}bg-blue-500{% endif %} rounded-full transition-all duration-300" style="width: {{ a.persentase_selesai }}%"></div>
+                                    <div class="h-full {% if a.persentase_selesai == 100 %}bg-blue-500{% else %}bg-blue-500{% endif %} rounded-full transition-all duration-300" style="width: {{ a.persentase_selesai }}%"></div>
                                 </div>
                             </div>
                         </td>
@@ -147,12 +147,12 @@
                         <!-- Status -->
                         <td class="py-3.5 px-4 whitespace-nowrap text-center">
                             {% if a.status == 'SELESAI' %}
-                            <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200/80 shadow-2xs">
-                                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span> SELESAI
+                            <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-blue-50 text-blue-700 border border-blue-200/80 shadow-2xs">
+                                <span class="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse"></span> SELESAI
                             </span>
                             {% else %}
-                            <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-amber-50 text-amber-700 border border-amber-200/80 shadow-2xs">
-                                <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span> PROSES
+                            <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-sky-50 text-sky-700 border border-sky-200/80 shadow-2xs">
+                                <span class="w-1.5 h-1.5 rounded-full bg-sky-500"></span> PROSES
                             </span>
                             {% endif %}
                         </td>
@@ -167,7 +167,7 @@
                                     <i data-lucide="edit-3" class="w-3.5 h-3.5"></i>
                                 </button>
                                 <form action="{{ url_for('pegawai.delete_aktivitas', id=a.id) }}" method="POST" class="inline" onsubmit="return confirm('Hapus aktivitas ini?');">
-                                    <button type="submit" class="w-7 h-7 rounded-full text-slate-400 hover:text-rose-600 hover:bg-rose-50 border border-transparent hover:border-rose-200 transition flex items-center justify-center active:scale-90" title="Hapus">
+                                    <button type="submit" class="w-7 h-7 rounded-full text-slate-400 hover:text-blue-600 hover:bg-blue-50 border border-transparent hover:border-blue-200 transition flex items-center justify-center active:scale-90" title="Hapus">
                                         <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
                                     </button>
                                 </form>
@@ -178,14 +178,14 @@
                     <tr>
                         <td colspan="7" class="py-16 text-center text-slate-400">
                             <div class="flex flex-col items-center justify-center gap-2 max-w-sm mx-auto">
-                                <div class="w-14 h-14 rounded-2xl bg-emerald-50 border border-emerald-100 text-emerald-500 flex items-center justify-center shadow-sm shadow-emerald-500/10 mb-1">
+                                <div class="w-14 h-14 rounded-2xl bg-blue-50 border border-blue-100 text-blue-500 flex items-center justify-center shadow-sm shadow-blue-500/10 mb-1">
                                     <i data-lucide="calendar" class="w-6 h-6"></i>
                                 </div>
                                 <p class="font-bold text-slate-800 text-sm">Belum Ada Aktivitas Terdaftar</p>
                                 <p class="text-xs text-slate-400">Belum ada aktivitas yang dicatat pada kategori status ini.</p>
                                 <button type="button" 
                                         onclick="document.getElementById('modalAktivitas').classList.remove('hidden')" 
-                                        class="mt-3 h-9 px-4 rounded-full bg-gradient-to-r from-blue-600 to-sky-500 text-white text-xs font-bold shadow-sm shadow-emerald-500/20 active:scale-95 transition-all">
+                                        class="mt-3 h-9 px-4 rounded-full bg-gradient-to-r from-blue-600 to-sky-500 text-white text-xs font-bold shadow-sm shadow-blue-500/20 active:scale-95 transition-all">
                                     + Catat Tugas Baru
                                 </button>
                             </div>
@@ -292,7 +292,7 @@
             </div>
             <div class="pt-3 flex justify-end gap-2 border-t border-slate-100">
                 <button type="button" onclick="document.getElementById('modalAktivitas').classList.add('hidden')" class="px-4 py-2 rounded-xl text-xs font-semibold text-slate-600 hover:bg-slate-100">Batal</button>
-                <button type="submit" class="px-5 py-2 rounded-xl bg-gradient-to-r from-blue-600 to-sky-500 hover:from-orange-600 hover:to-amber-600 text-white font-bold text-xs shadow-md shadow-blue-600/25 active:scale-95 transition-all">Simpan Aktivitas</button>
+                <button type="submit" class="px-5 py-2 rounded-xl bg-gradient-to-r from-blue-600 to-sky-500 hover:from-blue-600 hover:to-sky-600 text-white font-bold text-xs shadow-md shadow-blue-600/25 active:scale-95 transition-all">Simpan Aktivitas</button>
             </div>
         </form>
     </div>

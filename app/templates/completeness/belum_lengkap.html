@@ -6,14 +6,14 @@
 <div class="space-y-6">
 
     <!-- Header Section -->
-    <div class="bg-white p-6 rounded-3xl border border-amber-200/80 shadow-soft">
+    <div class="bg-white p-6 rounded-3xl border border-sky-200/80 shadow-soft">
         <div class="flex items-center gap-2 text-xs text-slate-500 mb-1.5">
             <a href="{{ url_for('dashboard.index') }}" class="hover:text-navy-main">PRIMA</a>
             <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
-            <span class="text-amber-600 font-bold">Dokumen Belum Lengkap</span>
+            <span class="text-sky-600 font-bold">Dokumen Belum Lengkap</span>
         </div>
         <div class="flex items-center gap-3">
-            <div class="w-12 h-12 rounded-2xl bg-amber-100 text-amber-700 flex items-center justify-center font-bold">
+            <div class="w-12 h-12 rounded-2xl bg-sky-100 text-sky-700 flex items-center justify-center font-bold">
                 <i data-lucide="alert-circle" class="w-6 h-6"></i>
             </div>
             <div>
@@ -31,10 +31,10 @@
     <div class="bg-white rounded-3xl border border-slate-200/80 shadow-card overflow-hidden">
         <div class="p-5 border-b border-slate-100 flex items-center justify-between">
             <div class="flex items-center gap-2">
-                <i data-lucide="file-warning" class="w-5 h-5 text-amber-500"></i>
+                <i data-lucide="file-warning" class="w-5 h-5 text-sky-500"></i>
                 <h3 class="text-sm font-bold text-slate-800">Berkas Dokumen yang Belum Lengkap</h3>
             </div>
-            <span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-amber-100 text-amber-800">
+            <span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-sky-100 text-sky-800">
                 {{ pending_documents|length }} Berkas
             </span>
         </div>
@@ -67,7 +67,7 @@
                                     {{ doc.year }}
                                 </span>
                             </td>
-                            <td class="py-4 px-4 text-amber-800 font-medium">
+                            <td class="py-4 px-4 text-sky-800 font-medium">
                                 {{ doc.notes or 'Perlu konfirmasi berkas final.' }}
                             </td>
                             <td class="py-4 px-6 text-right">
@@ -88,7 +88,7 @@
                         <tr>
                             <td colspan="5" class="py-10 text-center text-slate-400">
                                 <div class="flex flex-col items-center justify-center">
-                                    <i data-lucide="check-circle-2" class="w-10 h-10 text-emerald-500 mb-2"></i>
+                                    <i data-lucide="check-circle-2" class="w-10 h-10 text-blue-500 mb-2"></i>
                                     <p class="text-sm font-semibold text-slate-700">Semua dokumen saat ini lengkap!</p>
                                     <p class="text-xs text-slate-400">Tidak ada berkas berstatus belum lengkap yang perlu ditindaklanjuti.</p>
                                 </div>
@@ -104,7 +104,7 @@
     <div class="bg-white rounded-3xl border border-slate-200/80 shadow-card overflow-hidden">
         <div class="p-5 border-b border-slate-100 flex items-center justify-between">
             <div class="flex items-center gap-2">
-                <i data-lucide="list-checks" class="w-5 h-5 text-purple-500"></i>
+                <i data-lucide="list-checks" class="w-5 h-5 text-blue-500"></i>
                 <h3 class="text-sm font-bold text-slate-800">Item Checklist Wajib yang Belum Terpenuhi</h3>
             </div>
             <a href="{{ url_for('completeness.checklist') }}" class="text-xs font-semibold text-blue-600 hover:text-blue-700">
@@ -117,7 +117,7 @@
                 {% for item in unfulfilled_checklist %}
                 <div class="p-4 flex items-center justify-between hover:bg-slate-50 transition">
                     <div class="flex items-center gap-3">
-                        <div class="w-7 h-7 rounded-lg bg-amber-100 text-amber-700 flex items-center justify-center">
+                        <div class="w-7 h-7 rounded-lg bg-sky-100 text-sky-700 flex items-center justify-center">
                             <i data-lucide="clock" class="w-4 h-4"></i>
                         </div>
                         <div>
@@ -128,7 +128,7 @@
 
                     {% if current_user.is_admin %}
                     <form action="{{ url_for('completeness.toggle', item_id=item.id) }}" method="POST">
-                        <button type="submit" class="px-3 py-1.5 bg-emerald-50 hover:bg-blue-100 text-blue-700 border border-emerald-200 rounded-lg text-xs font-bold transition flex items-center gap-1">
+                        <button type="submit" class="px-3 py-1.5 bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-200 rounded-lg text-xs font-bold transition flex items-center gap-1">
                             <i data-lucide="check" class="w-3.5 h-3.5"></i>
                             <span>Tandai Selesai</span>
                         </button>

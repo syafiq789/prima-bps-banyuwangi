@@ -8,7 +8,7 @@
     <!-- 1. Header Halaman Modern & Berkelas (Harmonized Executive Card) -->
     <div class="bg-white/90 backdrop-blur-xl rounded-3xl p-5 sm:p-6 border border-slate-200/80 shadow-[0_4px_20px_-4px_rgba(20,43,74,0.03)] relative overflow-hidden">
         <div class="absolute -right-10 -top-10 w-56 h-56 bg-gradient-to-br from-blue-500/10 via-sky-300/10 to-transparent rounded-full blur-2xl pointer-events-none"></div>
-        <div class="absolute right-1/3 -bottom-12 w-64 h-64 bg-gradient-to-tr from-cyan-400/5 to-transparent rounded-full blur-2xl pointer-events-none"></div>
+        <div class="absolute right-1/3 -bottom-12 w-64 h-64 bg-gradient-to-tr from-sky-400/5 to-transparent rounded-full blur-2xl pointer-events-none"></div>
 
         <div class="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-5">
             <!-- Left: Breadcrumb, Icon, Title & Badges -->
@@ -30,7 +30,7 @@
                     <div class="flex flex-wrap items-center gap-2.5">
                         <h1 class="text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900">Template & Upload Kegiatan</h1>
                         <span class="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full text-[11px] font-bold bg-blue-50 text-blue-700 border border-blue-200/70 shadow-2xs">
-                            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                            <span class="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></span>
                             Impor & Sinkronisasi Otomatis
                         </span>
                         <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-slate-100 text-slate-600 border border-slate-200/70">
@@ -50,7 +50,7 @@
                 </a>
                 <a href="{{ url_for('mitra.download_template_mitra') }}" 
                    class="h-9 px-4 rounded-full border border-slate-200/90 bg-white hover:bg-slate-50 text-slate-700 font-semibold text-xs shadow-2xs transition-all flex items-center gap-1.5 active:scale-95 hover:border-slate-300">
-                    <i data-lucide="download" class="w-3.5 h-3.5 text-cyan-600"></i>
+                    <i data-lucide="download" class="w-3.5 h-3.5 text-sky-600"></i>
                     <span>Unduh Templat Mitra</span>
                 </a>
             </div>
@@ -60,7 +60,7 @@
     <!-- 2. Navigasi Tab Tipe Upload: Kegiatan Sensus vs Data Mitra vs SBU Honor -->
     <div class="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none border-b border-slate-200/80">
         <a href="{{ url_for('mitra.template', tab='kegiatan') }}" 
-           class="px-4 py-2.5 text-xs font-bold transition-all border-b-2 flex items-center gap-2 whitespace-nowrap {% if active_tab == 'kegiatan' or not active_tab %} border-orange-500 text-blue-600 {% else %} border-transparent text-slate-500 hover:text-slate-800 {% endif %}">
+           class="px-4 py-2.5 text-xs font-bold transition-all border-b-2 flex items-center gap-2 whitespace-nowrap {% if active_tab == 'kegiatan' or not active_tab %} border-blue-500 text-blue-600 {% else %} border-transparent text-slate-500 hover:text-slate-800 {% endif %}">
             <i data-lucide="calendar" class="w-4 h-4"></i>
             <span>Upload Kegiatan Sensus & Survei</span>
             <span class="text-[10px] px-2 py-0.5 rounded-full font-bold {% if active_tab == 'kegiatan' or not active_tab %} bg-blue-100 text-blue-700 {% else %} bg-slate-100 text-slate-600 {% endif %}">
@@ -68,18 +68,18 @@
             </span>
         </a>
         <a href="{{ url_for('mitra.template', tab='mitra') }}" 
-           class="px-4 py-2.5 text-xs font-bold transition-all border-b-2 flex items-center gap-2 whitespace-nowrap {% if active_tab == 'mitra' %} border-cyan-500 text-cyan-600 {% else %} border-transparent text-slate-500 hover:text-slate-800 {% endif %}">
+           class="px-4 py-2.5 text-xs font-bold transition-all border-b-2 flex items-center gap-2 whitespace-nowrap {% if active_tab == 'mitra' %} border-sky-500 text-sky-600 {% else %} border-transparent text-slate-500 hover:text-slate-800 {% endif %}">
             <i data-lucide="users" class="w-4 h-4"></i>
             <span>Upload Data Master Mitra</span>
-            <span class="text-[10px] px-2 py-0.5 rounded-full font-bold {% if active_tab == 'mitra' %} bg-cyan-100 text-cyan-700 {% else %} bg-slate-100 text-slate-600 {% endif %}">
+            <span class="text-[10px] px-2 py-0.5 rounded-full font-bold {% if active_tab == 'mitra' %} bg-sky-100 text-sky-700 {% else %} bg-slate-100 text-slate-600 {% endif %}">
                 {{ total_mitra }}
             </span>
         </a>
         <a href="{{ url_for('mitra.template', tab='sbu') }}" 
-           class="px-4 py-2.5 text-xs font-bold transition-all border-b-2 flex items-center gap-2 whitespace-nowrap {% if active_tab == 'sbu' %} border-amber-500 text-amber-600 {% else %} border-transparent text-slate-500 hover:text-slate-800 {% endif %}">
+           class="px-4 py-2.5 text-xs font-bold transition-all border-b-2 flex items-center gap-2 whitespace-nowrap {% if active_tab == 'sbu' %} border-sky-500 text-sky-600 {% else %} border-transparent text-slate-500 hover:text-slate-800 {% endif %}">
             <i data-lucide="coins" class="w-4 h-4"></i>
             <span>Standar Biaya Honorarium (SBU)</span>
-            <span class="text-[10px] px-2 py-0.5 rounded-full font-bold {% if active_tab == 'sbu' %} bg-amber-100 text-amber-700 {% else %} bg-slate-100 text-slate-600 {% endif %}">
+            <span class="text-[10px] px-2 py-0.5 rounded-full font-bold {% if active_tab == 'sbu' %} bg-sky-100 text-sky-700 {% else %} bg-slate-100 text-slate-600 {% endif %}">
                 {{ template_list|length }}
             </span>
         </a>
@@ -108,7 +108,7 @@
                             </div>
                         </div>
                         <a href="{{ url_for('mitra.download_template_kegiatan') }}" 
-                           class="px-3 py-1.5 rounded-full bg-blue-50 hover:bg-blue-100 text-blue-700 text-xs font-bold border border-orange-200/80 transition flex items-center gap-1 active:scale-95 shadow-2xs">
+                           class="px-3 py-1.5 rounded-full bg-blue-50 hover:bg-blue-100 text-blue-700 text-xs font-bold border border-blue-200/80 transition flex items-center gap-1 active:scale-95 shadow-2xs">
                             <i data-lucide="download" class="w-3.5 h-3.5"></i>
                             <span>Unduh File .CSV</span>
                         </a>
@@ -117,7 +117,7 @@
                     <div class="space-y-3">
                         <div class="p-3 rounded-2xl bg-slate-50 border border-slate-200/70 text-xs">
                             <div class="text-[11px] font-bold text-slate-600 mb-1.5 flex items-center gap-1.5">
-                                <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+                                <span class="w-2 h-2 rounded-full bg-blue-500"></span>
                                 <span>Header Kolom yang Dibutuhkan:</span>
                             </div>
                             <div class="flex flex-wrap gap-1.5 font-mono text-[11px]">
@@ -154,14 +154,14 @@
                                     <tr class="hover:bg-slate-50/60">
                                         <td class="py-2 px-3 font-mono font-bold text-blue-600">SRV-NER-01</td>
                                         <td class="py-2 px-3 font-semibold">Survei Khusus Lembaga Non-Profit</td>
-                                        <td class="py-2 px-3 text-purple-600 font-bold">Tim Neraca</td>
+                                        <td class="py-2 px-3 text-blue-600 font-bold">Tim Neraca</td>
                                         <td class="py-2 px-3 font-mono text-[10px]">2025-01-10</td>
                                         <td class="py-2 px-3 font-mono text-[10px]">2025-02-15</td>
                                     </tr>
                                     <tr class="hover:bg-slate-50/60">
                                         <td class="py-2 px-3 font-mono font-bold text-blue-600">SRV-PRD-01</td>
                                         <td class="py-2 px-3 font-semibold">Kerangka Sampel Area (KSA) Padi</td>
-                                        <td class="py-2 px-3 text-emerald-600 font-bold">Tim Produksi</td>
+                                        <td class="py-2 px-3 text-blue-600 font-bold">Tim Produksi</td>
                                         <td class="py-2 px-3 font-mono text-[10px]">2025-02-01</td>
                                         <td class="py-2 px-3 font-mono text-[10px]">2025-02-28</td>
                                     </tr>
@@ -173,7 +173,7 @@
 
                 <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-xs text-slate-400">
                     <span class="flex items-center gap-1.5">
-                        <i data-lucide="check" class="w-3.5 h-3.5 text-emerald-500"></i>
+                        <i data-lucide="check" class="w-3.5 h-3.5 text-blue-500"></i>
                         <span>Format tanggal mendukung: <code>YYYY-MM-DD</code> atau <code>DD/MM/YYYY</code></span>
                     </span>
                     <span class="font-bold text-slate-600">Pemisah: Koma (,) / Titik Koma (;)</span>
@@ -181,9 +181,9 @@
             </div>
 
             <!-- Kanan (5/12): Form Upload Berkas Langsung -->
-            <div class="lg:col-span-5 bg-gradient-to-br from-white via-white to-orange-50/30 rounded-3xl p-6 border-2 border-orange-200/80 shadow-soft flex flex-col justify-between">
+            <div class="lg:col-span-5 bg-gradient-to-br from-white via-white to-blue-50/30 rounded-3xl p-6 border-2 border-blue-200/80 shadow-soft flex flex-col justify-between">
                 <div>
-                    <div class="flex items-center justify-between pb-3.5 border-b border-orange-100 mb-4">
+                    <div class="flex items-center justify-between pb-3.5 border-b border-blue-100 mb-4">
                         <div class="flex items-center gap-2.5">
                             <div class="w-8 h-8 rounded-xl bg-blue-600 text-white flex items-center justify-center shadow-xs shadow-blue-600/25">
                                 <i data-lucide="upload" class="w-4 h-4"></i>
@@ -193,14 +193,14 @@
                                 <p class="text-[11px] text-slate-400">Pilih berkas CSV untuk langsung diproses</p>
                             </div>
                         </div>
-                        <span class="text-[10px] font-bold text-orange-700 bg-orange-100/70 px-2.5 py-0.5 rounded-full border border-orange-200">
+                        <span class="text-[10px] font-bold text-blue-700 bg-blue-100/70 px-2.5 py-0.5 rounded-full border border-blue-200">
                             Otomatis Masuk
                         </span>
                     </div>
 
                     <form action="{{ url_for('mitra.upload_kegiatan') }}" method="POST" enctype="multipart/form-data" class="space-y-4">
                         <!-- Dropzone Area -->
-                        <div class="relative border-2 border-dashed border-orange-300 hover:border-orange-500 rounded-2xl p-6 text-center bg-blue-50/40 hover:bg-blue-50/70 transition-all cursor-pointer group">
+                        <div class="relative border-2 border-dashed border-blue-300 hover:border-blue-500 rounded-2xl p-6 text-center bg-blue-50/40 hover:bg-blue-50/70 transition-all cursor-pointer group">
                             <input type="file" 
                                    id="inputCsvKegiatan" 
                                    name="file" 
@@ -216,7 +216,7 @@
                                 <p class="text-xs font-bold text-slate-800">Klik untuk memilih berkas CSV</p>
                                 <p class="text-[11px] text-slate-400 mt-0.5">atau seret berkas CSV template ke kotak ini</p>
                                 
-                                <div id="labelNamaFileKegiatan" class="mt-2.5 text-xs font-bold text-blue-600 bg-white px-3 py-1 rounded-full border border-orange-200 shadow-2xs hidden">
+                                <div id="labelNamaFileKegiatan" class="mt-2.5 text-xs font-bold text-blue-600 bg-white px-3 py-1 rounded-full border border-blue-200 shadow-2xs hidden">
                                     <!-- File name will appear here -->
                                 </div>
                             </div>
@@ -230,7 +230,7 @@
                     </form>
                 </div>
 
-                <div class="mt-4 pt-3 border-t border-orange-100 text-[11px] text-slate-500 flex items-center justify-between">
+                <div class="mt-4 pt-3 border-t border-blue-100 text-[11px] text-slate-500 flex items-center justify-between">
                     <span>Setelah diunggah, data akan otomatis tersinkron dan tampil di tabel bawah.</span>
                 </div>
             </div>
@@ -281,7 +281,7 @@
                         {% for keg in kegiatan_list %}
                         <tr class="hover:bg-slate-50/80 transition group">
                             <td class="py-3 px-3.5 whitespace-nowrap">
-                                <span class="px-2 py-1 rounded-lg bg-blue-50 text-orange-700 font-mono font-bold text-xs border border-orange-200/70">
+                                <span class="px-2 py-1 rounded-lg bg-blue-50 text-blue-700 font-mono font-bold text-xs border border-blue-200/70">
                                     {{ keg.kode_kegiatan }}
                                 </span>
                             </td>
@@ -295,15 +295,15 @@
                                     Distribusi
                                 </span>
                                 {% elif keg.tim_kerja == 'Tim Neraca' %}
-                                <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-purple-50 text-purple-700 border border-purple-200/60">
+                                <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-blue-50 text-blue-700 border border-blue-200/60">
                                     Neraca
                                 </span>
                                 {% elif keg.tim_kerja == 'Tim Produksi' %}
-                                <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200/60">
+                                <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-blue-50 text-blue-700 border border-blue-200/60">
                                     Produksi
                                 </span>
                                 {% elif keg.tim_kerja == 'Tim PLS' %}
-                                <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-amber-50 text-amber-700 border border-amber-200/60">
+                                <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-sky-50 text-sky-700 border border-sky-200/60">
                                     PLS
                                 </span>
                                 {% else %}
@@ -317,11 +317,11 @@
                             </td>
                             <td class="py-3 px-3.5 whitespace-nowrap text-center">
                                 {% if keg.status == 'SELESAI' %}
-                                <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                                <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-blue-50 text-blue-700 border border-blue-200">
                                     SELESAI
                                 </span>
                                 {% else %}
-                                <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-amber-50 text-amber-700 border border-amber-200">
+                                <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-sky-50 text-sky-700 border border-sky-200">
                                     BERJALAN
                                 </span>
                                 {% endif %}
@@ -377,7 +377,7 @@
                 <div>
                     <div class="flex items-center justify-between pb-3.5 border-b border-slate-100 mb-4">
                         <div class="flex items-center gap-2.5">
-                            <div class="w-8 h-8 rounded-xl bg-cyan-50 text-cyan-600 flex items-center justify-center">
+                            <div class="w-8 h-8 rounded-xl bg-sky-50 text-sky-600 flex items-center justify-center">
                                 <i data-lucide="users" class="w-4 h-4"></i>
                             </div>
                             <div>
@@ -386,7 +386,7 @@
                             </div>
                         </div>
                         <a href="{{ url_for('mitra.download_template_mitra') }}" 
-                           class="px-3 py-1.5 rounded-full bg-cyan-50 hover:bg-cyan-100 text-cyan-700 text-xs font-bold border border-cyan-200/80 transition flex items-center gap-1 active:scale-95 shadow-2xs">
+                           class="px-3 py-1.5 rounded-full bg-sky-50 hover:bg-sky-100 text-sky-700 text-xs font-bold border border-sky-200/80 transition flex items-center gap-1 active:scale-95 shadow-2xs">
                             <i data-lucide="download" class="w-3.5 h-3.5"></i>
                             <span>Unduh File .CSV</span>
                         </a>
@@ -395,14 +395,14 @@
                     <div class="space-y-3">
                         <div class="p-3 rounded-2xl bg-slate-50 border border-slate-200/70 text-xs">
                             <div class="text-[11px] font-bold text-slate-600 mb-1.5 flex items-center gap-1.5">
-                                <span class="w-2 h-2 rounded-full bg-cyan-500"></span>
+                                <span class="w-2 h-2 rounded-full bg-sky-500"></span>
                                 <span>Header Kolom Master Mitra:</span>
                             </div>
                             <div class="flex flex-wrap gap-1.5 font-mono text-[11px]">
-                                <span class="px-2 py-0.5 rounded-md bg-white border border-slate-200 text-rose-700 font-bold">id_sobat *</span>
-                                <span class="px-2 py-0.5 rounded-md bg-white border border-slate-200 text-rose-700 font-bold">nama_lengkap *</span>
+                                <span class="px-2 py-0.5 rounded-md bg-white border border-slate-200 text-blue-700 font-bold">id_sobat *</span>
+                                <span class="px-2 py-0.5 rounded-md bg-white border border-slate-200 text-blue-700 font-bold">nama_lengkap *</span>
                                 <span class="px-2 py-0.5 rounded-md bg-white border border-slate-200 text-slate-700">jenis_kelamin</span>
-                                <span class="px-2 py-0.5 rounded-md bg-white border border-slate-200 text-rose-700 font-bold">kecamatan *</span>
+                                <span class="px-2 py-0.5 rounded-md bg-white border border-slate-200 text-blue-700 font-bold">kecamatan *</span>
                                 <span class="px-2 py-0.5 rounded-md bg-white border border-slate-200 text-slate-600">desa</span>
                                 <span class="px-2 py-0.5 rounded-md bg-white border border-slate-200 text-slate-600">no_hp</span>
                                 <span class="px-2 py-0.5 rounded-md bg-white border border-slate-200 text-slate-600">email</span>
@@ -423,11 +423,11 @@
             </div>
 
             <!-- Form Upload Master Mitra -->
-            <div class="lg:col-span-5 bg-gradient-to-br from-white via-white to-cyan-50/30 rounded-3xl p-6 border-2 border-cyan-200/80 shadow-soft flex flex-col justify-between">
+            <div class="lg:col-span-5 bg-gradient-to-br from-white via-white to-sky-50/30 rounded-3xl p-6 border-2 border-sky-200/80 shadow-soft flex flex-col justify-between">
                 <div>
-                    <div class="flex items-center justify-between pb-3.5 border-b border-cyan-100 mb-4">
+                    <div class="flex items-center justify-between pb-3.5 border-b border-sky-100 mb-4">
                         <div class="flex items-center gap-2.5">
-                            <div class="w-8 h-8 rounded-xl bg-cyan-600 text-white flex items-center justify-center shadow-xs shadow-cyan-500/25">
+                            <div class="w-8 h-8 rounded-xl bg-sky-600 text-white flex items-center justify-center shadow-xs shadow-sky-500/25">
                                 <i data-lucide="upload" class="w-4 h-4"></i>
                             </div>
                             <div>
@@ -435,13 +435,13 @@
                                 <p class="text-[11px] text-slate-400">Impor massal mitra dari template CSV</p>
                             </div>
                         </div>
-                        <span class="text-[10px] font-bold text-cyan-700 bg-cyan-100/70 px-2.5 py-0.5 rounded-full border border-cyan-200">
+                        <span class="text-[10px] font-bold text-sky-700 bg-sky-100/70 px-2.5 py-0.5 rounded-full border border-sky-200">
                             Sinkron Sobat
                         </span>
                     </div>
 
                     <form action="{{ url_for('mitra.upload_mitra_from_template') }}" method="POST" enctype="multipart/form-data" class="space-y-4">
-                        <div class="relative border-2 border-dashed border-cyan-300 hover:border-cyan-500 rounded-2xl p-6 text-center bg-cyan-50/40 hover:bg-cyan-50/70 transition-all cursor-pointer group">
+                        <div class="relative border-2 border-dashed border-sky-300 hover:border-sky-500 rounded-2xl p-6 text-center bg-sky-50/40 hover:bg-sky-50/70 transition-all cursor-pointer group">
                             <input type="file" 
                                    id="inputCsvMitra" 
                                    name="file" 
@@ -451,27 +451,27 @@
                                    class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10">
                             
                             <div class="flex flex-col items-center justify-center pointer-events-none">
-                                <div class="w-12 h-12 rounded-2xl bg-white text-cyan-600 flex items-center justify-center mb-2.5 shadow-sm group-hover:scale-110 transition-transform">
+                                <div class="w-12 h-12 rounded-2xl bg-white text-sky-600 flex items-center justify-center mb-2.5 shadow-sm group-hover:scale-110 transition-transform">
                                     <i data-lucide="users" class="w-6 h-6"></i>
                                 </div>
                                 <p class="text-xs font-bold text-slate-800">Pilih berkas CSV Master Mitra</p>
                                 <p class="text-[11px] text-slate-400 mt-0.5">format .csv dengan UTF-8</p>
                                 
-                                <div id="labelNamaFileMitra" class="mt-2.5 text-xs font-bold text-cyan-700 bg-white px-3 py-1 rounded-full border border-cyan-200 shadow-2xs hidden">
+                                <div id="labelNamaFileMitra" class="mt-2.5 text-xs font-bold text-sky-700 bg-white px-3 py-1 rounded-full border border-sky-200 shadow-2xs hidden">
                                     <!-- File name will appear here -->
                                 </div>
                             </div>
                         </div>
 
                         <button type="submit" 
-                                class="w-full py-3 px-4 rounded-xl bg-gradient-to-r from-cyan-600 to-blue-600 hover:opacity-95 text-white text-xs font-bold shadow-md shadow-cyan-600/25 active:scale-98 transition-all flex items-center justify-center gap-2">
+                                class="w-full py-3 px-4 rounded-xl bg-gradient-to-r from-sky-600 to-blue-600 hover:opacity-95 text-white text-xs font-bold shadow-md shadow-sky-600/25 active:scale-98 transition-all flex items-center justify-center gap-2">
                             <i data-lucide="check-circle" class="w-4 h-4"></i>
                             <span>Unggah & Sinkronkan Mitra Otomatis</span>
                         </button>
                     </form>
                 </div>
 
-                <div class="mt-4 pt-3 border-t border-cyan-100 text-[11px] text-slate-500">
+                <div class="mt-4 pt-3 border-t border-sky-100 text-[11px] text-slate-500">
                     Mitra yang diunggah akan otomatis terhubung ke sistem database Sobat BPS.
                 </div>
             </div>
@@ -484,7 +484,7 @@
                     <h2 class="text-base font-bold text-slate-800">Daftar Mitra Terdaftar Terbaru</h2>
                     <p class="text-xs text-slate-400">Total {{ total_mitra }} mitra terverifikasi di Kabupaten Banyuwangi</p>
                 </div>
-                <a href="{{ url_for('mitra.database') }}" class="font-bold text-xs text-cyan-600 hover:underline">
+                <a href="{{ url_for('mitra.database') }}" class="font-bold text-xs text-sky-600 hover:underline">
                     Buka Database Mitra Lengkap &rarr;
                 </a>
             </div>
@@ -504,13 +504,13 @@
                     <tbody class="divide-y divide-slate-100">
                         {% for m in mitra_list %}
                         <tr class="hover:bg-slate-50/80 transition">
-                            <td class="py-3 px-3.5 font-mono font-bold text-cyan-700">{{ m.id_sobat }}</td>
+                            <td class="py-3 px-3.5 font-mono font-bold text-sky-700">{{ m.id_sobat }}</td>
                             <td class="py-3 px-3.5 font-bold text-slate-900">{{ m.nama_lengkap }}</td>
                             <td class="py-3 px-3.5 text-slate-700">{{ m.kecamatan }}</td>
                             <td class="py-3 px-3.5 text-slate-500">{{ m.desa or '-' }}</td>
                             <td class="py-3 px-3.5 text-slate-600">{{ m.keahlian }}</td>
                             <td class="py-3 px-3.5 text-center">
-                                <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                                <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-blue-50 text-blue-700 border border-blue-200">
                                     Aktif
                                 </span>
                             </td>
@@ -568,18 +568,18 @@
             <div class="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-soft hover:shadow-md transition-all flex flex-col justify-between group">
                 <div>
                     <div class="flex items-center justify-between gap-2 mb-3">
-                        <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-blue-50 text-blue-600 border border-orange-200">
+                        <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-blue-50 text-blue-600 border border-blue-200">
                             {{ t.jenis_survei }}
                         </span>
                         
                         {% if t.tim_kerja == 'Tim Distribusi' %}
                         <span class="px-2 py-0.5 rounded-md text-[10px] font-bold bg-blue-50 text-blue-700 border border-blue-200/60">Distribusi</span>
                         {% elif t.tim_kerja == 'Tim Neraca' %}
-                        <span class="px-2 py-0.5 rounded-md text-[10px] font-bold bg-purple-50 text-purple-700 border border-purple-200/60">Neraca</span>
+                        <span class="px-2 py-0.5 rounded-md text-[10px] font-bold bg-blue-50 text-blue-700 border border-blue-200/60">Neraca</span>
                         {% elif t.tim_kerja == 'Tim Produksi' %}
-                        <span class="px-2 py-0.5 rounded-md text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200/60">Produksi</span>
+                        <span class="px-2 py-0.5 rounded-md text-[10px] font-bold bg-blue-50 text-blue-700 border border-blue-200/60">Produksi</span>
                         {% elif t.tim_kerja == 'Tim PLS' %}
-                        <span class="px-2 py-0.5 rounded-md text-[10px] font-bold bg-amber-50 text-amber-700 border border-amber-200/60">PLS</span>
+                        <span class="px-2 py-0.5 rounded-md text-[10px] font-bold bg-sky-50 text-sky-700 border border-sky-200/60">PLS</span>
                         {% else %}
                         <span class="px-2 py-0.5 rounded-md text-[10px] font-bold bg-slate-100 text-slate-700">{{ t.tim_kerja }}</span>
                         {% endif %}
@@ -662,7 +662,7 @@
 
             <div class="pt-3 flex justify-end gap-2 border-t border-slate-100">
                 <button type="button" onclick="document.getElementById('modalTemplate').classList.add('hidden')" class="px-4 py-2 rounded-xl text-xs font-semibold text-slate-600 hover:bg-slate-100">Batal</button>
-                <button type="submit" class="px-4 py-2 rounded-xl bg-blue-600 text-white text-xs font-semibold hover:bg-orange-600">Simpan Standar</button>
+                <button type="submit" class="px-4 py-2 rounded-xl bg-blue-600 text-white text-xs font-semibold hover:bg-blue-600">Simpan Standar</button>
             </div>
         </form>
     </div>

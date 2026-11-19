@@ -30,7 +30,7 @@
                     <div class="flex flex-wrap items-center gap-2.5">
                         <h1 class="text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900">Rekapitulasi Kinerja Aparatur</h1>
                         <span class="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full text-[11px] font-bold bg-blue-50 text-blue-700 border border-blue-200/70 shadow-2xs">
-                            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                            <span class="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></span>
                             Evaluasi Akuntabilitas
                         </span>
                     </div>
@@ -72,7 +72,7 @@
         <div class="bg-white rounded-2xl p-4.5 border border-slate-200/70 shadow-[0_1px_3px_rgba(0,0,0,0.03)] hover:shadow-md hover:border-slate-300 transition-all group flex flex-col justify-between">
             <div class="flex items-center justify-between text-slate-500">
                 <span class="text-xs font-medium">Total Penugasan</span>
-                <div class="w-8 h-8 rounded-lg bg-indigo-50 text-indigo-600 ring-1 ring-indigo-500/10 flex items-center justify-center group-hover:scale-105 transition-transform">
+                <div class="w-8 h-8 rounded-lg bg-blue-50 text-blue-600 ring-1 ring-blue-500/10 flex items-center justify-center group-hover:scale-105 transition-transform">
                     <i data-lucide="check-square" class="w-4 h-4"></i>
                 </div>
             </div>
@@ -80,7 +80,7 @@
                 <div class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight font-sans">{{ total_tugas }}</div>
             </div>
             <p class="text-[11px] text-slate-400 flex items-center gap-1">
-                <span class="w-1.5 h-1.5 rounded-full bg-indigo-500"></span>
+                <span class="w-1.5 h-1.5 rounded-full bg-blue-500"></span>
                 <span>Tugas kerja terakumulasi</span>
             </p>
         </div>
@@ -89,15 +89,15 @@
         <div class="bg-white rounded-2xl p-4.5 border border-slate-200/70 shadow-[0_1px_3px_rgba(0,0,0,0.03)] hover:shadow-md hover:border-slate-300 transition-all group flex flex-col justify-between">
             <div class="flex items-center justify-between text-slate-500">
                 <span class="text-xs font-medium">Tugas Selesai</span>
-                <div class="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-600 ring-1 ring-emerald-500/10 flex items-center justify-center group-hover:scale-105 transition-transform">
+                <div class="w-8 h-8 rounded-lg bg-blue-50 text-blue-600 ring-1 ring-blue-500/10 flex items-center justify-center group-hover:scale-105 transition-transform">
                     <i data-lucide="check-circle-2" class="w-4 h-4"></i>
                 </div>
             </div>
             <div class="my-2">
-                <div class="text-2xl sm:text-3xl font-extrabold text-emerald-600 tracking-tight font-sans">{{ total_selesai }}</div>
+                <div class="text-2xl sm:text-3xl font-extrabold text-blue-600 tracking-tight font-sans">{{ total_selesai }}</div>
             </div>
             <p class="text-[11px] text-slate-400 flex items-center gap-1">
-                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                <span class="w-1.5 h-1.5 rounded-full bg-blue-500"></span>
                 <span>Progres 100% tuntas</span>
             </p>
         </div>
@@ -106,15 +106,15 @@
         <div class="bg-white rounded-2xl p-4.5 border border-slate-200/70 shadow-[0_1px_3px_rgba(0,0,0,0.03)] hover:shadow-md hover:border-slate-300 transition-all group flex flex-col justify-between">
             <div class="flex items-center justify-between text-slate-500">
                 <span class="text-xs font-medium">Rata-Rata Capaian</span>
-                <div class="w-8 h-8 rounded-lg bg-amber-50 text-amber-600 ring-1 ring-amber-500/10 flex items-center justify-center group-hover:scale-105 transition-transform">
+                <div class="w-8 h-8 rounded-lg bg-sky-50 text-sky-600 ring-1 ring-sky-500/10 flex items-center justify-center group-hover:scale-105 transition-transform">
                     <i data-lucide="pie-chart" class="w-4 h-4"></i>
                 </div>
             </div>
             <div class="my-2">
-                <div class="text-2xl sm:text-3xl font-extrabold text-amber-600 tracking-tight font-sans">{{ avg_total }}%</div>
+                <div class="text-2xl sm:text-3xl font-extrabold text-sky-600 tracking-tight font-sans">{{ avg_total }}%</div>
             </div>
             <p class="text-[11px] text-slate-400 flex items-center gap-1">
-                <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
+                <span class="w-1.5 h-1.5 rounded-full bg-sky-500"></span>
                 <span>Indeks produktivitas aparatur</span>
             </p>
         </div>
@@ -148,11 +148,11 @@
                         <!-- Nama Pegawai -->
                         <td class="py-3.5 px-4 whitespace-nowrap">
                             <div class="flex items-center gap-2.5">
-                                <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-amber-100 to-orange-100 border border-amber-200/60 text-amber-700 flex items-center justify-center font-bold text-xs flex-shrink-0 shadow-2xs">
+                                <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-sky-100 to-blue-100 border border-sky-200/60 text-sky-700 flex items-center justify-center font-bold text-xs flex-shrink-0 shadow-2xs">
                                     {{ r.pegawai.nama_lengkap[:2]|upper }}
                                 </div>
                                 <div>
-                                    <div class="font-bold text-slate-900 text-xs group-hover:text-amber-600 transition">{{ r.pegawai.nama_lengkap }}</div>
+                                    <div class="font-bold text-slate-900 text-xs group-hover:text-sky-600 transition">{{ r.pegawai.nama_lengkap }}</div>
                                     <div class="text-[10px] text-slate-400">{{ r.pegawai.jabatan or 'Statistisi BPS' }}</div>
                                 </div>
                             </div>
@@ -172,14 +172,14 @@
 
                         <!-- Selesai -->
                         <td class="py-3.5 px-4 whitespace-nowrap text-center">
-                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-200/60 font-mono">
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-blue-50 text-blue-700 border border-blue-200/60 font-mono">
                                 {{ r.selesai }}
                             </span>
                         </td>
 
                         <!-- Dalam Proses -->
                         <td class="py-3.5 px-4 whitespace-nowrap text-center">
-                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-amber-50 text-amber-700 border border-amber-200/60 font-mono">
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-sky-50 text-sky-700 border border-sky-200/60 font-mono">
                                 {{ r.proses }}
                             </span>
                         </td>
@@ -189,10 +189,10 @@
                             <div class="w-36">
                                 <div class="flex items-center justify-between text-[11px] font-bold mb-1">
                                     <span class="text-slate-500 font-medium">Capaian</span>
-                                    <span class="{% if r.avg_pct == 100 %}text-emerald-600{% elif r.avg_pct >= 70 %}text-blue-600{% else %}text-amber-600{% endif %} font-mono">{{ r.avg_pct }}%</span>
+                                    <span class="{% if r.avg_pct == 100 %}text-blue-600{% elif r.avg_pct >= 70 %}text-blue-600{% else %}text-sky-600{% endif %} font-mono">{{ r.avg_pct }}%</span>
                                 </div>
                                 <div class="w-full h-2 rounded-full bg-slate-100 overflow-hidden">
-                                    <div class="h-full {% if r.avg_pct == 100 %}bg-emerald-500{% elif r.avg_pct >= 70 %}bg-blue-500{% else %}bg-amber-500{% endif %} rounded-full transition-all duration-300" style="width: {{ r.avg_pct }}%"></div>
+                                    <div class="h-full {% if r.avg_pct == 100 %}bg-blue-500{% elif r.avg_pct >= 70 %}bg-blue-500{% else %}bg-sky-500{% endif %} rounded-full transition-all duration-300" style="width: {{ r.avg_pct }}%"></div>
                                 </div>
                             </div>
                         </td>
@@ -201,7 +201,7 @@
                     <tr>
                         <td colspan="7" class="py-16 text-center text-slate-400">
                             <div class="flex flex-col items-center justify-center gap-2 max-w-sm mx-auto">
-                                <div class="w-14 h-14 rounded-2xl bg-amber-50 border border-amber-100 text-amber-500 flex items-center justify-center shadow-sm shadow-amber-500/10 mb-1">
+                                <div class="w-14 h-14 rounded-2xl bg-sky-50 border border-sky-100 text-sky-500 flex items-center justify-center shadow-sm shadow-sky-500/10 mb-1">
                                     <i data-lucide="bar-chart-2" class="w-6 h-6"></i>
                                 </div>
                                 <p class="font-bold text-slate-800 text-sm">Belum Ada Rekapitulasi</p>

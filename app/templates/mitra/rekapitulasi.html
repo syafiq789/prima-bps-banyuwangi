@@ -6,8 +6,8 @@
 <div class="space-y-6">
     <!-- 1. Header Halaman Modern & Berkelas (Harmonized Executive Card) -->
     <div class="bg-white/90 backdrop-blur-xl rounded-3xl p-5 sm:p-6 border border-slate-200/80 shadow-[0_4px_20px_-4px_rgba(20,43,74,0.03)] relative overflow-hidden">
-        <div class="absolute -right-10 -top-10 w-56 h-56 bg-gradient-to-br from-blue-400/10 via-indigo-300/10 to-transparent rounded-full blur-2xl pointer-events-none"></div>
-        <div class="absolute right-1/3 -bottom-12 w-64 h-64 bg-gradient-to-tr from-cyan-400/5 to-transparent rounded-full blur-2xl pointer-events-none"></div>
+        <div class="absolute -right-10 -top-10 w-56 h-56 bg-gradient-to-br from-blue-400/10 via-blue-300/10 to-transparent rounded-full blur-2xl pointer-events-none"></div>
+        <div class="absolute right-1/3 -bottom-12 w-64 h-64 bg-gradient-to-tr from-sky-400/5 to-transparent rounded-full blur-2xl pointer-events-none"></div>
 
         <div class="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-5">
             <!-- Left: Breadcrumb, Icon, Title & Badges -->
@@ -29,7 +29,7 @@
                     <div class="flex flex-wrap items-center gap-2.5">
                         <h1 class="text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900">Rekapitulasi Kinerja & Honor Mitra</h1>
                         <span class="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full text-[11px] font-bold bg-blue-50 text-blue-700 border border-blue-200/70 shadow-2xs">
-                            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                            <span class="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></span>
                             25 Kecamatan BPS Banyuwangi
                         </span>
                     </div>
@@ -56,7 +56,7 @@
         <div class="bg-white rounded-2xl p-4.5 border border-slate-200/70 shadow-[0_1px_3px_rgba(0,0,0,0.03)] hover:shadow-md hover:border-slate-300 transition-all flex flex-col justify-between">
             <div class="flex items-center justify-between text-slate-500">
                 <span class="text-xs font-medium">Total Mitra Terdaftar</span>
-                <div class="w-8 h-8 rounded-lg bg-blue-50 text-blue-600 ring-1 ring-orange-500/10 flex items-center justify-center">
+                <div class="w-8 h-8 rounded-lg bg-blue-50 text-blue-600 ring-1 ring-blue-500/10 flex items-center justify-center">
                     <i data-lucide="users" class="w-4 h-4"></i>
                 </div>
             </div>
@@ -72,15 +72,15 @@
         <div class="bg-white rounded-2xl p-4.5 border border-slate-200/70 shadow-[0_1px_3px_rgba(0,0,0,0.03)] hover:shadow-md hover:border-slate-300 transition-all flex flex-col justify-between">
             <div class="flex items-center justify-between text-slate-500">
                 <span class="text-xs font-medium">Total Honor Dialokasikan</span>
-                <div class="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-600 ring-1 ring-emerald-500/10 flex items-center justify-center">
+                <div class="w-8 h-8 rounded-lg bg-blue-50 text-blue-600 ring-1 ring-blue-500/10 flex items-center justify-center">
                     <i data-lucide="wallet" class="w-4 h-4"></i>
                 </div>
             </div>
             <div class="my-2">
-                <div class="text-2xl sm:text-3xl font-extrabold text-emerald-600 tracking-tight font-mono">Rp {{ "{:,}".format(total_honor_all).replace(',', '.') }}</div>
+                <div class="text-2xl sm:text-3xl font-extrabold text-blue-600 tracking-tight font-mono">Rp {{ "{:,}".format(total_honor_all).replace(',', '.') }}</div>
             </div>
             <p class="text-[11px] text-slate-400 flex items-center gap-1">
-                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                <span class="w-1.5 h-1.5 rounded-full bg-blue-500"></span>
                 <span>Akumulasi seluruh penugasan</span>
             </p>
         </div>
@@ -142,7 +142,7 @@
                     <div class="flex items-center justify-between mb-2">
                         <div class="flex items-center gap-1.5 min-w-0">
                             {% if item.total_mitra > 0 %}
-                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse flex-shrink-0"></span>
+                            <span class="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse flex-shrink-0"></span>
                             {% else %}
                             <span class="w-1.5 h-1.5 rounded-full bg-slate-300 flex-shrink-0"></span>
                             {% endif %}
@@ -176,7 +176,7 @@
                         <div class="flex items-center justify-between pt-1.5 border-t border-slate-100">
                             <span class="text-[10px] text-slate-400">Honor:</span>
                             {% if item.total_honor > 0 %}
-                            <span class="font-mono font-bold text-emerald-600 text-[10px]">
+                            <span class="font-mono font-bold text-blue-600 text-[10px]">
                                 Rp {{ "{:,}".format(item.total_honor).replace(',', '.') }}
                             </span>
                             {% else %}
@@ -189,7 +189,7 @@
                 <!-- Status Badge Bawah Seragam -->
                 <div class="pt-2 mt-1">
                     {% if item.total_mitra > 0 %}
-                    <span class="w-full inline-flex items-center justify-center gap-1 px-2 py-0.5 rounded-full text-[9px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200/60">
+                    <span class="w-full inline-flex items-center justify-center gap-1 px-2 py-0.5 rounded-full text-[9px] font-bold bg-blue-50 text-blue-700 border border-blue-200/60">
                         <i data-lucide="check" class="w-2.5 h-2.5"></i>
                         <span>Aktif Dialokasikan</span>
                     </span>
@@ -253,11 +253,11 @@
                             <span class="font-extrabold text-slate-800 font-mono">{{ r.avg_score if r.avg_score > 0 else '-' }}</span>
                         </td>
                         <td class="py-3 px-3.5 whitespace-nowrap text-center">
-                            <span class="px-2.5 py-0.5 rounded-full font-bold text-[10px] {% if 'Sangat Baik' in r.predikat %}bg-emerald-50 text-emerald-700 border border-emerald-200{% elif 'Baik' in r.predikat %}bg-blue-50 text-blue-700 border border-blue-200{% elif 'Cukup' in r.predikat %}bg-amber-50 text-amber-700 border border-amber-200{% else %}bg-slate-100 text-slate-500 border border-slate-200{% endif %}">
+                            <span class="px-2.5 py-0.5 rounded-full font-bold text-[10px] {% if 'Sangat Baik' in r.predikat %}bg-blue-50 text-blue-700 border border-blue-200{% elif 'Baik' in r.predikat %}bg-blue-50 text-blue-700 border border-blue-200{% elif 'Cukup' in r.predikat %}bg-sky-50 text-sky-700 border border-sky-200{% else %}bg-slate-100 text-slate-500 border border-slate-200{% endif %}">
                                 {{ r.predikat }}
                             </span>
                         </td>
-                        <td class="py-3 px-3.5 whitespace-nowrap font-mono font-bold text-emerald-600 text-right">Rp {{ "{:,}".format(r.total_honor).replace(',', '.') }}</td>
+                        <td class="py-3 px-3.5 whitespace-nowrap font-mono font-bold text-blue-600 text-right">Rp {{ "{:,}".format(r.total_honor).replace(',', '.') }}</td>
                     </tr>
                     {% else %}
                     <tr>

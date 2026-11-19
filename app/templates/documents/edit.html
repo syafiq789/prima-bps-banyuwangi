@@ -29,7 +29,7 @@
             
             <div>
                 <label for="title" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
-                    Judul Dokumen <span class="text-red-500">*</span>
+                    Judul Dokumen <span class="text-blue-500">*</span>
                 </label>
                 <input type="text" 
                        id="title" 
@@ -56,7 +56,7 @@
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <div>
                     <label for="category_id" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
-                        Kategori Dokumen <span class="text-red-500">*</span>
+                        Kategori Dokumen <span class="text-blue-500">*</span>
                     </label>
                     <select id="category_id" name="category_id" required class="w-full px-3 py-2.5 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-navy-main outline-none">
                         {% for cat in categories %}
@@ -69,7 +69,7 @@
 
                 <div>
                     <label for="year" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
-                        Tahun Kinerja <span class="text-red-500">*</span>
+                        Tahun Kinerja <span class="text-blue-500">*</span>
                     </label>
                     <select id="year" name="year" required class="w-full px-3 py-2.5 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-navy-main outline-none">
                         {% for y in [2026, 2025, 2024, 2023, 2022, 2021, 2020] %}
@@ -80,7 +80,7 @@
 
                 <div>
                     <label for="status" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
-                        Status Kelengkapan <span class="text-red-500">*</span>
+                        Status Kelengkapan <span class="text-blue-500">*</span>
                     </label>
                     <select id="status" name="status" required class="w-full px-3 py-2.5 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-navy-main outline-none">
                         <option value="lengkap" {% if document.status == 'lengkap' %}selected{% endif %}>Lengkap</option>

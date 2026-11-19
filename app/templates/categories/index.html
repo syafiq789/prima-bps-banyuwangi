@@ -84,7 +84,7 @@
                                 </a>
 
                                 <form action="{{ url_for('categories.delete', cat_id=cat.id) }}" method="POST" onsubmit="return confirm('Hapus kategori {{ cat.name }}? Pastikan tidak ada dokumen di dalamnya.');" class="inline">
-                                    <button type="submit" class="p-1.5 text-slate-400 hover:text-red-600 rounded-lg transition" title="Hapus Kategori">
+                                    <button type="submit" class="p-1.5 text-slate-400 hover:text-blue-600 rounded-lg transition" title="Hapus Kategori">
                                         <i data-lucide="trash-2" class="w-4 h-4"></i>
                                     </button>
                                 </form>

@@ -7,7 +7,7 @@
     <!-- 1. Header Halaman Modern & Berkelas (Harmonized Executive Card) -->
     <div class="bg-white/90 backdrop-blur-xl rounded-3xl p-5 sm:p-6 border border-slate-200/80 shadow-[0_4px_20px_-4px_rgba(20,43,74,0.03)] relative overflow-hidden">
         <div class="absolute -right-10 -top-10 w-56 h-56 bg-gradient-to-br from-blue-500/10 via-sky-300/10 to-transparent rounded-full blur-2xl pointer-events-none"></div>
-        <div class="absolute right-1/3 -bottom-12 w-64 h-64 bg-gradient-to-tr from-cyan-400/5 to-transparent rounded-full blur-2xl pointer-events-none"></div>
+        <div class="absolute right-1/3 -bottom-12 w-64 h-64 bg-gradient-to-tr from-sky-400/5 to-transparent rounded-full blur-2xl pointer-events-none"></div>
 
         <div class="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-5">
             <!-- Left: Breadcrumb, Icon, Title & Badges -->
@@ -29,7 +29,7 @@
                     <div class="flex flex-wrap items-center gap-2.5">
                         <h1 class="text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900">Rekapitulasi Penyerapan DIPA</h1>
                         <span class="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full text-[11px] font-bold bg-blue-50 text-blue-700 border border-blue-200/70 shadow-2xs">
-                            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                            <span class="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></span>
                             Satker 429215 BPS Banyuwangi
                         </span>
                     </div>
@@ -72,15 +72,15 @@
         <div class="bg-white rounded-2xl p-4.5 border border-slate-200/70 shadow-[0_1px_3px_rgba(0,0,0,0.03)] hover:shadow-md hover:border-slate-300 transition-all group flex flex-col justify-between">
             <div class="flex items-center justify-between text-slate-500">
                 <span class="text-xs font-medium">Realisasi SP2D</span>
-                <div class="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-600 ring-1 ring-emerald-500/10 flex items-center justify-center group-hover:scale-105 transition-transform">
+                <div class="w-8 h-8 rounded-lg bg-blue-50 text-blue-600 ring-1 ring-blue-500/10 flex items-center justify-center group-hover:scale-105 transition-transform">
                     <i data-lucide="check-check" class="w-4 h-4"></i>
                 </div>
             </div>
             <div class="my-2">
-                <div class="text-lg sm:text-xl font-extrabold text-emerald-600 tracking-tight font-sans">Rp {{ "{:,}".format(total_realisasi_all).replace(',', '.') }}</div>
+                <div class="text-lg sm:text-xl font-extrabold text-blue-600 tracking-tight font-sans">Rp {{ "{:,}".format(total_realisasi_all).replace(',', '.') }}</div>
             </div>
             <p class="text-[11px] text-slate-400 flex items-center gap-1">
-                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                <span class="w-1.5 h-1.5 rounded-full bg-blue-500"></span>
                 <span>Telah dicairkan KPPN</span>
             </p>
         </div>
@@ -89,7 +89,7 @@
         <div class="bg-white rounded-2xl p-4.5 border border-slate-200/70 shadow-[0_1px_3px_rgba(0,0,0,0.03)] hover:shadow-md hover:border-slate-300 transition-all group flex flex-col justify-between">
             <div class="flex items-center justify-between text-slate-500">
                 <span class="text-xs font-medium">Sisa Anggaran</span>
-                <div class="w-8 h-8 rounded-lg bg-blue-50 text-blue-600 ring-1 ring-orange-500/10 flex items-center justify-center group-hover:scale-105 transition-transform">
+                <div class="w-8 h-8 rounded-lg bg-blue-50 text-blue-600 ring-1 ring-blue-500/10 flex items-center justify-center group-hover:scale-105 transition-transform">
                     <i data-lucide="pie-chart" class="w-4 h-4"></i>
                 </div>
             </div>
@@ -139,7 +139,7 @@
                     {% for r in rekap %}
                     <tr class="hover:bg-slate-50/80 transition group">
                         <td class="py-3.5 px-4 whitespace-nowrap">
-                            <span class="inline-flex items-center px-2.5 py-1 rounded-lg bg-emerald-50 text-emerald-800 font-mono text-xs font-bold border border-emerald-200/70 shadow-2xs">
+                            <span class="inline-flex items-center px-2.5 py-1 rounded-lg bg-blue-50 text-blue-800 font-mono text-xs font-bold border border-blue-200/70 shadow-2xs">
                                 {{ r.akun.kode_akun }}
                             </span>
                             <div class="mt-1">
@@ -159,7 +159,7 @@
                         <td class="py-3.5 px-4 whitespace-nowrap font-mono text-blue-600 font-bold text-xs">
                             Rp {{ "{:,}".format(r.disetujui).replace(',', '.') }}
                         </td>
-                        <td class="py-3.5 px-4 whitespace-nowrap font-mono font-bold text-emerald-600 text-xs">
+                        <td class="py-3.5 px-4 whitespace-nowrap font-mono font-bold text-blue-600 text-xs">
                             Rp {{ "{:,}".format(r.realisasi).replace(',', '.') }}
                         </td>
                         <td class="py-3.5 px-4 whitespace-nowrap font-mono font-bold text-blue-600 text-xs">
@@ -167,11 +167,11 @@
                         </td>
                         <td class="py-3.5 px-4 whitespace-nowrap">
                             <div class="flex items-center gap-2">
-                                <span class="font-bold font-mono text-xs {% if r.serapan_persen >= 75 %}text-emerald-600{% elif r.serapan_persen >= 50 %}text-amber-600{% else %}text-slate-600{% endif %}">
+                                <span class="font-bold font-mono text-xs {% if r.serapan_persen >= 75 %}text-blue-600{% elif r.serapan_persen >= 50 %}text-sky-600{% else %}text-slate-600{% endif %}">
                                     {{ r.serapan_persen }}%
                                 </span>
                                 <div class="w-16 h-1.5 rounded-full bg-slate-100 overflow-hidden">
-                                    <div class="h-full {% if r.serapan_persen >= 75 %}bg-emerald-500{% elif r.serapan_persen >= 50 %}bg-amber-500{% else %}bg-blue-500{% endif %} rounded-full" style="width: {{ r.serapan_persen }}%"></div>
+                                    <div class="h-full {% if r.serapan_persen >= 75 %}bg-blue-500{% elif r.serapan_persen >= 50 %}bg-sky-500{% else %}bg-blue-500{% endif %} rounded-full" style="width: {{ r.serapan_persen }}%"></div>
                                 </div>
                             </div>
                         </td>
@@ -180,7 +180,7 @@
                     <tr>
                         <td colspan="8" class="py-16 text-center text-slate-400">
                             <div class="flex flex-col items-center justify-center gap-2 max-w-sm mx-auto">
-                                <div class="w-14 h-14 rounded-2xl bg-emerald-50 border border-emerald-100 text-emerald-500 flex items-center justify-center shadow-sm shadow-emerald-500/10 mb-1">
+                                <div class="w-14 h-14 rounded-2xl bg-blue-50 border border-blue-100 text-blue-500 flex items-center justify-center shadow-sm shadow-blue-500/10 mb-1">
                                     <i data-lucide="pie-chart" class="w-6 h-6"></i>
                                 </div>
                                 <p class="font-bold text-slate-800 text-sm">Belum Ada Rekapitulasi DIPA</p>

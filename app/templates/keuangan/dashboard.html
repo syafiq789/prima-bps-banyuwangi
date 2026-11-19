@@ -8,7 +8,7 @@
     <!-- 1. Header Halaman Modern & Berkelas (Harmonized Executive Card) -->
     <div class="bg-white/90 backdrop-blur-xl rounded-3xl p-5 sm:p-6 border border-slate-200/80 shadow-[0_4px_20px_-4px_rgba(20,43,74,0.03)] relative overflow-hidden">
         <div class="absolute -right-10 -top-10 w-56 h-56 bg-gradient-to-br from-blue-500/10 via-sky-300/10 to-transparent rounded-full blur-2xl pointer-events-none"></div>
-        <div class="absolute right-1/3 -bottom-12 w-64 h-64 bg-gradient-to-tr from-cyan-400/5 to-transparent rounded-full blur-2xl pointer-events-none"></div>
+        <div class="absolute right-1/3 -bottom-12 w-64 h-64 bg-gradient-to-tr from-sky-400/5 to-transparent rounded-full blur-2xl pointer-events-none"></div>
 
         <div class="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-5">
             <!-- Left: Breadcrumb, Icon, Title & Badges -->
@@ -28,7 +28,7 @@
                     <div class="flex flex-wrap items-center gap-2.5">
                         <h1 class="text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900">Tracking & Realisasi Anggaran</h1>
                         <span class="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full text-[11px] font-bold bg-blue-50 text-blue-700 border border-blue-200/70 shadow-2xs">
-                            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                            <span class="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></span>
                             DIPA Satker 429215 BPS
                         </span>
                         <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-slate-100 text-slate-600 border border-slate-200/70">
@@ -43,12 +43,12 @@
             <div class="flex flex-wrap items-center gap-2 pt-1 lg:pt-0">
                 <a href="{{ url_for('keuangan.persetujuan') }}" 
                    class="h-9 px-4 rounded-full border border-slate-200/90 bg-white hover:bg-slate-50 text-slate-700 font-semibold text-xs shadow-2xs transition-all flex items-center gap-1.5 active:scale-95 hover:border-slate-300">
-                    <i data-lucide="check-square" class="w-3.5 h-3.5 text-teal-600"></i>
+                    <i data-lucide="check-square" class="w-3.5 h-3.5 text-sky-600"></i>
                     <span>Persetujuan PPK</span>
                 </a>
                 <a href="{{ url_for('keuangan.rekapitulasi') }}" 
                    class="h-9 px-4 rounded-full border border-slate-200/90 bg-white hover:bg-slate-50 text-slate-700 font-semibold text-xs shadow-2xs transition-all flex items-center gap-1.5 active:scale-95 hover:border-slate-300">
-                    <i data-lucide="bar-chart-3" class="w-3.5 h-3.5 text-emerald-600"></i>
+                    <i data-lucide="bar-chart-3" class="w-3.5 h-3.5 text-blue-600"></i>
                     <span>Rekap DIPA</span>
                 </a>
                 <button type="button" 
@@ -85,15 +85,15 @@
         <div class="bg-white rounded-2xl p-4.5 border border-slate-200/70 shadow-[0_1px_3px_rgba(0,0,0,0.03)] hover:shadow-md hover:border-slate-300 transition-all group flex flex-col justify-between">
             <div class="flex items-center justify-between text-slate-500">
                 <span class="text-xs font-medium">Realisasi SP2D</span>
-                <div class="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-600 ring-1 ring-emerald-500/10 flex items-center justify-center group-hover:scale-105 transition-transform">
+                <div class="w-8 h-8 rounded-lg bg-blue-50 text-blue-600 ring-1 ring-blue-500/10 flex items-center justify-center group-hover:scale-105 transition-transform">
                     <i data-lucide="check-check" class="w-4 h-4"></i>
                 </div>
             </div>
             <div class="my-2">
-                <div class="text-xl sm:text-2xl font-extrabold text-emerald-600 tracking-tight font-sans">Rp {{ "{:,}".format(total_realisasi).replace(',', '.') }}</div>
+                <div class="text-xl sm:text-2xl font-extrabold text-blue-600 tracking-tight font-sans">Rp {{ "{:,}".format(total_realisasi).replace(',', '.') }}</div>
             </div>
             <div class="flex items-center gap-1.5">
-                <span class="px-2 py-0.5 rounded-md text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                <span class="px-2 py-0.5 rounded-md text-[10px] font-bold bg-blue-50 text-blue-700 border border-blue-200">
                     Serapan: {{ persentase_serapan }}%
                 </span>
             </div>
@@ -120,15 +120,15 @@
         <div class="bg-white rounded-2xl p-4.5 border border-slate-200/70 shadow-[0_1px_3px_rgba(0,0,0,0.03)] hover:shadow-md hover:border-slate-300 transition-all group flex flex-col justify-between">
             <div class="flex items-center justify-between text-slate-500">
                 <span class="text-xs font-medium">Menunggu PPK</span>
-                <div class="w-8 h-8 rounded-lg bg-amber-50 text-amber-600 ring-1 ring-amber-500/10 flex items-center justify-center group-hover:scale-105 transition-transform">
+                <div class="w-8 h-8 rounded-lg bg-sky-50 text-sky-600 ring-1 ring-sky-500/10 flex items-center justify-center group-hover:scale-105 transition-transform">
                     <i data-lucide="clock" class="w-4 h-4"></i>
                 </div>
             </div>
             <div class="my-2">
-                <div class="text-xl sm:text-2xl font-extrabold text-amber-600 tracking-tight font-sans">{{ menunggu_persetujuan }} <span class="text-sm font-semibold text-slate-400">Pengajuan</span></div>
+                <div class="text-xl sm:text-2xl font-extrabold text-sky-600 tracking-tight font-sans">{{ menunggu_persetujuan }} <span class="text-sm font-semibold text-slate-400">Pengajuan</span></div>
             </div>
             <p class="text-[11px] text-slate-400 flex items-center gap-1">
-                <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
+                <span class="w-1.5 h-1.5 rounded-full bg-sky-500"></span>
                 <span>Perlu persetujuan</span>
             </p>
         </div>
@@ -142,7 +142,7 @@
     <div class="bg-white rounded-2xl p-4 sm:p-4.5 border border-slate-200/80 shadow-xs">
         <div class="flex items-center justify-between pb-3 border-b border-slate-100 mb-3.5">
             <div class="flex items-center gap-2">
-                <div class="w-7 h-7 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center border border-emerald-200/60 shadow-2xs">
+                <div class="w-7 h-7 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center border border-blue-200/60 shadow-2xs">
                     <i data-lucide="git-commit" class="w-3.5 h-3.5"></i>
                 </div>
                 <div>
@@ -150,7 +150,7 @@
                     <p class="text-[10px] text-slate-400">Tahapan transparan dari usulan rincian kegiatan, verifikasi PPK, hingga pencairan SP2D</p>
                 </div>
             </div>
-            <span class="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200/60 hidden sm:inline-block">
+            <span class="text-[10px] font-bold text-blue-700 bg-blue-50 px-2.5 py-0.5 rounded-full border border-blue-200/60 hidden sm:inline-block">
                 SOP Keuangan BPS
             </span>
         </div>
@@ -217,7 +217,7 @@
                     <p class="text-[11px] text-slate-400">Honor Petugas Lapangan, Perjalanan Dinas, Belanja Bahan, dan Daya Jasa Satker</p>
                 </div>
                 <div class="w-8 h-8 rounded-lg bg-slate-50 text-slate-400 flex items-center justify-center">
-                    <i data-lucide="bar-chart-3" class="w-4 h-4 text-emerald-500"></i>
+                    <i data-lucide="bar-chart-3" class="w-4 h-4 text-blue-500"></i>
                 </div>
             </div>
             
@@ -226,7 +226,7 @@
                 <canvas id="chartKeuanganKategori"></canvas>
                 {% else %}
                 <div class="w-full h-full rounded-2xl border-2 border-dashed border-slate-200/80 bg-slate-50/50 flex flex-col items-center justify-center text-center p-6">
-                    <div class="w-11 h-11 rounded-2xl bg-emerald-50 text-emerald-500 flex items-center justify-center mb-2.5 ring-1 ring-emerald-500/10">
+                    <div class="w-11 h-11 rounded-2xl bg-blue-50 text-blue-500 flex items-center justify-center mb-2.5 ring-1 ring-blue-500/10">
                         <i data-lucide="bar-chart-3" class="w-5 h-5"></i>
                     </div>
                     <p class="text-xs font-bold text-slate-700">Belum Ada Pagu & Realisasi</p>
@@ -245,7 +245,7 @@
                         <p class="text-[11px] text-slate-400">Indikator kinerja pelaksanaan anggaran (IKPA)</p>
                     </div>
                     <div class="w-8 h-8 rounded-lg bg-slate-50 text-slate-400 flex items-center justify-center">
-                        <i data-lucide="trending-up" class="w-4 h-4 text-emerald-500"></i>
+                        <i data-lucide="trending-up" class="w-4 h-4 text-blue-500"></i>
                     </div>
                 </div>
 
@@ -253,10 +253,10 @@
                     <div>
                         <div class="flex justify-between text-xs font-bold mb-1.5">
                             <span class="text-slate-600">Daya Serap Kumulatif</span>
-                            <span class="text-emerald-600 font-mono">{{ persentase_serapan }}%</span>
+                            <span class="text-blue-600 font-mono">{{ persentase_serapan }}%</span>
                         </div>
                         <div class="w-full h-2.5 rounded-full bg-slate-100 overflow-hidden">
-                            <div class="h-full bg-emerald-500 rounded-full transition-all duration-500" style="width: {{ persentase_serapan }}%"></div>
+                            <div class="h-full bg-blue-500 rounded-full transition-all duration-500" style="width: {{ persentase_serapan }}%"></div>
                         </div>
                     </div>
 
@@ -271,13 +271,13 @@
                         </div>
                         <div class="flex justify-between items-center pt-1.5 border-t border-slate-200/60">
                             <span class="text-slate-500 text-[11px]">Telah Dicairkan (SP2D):</span>
-                            <span class="font-bold text-emerald-600 font-mono">Rp {{ "{:,}".format(total_realisasi).replace(',', '.') }}</span>
+                            <span class="font-bold text-blue-600 font-mono">Rp {{ "{:,}".format(total_realisasi).replace(',', '.') }}</span>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <a href="{{ url_for('keuangan.rekapitulasi') }}" class="mt-4 text-center text-xs font-semibold text-emerald-600 hover:text-emerald-700 block py-2.5 rounded-xl bg-emerald-50/80 hover:bg-emerald-100 transition">
+            <a href="{{ url_for('keuangan.rekapitulasi') }}" class="mt-4 text-center text-xs font-semibold text-blue-600 hover:text-blue-700 block py-2.5 rounded-xl bg-blue-50/80 hover:bg-blue-100 transition">
                 Buka Matriks Rekapitulasi Keuangan &rarr;
             </a>
         </div>
@@ -297,11 +297,11 @@
                 <div class="flex items-center gap-2">
                     <button type="button" 
                             onclick="openModalPengajuan()"
-                            class="px-3 py-1.5 rounded-full bg-blue-50 hover:bg-orange-100 text-blue-600 font-bold text-xs transition flex items-center gap-1">
+                            class="px-3 py-1.5 rounded-full bg-blue-50 hover:bg-blue-100 text-blue-600 font-bold text-xs transition flex items-center gap-1">
                         <i data-lucide="plus" class="w-3.5 h-3.5"></i>
                         <span>Pengajuan Baru</span>
                     </button>
-                    <a href="{{ url_for('keuangan.pengajuan') }}" class="text-xs font-semibold text-emerald-600 hover:text-emerald-700 flex items-center gap-1 transition">
+                    <a href="{{ url_for('keuangan.pengajuan') }}" class="text-xs font-semibold text-blue-600 hover:text-blue-700 flex items-center gap-1 transition">
                         <span>Lihat Semua</span>
                         <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
                     </a>
@@ -356,7 +356,7 @@
                                         {{ item.ketua_tim.nama_lengkap if item.ketua_tim else 'Tim BPS' }}
                                     </div>
                                     <div class="text-[9px] text-slate-400">
-                                        {{ item.peran_tim or 'Ketua Tim' }} &bull; <span class="font-mono font-bold text-emerald-600">Rp {{ "{:,}".format(item.honor_pengelola or 0).replace(',', '.') }}</span>
+                                        {{ item.peran_tim or 'Ketua Tim' }} &bull; <span class="font-mono font-bold text-blue-600">Rp {{ "{:,}".format(item.honor_pengelola or 0).replace(',', '.') }}</span>
                                     </div>
                                 </div>
                                 {% else %}
@@ -373,11 +373,11 @@
                             </td>
                             <td class="py-3 px-3.5 whitespace-nowrap text-center">
                                 {% if item.status == 'DISETUJUI' %}
-                                <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200 shadow-2xs">DISETUJUI</span>
+                                <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-blue-50 text-blue-700 border border-blue-200 shadow-2xs">DISETUJUI</span>
                                 {% elif item.status == 'DITOLAK' %}
-                                <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-rose-50 text-rose-700 border border-rose-200 shadow-2xs">DITOLAK</span>
+                                <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-blue-50 text-blue-700 border border-blue-200 shadow-2xs">DITOLAK</span>
                                 {% else %}
-                                <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-amber-50 text-amber-700 border border-amber-200 shadow-2xs">MENUNGGU</span>
+                                <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-sky-50 text-sky-700 border border-sky-200 shadow-2xs">MENUNGGU</span>
                                 {% endif %}
                             </td>
                         </tr>
@@ -385,7 +385,7 @@
                         <tr>
                             <td colspan="6" class="py-12 text-center text-slate-400">
                                 <div class="flex flex-col items-center justify-center gap-2 max-w-sm mx-auto">
-                                    <div class="w-12 h-12 rounded-2xl bg-emerald-50 border border-emerald-100 text-emerald-500 flex items-center justify-center shadow-sm shadow-emerald-500/10 mb-0.5">
+                                    <div class="w-12 h-12 rounded-2xl bg-blue-50 border border-blue-100 text-blue-500 flex items-center justify-center shadow-sm shadow-blue-500/10 mb-0.5">
                                         <i data-lucide="receipt" class="w-5 h-5"></i>
                                     </div>
                                     <p class="font-bold text-slate-800 text-xs">Belum Ada Pengajuan Anggaran</p>
@@ -407,16 +407,16 @@
                         <h2 class="text-base font-bold text-slate-800">Realisasi SP2D Terbaru</h2>
                         <p class="text-xs text-slate-400">Pencairan anggaran KPPN</p>
                     </div>
-                    <a href="{{ url_for('keuangan.realisasi') }}" class="text-xs text-emerald-600 font-semibold hover:underline">Kelola &rarr;</a>
+                    <a href="{{ url_for('keuangan.realisasi') }}" class="text-xs text-blue-600 font-semibold hover:underline">Kelola &rarr;</a>
                 </div>
                 <div class="space-y-3">
                     {% for r in realisasi_terbaru %}
-                    <div class="p-3.5 rounded-2xl bg-emerald-50/50 border border-emerald-100/80 hover:bg-emerald-50 transition">
+                    <div class="p-3.5 rounded-2xl bg-blue-50/50 border border-blue-100/80 hover:bg-blue-50 transition">
                         <div class="flex items-center justify-between mb-1">
-                            <span class="text-xs font-mono font-bold text-emerald-900">{{ r.nomor_spm_sp2d }}</span>
+                            <span class="text-xs font-mono font-bold text-blue-900">{{ r.nomor_spm_sp2d }}</span>
                             <span class="text-[10px] text-slate-400">{{ r.tanggal_realisasi }}</span>
                         </div>
-                        <div class="text-xs font-black text-emerald-700 font-mono mb-1">Rp {{ "{:,}".format(r.jumlah_realisasi).replace(',', '.') }}</div>
+                        <div class="text-xs font-black text-blue-700 font-mono mb-1">Rp {{ "{:,}".format(r.jumlah_realisasi).replace(',', '.') }}</div>
                         <p class="text-[11px] text-slate-600 truncate">{{ r.keterangan or r.pengajuan.judul_pengajuan }}</p>
                     </div>
                     {% else %}
@@ -443,7 +443,7 @@
         <!-- Modal Header -->
         <div class="flex items-center justify-between pb-3.5 border-b border-slate-100 mb-4">
             <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-xl bg-blue-500/10 text-blue-600 flex items-center justify-center border border-orange-500/20">
+                <div class="w-10 h-10 rounded-xl bg-blue-500/10 text-blue-600 flex items-center justify-center border border-blue-500/20">
                     <i data-lucide="file-plus" class="w-5 h-5"></i>
                 </div>
                 <div>
@@ -597,9 +597,9 @@
             </div>
 
             <!-- 6. Total Keseluruhan Diajukan -->
-            <div class="p-4 rounded-2xl bg-blue-50 border border-orange-200 flex items-center justify-between">
+            <div class="p-4 rounded-2xl bg-blue-50 border border-blue-200 flex items-center justify-between">
                 <div>
-                    <span class="block text-[11px] font-bold text-orange-800">Total Nilai Usulan Anggaran:</span>
+                    <span class="block text-[11px] font-bold text-blue-800">Total Nilai Usulan Anggaran:</span>
                     <span class="text-[10px] text-blue-600" id="labelRincianTotal">Biaya Lapangan</span>
                 </div>
                 <div class="text-right">
@@ -644,7 +644,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     {
                         label: 'Realisasi SP2D (Rp)',
                         data: {{ real_per_kat|tojson }},
-                        backgroundColor: '#10B981',
+                        backgroundColor: '#0EA5E9',
                         borderRadius: 8
                     }
                 ]

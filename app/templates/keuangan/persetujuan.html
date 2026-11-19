@@ -7,7 +7,7 @@
     <!-- 1. Header Halaman Modern & Berkelas (Harmonized Executive Card) -->
     <div class="bg-white/90 backdrop-blur-xl rounded-3xl p-5 sm:p-6 border border-slate-200/80 shadow-[0_4px_20px_-4px_rgba(20,43,74,0.03)] relative overflow-hidden">
         <div class="absolute -right-10 -top-10 w-56 h-56 bg-gradient-to-br from-blue-500/10 via-sky-300/10 to-transparent rounded-full blur-2xl pointer-events-none"></div>
-        <div class="absolute right-1/3 -bottom-12 w-64 h-64 bg-gradient-to-tr from-cyan-400/5 to-transparent rounded-full blur-2xl pointer-events-none"></div>
+        <div class="absolute right-1/3 -bottom-12 w-64 h-64 bg-gradient-to-tr from-sky-400/5 to-transparent rounded-full blur-2xl pointer-events-none"></div>
 
         <div class="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-5">
             <!-- Left: Breadcrumb, Icon, Title & Badges -->
@@ -29,10 +29,10 @@
                     <div class="flex flex-wrap items-center gap-2.5">
                         <h1 class="text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900">Verifikasi & Persetujuan PPK</h1>
                         <span class="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full text-[11px] font-bold bg-blue-50 text-blue-700 border border-blue-200/70 shadow-2xs">
-                            <span class="w-2 h-2 rounded-full bg-teal-500 animate-pulse"></span>
+                            <span class="w-2 h-2 rounded-full bg-sky-500 animate-pulse"></span>
                             Tahap 2: Otorisasi PPK / KPA
                         </span>
-                        <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-amber-50 text-amber-700 border border-amber-200/70">
+                        <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-sky-50 text-sky-700 border border-sky-200/70">
                             {{ pengajuan_menunggu|length }} Antrean Verifikasi
                         </span>
                     </div>
@@ -55,7 +55,7 @@
     <div class="bg-white rounded-3xl border border-slate-200/80 shadow-[0_4px_20px_-4px_rgba(20,43,74,0.04)] overflow-hidden">
         <div class="px-6 py-4 border-b border-slate-100 flex items-center justify-between">
             <div class="flex items-center gap-2.5">
-                <div class="w-8 h-8 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center font-bold text-xs">
+                <div class="w-8 h-8 rounded-xl bg-sky-50 text-sky-600 flex items-center justify-center font-bold text-xs">
                     <i data-lucide="clock" class="w-4 h-4"></i>
                 </div>
                 <div>
@@ -63,7 +63,7 @@
                     <p class="text-[11px] text-slate-400">Verifikasi dokumen dan kesesuaian mata anggaran kegiatan</p>
                 </div>
             </div>
-            <span class="px-3 py-1 rounded-full text-xs font-bold bg-amber-50 text-amber-700 border border-amber-200/80 shadow-2xs">
+            <span class="px-3 py-1 rounded-full text-xs font-bold bg-sky-50 text-sky-700 border border-sky-200/80 shadow-2xs">
                 {{ pengajuan_menunggu|length }} Antrean
             </span>
         </div>
@@ -127,11 +127,11 @@
                                 <input type="hidden" name="pengajuan_id" value="{{ item.id }}">
                                 <input type="text" name="catatan" placeholder="Catatan PPK..." class="w-48 px-3 py-1.5 text-xs rounded-xl border border-slate-200/90 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/15 transition">
                                 <div class="flex items-center gap-1.5">
-                                    <button type="submit" name="status" value="YA" class="h-8 px-3 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-sm flex items-center gap-1 active:scale-95 transition" title="Setujui Usulan Pengajuan">
+                                    <button type="submit" name="status" value="YA" class="h-8 px-3 rounded-full bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs shadow-sm flex items-center gap-1 active:scale-95 transition" title="Setujui Usulan Pengajuan">
                                         <i data-lucide="check" class="w-3.5 h-3.5"></i>
                                         <span>Setujui (Ya)</span>
                                     </button>
-                                    <button type="submit" name="status" value="TIDAK" class="h-8 px-3 rounded-full bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs shadow-sm flex items-center gap-1 active:scale-95 transition" title="Tolak Usulan Pengajuan">
+                                    <button type="submit" name="status" value="TIDAK" class="h-8 px-3 rounded-full bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs shadow-sm flex items-center gap-1 active:scale-95 transition" title="Tolak Usulan Pengajuan">
                                         <i data-lucide="x" class="w-3.5 h-3.5"></i>
                                         <span>Tolak (Tidak)</span>
                                     </button>
@@ -143,7 +143,7 @@
                     <tr>
                         <td colspan="5" class="py-16 text-center text-slate-400">
                             <div class="flex flex-col items-center justify-center gap-2 max-w-sm mx-auto">
-                                <div class="w-14 h-14 rounded-2xl bg-amber-50 border border-amber-100 text-amber-500 flex items-center justify-center shadow-sm shadow-amber-500/10 mb-1">
+                                <div class="w-14 h-14 rounded-2xl bg-sky-50 border border-sky-100 text-sky-500 flex items-center justify-center shadow-sm shadow-sky-500/10 mb-1">
                                     <i data-lucide="check-check" class="w-6 h-6"></i>
                                 </div>
                                 <p class="font-bold text-slate-800 text-sm">Tidak Ada Antrean Verifikasi</p>
@@ -180,11 +180,11 @@
                         <td class="py-3.5 px-4 font-semibold text-slate-800">{{ h.pengajuan.judul_pengajuan }}</td>
                         <td class="py-3.5 px-4 whitespace-nowrap text-center">
                             {% if h.status == 'DISETUJUI' %}
-                            <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-700 font-bold text-[10px] border border-emerald-200 shadow-2xs">
+                            <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-blue-50 text-blue-700 font-bold text-[10px] border border-blue-200 shadow-2xs">
                                 <i data-lucide="check" class="w-3 h-3"></i> DISETUJUI
                             </span>
                             {% else %}
-                            <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-rose-50 text-rose-700 font-bold text-[10px] border border-rose-200 shadow-2xs">
+                            <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-blue-50 text-blue-700 font-bold text-[10px] border border-blue-200 shadow-2xs">
                                 <i data-lucide="x" class="w-3 h-3"></i> DITOLAK
                             </span>
                             {% endif %}
