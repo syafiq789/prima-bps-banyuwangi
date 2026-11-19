@@ -61,30 +61,30 @@
     <!-- ============================================================== -->
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 items-stretch">
 
-        <!-- LANGKAH 1: UNDUH TEMPLATE KEGIATAN -->
+        <!-- LANGKAH 1: TEMPLATE KEGIATAN -->
         <div class="lg:col-span-6 bg-white rounded-3xl p-6 border border-slate-200/80 shadow-soft flex flex-col justify-between">
             <div class="space-y-4">
                 <div class="flex items-center justify-between gap-3">
                     <div class="flex items-center gap-3">
                         <span class="w-8 h-8 rounded-xl bg-blue-600 text-white font-black text-xs flex items-center justify-center shadow-sm shadow-blue-600/25">1</span>
                         <div>
-                            <h2 class="text-sm font-extrabold text-slate-900">Unduh Template Kegiatan</h2>
-                            <p class="text-[11px] text-slate-500">Gunakan format kolom berikut agar data terbaca otomatis</p>
+                            <h2 class="text-sm font-extrabold text-slate-900">Template Kegiatan</h2>
+                            <p class="text-[11px] text-slate-500">Lihat format isian &amp; unduh file template sebelum upload</p>
                         </div>
                     </div>
                 </div>
 
-                <!-- Kolom Ringkas -->
+                <!-- Format Isian Ringkas -->
                 <div class="p-3.5 rounded-2xl bg-blue-50/60 border border-blue-100 space-y-2">
-                    <span class="text-[10px] font-bold uppercase tracking-wider text-blue-700">Kolom Template CSV</span>
-                    <div class="flex flex-wrap gap-1.5 font-mono text-[11px]">
-                        <span class="px-2 py-0.5 rounded-lg bg-white border border-blue-200/80 text-slate-800 font-bold">kode_kegiatan</span>
-                        <span class="px-2 py-0.5 rounded-lg bg-white border border-blue-200/80 text-slate-800 font-bold">nama_kegiatan</span>
-                        <span class="px-2 py-0.5 rounded-lg bg-white border border-blue-200/80 text-blue-700 font-bold">tim_kerja</span>
-                        <span class="px-2 py-0.5 rounded-lg bg-white border border-blue-200/80 text-slate-600">tahun</span>
-                        <span class="px-2 py-0.5 rounded-lg bg-white border border-blue-200/80 text-slate-600">bulan</span>
-                        <span class="px-2 py-0.5 rounded-lg bg-white border border-blue-200/80 text-slate-600">tanggal_mulai</span>
-                        <span class="px-2 py-0.5 rounded-lg bg-white border border-blue-200/80 text-slate-600">tanggal_selesai</span>
+                    <span class="text-[10px] font-bold uppercase tracking-wider text-blue-700">Isian yang Dibutuhkan</span>
+                    <div class="flex flex-wrap gap-1.5 text-[11px]">
+                        <span class="px-2.5 py-1 rounded-lg bg-white border border-blue-200/80 text-slate-800 font-semibold">Kode Kegiatan</span>
+                        <span class="px-2.5 py-1 rounded-lg bg-white border border-blue-200/80 text-slate-800 font-semibold">Nama Kegiatan</span>
+                        <span class="px-2.5 py-1 rounded-lg bg-white border border-blue-200/80 text-blue-700 font-semibold">Tim Kerja</span>
+                        <span class="px-2.5 py-1 rounded-lg bg-white border border-blue-200/80 text-slate-600 font-medium">Tahun</span>
+                        <span class="px-2.5 py-1 rounded-lg bg-white border border-blue-200/80 text-slate-600 font-medium">Bulan</span>
+                        <span class="px-2.5 py-1 rounded-lg bg-white border border-blue-200/80 text-slate-600 font-medium">Tanggal Mulai</span>
+                        <span class="px-2.5 py-1 rounded-lg bg-white border border-blue-200/80 text-slate-600 font-medium">Tanggal Selesai</span>
                     </div>
                 </div>
 
@@ -93,18 +93,18 @@
                     <table class="w-full text-left text-[11px]">
                         <thead class="bg-slate-50 text-slate-500 font-bold uppercase text-[9px] border-b border-slate-200/80">
                             <tr>
-                                <th class="py-2 px-3">Contoh Kode</th>
-                                <th class="py-2 px-3">Nama Kegiatan</th>
-                                <th class="py-2 px-3">Tim Kerja</th>
-                                <th class="py-2 px-3">Periode</th>
+                                <th class="py-2 px-3 whitespace-nowrap">Kode</th>
+                                <th class="py-2 px-3 whitespace-nowrap">Nama Kegiatan</th>
+                                <th class="py-2 px-3 whitespace-nowrap">Tim Kerja</th>
+                                <th class="py-2 px-3 whitespace-nowrap">Periode</th>
                             </tr>
                         </thead>
                         <tbody class="text-slate-700">
                             <tr>
-                                <td class="py-2.5 px-3 font-mono font-bold text-blue-600">SRV-DIS-01</td>
+                                <td class="py-2.5 px-3 font-mono font-bold text-blue-600 whitespace-nowrap">SRV-DIS-01</td>
                                 <td class="py-2.5 px-3 font-semibold">Survei Harga Perdagangan Besar</td>
-                                <td class="py-2.5 px-3 text-blue-700 font-semibold">Tim Distribusi</td>
-                                <td class="py-2.5 px-3 font-mono text-[10px]">2025-01-05 s.d 2025-01-31</td>
+                                <td class="py-2.5 px-3 text-blue-700 font-semibold whitespace-nowrap">Tim Distribusi</td>
+                                <td class="py-2.5 px-3 font-mono text-[10px] whitespace-nowrap">05 Jan &ndash; 31 Jan 2025</td>
                             </tr>
                         </tbody>
                     </table>
@@ -115,18 +115,18 @@
                 <a href="{{ url_for('mitra.download_template_kegiatan') }}"
                    class="w-full py-2.5 px-4 rounded-xl bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-200 font-bold text-xs transition-all flex items-center justify-center gap-2">
                     <i data-lucide="download" class="w-4 h-4"></i>
-                    <span>Download Template Kegiatan (.CSV)</span>
+                    <span>Unduh Template Kegiatan (.CSV)</span>
                 </a>
             </div>
         </div>
 
-        <!-- LANGKAH 2: UPLOAD FILE KEGIATAN -->
+        <!-- LANGKAH 2: UPLOAD KEGIATAN -->
         <div class="lg:col-span-6 bg-white rounded-3xl p-6 border border-blue-200/80 shadow-soft flex flex-col justify-between">
             <div class="flex items-center gap-3 mb-4">
                 <span class="w-8 h-8 rounded-xl bg-blue-600 text-white font-black text-xs flex items-center justify-center shadow-sm shadow-blue-600/25">2</span>
                 <div>
-                    <h2 class="text-sm font-extrabold text-slate-900">Upload File Kegiatan</h2>
-                    <p class="text-[11px] text-slate-500">Pilih file CSV yang sudah diisi, data langsung masuk ke daftar</p>
+                    <h2 class="text-sm font-extrabold text-slate-900">Upload Kegiatan</h2>
+                    <p class="text-[11px] text-slate-500">Pilih file template yang sudah diisi, data langsung masuk ke daftar</p>
                 </div>
             </div>
 
@@ -226,26 +226,26 @@
     <!-- ============================================================== -->
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 items-stretch">
 
-        <!-- LANGKAH 1: UNDUH TEMPLATE MITRA -->
+        <!-- LANGKAH 1: TEMPLATE DATA MITRA -->
         <div class="lg:col-span-6 bg-white rounded-3xl p-6 border border-slate-200/80 shadow-soft flex flex-col justify-between">
             <div class="space-y-4">
                 <div class="flex items-center gap-3">
                     <span class="w-8 h-8 rounded-xl bg-blue-600 text-white font-black text-xs flex items-center justify-center shadow-sm shadow-blue-600/25">1</span>
                     <div>
-                        <h2 class="text-sm font-extrabold text-slate-900">Unduh Template Data Mitra</h2>
-                        <p class="text-[11px] text-slate-500">Gunakan format kolom berikut untuk menambah banyak mitra sekaligus</p>
+                        <h2 class="text-sm font-extrabold text-slate-900">Template Data Mitra</h2>
+                        <p class="text-[11px] text-slate-500">Lihat format isian &amp; unduh file template sebelum upload</p>
                     </div>
                 </div>
 
                 <div class="p-3.5 rounded-2xl bg-blue-50/60 border border-blue-100 space-y-2">
-                    <span class="text-[10px] font-bold uppercase tracking-wider text-blue-700">Kolom Template CSV</span>
-                    <div class="flex flex-wrap gap-1.5 font-mono text-[11px]">
-                        <span class="px-2 py-0.5 rounded-lg bg-white border border-blue-200/80 text-slate-800 font-bold">id_sobat</span>
-                        <span class="px-2 py-0.5 rounded-lg bg-white border border-blue-200/80 text-slate-800 font-bold">nama_lengkap</span>
-                        <span class="px-2 py-0.5 rounded-lg bg-white border border-blue-200/80 text-blue-700 font-bold">kecamatan</span>
-                        <span class="px-2 py-0.5 rounded-lg bg-white border border-blue-200/80 text-slate-600">desa</span>
-                        <span class="px-2 py-0.5 rounded-lg bg-white border border-blue-200/80 text-slate-600">no_hp</span>
-                        <span class="px-2 py-0.5 rounded-lg bg-white border border-blue-200/80 text-slate-600">keahlian</span>
+                    <span class="text-[10px] font-bold uppercase tracking-wider text-blue-700">Isian yang Dibutuhkan</span>
+                    <div class="flex flex-wrap gap-1.5 text-[11px]">
+                        <span class="px-2.5 py-1 rounded-lg bg-white border border-blue-200/80 text-slate-800 font-semibold">ID Sobat</span>
+                        <span class="px-2.5 py-1 rounded-lg bg-white border border-blue-200/80 text-slate-800 font-semibold">Nama Lengkap</span>
+                        <span class="px-2.5 py-1 rounded-lg bg-white border border-blue-200/80 text-blue-700 font-semibold">Kecamatan</span>
+                        <span class="px-2.5 py-1 rounded-lg bg-white border border-blue-200/80 text-slate-600 font-medium">Desa</span>
+                        <span class="px-2.5 py-1 rounded-lg bg-white border border-blue-200/80 text-slate-600 font-medium">No. HP</span>
+                        <span class="px-2.5 py-1 rounded-lg bg-white border border-blue-200/80 text-slate-600 font-medium">Keahlian</span>
                     </div>
                 </div>
 
@@ -253,18 +253,18 @@
                     <table class="w-full text-left text-[11px]">
                         <thead class="bg-slate-50 text-slate-500 font-bold uppercase text-[9px] border-b border-slate-200/80">
                             <tr>
-                                <th class="py-2 px-3">ID Sobat</th>
-                                <th class="py-2 px-3">Nama Lengkap</th>
-                                <th class="py-2 px-3">Kecamatan</th>
-                                <th class="py-2 px-3">Keahlian</th>
+                                <th class="py-2 px-3 whitespace-nowrap">ID Sobat</th>
+                                <th class="py-2 px-3 whitespace-nowrap">Nama Lengkap</th>
+                                <th class="py-2 px-3 whitespace-nowrap">Kecamatan</th>
+                                <th class="py-2 px-3 whitespace-nowrap">Keahlian</th>
                             </tr>
                         </thead>
                         <tbody class="text-slate-700">
                             <tr>
-                                <td class="py-2.5 px-3 font-mono font-bold text-blue-600">35102025001</td>
-                                <td class="py-2.5 px-3 font-semibold">Budi Santoso</td>
-                                <td class="py-2.5 px-3">Banyuwangi</td>
-                                <td class="py-2.5 px-3">Pendataan Lapangan</td>
+                                <td class="py-2.5 px-3 font-mono font-bold text-blue-600 whitespace-nowrap">35102025001</td>
+                                <td class="py-2.5 px-3 font-semibold whitespace-nowrap">Budi Santoso</td>
+                                <td class="py-2.5 px-3 whitespace-nowrap">Banyuwangi</td>
+                                <td class="py-2.5 px-3 whitespace-nowrap">Pendataan Lapangan</td>
                             </tr>
                         </tbody>
                     </table>
@@ -275,18 +275,18 @@
                 <a href="{{ url_for('mitra.download_template_mitra') }}"
                    class="w-full py-2.5 px-4 rounded-xl bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-200 font-bold text-xs transition-all flex items-center justify-center gap-2">
                     <i data-lucide="download" class="w-4 h-4"></i>
-                    <span>Download Template Mitra (.CSV)</span>
+                    <span>Unduh Template Mitra (.CSV)</span>
                 </a>
             </div>
         </div>
 
-        <!-- LANGKAH 2: UPLOAD FILE MITRA -->
+        <!-- LANGKAH 2: UPLOAD DATA MITRA -->
         <div class="lg:col-span-6 bg-white rounded-3xl p-6 border border-blue-200/80 shadow-soft flex flex-col justify-between">
             <div class="flex items-center gap-3 mb-4">
                 <span class="w-8 h-8 rounded-xl bg-blue-600 text-white font-black text-xs flex items-center justify-center shadow-sm shadow-blue-600/25">2</span>
                 <div>
-                    <h2 class="text-sm font-extrabold text-slate-900">Upload File Data Mitra</h2>
-                    <p class="text-[11px] text-slate-500">Pilih file CSV mitra, data otomatis tersimpan ke Data Mitra</p>
+                    <h2 class="text-sm font-extrabold text-slate-900">Upload Data Mitra</h2>
+                    <p class="text-[11px] text-slate-500">Pilih file template yang sudah diisi, data otomatis tersimpan</p>
                 </div>
             </div>
 
