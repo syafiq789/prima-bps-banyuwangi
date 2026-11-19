@@ -414,28 +414,28 @@
                     <span class="truncate">Dashboard Mitra</span>
                 </a>
 
-                <!-- SECTION: DATA MASTER & IMPOR -->
+                <!-- SECTION: DATA & UPLOAD -->
                 <div class="pt-2 pb-1 px-2.5 flex items-center justify-between border-t border-slate-800/60 mt-1.5">
-                    <span class="text-[9px] font-black uppercase tracking-wider text-slate-400">Data Master & Impor</span>
+                    <span class="text-[9px] font-black uppercase tracking-wider text-slate-400">Data &amp; Upload</span>
                 </div>
 
-                <!-- Database Mitra -->
+                <!-- Data Mitra -->
                 <a href="{{ url_for('mitra.database') }}" 
                    class="nav-subitem flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold transition-all duration-200 group/sub {% if request.path == url_for('mitra.database') %} bg-gradient-to-r from-blue-600 to-sky-500 text-white font-bold shadow-md shadow-blue-600/25 {% else %} text-slate-300 hover:text-white hover:bg-slate-800/70 hover:translate-x-1 {% endif %}">
                     <i data-lucide="database" class="w-4 h-4 {% if request.path == url_for('mitra.database') %} text-white {% else %} text-sky-400 group-hover/sub:scale-110 {% endif %} flex-shrink-0 transition-transform"></i>
-                    <span class="truncate">Database Mitra</span>
+                    <span class="truncate">Data Mitra</span>
                 </a>
 
-                <!-- Template & Impor Data -->
+                <!-- Template & Upload -->
                 <a href="{{ url_for('mitra.template') }}" 
                    class="nav-subitem flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold transition-all duration-200 group/sub {% if request.path == url_for('mitra.template') %} bg-gradient-to-r from-blue-600 to-sky-500 text-white font-bold shadow-md shadow-blue-600/25 {% else %} text-slate-300 hover:text-white hover:bg-slate-800/70 hover:translate-x-1 {% endif %}">
                     <i data-lucide="file-up" class="w-4 h-4 {% if request.path == url_for('mitra.template') %} text-white {% else %} text-sky-400 group-hover/sub:scale-110 {% endif %} flex-shrink-0 transition-transform"></i>
-                    <span class="truncate">Template & Impor Data</span>
+                    <span class="truncate">Template &amp; Upload</span>
                 </a>
 
-                <!-- SECTION: PENUGASAN & EVALUASI -->
+                <!-- SECTION: KEGIATAN & LAPORAN -->
                 <div class="pt-2.5 pb-1 px-2.5 flex items-center justify-between border-t border-slate-800/60 mt-1.5">
-                    <span class="text-[9px] font-black uppercase tracking-wider text-slate-400">Penugasan & Evaluasi</span>
+                    <span class="text-[9px] font-black uppercase tracking-wider text-slate-400">Kegiatan &amp; Laporan</span>
                 </div>
 
                 <!-- Penugasan Mitra -->
@@ -445,25 +445,25 @@
                     <span class="truncate">Penugasan Mitra</span>
                 </a>
 
-                <!-- Monitoring Kegiatan -->
+                <!-- Pantau Kegiatan -->
                 <a href="{{ url_for('mitra.monitoring') }}" 
                    class="nav-subitem flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold transition-all duration-200 group/sub {% if request.path.startswith('/mitra/monitoring') %} bg-gradient-to-r from-blue-600 to-sky-500 text-white font-bold shadow-md shadow-blue-600/25 {% else %} text-slate-300 hover:text-white hover:bg-slate-800/70 hover:translate-x-1 {% endif %}">
                     <i data-lucide="activity" class="w-4 h-4 {% if request.path.startswith('/mitra/monitoring') %} text-white {% else %} text-sky-400 group-hover/sub:scale-110 {% endif %} flex-shrink-0 transition-transform"></i>
-                    <span class="truncate">Monitoring Kegiatan</span>
+                    <span class="truncate">Pantau Kegiatan</span>
                 </a>
 
-                <!-- Evaluasi Mutu Mitra -->
+                <!-- Penilaian Mitra -->
                 <a href="{{ url_for('mitra.evaluasi') }}" 
                    class="nav-subitem flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold transition-all duration-200 group/sub {% if request.path == url_for('mitra.evaluasi') %} bg-gradient-to-r from-blue-600 to-sky-500 text-white font-bold shadow-md shadow-blue-600/25 {% else %} text-slate-300 hover:text-white hover:bg-slate-800/70 hover:translate-x-1 {% endif %}">
                     <i data-lucide="award" class="w-4 h-4 {% if request.path == url_for('mitra.evaluasi') %} text-white {% else %} text-sky-400 group-hover/sub:scale-110 {% endif %} flex-shrink-0 transition-transform"></i>
-                    <span class="truncate">Evaluasi Mutu Mitra</span>
+                    <span class="truncate">Penilaian Mitra</span>
                 </a>
 
-                <!-- Rekapitulasi & Honor -->
+                <!-- Laporan & Honor -->
                 <a href="{{ url_for('mitra.rekapitulasi') }}" 
                    class="nav-subitem flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold transition-all duration-200 group/sub {% if request.path == url_for('mitra.rekapitulasi') %} bg-gradient-to-r from-blue-600 to-sky-500 text-white font-bold shadow-md shadow-blue-600/25 {% else %} text-slate-300 hover:text-white hover:bg-slate-800/70 hover:translate-x-1 {% endif %}">
                     <i data-lucide="bar-chart-2" class="w-4 h-4 {% if request.path == url_for('mitra.rekapitulasi') %} text-white {% else %} text-sky-400 group-hover/sub:scale-110 {% endif %} flex-shrink-0 transition-transform"></i>
-                    <span class="truncate">Rekapitulasi & Honor</span>
+                    <span class="truncate">Laporan &amp; Honor</span>
                 </a>
             </div>
         </div>
