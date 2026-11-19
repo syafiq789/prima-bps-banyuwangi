@@ -5,36 +5,37 @@
 {% block content %}
 <div class="space-y-6">
 
-    <!-- 1. Header Halaman Modern & Berkelas (Harmonized Executive Card) -->
-    <div class="bg-white/90 backdrop-blur-xl rounded-3xl p-5 sm:p-6 border border-slate-200/80 shadow-[0_4px_20px_-4px_rgba(20,43,74,0.03)] relative overflow-hidden">
-        <div class="absolute -right-10 -top-10 w-56 h-56 bg-gradient-to-br from-blue-500/10 via-sky-300/10 to-transparent rounded-full blur-2xl pointer-events-none"></div>
-        <div class="absolute right-1/3 -bottom-12 w-64 h-64 bg-gradient-to-tr from-blue-400/5 to-transparent rounded-full blur-2xl pointer-events-none"></div>
+    <!-- 1. Header Halaman Modern Executive Blue -->
+    <div style="background: linear-gradient(135deg, #0F2547 0%, #173B6D 55%, #1D4ED8 100%);"
+         class="rounded-3xl p-5 sm:p-6 text-white shadow-xl shadow-blue-950/15 border border-blue-400/20 relative overflow-hidden">
+        <div class="absolute -right-12 -top-12 w-60 h-60 bg-sky-400/20 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute left-1/3 -bottom-16 w-64 h-64 bg-blue-400/15 rounded-full blur-3xl pointer-events-none"></div>
 
         <div class="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-5">
-            <!-- Left: Breadcrumb, Icon, Title & Badges -->
+            <!-- Left: Breadcrumb, Logo, Title & Badges -->
             <div class="flex items-start sm:items-center gap-4">
-                <div class="w-14 h-14 rounded-2xl bg-white p-1.5 border border-blue-200/80 shadow-md shadow-blue-500/15 flex items-center justify-center flex-shrink-0">
+                <div class="w-14 h-14 rounded-2xl bg-white/95 p-1.5 shadow-lg shadow-black/20 ring-2 ring-white/25 flex items-center justify-center flex-shrink-0">
                     <img src="{{ url_for('static', filename='images/logo_pegawai.svg') }}" alt="Logo Kinerja Pegawai" class="w-full h-full object-contain">
                 </div>
                 <div>
-                    <div class="flex items-center gap-1.5 text-[11px] text-slate-400 mb-1">
-                        <a href="{{ url_for('dashboard.index') }}" class="hover:text-slate-600 transition flex items-center gap-1">
+                    <div class="flex items-center gap-1.5 text-[11px] text-blue-200/80 mb-1.5">
+                        <a href="{{ url_for('dashboard.index') }}" class="hover:text-white transition flex items-center gap-1">
                             <i data-lucide="home" class="w-3 h-3"></i> LENTERA
                         </a>
-                        <span>/</span>
-                        <a href="{{ url_for('pegawai.dashboard') }}" class="hover:text-slate-600 transition">Kinerja Pegawai</a>
-                        <span>/</span>
-                        <span class="text-slate-700 font-semibold">Log Aktivitas</span>
+                        <span class="text-blue-300/50">/</span>
+                        <a href="{{ url_for('pegawai.dashboard') }}" class="hover:text-white transition">Kinerja Pegawai</a>
+                        <span class="text-blue-300/50">/</span>
+                        <span class="text-white font-semibold">Aktivitas Pegawai</span>
                     </div>
                     
                     <div class="flex flex-wrap items-center gap-2.5">
-                        <h1 class="text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900">Log Aktivitas & Penugasan Harian</h1>
-                        <span class="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full text-[11px] font-bold bg-blue-50 text-blue-700 border border-blue-200/70 shadow-2xs">
-                            <span class="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></span>
-                            LENTERA Pegawai BPS
+                        <h1 class="text-xl sm:text-2xl font-extrabold tracking-tight text-white">Aktivitas Pegawai</h1>
+                        <span class="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full text-[11px] font-semibold bg-white/15 text-sky-100 border border-white/20 backdrop-blur-sm">
+                            <span class="w-1.5 h-1.5 rounded-full bg-sky-300"></span>
+                            BPS Banyuwangi (3510)
                         </span>
                     </div>
-                    <p class="text-xs text-slate-500 mt-1">Pencatatan penugasan harian, kegiatan survei/sensus, dan progres capaian pegawai BPS Banyuwangi</p>
+                    <p class="text-xs text-blue-100/80 mt-1.5">Catat tugas harian, kegiatan survei/sensus, dan progres kerja pegawai BPS Banyuwangi</p>
                 </div>
             </div>
             
@@ -42,9 +43,9 @@
             <div class="flex items-center gap-2 pt-1 lg:pt-0">
                 <button type="button" 
                         onclick="document.getElementById('modalAktivitas').classList.remove('hidden')" 
-                        class="h-9 px-4 rounded-full bg-gradient-to-r from-blue-600 via-blue-600 to-sky-500 hover:opacity-95 text-white font-bold text-xs shadow-sm shadow-blue-600/25 active:scale-95 transition-all flex items-center gap-1.5">
-                    <i data-lucide="plus" class="w-3.5 h-3.5"></i>
-                    <span>Catat Aktivitas Baru</span>
+                        class="h-10 px-5 rounded-xl bg-white hover:bg-blue-50 text-blue-700 font-bold text-xs shadow-lg shadow-black/15 active:scale-95 transition-all flex items-center gap-2">
+                    <i data-lucide="plus" class="w-4 h-4"></i>
+                    <span>Catat Aktivitas</span>
                 </button>
             </div>
         </div>
