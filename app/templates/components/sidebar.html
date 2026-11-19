@@ -1,9 +1,13 @@
 <!-- LENTERA Sidebar Navigation -->
 <aside id="sidebar" 
-       class="fixed top-0 left-0 z-40 w-72 h-screen transition-transform -translate-x-full lg:translate-x-0 bg-[#0D1B2A] text-slate-200 border-r border-slate-800 flex flex-col justify-between shadow-2xl select-none">
+       class="fixed top-0 left-0 z-40 w-72 h-screen transition-transform -translate-x-full lg:translate-x-0 bg-gradient-to-b from-[#0F2035] via-[#0B1726] to-[#08111D] text-slate-200 border-r border-slate-800/90 flex flex-col justify-between shadow-2xl select-none overflow-hidden">
     
+    <!-- Subtle Top Ambient Glow -->
+    <div class="pointer-events-none absolute -top-20 -left-16 w-56 h-56 rounded-full bg-orange-500/[0.05] blur-3xl"></div>
+    <div class="pointer-events-none absolute bottom-20 -right-16 w-52 h-52 rounded-full bg-blue-500/[0.05] blur-3xl"></div>
+
     <!-- Top Branding & Logo Header -->
-    <div class="p-4 border-b border-slate-800/80 flex items-center justify-between">
+    <div class="relative z-10 p-4 border-b border-slate-800/70 bg-slate-900/30 flex items-center justify-between">
         <a href="{{ url_for('dashboard.index') }}" class="flex items-center gap-3 group">
             <div class="w-12 h-11 rounded-xl bg-white p-1 flex items-center justify-center group-hover:scale-105 transition-transform duration-200 shadow-md border border-white/20 overflow-hidden flex-shrink-0">
                 <img src="{{ url_for('static', filename='images/logo_lentera.jpg') }}" alt="Logo LENTERA BPS" class="w-full h-full object-contain">
@@ -42,7 +46,7 @@
             <button type="button" 
                     id="btn-prima-master"
                     onclick="togglePrimaMasterMenu()"
-                    class="master-module-btn relative w-full flex items-center justify-between p-2.5 rounded-xl border transition-all duration-200 group overflow-hidden {% if is_prima_active %} bg-slate-800/80 border-orange-500/40 shadow-lg shadow-black/20 {% else %} bg-slate-800/35 hover:bg-slate-800/65 border-slate-700/40 hover:border-slate-600/70 {% endif %}">
+                    class="master-module-btn relative w-full flex items-center justify-between p-2.5 rounded-xl border transition-all duration-200 group overflow-hidden {% if is_prima_active %} bg-gradient-to-r from-orange-500/[0.15] via-slate-800/80 to-slate-900/70 border-orange-500/40 shadow-lg shadow-black/20 {% else %} bg-gradient-to-r from-orange-500/[0.06] via-slate-800/40 to-slate-900/35 hover:from-orange-500/[0.11] hover:via-slate-800/65 hover:to-slate-900/55 border-slate-700/45 hover:border-orange-500/30 {% endif %}">
                 <span id="accent-prima-master" class="absolute left-0 top-2 bottom-2 w-[3px] rounded-r-full bg-gradient-to-b from-orange-400 to-amber-500 transition-opacity duration-200 {% if is_prima_active %}opacity-100{% else %}opacity-0{% endif %}"></span>
                 <span class="flex items-center gap-3 pl-1 min-w-0">
                     <div class="w-9 h-9 rounded-lg bg-white/95 p-1 ring-1 ring-orange-500/30 shadow-xs flex items-center justify-center group-hover:scale-105 transition-transform duration-200 overflow-hidden flex-shrink-0">
@@ -383,8 +387,8 @@
             <button type="button" 
                     id="btn-mitra-master"
                     onclick="toggleMitraMasterMenu()"
-                    class="master-module-btn relative w-full flex items-center justify-between p-2.5 rounded-xl border transition-all duration-200 group overflow-hidden {% if is_mitra_active %} bg-slate-800/80 border-orange-500/40 shadow-lg shadow-black/20 {% else %} bg-slate-800/35 hover:bg-slate-800/65 border-slate-700/40 hover:border-slate-600/70 {% endif %}">
-                <span id="accent-mitra-master" class="absolute left-0 top-2 bottom-2 w-[3px] rounded-r-full bg-gradient-to-b from-orange-400 to-amber-500 transition-opacity duration-200 {% if is_mitra_active %}opacity-100{% else %}opacity-0{% endif %}"></span>
+                    class="master-module-btn relative w-full flex items-center justify-between p-2.5 rounded-xl border transition-all duration-200 group overflow-hidden {% if is_mitra_active %} bg-gradient-to-r from-cyan-500/[0.15] via-slate-800/80 to-slate-900/70 border-cyan-500/40 shadow-lg shadow-black/20 {% else %} bg-gradient-to-r from-cyan-500/[0.06] via-slate-800/40 to-slate-900/35 hover:from-cyan-500/[0.11] hover:via-slate-800/65 hover:to-slate-900/55 border-slate-700/45 hover:border-cyan-500/30 {% endif %}">
+                <span id="accent-mitra-master" class="absolute left-0 top-2 bottom-2 w-[3px] rounded-r-full bg-gradient-to-b from-cyan-400 to-sky-500 transition-opacity duration-200 {% if is_mitra_active %}opacity-100{% else %}opacity-0{% endif %}"></span>
                 <span class="flex items-center gap-3 pl-1 min-w-0">
                     <div class="w-9 h-9 rounded-lg bg-white/95 p-1 ring-1 ring-cyan-500/30 shadow-xs flex items-center justify-center group-hover:scale-105 transition-transform duration-200 overflow-hidden flex-shrink-0">
                         <img src="{{ url_for('static', filename='images/logo_mitra.svg') }}" alt="Logo Monitoring Mitra" class="w-full h-full object-contain">
@@ -470,8 +474,8 @@
             <button type="button" 
                     id="btn-pegawai-master"
                     onclick="togglePegawaiMasterMenu()"
-                    class="master-module-btn relative w-full flex items-center justify-between p-2.5 rounded-xl border transition-all duration-200 group overflow-hidden {% if is_pegawai_active %} bg-slate-800/80 border-orange-500/40 shadow-lg shadow-black/20 {% else %} bg-slate-800/35 hover:bg-slate-800/65 border-slate-700/40 hover:border-slate-600/70 {% endif %}">
-                <span id="accent-pegawai-master" class="absolute left-0 top-2 bottom-2 w-[3px] rounded-r-full bg-gradient-to-b from-orange-400 to-amber-500 transition-opacity duration-200 {% if is_pegawai_active %}opacity-100{% else %}opacity-0{% endif %}"></span>
+                    class="master-module-btn relative w-full flex items-center justify-between p-2.5 rounded-xl border transition-all duration-200 group overflow-hidden {% if is_pegawai_active %} bg-gradient-to-r from-blue-500/[0.15] via-slate-800/80 to-slate-900/70 border-blue-500/40 shadow-lg shadow-black/20 {% else %} bg-gradient-to-r from-blue-500/[0.06] via-slate-800/40 to-slate-900/35 hover:from-blue-500/[0.11] hover:via-slate-800/65 hover:to-slate-900/55 border-slate-700/45 hover:border-blue-500/30 {% endif %}">
+                <span id="accent-pegawai-master" class="absolute left-0 top-2 bottom-2 w-[3px] rounded-r-full bg-gradient-to-b from-blue-400 to-indigo-500 transition-opacity duration-200 {% if is_pegawai_active %}opacity-100{% else %}opacity-0{% endif %}"></span>
                 <span class="flex items-center gap-3 pl-1 min-w-0">
                     <div class="w-9 h-9 rounded-lg bg-white/95 p-1 ring-1 ring-blue-500/30 shadow-xs flex items-center justify-center group-hover:scale-105 transition-transform duration-200 overflow-hidden flex-shrink-0">
                         <img src="{{ url_for('static', filename='images/logo_pegawai.svg') }}" alt="Logo Kinerja Pegawai" class="w-full h-full object-contain">
@@ -543,8 +547,8 @@
             <button type="button" 
                     id="btn-keuangan-master"
                     onclick="toggleKeuanganMasterMenu()"
-                    class="master-module-btn relative w-full flex items-center justify-between p-2.5 rounded-xl border transition-all duration-200 group overflow-hidden {% if is_keuangan_active %} bg-slate-800/80 border-orange-500/40 shadow-lg shadow-black/20 {% else %} bg-slate-800/35 hover:bg-slate-800/65 border-slate-700/40 hover:border-slate-600/70 {% endif %}">
-                <span id="accent-keuangan-master" class="absolute left-0 top-2 bottom-2 w-[3px] rounded-r-full bg-gradient-to-b from-orange-400 to-amber-500 transition-opacity duration-200 {% if is_keuangan_active %}opacity-100{% else %}opacity-0{% endif %}"></span>
+                    class="master-module-btn relative w-full flex items-center justify-between p-2.5 rounded-xl border transition-all duration-200 group overflow-hidden {% if is_keuangan_active %} bg-gradient-to-r from-emerald-500/[0.15] via-slate-800/80 to-slate-900/70 border-emerald-500/40 shadow-lg shadow-black/20 {% else %} bg-gradient-to-r from-emerald-500/[0.06] via-slate-800/40 to-slate-900/35 hover:from-emerald-500/[0.11] hover:via-slate-800/65 hover:to-slate-900/55 border-slate-700/45 hover:border-emerald-500/30 {% endif %}">
+                <span id="accent-keuangan-master" class="absolute left-0 top-2 bottom-2 w-[3px] rounded-r-full bg-gradient-to-b from-emerald-400 to-teal-500 transition-opacity duration-200 {% if is_keuangan_active %}opacity-100{% else %}opacity-0{% endif %}"></span>
                 <span class="flex items-center gap-3 pl-1 min-w-0">
                     <div class="w-9 h-9 rounded-lg bg-white/95 p-1 ring-1 ring-emerald-500/30 shadow-xs flex items-center justify-center group-hover:scale-105 transition-transform duration-200 overflow-hidden flex-shrink-0">
                         <img src="{{ url_for('static', filename='images/logo_keuangan.svg') }}" alt="Logo Tracking Keuangan" class="w-full h-full object-contain">
@@ -627,29 +631,45 @@
 
     </div>
 
-    <!-- User Profile Bar Bottom -->
-    <div class="p-3.5 border-t border-slate-800/80 bg-slate-900/60 flex items-center justify-between">
+    <!-- User Profile Card Bottom (Modern Glass SaaS) -->
+    <div class="relative z-10 p-3 border-t border-slate-800/70 bg-gradient-to-t from-[#060D17] to-transparent">
         {% if current_user.is_authenticated %}
-        <a href="{{ url_for('auth.profile') }}" class="flex items-center gap-2.5 min-w-0 group">
-            <div class="w-8 h-8 rounded-lg bg-orange-500/20 text-[#F28C28] border border-orange-500/30 flex items-center justify-center font-bold text-xs flex-shrink-0 group-hover:scale-105 transition-transform">
-                {{ (current_user.full_name or current_user.username or 'US')[:2].upper() }}
+        <div class="rounded-2xl bg-gradient-to-br from-slate-800/70 via-slate-800/45 to-slate-900/80 border border-slate-700/50 p-3 shadow-lg shadow-black/25 space-y-2.5">
+            <!-- Profile Info Row -->
+            <div class="flex items-center gap-3 min-w-0">
+                <div class="relative flex-shrink-0">
+                    <div class="w-9 h-9 rounded-full bg-gradient-to-br from-orange-500 to-amber-600 text-white flex items-center justify-center font-extrabold text-xs shadow-md shadow-orange-500/20 ring-2 ring-orange-400/25">
+                        {{ (current_user.full_name or current_user.username or 'US')[:2].upper() }}
+                    </div>
+                    <span class="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-emerald-400 ring-2 ring-[#0E1B2B]"></span>
+                </div>
+                <div class="min-w-0 flex-1 sidebar-text">
+                    <p class="text-xs font-bold text-white truncate leading-tight">{{ current_user.full_name or current_user.username }}</p>
+                    <span class="inline-flex items-center gap-1 mt-1 px-2 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider bg-orange-500/15 text-orange-300 border border-orange-500/25">
+                        <span class="w-1 h-1 rounded-full bg-orange-400"></span>
+                        {{ current_user.role_display_name }}
+                    </span>
+                </div>
             </div>
-            <div class="min-w-0 sidebar-text">
-                <p class="text-xs font-bold text-white truncate group-hover:text-[#F28C28] transition">{{ current_user.full_name or current_user.username }}</p>
-                <span class="inline-block text-[9px] font-black uppercase tracking-wider text-orange-400">
-                    {{ current_user.role_display_name }}
-                </span>
-            </div>
-        </a>
 
-        <a href="{{ url_for('auth.logout') }}" 
-           title="Keluar (Logout)" 
-           class="p-2 text-slate-400 hover:text-red-400 hover:bg-red-500/10 rounded-lg transition"
-           onclick="return confirm('Apakah Anda yakin ingin keluar dari LENTERA?');">
-            <i data-lucide="log-out" class="w-4 h-4"></i>
-        </a>
+            <!-- Action Buttons Row (Profil & Keluar) -->
+            <div class="grid grid-cols-2 gap-1.5 pt-2 border-t border-slate-700/40 sidebar-text">
+                <a href="{{ url_for('auth.profile') }}" 
+                   class="flex items-center justify-center gap-1.5 py-1.5 px-2.5 rounded-xl bg-slate-800/80 hover:bg-slate-700/80 text-slate-300 hover:text-white border border-slate-700/60 text-[11px] font-semibold transition-all duration-150">
+                    <i data-lucide="user-round" class="w-3.5 h-3.5 text-slate-400"></i>
+                    <span>Profil</span>
+                </a>
+                <a href="{{ url_for('auth.logout') }}" 
+                   title="Keluar (Logout)" 
+                   class="flex items-center justify-center gap-1.5 py-1.5 px-2.5 rounded-xl bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 hover:text-rose-300 border border-rose-500/20 hover:border-rose-500/40 text-[11px] font-semibold transition-all duration-150"
+                   onclick="return confirm('Apakah Anda yakin ingin keluar dari LENTERA?');">
+                    <i data-lucide="log-out" class="w-3.5 h-3.5"></i>
+                    <span>Keluar</span>
+                </a>
+            </div>
+        </div>
         {% else %}
-        <a href="{{ url_for('auth.login') }}" class="w-full py-2 px-3 bg-orange-500 hover:bg-orange-600 text-white rounded-xl text-xs font-bold text-center transition flex items-center justify-center gap-1.5 shadow-sm">
+        <a href="{{ url_for('auth.login') }}" class="w-full py-2.5 px-3 bg-gradient-to-r from-orange-500 to-amber-600 hover:from-orange-600 hover:to-amber-700 text-white rounded-xl text-xs font-bold text-center transition flex items-center justify-center gap-1.5 shadow-md shadow-orange-500/20">
             <i data-lucide="log-in" class="w-3.5 h-3.5"></i>
             <span>Masuk ke LENTERA</span>
         </a>

@@ -2,13 +2,18 @@
 // Master Single-Accordion Sidebar Navigation Handler
 
 function toggleMasterModule(activeKey) {
-    const modules = ['prima', 'mitra', 'pegawai', 'keuangan'];
+    const moduleThemes = {
+        prima: { active: ['from-orange-500/[0.15]', 'via-slate-800/80', 'to-slate-900/70', 'border-orange-500/40', 'shadow-lg', 'shadow-black/20'], inactive: ['from-orange-500/[0.06]', 'via-slate-800/40', 'to-slate-900/35', 'border-slate-700/45'], chevron: 'text-orange-400' },
+        mitra: { active: ['from-cyan-500/[0.15]', 'via-slate-800/80', 'to-slate-900/70', 'border-cyan-500/40', 'shadow-lg', 'shadow-black/20'], inactive: ['from-cyan-500/[0.06]', 'via-slate-800/40', 'to-slate-900/35', 'border-slate-700/45'], chevron: 'text-cyan-400' },
+        pegawai: { active: ['from-blue-500/[0.15]', 'via-slate-800/80', 'to-slate-900/70', 'border-blue-500/40', 'shadow-lg', 'shadow-black/20'], inactive: ['from-blue-500/[0.06]', 'via-slate-800/40', 'to-slate-900/35', 'border-slate-700/45'], chevron: 'text-blue-400' },
+        keuangan: { active: ['from-emerald-500/[0.15]', 'via-slate-800/80', 'to-slate-900/70', 'border-emerald-500/40', 'shadow-lg', 'shadow-black/20'], inactive: ['from-emerald-500/[0.06]', 'via-slate-800/40', 'to-slate-900/35', 'border-slate-700/45'], chevron: 'text-emerald-400' }
+    };
     const activeContainer = document.getElementById(`container-${activeKey}-features`);
     if (!activeContainer) return;
 
     const shouldOpen = activeContainer.classList.contains('closed');
 
-    modules.forEach(key => {
+    Object.entries(moduleThemes).forEach(([key, theme]) => {
         const container = document.getElementById(`container-${key}-features`);
         const chevron = document.getElementById(`chevron-${key}-master`);
         const btn = document.getElementById(`btn-${key}-master`);
@@ -18,12 +23,13 @@ function toggleMasterModule(activeKey) {
         if (key === activeKey && shouldOpen) {
             container.classList.remove('closed');
             if (chevron) {
-                chevron.classList.add('rotate', 'text-orange-400');
-                chevron.classList.remove('text-slate-500');
+                chevron.classList.add('rotate', theme.chevron);
+                chevron.classList.remove('text-slate-500', 'text-orange-400');
+                chevron.classList.add(theme.chevron);
             }
             if (btn) {
-                btn.classList.add('bg-slate-800/80', 'border-orange-500/40', 'shadow-lg', 'shadow-black/20');
-                btn.classList.remove('bg-slate-800/35', 'border-slate-700/40');
+                btn.classList.remove(...theme.inactive);
+                btn.classList.add(...theme.active);
             }
             if (accent) {
                 accent.classList.add('opacity-100');
@@ -32,12 +38,12 @@ function toggleMasterModule(activeKey) {
         } else {
             container.classList.add('closed');
             if (chevron) {
-                chevron.classList.remove('rotate', 'text-orange-400');
+                chevron.classList.remove('rotate', theme.chevron, 'text-orange-400');
                 chevron.classList.add('text-slate-500');
             }
             if (btn) {
-                btn.classList.remove('bg-slate-800/80', 'border-orange-500/40', 'shadow-lg', 'shadow-black/20');
-                btn.classList.add('bg-slate-800/35', 'border-slate-700/40');
+                btn.classList.remove(...theme.active);
+                btn.classList.add(...theme.inactive);
             }
             if (accent) {
                 accent.classList.remove('opacity-100');
