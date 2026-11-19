@@ -222,11 +222,11 @@ def create_mitra():
 def download_template_mitra():
     output = io.StringIO()
     writer = csv.writer(output)
-    writer.writerow(['id_sobat', 'nama_lengkap', 'email', 'alamat', 'no_hp', 'jenis_kelamin', 'desa', 'kecamatan', 'keahlian'])
+    writer.writerow(['id_sobat', 'nama', 'email', 'alamat', 'nomor_hp', 'jenis_kelamin', 'desa', 'kecamatan'])
     # Contoh data acuan BPS Banyuwangi
-    writer.writerow(['35102025001', 'Ahmad Subandi', 'ahmad.subandi@gmail.com', 'Jl. Ahmad Yani No. 15 RT 01 RW 02', '081234567890', 'Laki-laki', 'Rogojampi', 'Rogojampi', 'Pendataan Lapangan (CAPI)'])
-    writer.writerow(['35102025002', 'Siti Rahmawati', 'siti.rahma@gmail.com', 'Jl. Diponegoro No. 44 RT 02 RW 03', '081298765432', 'Perempuan', 'Genteng Wetan', 'Genteng', 'PML & Pengawasan'])
-    writer.writerow(['35102025003', 'Budi Santoso', 'budi.santoso@gmail.com', 'Jl. Hayam Wuruk No. 8', '085712345678', 'Laki-laki', 'Mojopanggung', 'Giri', 'Pengolahan Data & Entri'])
+    writer.writerow(['35102025001', 'Ahmad Subandi', 'ahmad.subandi@gmail.com', 'Jl. Ahmad Yani No. 15 RT 01 RW 02', '081234567890', 'Laki-laki', 'Rogojampi', 'Rogojampi'])
+    writer.writerow(['35102025002', 'Siti Rahmawati', 'siti.rahma@gmail.com', 'Jl. Diponegoro No. 44 RT 02 RW 03', '081298765432', 'Perempuan', 'Genteng Wetan', 'Genteng'])
+    writer.writerow(['35102025003', 'Budi Santoso', 'budi.santoso@gmail.com', 'Jl. Hayam Wuruk No. 8', '085712345678', 'Laki-laki', 'Mojopanggung', 'Giri'])
     
     response = Response(output.getvalue().encode('utf-8-sig'), mimetype='text/csv')
     response.headers['Content-Disposition'] = 'attachment; filename=Template_Data_Master_Mitra_BPS.csv'
@@ -252,9 +252,11 @@ def import_mitra():
         updated_count = 0
 
         for row in reader:
-            clean_row = {k.strip(): (v.strip() if v else '') for k, v in row.items() if k}
-            id_sobat = clean_row.get('id_sobat')
-            nama_lengkap = clean_row.get('nama_lengkap')
+            clean_row = {k.strip().lower(): (v.strip() if v else '') for k, v in row.items() if k}
+            id_sobat = clean_row.get('id_sobat') or clean_row.get('id sobat')
+            nama_lengkap = clean_row.get('nama') or clean_row.get('nama_lengkap') or clean_row.get('nama lengkap')
+            nomor_hp = clean_row.get('nomor_hp') or clean_row.get('nomor hp') or clean_row.get('no_hp')
+            jenis_kelamin = clean_row.get('jenis_kelamin') or clean_row.get('jenis kelamin')
             if not id_sobat or not nama_lengkap:
                 continue
 
@@ -263,8 +265,8 @@ def import_mitra():
                 existing.nama_lengkap = nama_lengkap
                 if clean_row.get('email'): existing.email = clean_row.get('email')
                 if clean_row.get('alamat'): existing.alamat = clean_row.get('alamat')
-                if clean_row.get('no_hp'): existing.no_hp = clean_row.get('no_hp')
-                if clean_row.get('jenis_kelamin'): existing.jenis_kelamin = clean_row.get('jenis_kelamin')
+                if nomor_hp: existing.no_hp = nomor_hp
+                if jenis_kelamin: existing.jenis_kelamin = jenis_kelamin
                 if clean_row.get('desa'): existing.desa = clean_row.get('desa')
                 if clean_row.get('kecamatan'): existing.kecamatan = clean_row.get('kecamatan')
                 if clean_row.get('keahlian'): existing.keahlian = clean_row.get('keahlian')
@@ -275,8 +277,8 @@ def import_mitra():
                     nama_lengkap=nama_lengkap,
                     email=clean_row.get('email') or None,
                     alamat=clean_row.get('alamat') or None,
-                    no_hp=clean_row.get('no_hp') or None,
-                    jenis_kelamin=clean_row.get('jenis_kelamin') or 'Laki-laki',
+                    no_hp=nomor_hp or None,
+                    jenis_kelamin=jenis_kelamin or 'Laki-laki',
                     desa=clean_row.get('desa') or None,
                     kecamatan=clean_row.get('kecamatan') or 'Banyuwangi',
                     keahlian=clean_row.get('keahlian') or 'Pendataan Lapangan (CAPI)'
@@ -713,11 +715,11 @@ def template():
 def download_template_kegiatan():
     output = io.StringIO()
     writer = csv.writer(output)
-    writer.writerow(['kode_kegiatan', 'nama_kegiatan', 'tim_kerja', 'tahun', 'bulan', 'tanggal_mulai', 'tanggal_selesai'])
-    writer.writerow(['SRV-DIS-01', 'Survei Harga Perdagangan Besar (SHPB)', 'Tim Distribusi', '2025', 'Januari', '2025-01-05', '2025-01-31'])
-    writer.writerow(['SRV-NER-01', 'Survei Khusus Lembaga Non-Profit (SKLNP)', 'Tim Neraca', '2025', 'Januari', '2025-01-10', '2025-02-15'])
-    writer.writerow(['SRV-PRD-01', 'Kerangka Sampel Area (KSA) Padi Subround 1', 'Tim Produksi', '2025', 'Februari', '2025-02-01', '2025-02-28'])
-    writer.writerow(['SRV-PLS-01', 'Pemutakhiran Wilkerstat & Geotagging SLS', 'Tim PLS', '2025', 'Februari', '2025-02-10', '2025-03-15'])
+    writer.writerow(['nama_kegiatan', 'tim_kerja', 'tahun', 'bulan', 'tanggal_mulai', 'tanggal_selesai'])
+    writer.writerow(['Survei Harga Perdagangan Besar (SHPB)', 'Tim Distribusi', '2025', 'Januari', '2025-01-05', '2025-01-31'])
+    writer.writerow(['Survei Khusus Lembaga Non-Profit (SKLNP)', 'Tim Neraca', '2025', 'Januari', '2025-01-10', '2025-02-15'])
+    writer.writerow(['Kerangka Sampel Area (KSA) Padi Subround 1', 'Tim Produksi', '2025', 'Februari', '2025-02-01', '2025-02-28'])
+    writer.writerow(['Pemutakhiran Wilkerstat & Geotagging SLS', 'Tim PLS', '2025', 'Februari', '2025-02-10', '2025-03-15'])
     
     response = Response(output.getvalue().encode('utf-8-sig'), mimetype='text/csv')
     response.headers['Content-Disposition'] = 'attachment; filename=Template_Kegiatan_Sensus_Survei_BPS.csv'
@@ -759,13 +761,13 @@ def upload_kegiatan():
             clean_row = {k.strip().lower(): (v.strip() if v else '') for k, v in row.items() if k}
             
             kode_kegiatan = clean_row.get('kode_kegiatan') or clean_row.get('kode') or clean_row.get('id')
-            nama_kegiatan = clean_row.get('nama_kegiatan') or clean_row.get('nama') or clean_row.get('kegiatan')
+            nama_kegiatan = clean_row.get('nama_kegiatan') or clean_row.get('nama kegiatan') or clean_row.get('nama') or clean_row.get('kegiatan')
             
-            if not kode_kegiatan or not nama_kegiatan:
+            if not nama_kegiatan:
                 continue
 
             # Normalisasi Tim Kerja
-            tim_input = clean_row.get('tim_kerja') or clean_row.get('tim') or 'Tim Distribusi'
+            tim_input = clean_row.get('tim_kerja') or clean_row.get('tim kerja') or clean_row.get('tim') or 'Tim Distribusi'
             tim_upper = tim_input.upper()
             if 'NERACA' in tim_upper:
                 tim_kerja = 'Tim Neraca'
@@ -795,10 +797,27 @@ def upload_kegiatan():
                 return fallback
 
             today = datetime.utcnow().date()
-            tanggal_mulai = parse_date(clean_row.get('tanggal_mulai'), today)
-            tanggal_selesai = parse_date(clean_row.get('tanggal_selesai'), today + timedelta(days=30))
+            tanggal_mulai = parse_date(clean_row.get('tanggal_mulai') or clean_row.get('tanggal mulai'), today)
+            tanggal_selesai = parse_date(clean_row.get('tanggal_selesai') or clean_row.get('tanggal selesai'), today + timedelta(days=30))
 
-            existing = Kegiatan.query.filter_by(kode_kegiatan=kode_kegiatan).first()
+            if kode_kegiatan:
+                existing = Kegiatan.query.filter_by(kode_kegiatan=kode_kegiatan).first()
+            else:
+                existing = Kegiatan.query.filter_by(nama_kegiatan=nama_kegiatan, tahun=tahun).first()
+                if not existing:
+                    prefix_map = {
+                        'Tim Distribusi': 'DIS',
+                        'Tim Neraca': 'NER',
+                        'Tim Produksi': 'PRD',
+                        'Tim PLS': 'PLS'
+                    }
+                    pfx = prefix_map.get(tim_kerja, 'KEG')
+                    seq = Kegiatan.query.count() + success_count + 1
+                    kode_kegiatan = f"KEG-{pfx}-{tahun}-{seq:03d}"
+                    while Kegiatan.query.filter_by(kode_kegiatan=kode_kegiatan).first():
+                        seq += 1
+                        kode_kegiatan = f"KEG-{pfx}-{tahun}-{seq:03d}"
+
             if existing:
                 existing.nama_kegiatan = nama_kegiatan
                 existing.tim_kerja = tim_kerja
@@ -849,9 +868,11 @@ def upload_mitra_from_template():
         updated_count = 0
 
         for row in reader:
-            clean_row = {k.strip(): (v.strip() if v else '') for k, v in row.items() if k}
-            id_sobat = clean_row.get('id_sobat')
-            nama_lengkap = clean_row.get('nama_lengkap')
+            clean_row = {k.strip().lower(): (v.strip() if v else '') for k, v in row.items() if k}
+            id_sobat = clean_row.get('id_sobat') or clean_row.get('id sobat')
+            nama_lengkap = clean_row.get('nama') or clean_row.get('nama_lengkap') or clean_row.get('nama lengkap')
+            nomor_hp = clean_row.get('nomor_hp') or clean_row.get('nomor hp') or clean_row.get('no_hp')
+            jenis_kelamin = clean_row.get('jenis_kelamin') or clean_row.get('jenis kelamin')
             if not id_sobat or not nama_lengkap:
                 continue
 
@@ -860,8 +881,8 @@ def upload_mitra_from_template():
                 existing.nama_lengkap = nama_lengkap
                 if clean_row.get('email'): existing.email = clean_row.get('email')
                 if clean_row.get('alamat'): existing.alamat = clean_row.get('alamat')
-                if clean_row.get('no_hp'): existing.no_hp = clean_row.get('no_hp')
-                if clean_row.get('jenis_kelamin'): existing.jenis_kelamin = clean_row.get('jenis_kelamin')
+                if nomor_hp: existing.no_hp = nomor_hp
+                if jenis_kelamin: existing.jenis_kelamin = jenis_kelamin
                 if clean_row.get('desa'): existing.desa = clean_row.get('desa')
                 if clean_row.get('kecamatan'): existing.kecamatan = clean_row.get('kecamatan')
                 if clean_row.get('keahlian'): existing.keahlian = clean_row.get('keahlian')
@@ -872,8 +893,8 @@ def upload_mitra_from_template():
                     nama_lengkap=nama_lengkap,
                     email=clean_row.get('email') or None,
                     alamat=clean_row.get('alamat') or None,
-                    no_hp=clean_row.get('no_hp') or None,
-                    jenis_kelamin=clean_row.get('jenis_kelamin') or 'Laki-laki',
+                    no_hp=nomor_hp or None,
+                    jenis_kelamin=jenis_kelamin or 'Laki-laki',
                     desa=clean_row.get('desa') or None,
                     kecamatan=clean_row.get('kecamatan') or 'Banyuwangi',
                     keahlian=clean_row.get('keahlian') or 'Pendataan Lapangan (CAPI)'

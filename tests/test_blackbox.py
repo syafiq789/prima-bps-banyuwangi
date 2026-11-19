@@ -324,11 +324,11 @@ class BlackBoxSystemTest(unittest.TestCase):
         # 1. Unduh Template Master Data Mitra
         res_tpl = self.client.get('/mitra/database/template-download')
         self.assertEqual(res_tpl.status_code, 200)
-        self.assertIn(b'id_sobat,nama_lengkap,email,alamat,no_hp,jenis_kelamin,desa,kecamatan', res_tpl.data)
+        self.assertIn(b'id_sobat,nama,email,alamat,nomor_hp,jenis_kelamin,desa,kecamatan', res_tpl.data)
 
         # 2. Impor Data Mitra melalui Templat CSV
         unique_sobat_csv = f"SOBAT_CSV_{int(datetime.utcnow().timestamp())}"
-        csv_content = f"id_sobat,nama_lengkap,email,alamat,no_hp,jenis_kelamin,desa,kecamatan,keahlian\n{unique_sobat_csv},Mitra Templat CSV,mitra.csv@bps.go.id,Jl. Rogojampi Indah,081234567899,Laki-laki,Rogojampi,Rogojampi,Pendataan Lapangan (CAPI)\n"
+        csv_content = f"id_sobat,nama,email,alamat,nomor_hp,jenis_kelamin,desa,kecamatan\n{unique_sobat_csv},Mitra Templat CSV,mitra.csv@bps.go.id,Jl. Rogojampi Indah,081234567899,Laki-laki,Rogojampi,Rogojampi\n"
         import io
         csv_file = (io.BytesIO(csv_content.encode('utf-8')), 'template_mitra.csv')
         res_import = self.client.post('/mitra/database/import', data={'file': csv_file}, content_type='multipart/form-data', follow_redirects=True)
@@ -414,23 +414,22 @@ class BlackBoxSystemTest(unittest.TestCase):
         # 1. Unduh template CSV Kegiatan
         res_dl = self.client.get('/mitra/template/download-kegiatan')
         self.assertEqual(res_dl.status_code, 200)
-        self.assertIn(b'kode_kegiatan', res_dl.data)
-        self.assertIn(b'SRV-DIS-01', res_dl.data)
+        self.assertIn(b'nama_kegiatan,tim_kerja,tahun,bulan,tanggal_mulai,tanggal_selesai', res_dl.data)
+        self.assertIn(b'Survei Harga Perdagangan Besar', res_dl.data)
 
-        # 2. Unggah berkas CSV Kegiatan
-        unique_kode = f"SRV-AUTO-{int(datetime.utcnow().timestamp())}"
-        csv_data = f"kode_kegiatan,nama_kegiatan,tim_kerja,tahun,bulan,tanggal_mulai,tanggal_selesai\n{unique_kode},Survei Otomatis Unggah Template,Tim Produksi,2025,05,2025-05-01,2025-05-31\n"
+        # 2. Unggah berkas CSV Kegiatan (tanpa kode_kegiatan)
+        unique_nama = f"Survei Otomatis Unggah Template {int(datetime.utcnow().timestamp())}"
+        csv_data = f"nama_kegiatan,tim_kerja,tahun,bulan,tanggal_mulai,tanggal_selesai\n{unique_nama},Tim Produksi,2025,05,2025-05-01,2025-05-31\n"
         data = {
             'file': (io.BytesIO(csv_data.encode('utf-8')), 'kegiatan_test.csv')
         }
         res_up = self.client.post('/mitra/template/upload-kegiatan', data=data, content_type='multipart/form-data', follow_redirects=True)
         self.assertEqual(res_up.status_code, 200)
         self.assertIn(b'Unggah template berhasil!', res_up.data)
-        self.assertIn(unique_kode.encode('utf-8'), res_up.data)
-        self.assertIn(b'Survei Otomatis Unggah Template', res_up.data)
+        self.assertIn(unique_nama.encode('utf-8'), res_up.data)
 
         # 3. Verifikasi data tersimpan di database
-        keg_saved = Kegiatan.query.filter_by(kode_kegiatan=unique_kode).first()
+        keg_saved = Kegiatan.query.filter_by(nama_kegiatan=unique_nama).first()
         self.assertIsNotNone(keg_saved)
         self.assertEqual(keg_saved.tim_kerja, 'Tim Produksi')
 
