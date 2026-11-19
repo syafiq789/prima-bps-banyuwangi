@@ -616,7 +616,17 @@ def rekapitulasi():
         avg_score = round(sum(e.rata_rata for e in eval_all) / len(eval_all), 1) if eval_all else 0
         total_honor = sum(p.honor_total for p in penugasan_all)
         total_honor_all += total_honor
-        
+
+        tugas_selesai = sum(1 for p in penugasan_all if (p.status or '').upper() == 'SELESAI')
+        tugas_berjalan = len(penugasan_all) - tugas_selesai
+        tim_list = sorted({p.kegiatan.tim_kerja for p in penugasan_all if p.kegiatan and p.kegiatan.tim_kerja})
+        kegiatan_list_mitra = []
+        seen_keg = set()
+        for p in penugasan_all:
+            if p.kegiatan and p.kegiatan.nama_kegiatan and p.kegiatan.nama_kegiatan not in seen_keg:
+                seen_keg.add(p.kegiatan.nama_kegiatan)
+                kegiatan_list_mitra.append(p.kegiatan.nama_kegiatan)
+
         # Predikat
         if avg_score >= 90:
             predikat = "Sangat Baik (A)"
@@ -632,6 +642,11 @@ def rekapitulasi():
         rekap_data.append({
             'mitra': m,
             'total_tugas': len(penugasan_all),
+            'tugas_selesai': tugas_selesai,
+            'tugas_berjalan': tugas_berjalan,
+            'tim_list': tim_list,
+            'kegiatan_list': kegiatan_list_mitra,
+            'jumlah_eval': len(eval_all),
             'avg_score': avg_score,
             'predikat': predikat,
             'total_honor': total_honor

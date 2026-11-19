@@ -159,64 +159,172 @@
 
     <!-- 4. Tabel Laporan Kinerja & Honor per Mitra -->
     <div class="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-soft">
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-slate-100 mb-4">
-            <div>
-                <h2 class="text-base font-extrabold text-slate-900">Rincian Laporan &amp; Honor per Mitra</h2>
-                <p class="text-xs text-slate-500">Gabungan data penugasan, penilaian mitra, dan total honorarium masing-masing mitra</p>
+        <div class="flex flex-col lg:flex-row lg:items-start justify-between gap-4 pb-5 border-b border-slate-100 mb-4">
+            <div class="space-y-1.5">
+                <div class="flex flex-wrap items-center gap-2.5">
+                    <div class="w-9 h-9 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center shrink-0">
+                        <i data-lucide="file-spreadsheet" class="w-4.5 h-4.5"></i>
+                    </div>
+                    <div>
+                        <div class="flex flex-wrap items-center gap-2">
+                            <h2 class="text-base font-extrabold text-slate-900">Laporan Rinci Kinerja, Kegiatan &amp; Honor per Mitra</h2>
+                            <span class="px-2.5 py-0.5 rounded-full bg-blue-50 text-blue-700 border border-blue-200/70 text-[10px] font-bold">
+                                {{ rekap_data|length }} Mitra Terdaftar
+                            </span>
+                        </div>
+                        <p class="text-xs text-slate-500 mt-0.5 leading-relaxed">
+                            Rekapitulasi lengkap seluruh mitra statistik BPS Kabupaten Banyuwangi mencakup identitas, wilayah domisili, tim kerja &amp; kegiatan yang diikuti, status penyelesaian tugas, hasil penilaian pengawas, hingga akumulasi honor yang diterima.
+                        </p>
+                    </div>
+                </div>
             </div>
-            <div class="relative w-full sm:w-64">
-                <i data-lucide="search" class="w-3.5 h-3.5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none"></i>
-                <input type="text"
-                       id="searchRekapMitra"
-                       onkeyup="filterRekapMitra()"
-                       placeholder="Cari nama atau ID Sobat..."
-                       class="w-full pl-9 pr-3 py-2 text-xs rounded-xl border border-slate-200 bg-slate-50/70 focus:bg-white focus:border-blue-500 outline-none transition">
+
+            <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 shrink-0">
+                <select id="filterPredikatMitra"
+                        onchange="filterRekapMitra()"
+                        class="px-3 py-2 text-xs rounded-xl border border-slate-200 bg-slate-50/70 focus:bg-white focus:border-blue-500 outline-none text-slate-700 font-semibold transition">
+                    <option value="">Semua Kategori Kinerja</option>
+                    <option value="sangat baik">Sangat Baik (A)</option>
+                    <option value="baik (b)">Baik (B)</option>
+                    <option value="cukup">Cukup (C)</option>
+                    <option value="kurang">Kurang (D)</option>
+                    <option value="belum dinilai">Belum Dinilai</option>
+                </select>
+                <div class="relative w-full sm:w-64">
+                    <i data-lucide="search" class="w-3.5 h-3.5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none"></i>
+                    <input type="text"
+                           id="searchRekapMitra"
+                           onkeyup="filterRekapMitra()"
+                           placeholder="Cari nama, ID Sobat, kecamatan, tim..."
+                           class="w-full pl-9 pr-3 py-2 text-xs rounded-xl border border-slate-200 bg-slate-50/70 focus:bg-white focus:border-blue-500 outline-none transition">
+                </div>
             </div>
         </div>
 
-        <div class="overflow-x-auto rounded-2xl border border-slate-100">
+        <!-- Keterangan Singkat Penilaian & Status -->
+        <div class="flex flex-wrap items-center justify-between gap-2 px-4 py-2.5 mb-4 rounded-2xl bg-blue-50/60 border border-blue-100 text-[11px] text-slate-600">
+            <div class="flex flex-wrap items-center gap-x-4 gap-y-1">
+                <span class="font-bold text-blue-800 inline-flex items-center gap-1.5">
+                    <i data-lucide="info" class="w-3.5 h-3.5 text-blue-600"></i>
+                    Panduan Kategori Nilai:
+                </span>
+                <span><strong class="text-blue-700">Sangat Baik (A)</strong> : 90–100</span>
+                <span><strong class="text-blue-700">Baik (B)</strong> : 80–89</span>
+                <span><strong class="text-sky-700">Cukup (C)</strong> : 70–79</span>
+                <span><strong class="text-slate-700">Kurang (D)</strong> : &lt; 70</span>
+            </div>
+            <span class="text-[10px] text-slate-500">Data diperbarui otomatis dari menu Penugasan &amp; Penilaian Mitra</span>
+        </div>
+
+        <div class="overflow-x-auto rounded-2xl border border-slate-200/80">
             <table class="w-full text-left text-xs" id="tableRekapMitra">
                 <thead>
-                    <tr class="bg-slate-50/90 border-b border-slate-200/80 text-slate-500 uppercase font-bold text-[10px] tracking-wider">
-                        <th class="py-3 px-4">Nama Mitra</th>
-                        <th class="py-3 px-4 text-center">Total Tugas</th>
-                        <th class="py-3 px-4 text-center">Nilai Rata-Rata</th>
-                        <th class="py-3 px-4 text-center">Predikat</th>
-                        <th class="py-3 px-4 text-right">Total Honor</th>
+                    <tr class="bg-slate-50/90 border-b border-slate-200/80 text-slate-600 uppercase font-bold text-[10px] tracking-wider">
+                        <th class="py-3.5 px-3.5 text-center w-10">No</th>
+                        <th class="py-3.5 px-4">Identitas &amp; Kontak Mitra</th>
+                        <th class="py-3.5 px-4">Wilayah Domisili</th>
+                        <th class="py-3.5 px-4">Tim Kerja &amp; Kegiatan</th>
+                        <th class="py-3.5 px-4 text-center">Progres Tugas</th>
+                        <th class="py-3.5 px-4 text-center">Nilai Evaluasi</th>
+                        <th class="py-3.5 px-4 text-center">Kategori Kinerja</th>
+                        <th class="py-3.5 px-4 text-right">Total Honor Diterima</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-100">
                     {% for r in rekap_data %}
-                    <tr class="rekap-row hover:bg-blue-50/40 transition" data-search="{{ (r.mitra.nama_lengkap ~ ' ' ~ r.mitra.id_sobat ~ ' ' ~ (r.mitra.kecamatan or ''))|lower }}">
+                    <tr class="rekap-row hover:bg-blue-50/40 transition"
+                        data-search="{{ (r.mitra.nama_lengkap ~ ' ' ~ r.mitra.id_sobat ~ ' ' ~ (r.mitra.kecamatan or '') ~ ' ' ~ (r.mitra.desa or '') ~ ' ' ~ (' '.join(r.tim_list)) ~ ' ' ~ (' '.join(r.kegiatan_list)))|lower }}"
+                        data-predikat="{{ r.predikat|lower }}">
+                        <td class="py-3.5 px-3.5 text-center font-mono text-slate-400 font-semibold">
+                            {{ loop.index }}
+                        </td>
                         <td class="py-3.5 px-4">
                             <div class="font-bold text-slate-900">{{ r.mitra.nama_lengkap }}</div>
-                            <div class="text-[10px] text-slate-400 font-mono">{{ r.mitra.id_sobat }} &bull; {{ r.mitra.kecamatan or '-' }}</div>
+                            <div class="text-[10px] text-slate-500 font-mono mt-0.5">ID Sobat: {{ r.mitra.id_sobat }}</div>
+                            {% if r.mitra.no_hp or r.mitra.email %}
+                            <div class="text-[10px] text-slate-400 mt-0.5">
+                                {{ r.mitra.no_hp or '-' }}{% if r.mitra.email %} &bull; {{ r.mitra.email }}{% endif %}
+                            </div>
+                            {% endif %}
                         </td>
-                        <td class="py-3.5 px-4 text-center">
-                            <span class="px-2.5 py-0.5 rounded-full bg-blue-50 text-blue-700 font-bold text-[11px] border border-blue-200/70">
-                                {{ r.total_tugas }} Tugas
-                            </span>
+                        <td class="py-3.5 px-4">
+                            <div class="font-semibold text-slate-800">{{ r.mitra.kecamatan or 'Belum Diisi' }}</div>
+                            <div class="text-[10px] text-slate-500 mt-0.5">Desa/Kel: {{ r.mitra.desa or '-' }}</div>
                         </td>
-                        <td class="py-3.5 px-4 text-center font-mono font-extrabold text-slate-800">
-                            {% if r.avg_score > 0 %}
-                            {{ r.avg_score }} / 100
+                        <td class="py-3.5 px-4">
+                            {% if r.tim_list %}
+                            <div class="flex flex-wrap gap-1 mb-1">
+                                {% for t in r.tim_list %}
+                                <span class="px-2 py-0.5 rounded-md bg-blue-50 text-blue-700 border border-blue-200/70 text-[10px] font-bold">{{ t }}</span>
+                                {% endfor %}
+                            </div>
+                            <div class="text-[10px] text-slate-500 leading-snug">
+                                {{ r.kegiatan_list[:2]|join(', ') }}{% if r.kegiatan_list|length > 2 %} <span class="text-blue-600 font-semibold">+{{ r.kegiatan_list|length - 2 }} kegiatan lainnya</span>{% endif %}
+                            </div>
                             {% else %}
-                            <span class="text-slate-400 font-sans font-normal">-</span>
+                            <span class="text-[11px] text-slate-400 italic">Belum ada kegiatan ditugaskan</span>
                             {% endif %}
                         </td>
                         <td class="py-3.5 px-4 text-center">
-                            <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold {% if r.avg_score >= 80 %} bg-blue-50 text-blue-700 border border-blue-200 {% elif r.avg_score > 0 %} bg-sky-50 text-sky-700 border border-sky-200 {% else %} bg-slate-100 text-slate-500 {% endif %}">
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full bg-blue-50 text-blue-700 font-bold text-[11px] border border-blue-200/70">
+                                {{ r.total_tugas }} Total Tugas
+                            </span>
+                            <div class="text-[10px] text-slate-500 mt-1">
+                                {{ r.tugas_selesai }} Selesai &bull; {{ r.tugas_berjalan }} Berjalan
+                            </div>
+                        </td>
+                        <td class="py-3.5 px-4 text-center">
+                            {% if r.avg_score > 0 %}
+                            <div class="font-mono font-extrabold text-slate-900 text-xs">{{ r.avg_score }} <span class="text-[10px] font-normal text-slate-400">/ 100</span></div>
+                            <div class="text-[10px] text-slate-500 mt-0.5">Dari {{ r.jumlah_eval }} penilaian</div>
+                            {% else %}
+                            <span class="text-slate-400 font-normal">-</span>
+                            <div class="text-[10px] text-slate-400 mt-0.5">Belum ada nilai</div>
+                            {% endif %}
+                        </td>
+                        <td class="py-3.5 px-4 text-center">
+                            <span class="px-2.5 py-1 rounded-full text-[10px] font-bold {% if r.avg_score >= 80 %} bg-blue-50 text-blue-700 border border-blue-200 {% elif r.avg_score > 0 %} bg-sky-50 text-sky-700 border border-sky-200 {% else %} bg-slate-100 text-slate-500 {% endif %}">
                                 {{ r.predikat }}
                             </span>
                         </td>
-                        <td class="py-3.5 px-4 text-right font-mono font-extrabold text-blue-700 whitespace-nowrap">
-                            Rp {{ "{:,}".format(r.total_honor).replace(',', '.') }}
+                        <td class="py-3.5 px-4 text-right whitespace-nowrap">
+                            <div class="font-mono font-extrabold text-blue-700 text-xs">
+                                Rp {{ "{:,}".format(r.total_honor).replace(',', '.') }}
+                            </div>
+                            <div class="text-[10px] text-slate-400 mt-0.5">Akumulasi honor</div>
                         </td>
                     </tr>
                     {% else %}
                     <tr>
-                        <td colspan="5" class="py-12 text-center text-slate-400 text-xs">
-                            Belum ada data mitra untuk ditampilkan. Tambahkan melalui <strong>Data Mitra</strong> atau <strong>Template &amp; Upload</strong>.
+                        <td colspan="8" class="py-12 px-6 text-center">
+                            <div class="max-w-lg mx-auto space-y-3">
+                                <div class="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center mx-auto">
+                                    <i data-lucide="users" class="w-6 h-6"></i>
+                                </div>
+                                <div>
+                                    <h3 class="text-sm font-extrabold text-slate-800">Belum Ada Data Laporan &amp; Honor Mitra</h3>
+                                    <p class="text-xs text-slate-500 mt-1 leading-relaxed">
+                                        Tabel ini akan otomatis menampilkan daftar mitra beserta wilayah tugas, tim kerja, jumlah penugasan, nilai evaluasi pengawas, kategori kinerja, dan total honor setelah data mitra dan penugasannya ditambahkan.
+                                    </p>
+                                </div>
+                                <div class="flex flex-wrap items-center justify-center gap-2 pt-1">
+                                    <a href="{{ url_for('mitra.database') }}"
+                                       class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition">
+                                        <i data-lucide="user-plus" class="w-3.5 h-3.5"></i>
+                                        Tambah di Data Mitra
+                                    </a>
+                                    <a href="{{ url_for('mitra.template') }}"
+                                       class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-200 text-xs font-bold transition">
+                                        <i data-lucide="upload" class="w-3.5 h-3.5"></i>
+                                        Upload lewat Template
+                                    </a>
+                                    <a href="{{ url_for('mitra.penugasan') }}"
+                                       class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition">
+                                        <i data-lucide="clipboard-list" class="w-3.5 h-3.5"></i>
+                                        Atur Penugasan Mitra
+                                    </a>
+                                </div>
+                            </div>
                         </td>
                     </tr>
                     {% endfor %}
@@ -230,9 +338,13 @@
 <script>
     function filterRekapMitra() {
         const q = (document.getElementById('searchRekapMitra')?.value || '').toLowerCase().trim();
+        const pred = (document.getElementById('filterPredikatMitra')?.value || '').toLowerCase().trim();
         document.querySelectorAll('#tableRekapMitra .rekap-row').forEach(row => {
             const hay = row.getAttribute('data-search') || '';
-            row.style.display = hay.includes(q) ? '' : 'none';
+            const rowPred = row.getAttribute('data-predikat') || '';
+            const matchSearch = !q || hay.includes(q);
+            const matchPred = !pred || rowPred.includes(pred);
+            row.style.display = (matchSearch && matchPred) ? '' : 'none';
         });
     }
 </script>
