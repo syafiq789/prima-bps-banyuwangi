@@ -297,32 +297,15 @@
                     {% else %}
                     <tr>
                         <td colspan="8" class="py-12 px-6 text-center">
-                            <div class="max-w-lg mx-auto space-y-3">
-                                <div class="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center mx-auto">
-                                    <i data-lucide="users" class="w-6 h-6"></i>
+                            <div class="max-w-md mx-auto space-y-2.5">
+                                <div class="w-11 h-11 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center mx-auto">
+                                    <i data-lucide="file-clock" class="w-5 h-5"></i>
                                 </div>
                                 <div>
-                                    <h3 class="text-sm font-extrabold text-slate-800">Belum Ada Data Laporan &amp; Honor Mitra</h3>
+                                    <h3 class="text-sm font-extrabold text-slate-800">Menunggu Laporan dari Fitur Monitoring Mitra</h3>
                                     <p class="text-xs text-slate-500 mt-1 leading-relaxed">
-                                        Tabel ini akan otomatis menampilkan daftar mitra beserta wilayah tugas, tim kerja, jumlah penugasan, nilai evaluasi pengawas, kategori kinerja, dan total honor setelah data mitra dan penugasannya ditambahkan.
+                                        Laporan kinerja, progres kegiatan, nilai evaluasi, dan akumulasi honor mitra akan tampil otomatis di sini setelah data masuk dari fitur <strong>Monitoring Mitra</strong> lainnya.
                                     </p>
-                                </div>
-                                <div class="flex flex-wrap items-center justify-center gap-2 pt-1">
-                                    <a href="{{ url_for('mitra.database') }}"
-                                       class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition">
-                                        <i data-lucide="user-plus" class="w-3.5 h-3.5"></i>
-                                        Tambah di Data Mitra
-                                    </a>
-                                    <a href="{{ url_for('mitra.template') }}"
-                                       class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-200 text-xs font-bold transition">
-                                        <i data-lucide="upload" class="w-3.5 h-3.5"></i>
-                                        Upload lewat Template
-                                    </a>
-                                    <a href="{{ url_for('mitra.penugasan') }}"
-                                       class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition">
-                                        <i data-lucide="clipboard-list" class="w-3.5 h-3.5"></i>
-                                        Atur Penugasan Mitra
-                                    </a>
                                 </div>
                             </div>
                         </td>
