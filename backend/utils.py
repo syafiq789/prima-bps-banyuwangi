@@ -5,7 +5,7 @@ from functools import wraps
 from flask import abort, current_app, request
 from flask_login import current_user
 from werkzeug.utils import secure_filename
-from app.models import db, Activity
+from backend.models import db, Activity
 
 logger = logging.getLogger(__name__)
 

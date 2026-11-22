@@ -4,7 +4,7 @@ from flask import Flask, render_template, request
 from flask_login import LoginManager
 from sqlalchemy import create_engine, text
 from config import config, Config
-from app.models import (
+from backend.models import (
     db, User, Category, ImportantLink, Document, DocumentCompleteness, Activity,
     Kegiatan, TemplateKegiatan, Mitra, PenugasanMitra, EvaluasiMitra,
     Pegawai, AktivitasPegawai, AkunAnggaran, KomponenAnggaran,
@@ -38,7 +38,12 @@ def create_app(config_name=None):
     if config_name is None:
         config_name = os.environ.get('FLASK_ENV', 'default')
 
-    app = Flask(__name__)
+    base_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+    app = Flask(
+        __name__,
+        template_folder=os.path.join(base_root, 'frontend', 'templates'),
+        static_folder=os.path.join(base_root, 'frontend', 'static'),
+    )
     app.config.from_object(config.get(config_name, config['default']))
 
     # Ensure upload directory exists
@@ -72,19 +77,19 @@ def create_app(config_name=None):
     login_manager.init_app(app)
 
     # Register blueprints
-    from app.routes.auth import auth_bp
-    from app.routes.dashboard import dashboard_bp
-    from app.routes.documents import documents_bp
-    from app.routes.categories import categories_bp
-    from app.routes.users import users_bp
-    from app.routes.settings import settings_bp
-    from app.routes.important_links import important_links_bp
-    from app.routes.completeness import completeness_bp
-    from app.routes.info import info_bp
-    from app.routes.mitra import mitra_bp
-    from app.routes.pegawai import pegawai_bp
-    from app.routes.keuangan import keuangan_bp
-    from app.routes.hub import hub_bp
+    from backend.routes.auth import auth_bp
+    from backend.routes.dashboard import dashboard_bp
+    from backend.routes.documents import documents_bp
+    from backend.routes.categories import categories_bp
+    from backend.routes.users import users_bp
+    from backend.routes.settings import settings_bp
+    from backend.routes.important_links import important_links_bp
+    from backend.routes.completeness import completeness_bp
+    from backend.routes.info import info_bp
+    from backend.routes.mitra import mitra_bp
+    from backend.routes.pegawai import pegawai_bp
+    from backend.routes.keuangan import keuangan_bp
+    from backend.routes.hub import hub_bp
 
     app.register_blueprint(auth_bp, url_prefix='/auth')
     app.register_blueprint(dashboard_bp)

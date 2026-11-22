@@ -11,7 +11,7 @@ class Config:
     SECRET_KEY = os.environ.get('SECRET_KEY', 'prima-default-dev-secret-key-bps-banyuwangi')
     
     # Upload configuration
-    UPLOAD_FOLDER = os.path.join(BASE_DIR, 'app', 'static', 'uploads', 'documents')
+    UPLOAD_FOLDER = os.path.join(BASE_DIR, 'frontend', 'static', 'uploads', 'documents')
     MAX_CONTENT_LENGTH = int(os.environ.get('MAX_CONTENT_LENGTH', 32 * 1024 * 1024)) # 32 MB
     ALLOWED_EXTENSIONS = {'pdf', 'doc', 'docx', 'xls', 'xlsx', 'pptx'}
     
@@ -48,7 +48,7 @@ class Config:
         UPLOAD_FOLDER = os.environ.get('UPLOAD_FOLDER', os.path.join(tempfile.gettempdir(), 'uploads'))
     else:
         SQLITE_URI = f"sqlite:///{os.path.join(BASE_DIR, 'prima_akip.db')}"
-        UPLOAD_FOLDER = os.path.join(BASE_DIR, 'app', 'static', 'uploads', 'documents')
+        UPLOAD_FOLDER = os.path.join(BASE_DIR, 'frontend', 'static', 'uploads', 'documents')
     
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SQLALCHEMY_ENGINE_OPTIONS = {

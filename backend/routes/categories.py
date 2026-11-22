@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash
 from flask_login import login_required
-from app.models import db, Category, Document
-from app.utils import admin_required, log_activity
+from backend.models import db, Category, Document
+from backend.utils import admin_required, log_activity
 
 categories_bp = Blueprint('categories', __name__)
 

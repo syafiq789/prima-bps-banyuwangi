@@ -3,8 +3,8 @@ import urllib.parse
 import requests
 from flask import Blueprint, render_template, redirect, url_for, flash, request, current_app, session
 from flask_login import login_user, logout_user, login_required, current_user
-from app.models import db, User
-from app.utils import log_activity
+from backend.models import db, User
+from backend.utils import log_activity
 
 auth_bp = Blueprint('auth', __name__)
 

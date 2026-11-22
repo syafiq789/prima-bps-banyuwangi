@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template
 from flask_login import login_required
 from sqlalchemy import func
-from app.models import db, Document, Category, ImportantLink, Activity, DocumentCompleteness
+from backend.models import db, Document, Category, ImportantLink, Activity, DocumentCompleteness
 
 dashboard_bp = Blueprint('dashboard', __name__)
 

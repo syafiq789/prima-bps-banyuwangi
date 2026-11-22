@@ -6,8 +6,8 @@ from flask import (
 )
 from flask_login import login_required, current_user
 from sqlalchemy import or_
-from app.models import db, Document, Category, User
-from app.utils import (
+from backend.models import db, Document, Category, User
+from backend.utils import (
     admin_required, roles_required, log_activity, allowed_file, 
     save_document_file, delete_document_file, get_document_file_path
 )

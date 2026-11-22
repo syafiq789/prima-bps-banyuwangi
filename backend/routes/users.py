@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash
 from flask_login import login_required, current_user
-from app.models import db, User
-from app.utils import admin_required, log_activity
+from backend.models import db, User
+from backend.utils import admin_required, log_activity
 
 users_bp = Blueprint('users', __name__)
 

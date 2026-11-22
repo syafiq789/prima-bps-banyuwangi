@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, url_for
 from flask_login import login_required
-from app.models import (
+from backend.models import (
     db, Kegiatan, Mitra, PenugasanMitra, EvaluasiMitra,
     Pegawai, AktivitasPegawai, AkunAnggaran, KomponenAnggaran,
     PengajuanAnggaran, RealisasiAnggaran

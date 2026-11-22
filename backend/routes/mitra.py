@@ -4,7 +4,7 @@ from flask import Blueprint, render_template, request, redirect, url_for, flash,
 from flask_login import login_required, current_user
 from datetime import datetime, timedelta
 from sqlalchemy import func
-from app.models import (
+from backend.models import (
     db, Kegiatan, TemplateKegiatan, Mitra, PenugasanMitra, EvaluasiMitra, Activity
 )
 

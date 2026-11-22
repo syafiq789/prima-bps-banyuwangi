@@ -15,8 +15,8 @@ Fokus Uji:
 import io
 import unittest
 from datetime import datetime, date
-from app import create_app
-from app.models import (
+from backend import create_app
+from backend.models import (
     db, User, Mitra, PenugasanMitra, EvaluasiMitra,
     Pegawai, AktivitasPegawai, AkunAnggaran, KomponenAnggaran,
     PengajuanAnggaran, PersetujuanAnggaran, RealisasiAnggaran,
