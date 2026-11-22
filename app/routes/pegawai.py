@@ -64,7 +64,7 @@ def dashboard():
         tim_activity_counts.append(c)
 
     return render_template(
-        'pegawai/dashboard.html',
+        'pegawai/dashboard.j2',
         total_pegawai=total_pegawai,
         total_aktivitas=total_aktivitas,
         pekerjaan_selesai=pekerjaan_selesai,
@@ -93,7 +93,7 @@ def database():
     pegawai_list = query.order_by(Pegawai.nama_lengkap.asc()).all()
 
     all_tims = [t[0] for t in db.session.query(Pegawai.tim_kerja).distinct().all() if t[0]]
-    return render_template('pegawai/database.html', pegawai_list=pegawai_list, search=search, tim_filter=tim_filter, all_tims=all_tims)
+    return render_template('pegawai/database.j2', pegawai_list=pegawai_list, search=search, tim_filter=tim_filter, all_tims=all_tims)
 
 @pegawai_bp.route('/database/create', methods=['POST'])
 @login_required
@@ -149,7 +149,7 @@ def aktivitas():
     aktivitas_list = query.order_by(AktivitasPegawai.created_at.desc()).all()
     pegawai_options = Pegawai.query.filter_by(status_aktif=True).order_by(Pegawai.nama_lengkap.asc()).all()
     kegiatan_options = Kegiatan.query.order_by(Kegiatan.nama_kegiatan.asc()).all()
-    return render_template('pegawai/aktivitas.html', aktivitas_list=aktivitas_list, pegawai_options=pegawai_options, kegiatan_options=kegiatan_options, status_filter=status_filter, pegawai_filter=pegawai_filter)
+    return render_template('pegawai/aktivitas.j2', aktivitas_list=aktivitas_list, pegawai_options=pegawai_options, kegiatan_options=kegiatan_options, status_filter=status_filter, pegawai_filter=pegawai_filter)
 
 @pegawai_bp.route('/aktivitas/create', methods=['POST'])
 @login_required
@@ -233,7 +233,7 @@ def monitoring():
             'pegs': pegs
         })
 
-    return render_template('pegawai/monitoring.html', tim_stats=tim_stats)
+    return render_template('pegawai/monitoring.j2', tim_stats=tim_stats)
 
 @pegawai_bp.route('/rekapitulasi')
 @login_required
@@ -269,7 +269,7 @@ def rekapitulasi():
     total_selesai = sum(r['selesai'] for r in rekap)
     avg_total = round(sum(r['avg_pct'] for r in rekap) / total_peg, 1) if total_peg else 0
     return render_template(
-        'pegawai/rekapitulasi.html', 
+        'pegawai/rekapitulasi.j2', 
         rekap=rekap,
         total_peg=total_peg,
         total_tugas=total_tugas,

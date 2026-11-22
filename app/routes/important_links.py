@@ -9,14 +9,14 @@ important_links_bp = Blueprint('important_links', __name__)
 @login_required
 def index():
     links = ImportantLink.query.order_by(ImportantLink.id.asc()).all()
-    return render_template('important_links/index.html', links=links)
+    return render_template('important_links/index.j2', links=links)
 
 @important_links_bp.route('/<code_slug>')
 @login_required
 def detail(code_slug):
     link = ImportantLink.query.filter_by(code=code_slug).first_or_404()
     all_links = ImportantLink.query.all()
-    return render_template('important_links/detail.html', link=link, all_links=all_links)
+    return render_template('important_links/detail.j2', link=link, all_links=all_links)
 
 @important_links_bp.route('/<code_slug>/open')
 @login_required

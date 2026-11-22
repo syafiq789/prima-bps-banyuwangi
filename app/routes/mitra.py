@@ -70,7 +70,7 @@ def dashboard():
     rasio_selesai = round((penugasan_selesai / total_penugasan * 100), 1) if total_penugasan > 0 else 0
 
     return render_template(
-        'mitra/dashboard.html',
+        'mitra/dashboard.j2',
         total_mitra=total_mitra,
         total_penugasan=total_penugasan,
         total_kegiatan=total_kegiatan,
@@ -165,7 +165,7 @@ def database():
     ]
 
     return render_template(
-        'mitra/database.html', 
+        'mitra/database.j2', 
         mitra_list=mitra_list, 
         search=search, 
         tahun_filter=tahun_filter,
@@ -370,7 +370,7 @@ def penugasan():
     total_honor_penugasan = sum(p.honor_total for p in all_penugasan)
 
     return render_template(
-        'mitra/penugasan.html', 
+        'mitra/penugasan.j2', 
         penugasan_list=penugasan_list, 
         mitra_options=mitra_options, 
         kegiatan_options=kegiatan_options, 
@@ -489,7 +489,7 @@ def monitoring():
     years = sorted(list(set([k.tahun for k in all_kegiatans if k.tahun] + [2024, 2025, 2026])), reverse=True)
 
     return render_template(
-        'mitra/monitoring.html',
+        'mitra/monitoring.j2',
         kegiatan_list=kegiatan_list,
         tim_filter=tim_filter or 'Semua',
         tahun_filter=tahun_filter,
@@ -579,7 +579,7 @@ def monitoring_detail(kegiatan_id):
     total_anggaran_cair = sum(p.realisasi.jumlah_realisasi for p in pengajuans if p.realisasi)
 
     return render_template(
-        'mitra/monitoring_detail.html',
+        'mitra/monitoring_detail.j2',
         kegiatan=kegiatan,
         penugasans=penugasans,
         aktivitass=aktivitass,
@@ -603,7 +603,7 @@ def evaluasi():
     mitra_options = Mitra.query.filter_by(status_aktif=True).order_by(Mitra.nama_lengkap.asc()).all()
     kegiatan_options = Kegiatan.query.order_by(Kegiatan.nama_kegiatan.asc()).all()
     return render_template(
-        'mitra/evaluasi.html',
+        'mitra/evaluasi.j2',
         evaluasi_list=evaluasi_list,
         penugasan_belum_eval=penugasan_belum_eval,
         mitra_options=mitra_options,
@@ -763,7 +763,7 @@ def rekapitulasi():
     total_penugasan = PenugasanMitra.query.count()
 
     return render_template(
-        'mitra/rekapitulasi.html', 
+        'mitra/rekapitulasi.j2', 
         rekap_data=rekap_data, 
         total_honor_all=total_honor_all,
         rekap_tim_kerja=rekap_tim_kerja,
@@ -804,7 +804,7 @@ def template():
     total_mitra = Mitra.query.count()
 
     return render_template(
-        'mitra/template.html', 
+        'mitra/template.j2', 
         template_list=template_list,
         kegiatan_list=kegiatan_list,
         mitra_list=mitra_list,

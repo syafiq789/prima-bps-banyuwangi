@@ -1,0 +1,413 @@
+{% extends 'base.j2' %}
+
+{% block title %}Dashboard Kinerja Pegawai - LENTERA BPS Banyuwangi{% endblock %}
+
+{% block content %}
+<div class="space-y-6">
+
+    <!-- 1. Header Halaman Modern Executive Blue -->
+    <div style="background: linear-gradient(135deg, #0F2547 0%, #173B6D 55%, #1D4ED8 100%);"
+         class="rounded-3xl p-5 sm:p-6 text-white shadow-xl shadow-blue-950/15 border border-blue-400/20 relative overflow-hidden">
+        <div class="absolute -right-12 -top-12 w-60 h-60 bg-sky-400/20 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute left-1/3 -bottom-16 w-64 h-64 bg-blue-400/15 rounded-full blur-3xl pointer-events-none"></div>
+
+        <div class="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-5">
+            <!-- Left: Breadcrumb, Logo, Title & Badges -->
+            <div class="flex items-start sm:items-center gap-4">
+                <div class="w-14 h-14 rounded-2xl bg-white/95 p-1.5 shadow-lg shadow-black/20 ring-2 ring-white/25 flex items-center justify-center flex-shrink-0">
+                    <img src="{{ url_for('static', filename='images/logo_pegawai.svg') }}" alt="Logo Kinerja Pegawai" class="w-full h-full object-contain">
+                </div>
+                <div>
+                    <div class="flex items-center gap-1.5 text-[11px] text-blue-200/80 mb-1.5">
+                        <a href="{{ url_for('dashboard.index') }}" class="hover:text-white transition flex items-center gap-1">
+                            <i data-lucide="home" class="w-3 h-3"></i> LENTERA
+                        </a>
+                        <span class="text-blue-300/50">/</span>
+                        <span class="text-white font-semibold">Kinerja Pegawai</span>
+                    </div>
+                    
+                    <div class="flex flex-wrap items-center gap-2.5">
+                        <h1 class="text-xl sm:text-2xl font-extrabold tracking-tight text-white">Dashboard Kinerja Pegawai</h1>
+                        <span class="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full text-[11px] font-semibold bg-white/15 text-sky-100 border border-white/20 backdrop-blur-sm">
+                            <span class="w-1.5 h-1.5 rounded-full bg-sky-300"></span>
+                            BPS Banyuwangi (3510)
+                        </span>
+                        <span class="px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-blue-950/40 text-blue-100 border border-white/15">
+                            {{ total_pegawai }} Pegawai
+                        </span>
+                    </div>
+                    <p class="text-xs text-blue-100/80 mt-1.5">Pantau beban kerja, progres tugas, dan capaian kinerja pegawai BPS Kabupaten Banyuwangi</p>
+                </div>
+            </div>
+            
+            <!-- Right: Action Buttons -->
+            <div class="flex flex-wrap items-center gap-2 pt-1 lg:pt-0">
+                <a href="{{ url_for('pegawai.monitoring') }}" 
+                   class="h-10 px-4 rounded-xl bg-white/10 hover:bg-white/20 text-white border border-white/20 font-semibold text-xs transition-all flex items-center gap-1.5 backdrop-blur-sm">
+                    <i data-lucide="line-chart" class="w-3.5 h-3.5 text-sky-200"></i>
+                    <span>Kinerja per Tim</span>
+                </a>
+                <a href="{{ url_for('pegawai.rekapitulasi') }}" 
+                   class="h-10 px-4 rounded-xl bg-white/10 hover:bg-white/20 text-white border border-white/20 font-semibold text-xs transition-all flex items-center gap-1.5 backdrop-blur-sm">
+                    <i data-lucide="bar-chart-2" class="w-3.5 h-3.5 text-sky-200"></i>
+                    <span>Laporan Kinerja</span>
+                </a>
+                <a href="{{ url_for('pegawai.aktivitas') }}" 
+                   class="h-10 px-4 rounded-xl bg-white hover:bg-blue-50 text-blue-700 font-bold text-xs shadow-lg shadow-black/15 active:scale-95 transition-all flex items-center gap-1.5">
+                    <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+                    <span>Catat Aktivitas</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. Core KPI Metric Cards (Harmonized Executive SaaS Cards) -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        
+        <!-- Total Pegawai -->
+        <div class="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-[0_4px_16px_-4px_rgba(20,43,74,0.04)] hover:shadow-lg hover:border-blue-300 transition-all duration-300 relative overflow-hidden group flex flex-col justify-between">
+            <div class="absolute -right-6 -bottom-6 w-24 h-24 bg-gradient-to-br from-blue-500/10 to-transparent rounded-full blur-xl pointer-events-none group-hover:scale-125 transition-transform duration-500"></div>
+            <div>
+                <div class="flex items-center justify-between mb-2">
+                    <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Pegawai</span>
+                    <div class="w-9 h-9 rounded-xl bg-blue-50 text-blue-600 ring-1 ring-blue-500/15 flex items-center justify-center shadow-2xs group-hover:scale-110 transition-transform">
+                        <i data-lucide="users" class="w-4 h-4"></i>
+                    </div>
+                </div>
+                <div class="flex items-baseline justify-between my-2">
+                    <span class="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight font-sans">{{ total_pegawai }}</span>
+                    <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-blue-50 text-blue-700 border border-blue-200/80 shadow-2xs">
+                        BPS 3510
+                    </span>
+                </div>
+            </div>
+            <div class="pt-3 border-t border-slate-100 space-y-1.5 mt-1">
+                <div class="w-full h-1.5 rounded-full bg-slate-100 overflow-hidden">
+                    <div class="h-full bg-gradient-to-r from-blue-600 to-blue-500 rounded-full w-full"></div>
+                </div>
+                <div class="flex items-center justify-between text-[11px]">
+                    <span class="text-slate-400 font-medium">Status Pegawai</span>
+                    <span class="font-bold text-slate-700">100% ASN Aktif</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Total Aktivitas Terdaftar -->
+        <div class="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-[0_4px_16px_-4px_rgba(20,43,74,0.04)] hover:shadow-lg hover:border-blue-300 transition-all duration-300 relative overflow-hidden group flex flex-col justify-between">
+            <div class="absolute -right-6 -bottom-6 w-24 h-24 bg-gradient-to-br from-blue-500/10 to-transparent rounded-full blur-xl pointer-events-none group-hover:scale-125 transition-transform duration-500"></div>
+            <div>
+                <div class="flex items-center justify-between mb-2">
+                    <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Total Aktivitas</span>
+                    <div class="w-9 h-9 rounded-xl bg-blue-50 text-blue-600 ring-1 ring-blue-500/15 flex items-center justify-center shadow-2xs group-hover:scale-110 transition-transform">
+                        <i data-lucide="check-square" class="w-4 h-4"></i>
+                    </div>
+                </div>
+                <div class="flex items-baseline justify-between my-2">
+                    <span class="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight font-sans">{{ total_aktivitas }}</span>
+                    <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-blue-50 text-blue-700 border border-blue-200/80 shadow-2xs">
+                        Tugas Kerja
+                    </span>
+                </div>
+            </div>
+            <div class="pt-3 border-t border-slate-100 space-y-1.5 mt-1">
+                <div class="w-full h-1.5 rounded-full bg-slate-100 overflow-hidden">
+                    <div class="h-full bg-gradient-to-r from-blue-500 to-blue-500 rounded-full w-full"></div>
+                </div>
+                <div class="flex items-center justify-between text-[11px]">
+                    <span class="text-slate-400 font-medium">Beban Tugas</span>
+                    <span class="font-bold text-slate-700">Terdistribusi Rapi</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tugas Selesai & Rasio -->
+        <div class="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-[0_4px_16px_-4px_rgba(20,43,74,0.04)] hover:shadow-lg hover:border-blue-300 transition-all duration-300 relative overflow-hidden group flex flex-col justify-between">
+            <div class="absolute -right-6 -bottom-6 w-24 h-24 bg-gradient-to-br from-blue-500/10 to-transparent rounded-full blur-xl pointer-events-none group-hover:scale-125 transition-transform duration-500"></div>
+            <div>
+                <div class="flex items-center justify-between mb-2">
+                    <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Tugas Selesai</span>
+                    <div class="w-9 h-9 rounded-xl bg-blue-50 text-blue-600 ring-1 ring-blue-500/15 flex items-center justify-center shadow-2xs group-hover:scale-110 transition-transform">
+                        <i data-lucide="check-circle-2" class="w-4 h-4"></i>
+                    </div>
+                </div>
+                <div class="flex items-baseline justify-between my-2">
+                    <div class="flex items-baseline gap-1.5">
+                        <span class="text-3xl sm:text-4xl font-black text-blue-600 tracking-tight font-sans">{{ pekerjaan_selesai }}</span>
+                        <span class="text-xs font-semibold text-slate-400">/ {{ total_aktivitas }} tugas</span>
+                    </div>
+                    <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-blue-50 text-blue-700 border border-blue-200/80 shadow-2xs font-mono">
+                        {{ ((pekerjaan_selesai / total_aktivitas * 100)|round(1)) if total_aktivitas > 0 else 0 }}%
+                    </span>
+                </div>
+            </div>
+            <div class="pt-3 border-t border-slate-100 space-y-1.5 mt-1">
+                <div class="w-full h-1.5 rounded-full bg-slate-100 overflow-hidden">
+                    <div class="h-full bg-gradient-to-r from-blue-500 to-sky-400 rounded-full transition-all duration-500" style="width: {{ ((pekerjaan_selesai / total_aktivitas * 100)|round(1)) if total_aktivitas > 0 else 0 }}%"></div>
+                </div>
+                <div class="flex items-center justify-between text-[11px]">
+                    <span class="text-slate-400 font-medium">Tingkat Capaian</span>
+                    <span class="font-bold text-blue-600 font-mono">{{ ((pekerjaan_selesai / total_aktivitas * 100)|round(1)) if total_aktivitas > 0 else 0 }}% Rampung</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Rata-Rata Capaian / Indeks Produktivitas -->
+        <div class="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-[0_4px_16px_-4px_rgba(20,43,74,0.04)] hover:shadow-lg hover:border-blue-300 transition-all duration-300 relative overflow-hidden group flex flex-col justify-between">
+            <div class="absolute -right-6 -bottom-6 w-24 h-24 bg-gradient-to-br from-blue-500/10 to-transparent rounded-full blur-xl pointer-events-none group-hover:scale-125 transition-transform duration-500"></div>
+            <div>
+                <div class="flex items-center justify-between mb-2">
+                    <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Indeks Produktivitas</span>
+                    <div class="w-9 h-9 rounded-xl bg-blue-50 text-blue-600 ring-1 ring-blue-500/15 flex items-center justify-center shadow-2xs group-hover:scale-110 transition-transform">
+                        <i data-lucide="pie-chart" class="w-4 h-4"></i>
+                    </div>
+                </div>
+                <div class="flex items-baseline justify-between my-2">
+                    <div class="flex items-baseline gap-1">
+                        <span class="text-3xl sm:text-4xl font-black text-blue-600 tracking-tight font-sans">{{ rata_rata_selesai }}%</span>
+                    </div>
+                    <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-blue-50 text-blue-700 border border-blue-200/80 shadow-2xs">
+                        Efektivitas
+                    </span>
+                </div>
+            </div>
+            <div class="pt-3 border-t border-slate-100 space-y-1.5 mt-1">
+                <div class="w-full h-1.5 rounded-full bg-slate-100 overflow-hidden">
+                    <div class="h-full bg-gradient-to-r from-blue-500 to-sky-400 rounded-full transition-all duration-500" style="width: {{ rata_rata_selesai }}%"></div>
+                </div>
+                <div class="flex items-center justify-between text-[11px]">
+                    <span class="text-slate-400 font-medium">Evaluasi Kinerja</span>
+                    <span class="font-bold text-blue-600">
+                        {% if rata_rata_selesai >= 85 %}Produktivitas Tinggi{% elif rata_rata_selesai >= 70 %}On Track{% else %}Perlu Ditingkatkan{% endif %}
+                    </span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- 3. Core Action Board (2 Kolom: Aktivitas Terbaru & Beban Kerja per Tim) -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 items-stretch">
+        
+        <!-- Kolom Kiri (2/3 width): Daftar Aktivitas Pegawai Terbaru -->
+        <div class="lg:col-span-2 bg-white rounded-3xl p-6 border border-slate-200/80 shadow-soft flex flex-col justify-between">
+            <div>
+                <div class="flex items-center justify-between pb-4 border-b border-slate-100 mb-4">
+                    <div>
+                        <h2 class="text-base font-bold text-slate-800">Daftar Aktivitas & Penugasan Terbaru</h2>
+                        <p class="text-xs text-slate-400">Pantau dan perbarui progres pelaksanaan tugas dinas pegawai BPS</p>
+                    </div>
+                    <a href="{{ url_for('pegawai.aktivitas') }}" class="text-xs font-semibold text-blue-600 hover:text-blue-700 flex items-center gap-1 transition">
+                        <span>Lihat Semua Log</span>
+                        <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+                    </a>
+                </div>
+
+                <div class="overflow-x-auto rounded-2xl border border-slate-100">
+                    <table class="w-full text-left text-xs table-modern">
+                        <thead>
+                            <tr class="bg-slate-50/80 border-b border-slate-200/80 text-slate-500 uppercase font-bold text-[10px] tracking-wider">
+                                <th class="py-3 px-3.5 whitespace-nowrap">Pegawai</th>
+                                <th class="py-3 px-3.5 whitespace-nowrap">Tugas & Kegiatan</th>
+                                <th class="py-3 px-3.5 whitespace-nowrap">Periode</th>
+                                <th class="py-3 px-3.5 whitespace-nowrap">Progres</th>
+                                <th class="py-3 px-3.5 whitespace-nowrap text-center">Status</th>
+                                <th class="py-3 px-3.5 whitespace-nowrap text-right">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-100">
+                            {% for act in aktivitas_terbaru %}
+                            <tr class="hover:bg-slate-50/80 transition group">
+                                <td class="py-3 px-3.5 whitespace-nowrap">
+                                    <div class="flex items-center gap-2.5">
+                                        <div class="w-8 h-8 rounded-xl bg-gradient-to-tr from-[#1E3E66] to-blue-500 text-white font-bold text-[10px] flex items-center justify-center shadow-2xs flex-shrink-0">
+                                            {{ act.pegawai.nama_lengkap[:2].upper() }}
+                                        </div>
+                                        <div>
+                                            <div class="font-bold text-slate-900 text-xs">{{ act.pegawai.nama_lengkap }}</div>
+                                            <div class="text-[10px] text-slate-400">{{ act.pegawai.tim_kerja }}</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="py-3 px-3.5 min-w-[200px]">
+                                    <div class="font-bold text-slate-800 text-xs">{{ act.judul_aktivitas }}</div>
+                                    <div class="text-[10px] text-slate-400 truncate max-w-[220px]">{{ act.deskripsi or '-' }}</div>
+                                </td>
+                                <td class="py-3 px-3.5 whitespace-nowrap text-[11px] text-slate-500 font-mono">
+                                    {{ act.tanggal_mulai }} s.d {{ act.tanggal_selesai }}
+                                </td>
+                                <td class="py-3 px-3.5 whitespace-nowrap">
+                                    <div class="w-24">
+                                        <div class="flex justify-between text-[10px] font-bold mb-1">
+                                            <span class="text-slate-500">Capaian:</span>
+                                            <span class="font-mono {% if act.persentase_selesai == 100 %}text-blue-600{% else %}text-blue-600{% endif %}">{{ act.persentase_selesai }}%</span>
+                                        </div>
+                                        <div class="w-full h-1.5 rounded-full bg-slate-100 overflow-hidden">
+                                            <div class="h-full {% if act.persentase_selesai == 100 %}bg-blue-500{% else %}bg-blue-500{% endif %} rounded-full" style="width: {{ act.persentase_selesai }}%"></div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="py-3 px-3.5 whitespace-nowrap text-center">
+                                    {% if act.status == 'SELESAI' %}
+                                    <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-blue-50 text-blue-700 border border-blue-200 shadow-2xs">
+                                        <i data-lucide="check" class="w-3 h-3"></i> SELESAI
+                                    </span>
+                                    {% else %}
+                                    <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-sky-50 text-sky-700 border border-sky-200 shadow-2xs">
+                                        <i data-lucide="clock" class="w-3 h-3"></i> PROSES
+                                    </span>
+                                    {% endif %}
+                                </td>
+                                <td class="py-3 px-3.5 whitespace-nowrap text-right">
+                                    <button type="button" 
+                                            onclick="openModalPegawaiProgress({{ act.id }}, '{{ act.judul_aktivitas }}', {{ act.persentase_selesai }})"
+                                            class="px-2.5 py-1 rounded-lg bg-blue-50 hover:bg-blue-100 text-blue-700 font-bold text-[11px] border border-blue-200/80 inline-flex items-center gap-1 transition active:scale-95">
+                                        <i data-lucide="edit-3" class="w-3 h-3"></i>
+                                        <span>Update</span>
+                                    </button>
+                                </td>
+                            </tr>
+                            {% else %}
+                            <tr>
+                                <td colspan="6" class="py-12 text-center text-slate-400">
+                                    <div class="flex flex-col items-center justify-center gap-2">
+                                        <i data-lucide="calendar-check" class="w-8 h-8 text-slate-300"></i>
+                                        <p class="font-bold text-slate-700 text-xs">Belum Ada Aktivitas Pegawai</p>
+                                        <p class="text-[11px] text-slate-400">Catat tugas dinas pertama pegawai melalui tombol Catat Aktivitas.</p>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
+                <span>Total penugasan aktif: <strong class="text-slate-800">{{ pekerjaan_proses }} dalam proses</strong></span>
+                <a href="{{ url_for('pegawai.aktivitas') }}" class="font-bold text-blue-600 hover:underline">Kelola Log &rarr;</a>
+            </div>
+        </div>
+
+        <!-- Kolom Kanan (1/3 width): Distribusi Beban per Tim Kerja & Pegawai Aktif -->
+        <div class="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-soft flex flex-col justify-between h-full">
+            <div>
+                <div class="flex items-center justify-between pb-3.5 border-b border-slate-100 mb-4">
+                    <div>
+                        <h2 class="text-sm font-bold text-slate-800">Beban Tugas per Tim Kerja</h2>
+                        <p class="text-[11px] text-slate-400">Distribusi aktivitas fungsi teknis BPS</p>
+                    </div>
+                    <div class="w-8 h-8 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center">
+                        <i data-lucide="pie-chart" class="w-4 h-4"></i>
+                    </div>
+                </div>
+
+                <!-- Chart Distribusi Tim -->
+                <div class="h-44 relative flex items-center justify-center mb-4">
+                    {% if total_aktivitas > 0 %}
+                    <canvas id="chartPegawaiStatus"></canvas>
+                    {% else %}
+                    <div class="w-full h-full rounded-2xl border-2 border-dashed border-slate-200/80 bg-slate-50/50 flex flex-col items-center justify-center text-center p-4">
+                        <i data-lucide="pie-chart" class="w-6 h-6 text-slate-300 mb-1"></i>
+                        <p class="text-xs font-bold text-slate-600">Belum Ada Data</p>
+                    </div>
+                    {% endif %}
+                </div>
+
+                <!-- Ringkasan Pegawai Kinerja Unggul -->
+                <div class="space-y-2.5">
+                    <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Pegawai Berkinerja Aktif:</span>
+                    {% for p in pegawai_list[:4] %}
+                    <div class="p-2.5 rounded-xl bg-slate-50/70 border border-slate-100 flex items-center justify-between gap-2">
+                        <div class="flex items-center gap-2 min-w-0">
+                            <div class="w-7 h-7 rounded-lg bg-blue-100 text-blue-700 font-bold text-[10px] flex items-center justify-center flex-shrink-0">
+                                {{ p.nama_lengkap[:2].upper() }}
+                            </div>
+                            <div class="min-w-0">
+                                <h4 class="text-xs font-bold text-slate-800 truncate">{{ p.nama_lengkap }}</h4>
+                                <p class="text-[10px] text-slate-400 truncate">{{ p.tim_kerja }}</p>
+                            </div>
+                        </div>
+                        <span class="text-[10px] font-bold text-blue-600 bg-blue-50 px-2 py-0.5 rounded-md border border-blue-200/60 flex-shrink-0">
+                            Aktif
+                        </span>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <a href="{{ url_for('pegawai.database') }}" class="mt-4 text-center text-xs font-semibold text-blue-600 hover:text-blue-700 block py-2.5 rounded-xl bg-blue-50/80 hover:bg-blue-100 transition">
+                Buka Direktori Pegawai BPS &rarr;
+            </a>
+        </div>
+
+    </div>
+
+</div>
+
+<!-- Modal Quick Update Progres Aktivitas -->
+<div id="modalPegawaiProgress" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-sm w-full p-6 shadow-2xl">
+        <div class="flex items-center justify-between pb-3 border-b border-slate-100 mb-4">
+            <h3 class="text-sm font-bold text-slate-800">Update Progres Aktivitas</h3>
+            <button onclick="document.getElementById('modalPegawaiProgress').classList.add('hidden')" class="text-slate-400 hover:text-slate-600">
+                <i data-lucide="x" class="w-4 h-4"></i>
+            </button>
+        </div>
+        <form id="formPegawaiProgress" method="POST" class="space-y-4">
+            <div>
+                <p class="text-xs text-slate-500 mb-0.5">Judul Aktivitas:</p>
+                <p id="modalJudulAktivitas" class="text-sm font-bold text-slate-800"></p>
+            </div>
+            <div>
+                <label class="block text-xs font-semibold text-slate-700 mb-1">Persentase Capaian (%)</label>
+                <div class="flex items-center gap-2">
+                    <input type="number" id="inputPersen" name="persentase_selesai" min="0" max="100" required class="flex-1 px-3 py-2 rounded-xl border border-slate-200 text-sm font-bold text-slate-800">
+                    <span class="text-xs text-slate-500 font-bold">%</span>
+                </div>
+                <p class="text-[10px] text-slate-400 mt-1">Isi 100% untuk otomatis mengubah status menjadi SELESAI.</p>
+            </div>
+            <div class="pt-2 flex justify-end gap-2">
+                <button type="button" onclick="document.getElementById('modalPegawaiProgress').classList.add('hidden')" class="px-4 py-2 rounded-xl text-xs font-semibold text-slate-600 hover:bg-slate-100">Batal</button>
+                <button type="submit" class="px-4 py-2 rounded-xl bg-blue-600 text-white text-xs font-semibold hover:bg-blue-700">Simpan Capaian</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    // Chart: Status Rasio Pekerjaan
+    const ctxStatus = document.getElementById('chartPegawaiStatus');
+    if (ctxStatus) {
+        new Chart(ctxStatus, {
+            type: 'doughnut',
+            data: {
+                labels: ['Selesai', 'Dalam Proses'],
+                datasets: [{
+                    data: [{{ pekerjaan_selesai }}, {{ pekerjaan_proses }}],
+                    backgroundColor: ['#0EA5E9', '#3B82F6'],
+                    borderWidth: 2,
+                    borderColor: '#ffffff'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { position: 'bottom', labels: { boxWidth: 10, font: { size: 10 } } }
+                }
+            }
+        });
+    }
+});
+
+function openModalPegawaiProgress(id, judul, currentPct) {
+    const modal = document.getElementById('modalPegawaiProgress');
+    const form = document.getElementById('formPegawaiProgress');
+    form.action = `/pegawai/aktivitas/${id}/update-progress`;
+    document.getElementById('modalJudulAktivitas').innerText = judul;
+    document.getElementById('inputPersen').value = currentPct;
+    modal.classList.remove('hidden');
+}
+</script>
+{% endblock %}

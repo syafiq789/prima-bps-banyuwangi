@@ -12,7 +12,7 @@ def index():
     # Add count per category
     for cat in categories:
         cat.doc_count = Document.query.filter_by(category_id=cat.id).count()
-    return render_template('categories/index.html', categories=categories)
+    return render_template('categories/index.j2', categories=categories)
 
 @categories_bp.route('/create', methods=['POST'])
 @login_required

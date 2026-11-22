@@ -10,7 +10,7 @@ users_bp = Blueprint('users', __name__)
 @admin_required
 def index():
     users = User.query.order_by(User.role.asc(), User.created_at.desc()).all()
-    return render_template('users/index.html', users=users)
+    return render_template('users/index.j2', users=users)
 
 @users_bp.route('/create', methods=['POST'])
 @login_required

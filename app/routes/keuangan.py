@@ -58,7 +58,7 @@ def dashboard():
     pegawai_options = Pegawai.query.filter_by(status_aktif=True).order_by(Pegawai.nama_lengkap.asc()).all()
 
     return render_template(
-        'keuangan/dashboard.html',
+        'keuangan/dashboard.j2',
         total_pengajuan=total_pengajuan,
         menunggu_persetujuan=menunggu_persetujuan,
         total_anggaran_diajukan=total_anggaran_diajukan,
@@ -82,7 +82,7 @@ def dashboard():
 @login_required
 def akun():
     akun_list = AkunAnggaran.query.order_by(AkunAnggaran.kode_akun.asc()).all()
-    return render_template('keuangan/akun.html', akun_list=akun_list)
+    return render_template('keuangan/akun.j2', akun_list=akun_list)
 
 @keuangan_bp.route('/akun/create', methods=['POST'])
 @login_required
@@ -117,7 +117,7 @@ def komponen():
     komponen_list = KomponenAnggaran.query.order_by(KomponenAnggaran.kode_komponen.asc()).all()
     akun_options = AkunAnggaran.query.all()
     kegiatan_options = Kegiatan.query.all()
-    return render_template('keuangan/komponen.html', komponen_list=komponen_list, akun_options=akun_options, kegiatan_options=kegiatan_options)
+    return render_template('keuangan/komponen.j2', komponen_list=komponen_list, akun_options=akun_options, kegiatan_options=kegiatan_options)
 
 @keuangan_bp.route('/komponen/create', methods=['POST'])
 @login_required
@@ -161,7 +161,7 @@ def pengajuan():
     kegiatan_options = Kegiatan.query.all()
     pegawai_options = Pegawai.query.filter_by(status_aktif=True).order_by(Pegawai.nama_lengkap.asc()).all()
     return render_template(
-        'keuangan/pengajuan.html', 
+        'keuangan/pengajuan.j2', 
         pengajuan_list=pengajuan_list, 
         akun_options=akun_options, 
         komponen_options=komponen_options, 
@@ -238,7 +238,7 @@ def delete_pengajuan(id):
 def persetujuan():
     pengajuan_menunggu = PengajuanAnggaran.query.filter_by(status='MENUNGGU').order_by(PengajuanAnggaran.created_at.asc()).all()
     riwayat_persetujuan = PersetujuanAnggaran.query.order_by(PersetujuanAnggaran.tanggal_keputusan.desc()).all()
-    return render_template('keuangan/persetujuan.html', pengajuan_menunggu=pengajuan_menunggu, riwayat_persetujuan=riwayat_persetujuan)
+    return render_template('keuangan/persetujuan.j2', pengajuan_menunggu=pengajuan_menunggu, riwayat_persetujuan=riwayat_persetujuan)
 
 @keuangan_bp.route('/persetujuan/action', methods=['POST'])
 @login_required
@@ -274,7 +274,7 @@ def action_persetujuan():
 def realisasi():
     realisasi_list = RealisasiAnggaran.query.order_by(RealisasiAnggaran.created_at.desc()).all()
     pengajuan_disetujui = PengajuanAnggaran.query.filter_by(status='DISETUJUI').filter(~PengajuanAnggaran.realisasi_list.any()).all()
-    return render_template('keuangan/realisasi.html', realisasi_list=realisasi_list, pengajuan_disetujui=pengajuan_disetujui)
+    return render_template('keuangan/realisasi.j2', realisasi_list=realisasi_list, pengajuan_disetujui=pengajuan_disetujui)
 
 @keuangan_bp.route('/realisasi/create', methods=['POST'])
 @login_required
@@ -325,4 +325,4 @@ def rekapitulasi():
             'serapan_persen': serapan_persen
         })
     avg_serapan_all = round((total_realisasi_all / total_pagu_all * 100), 1) if total_pagu_all > 0 else 0
-    return render_template('keuangan/rekapitulasi.html', rekap=rekap, total_pagu_all=total_pagu_all, total_realisasi_all=total_realisasi_all, avg_serapan_all=avg_serapan_all)
+    return render_template('keuangan/rekapitulasi.j2', rekap=rekap, total_pagu_all=total_pagu_all, total_realisasi_all=total_realisasi_all, avg_serapan_all=avg_serapan_all)
