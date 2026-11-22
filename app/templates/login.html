@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Single Sign-On - BPS Kabupaten Banyuwangi</title>
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='images/favicon.svg') }}">
+    <!-- Google Fonts: Plus Jakarta Sans & Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', '"Inter"', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body {
+            background: linear-gradient(135deg, #FFF3E6 0%, #FDE7D4 45%, #FFF6ED 100%);
+            min-height: 100vh;
+        }
+        .sso-card-shadow {
+            box-shadow: 0 20px 50px -12px rgba(180, 83, 9, 0.08), 0 4px 16px -4px rgba(0, 0, 0, 0.04);
+        }
+        .icon-circle-glow {
+            box-shadow: 0 12px 28px -6px rgba(234, 88, 12, 0.45);
+        }
+        @keyframes fadeSlide {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-slide {
+            animation: fadeSlide 0.3s ease-out forwards;
+        }
+    </style>
+</head>
+<body class="font-sans text-slate-800 antialiased flex items-center justify-center p-5 sm:p-8 lg:p-12 relative overflow-x-hidden">
+
+    <!-- Background Soft Ambient Orbs -->
+    <div class="fixed top-0 right-0 w-[500px] h-[500px] bg-white/40 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3 pointer-events-none"></div>
+    <div class="fixed bottom-0 left-0 w-[450px] h-[450px] bg-orange-200/30 rounded-full blur-3xl translate-y-1/3 -translate-x-1/4 pointer-events-none"></div>
+
+    <!-- Main Split Layout Container -->
+    <main class="w-full max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center relative z-10 py-6">
+
+        <!-- ============================================== -->
+        <!-- KIRI: Branding Badan Pusat Statistik & SSO     -->
+        <!-- ============================================== -->
+        <div class="lg:col-span-6 space-y-8 text-left">
+            
+            <!-- Header Logo BPS + BADAN PUSAT STATISTIK -->
+            <div class="flex items-center gap-3">
+                <img src="{{ url_for('static', filename='images/logo_bps.svg') }}" alt="Logo Badan Pusat Statistik" class="h-9 sm:h-10 w-auto flex-shrink-0">
+                <div>
+                    <span class="text-sm sm:text-base font-extrabold tracking-wide text-[#D97706] uppercase">BADAN PUSAT STATISTIK</span>
+                    <span class="block text-[11px] font-semibold text-slate-500 -mt-0.5">Kabupaten Banyuwangi &bull; Portal Terpadu LENTERA</span>
+                </div>
+            </div>
+
+            <!-- 3 Lingkaran Ikon Ilustrasi SSO -->
+            <div class="flex items-center gap-4 py-2">
+                <!-- Lingkaran 1: User -->
+                <div class="w-14 h-14 rounded-full bg-white border border-orange-300/80 flex items-center justify-center text-[#EA580C] shadow-sm">
+                    <i data-lucide="user" class="w-6 h-6 stroke-[1.8]"></i>
+                </div>
+
+                <!-- Lingkaran 2 (Fokus Utama): Server -->
+                <div class="w-20 h-20 rounded-full bg-gradient-to-br from-[#F97316] to-[#EA580C] flex items-center justify-center text-white icon-circle-glow">
+                    <i data-lucide="server" class="w-8 h-8 stroke-[2]"></i>
+                </div>
+
+                <!-- Lingkaran 3: Cloud -->
+                <div class="w-14 h-14 rounded-full bg-white border border-orange-300/80 flex items-center justify-center text-[#EA580C] shadow-sm">
+                    <i data-lucide="cloud" class="w-6 h-6 stroke-[1.8]"></i>
+                </div>
+            </div>
+
+            <!-- Judul Utama & Deskripsi -->
+            <div class="space-y-3 max-w-lg">
+                <h1 id="hero-title" class="text-3xl sm:text-4xl lg:text-[42px] font-extrabold text-[#1E293B] tracking-tight leading-tight">
+                    Single Sign-On
+                </h1>
+                <p id="hero-desc" class="text-sm sm:text-base text-slate-600 leading-relaxed font-normal">
+                    Satu akun untuk mengakses seluruh ekosistem aplikasi BPS, layanan data, dan infrastruktur internal secara aman dan mudah.
+                </p>
+            </div>
+
+            <!-- 3 Pill Badges: Aman, Cepat, Terintegrasi -->
+            <div class="flex flex-wrap items-center gap-2.5 pt-1">
+                <span class="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-[#FCE5D2] text-[#9A3412] text-xs font-semibold border border-[#FDBA74]/40">
+                    <i data-lucide="lock" class="w-3.5 h-3.5 text-[#EA580C]"></i>
+                    <span id="badge-aman">Aman</span>
+                </span>
+                <span class="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-[#FCE5D2] text-[#9A3412] text-xs font-semibold border border-[#FDBA74]/40">
+                    <i data-lucide="zap" class="w-3.5 h-3.5 text-[#EA580C]"></i>
+                    <span id="badge-cepat">Cepat</span>
+                </span>
+                <span class="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-[#FCE5D2] text-[#9A3412] text-xs font-semibold border border-[#FDBA74]/40">
+                    <i data-lucide="link-2" class="w-3.5 h-3.5 text-[#EA580C]"></i>
+                    <span id="badge-terintegrasi">Terintegrasi</span>
+                </span>
+            </div>
+
+        </div>
+
+        <!-- ============================================== -->
+        <!-- KANAN: Kartu Pemilihan Akun / Login Card       -->
+        <!-- ============================================== -->
+        <div class="lg:col-span-6 flex justify-center lg:justify-end">
+            <div class="w-full max-w-[440px] bg-white rounded-2xl sm:rounded-3xl p-7 sm:p-9 sso-card-shadow border border-orange-100/80">
+                
+                <!-- Card Header: Logo BPS + SSO BPS + Bahasa Dropdown -->
+                <div class="flex items-center justify-between gap-3 mb-5">
+                    <div class="flex items-center gap-2.5">
+                        <img src="{{ url_for('static', filename='images/logo_bps.svg') }}" alt="Logo BPS" class="h-7 w-auto flex-shrink-0">
+                        <span class="text-base sm:text-lg font-extrabold text-slate-900 tracking-tight">SSO LENTERA BPS</span>
+                    </div>
+
+                    <!-- Language Selector -->
+                    <select id="lang-select" 
+                            onchange="switchLanguage(this.value)"
+                            class="text-xs font-medium text-slate-700 bg-white border border-slate-300 rounded-md px-2.5 py-1.5 focus:outline-none focus:ring-2 focus:ring-orange-400 cursor-pointer">
+                        <option value="id" selected>Bahasa Indonesia</option>
+                        <option value="en">English</option>
+                    </select>
+                </div>
+
+                <!-- Flash Messages -->
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        <div class="mb-4 space-y-2">
+                            {% for category, message in messages %}
+                                <div class="p-3 rounded-xl text-xs font-semibold flex items-center gap-2.5 animate-fade-slide
+                                    {% if category == 'success' %} bg-emerald-50 text-emerald-800 border border-emerald-200
+                                    {% elif category == 'danger' or category == 'error' %} bg-red-50 text-red-800 border border-red-200
+                                    {% elif category == 'warning' %} bg-amber-50 text-amber-800 border border-amber-200
+                                    {% else %} bg-blue-50 text-blue-800 border border-blue-200 {% endif %}">
+                                    <i data-lucide="alert-circle" class="w-4 h-4 flex-shrink-0"></i>
+                                    <span class="flex-1">{{ message }}</span>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                {% endwith %}
+
+                <!-- VIEW 1: Pemilihan Jenis Akun SSO -->
+                <div id="sso-account-picker" class="{% if email or forgot_mode %}hidden{% endif %} animate-fade-slide">
+                    <p id="picker-subtitle" class="text-xs sm:text-sm text-slate-600 mb-5">
+                        Pilih akun BPS Anda untuk melanjutkan.
+                    </p>
+
+                    <div class="space-y-3">
+                        <!-- Pilihan 1: SSO PEGAWAI BPS -->
+                        <button type="button" 
+                                onclick="showLocalForm('SSO PEGAWAI BPS')"
+                                class="w-full text-left flex items-center justify-between p-4 rounded-xl border border-slate-200/80 bg-white hover:border-orange-300 hover:bg-orange-50/40 transition-all group shadow-2xs focus:outline-none">
+                            <div class="flex items-center gap-3.5">
+                                <div class="w-10 h-10 rounded-full bg-[#FFF0E5] text-[#EA580C] flex items-center justify-center flex-shrink-0 group-hover:bg-[#EA580C] group-hover:text-white transition-colors">
+                                    <i data-lucide="user" class="w-5 h-5"></i>
+                                </div>
+                                <div>
+                                    <h3 id="sso-pegawai-title" class="text-xs sm:text-sm font-bold text-slate-900 tracking-wide uppercase">
+                                        SSO PEGAWAI BPS
+                                    </h3>
+                                    <p id="sso-pegawai-desc" class="text-[11px] sm:text-xs text-slate-500 mt-0.5">
+                                        Untuk pegawai BPS
+                                    </p>
+                                </div>
+                            </div>
+                            <i data-lucide="chevron-right" class="w-4 h-4 text-slate-400 group-hover:text-[#EA580C] group-hover:translate-x-0.5 transition-all"></i>
+                        </button>
+
+                        <!-- Pilihan 2: SSO EKSTERNAL BPS -->
+                        <button type="button" 
+                                onclick="showLocalForm('SSO EKSTERNAL BPS')"
+                                class="w-full text-left flex items-center justify-between p-4 rounded-xl border border-slate-200/80 bg-white hover:border-orange-300 hover:bg-orange-50/40 transition-all group shadow-2xs focus:outline-none">
+                            <div class="flex items-center gap-3.5">
+                                <div class="w-10 h-10 rounded-full bg-[#FFF0E5] text-[#EA580C] flex items-center justify-center flex-shrink-0 group-hover:bg-[#EA580C] group-hover:text-white transition-colors">
+                                    <i data-lucide="globe" class="w-5 h-5"></i>
+                                </div>
+                                <div>
+                                    <h3 id="sso-eksternal-title" class="text-xs sm:text-sm font-bold text-slate-900 tracking-wide uppercase">
+                                        SSO EKSTERNAL BPS
+                                    </h3>
+                                    <p id="sso-eksternal-desc" class="text-[11px] sm:text-xs text-slate-500 mt-0.5">
+                                        Untuk partner dan kolaborator eksternal
+                                    </p>
+                                </div>
+                            </div>
+                            <i data-lucide="chevron-right" class="w-4 h-4 text-slate-400 group-hover:text-[#EA580C] group-hover:translate-x-0.5 transition-all"></i>
+                        </button>
+                    </div>
+
+                    <!-- Footer Tautan Login Email/Password -->
+                    <div class="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between text-xs">
+                        <span class="text-slate-400">Admin / Akses Email?</span>
+                        <button type="button" 
+                                onclick="showLocalForm('AKSES LOKAL')" 
+                                id="link-login-manual"
+                                class="font-bold text-[#EA580C] hover:text-[#C2410C] hover:underline transition focus:outline-none">
+                            Masuk dengan Email &amp; Password &rarr;
+                        </button>
+                    </div>
+                </div>
+
+                <!-- VIEW 2: Form Login Email / Username & Password -->
+                <div id="local-login-form" class="{% if not email or forgot_mode %}hidden{% endif %} animate-fade-slide">
+                    <div class="flex items-center justify-between mb-4">
+                        <button type="button" 
+                                onclick="showAccountPicker()" 
+                                class="inline-flex items-center gap-1.5 text-xs font-bold text-slate-500 hover:text-[#EA580C] transition focus:outline-none">
+                            <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i>
+                            <span id="btn-back-picker">Kembali ke pilihan akun</span>
+                        </button>
+                        <span id="selected-account-badge" class="text-[10px] font-extrabold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-orange-50 text-[#EA580C] border border-orange-200/80">
+                            SSO PEGAWAI BPS
+                        </span>
+                    </div>
+
+                    <form method="POST" action="{{ url_for('auth.login', next=request.args.get('next')) }}" class="space-y-4">
+                        <!-- Email / Username -->
+                        <div>
+                            <label for="email" class="block text-xs font-bold text-slate-700 mb-1.5">Email / Username</label>
+                            <div class="relative flex items-center">
+                                <span class="absolute left-3.5 flex items-center pointer-events-none text-slate-400">
+                                    <i data-lucide="mail" class="w-4 h-4"></i>
+                                </span>
+                                <input type="text" 
+                                       id="email" 
+                                       name="email" 
+                                       value="{{ email or '' }}"
+                                       required 
+                                       autocomplete="email"
+                                       placeholder="Email atau Username" 
+                                       class="w-full h-11 pl-10 pr-4 bg-slate-50 hover:bg-slate-100/70 focus:bg-white text-slate-900 placeholder:text-slate-400 text-xs sm:text-sm rounded-xl border border-slate-200 focus:border-[#EA580C] focus:ring-2 focus:ring-orange-500/20 transition-all outline-none">
+                            </div>
+                        </div>
+
+                        <!-- Password -->
+                        <div>
+                            <label for="password" class="block text-xs font-bold text-slate-700 mb-1.5">Password</label>
+                            <div class="relative flex items-center">
+                                <span class="absolute left-3.5 flex items-center pointer-events-none text-slate-400">
+                                    <i data-lucide="lock" class="w-4 h-4"></i>
+                                </span>
+                                <input type="password" 
+                                       id="password" 
+                                       name="password" 
+                                       required 
+                                       autocomplete="current-password"
+                                       placeholder="Password" 
+                                       class="w-full h-11 pl-10 pr-11 bg-slate-50 hover:bg-slate-100/70 focus:bg-white text-slate-900 placeholder:text-slate-400 text-xs sm:text-sm rounded-xl border border-slate-200 focus:border-[#EA580C] focus:ring-2 focus:ring-orange-500/20 transition-all outline-none">
+                                <button type="button" 
+                                        id="toggle-password-btn" 
+                                        class="absolute right-3 text-slate-400 hover:text-slate-600 focus:outline-none p-1 transition"
+                                        title="Tampilkan / Sembunyikan Password">
+                                    <i data-lucide="eye" id="eye-icon" class="w-4 h-4"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center justify-between pt-0.5">
+                            <label class="flex items-center gap-2 cursor-pointer select-none">
+                                <input type="checkbox" name="remember" class="w-4 h-4 text-[#EA580C] rounded border-slate-300 focus:ring-orange-500">
+                                <span class="text-xs text-slate-600 font-medium">Ingat Sesi Saya</span>
+                            </label>
+                            <button type="button" 
+                                    onclick="showForgotForm()" 
+                                    id="btn-forgot-password"
+                                    class="text-xs font-bold text-[#EA580C] hover:text-[#C2410C] hover:underline focus:outline-none">
+                                Lupa Password?
+                            </button>
+                        </div>
+
+                        <button type="submit" 
+                                class="w-full h-11 bg-gradient-to-r from-[#F97316] to-[#EA580C] hover:from-[#EA580C] hover:to-[#C2410C] text-white font-bold text-xs sm:text-sm rounded-xl shadow-md hover:shadow-lg hover:shadow-orange-500/25 transition-all flex items-center justify-center gap-2 active:scale-[0.99]">
+                            <i data-lucide="log-in" class="w-4 h-4"></i>
+                            <span id="btn-submit-login">Masuk</span>
+                        </button>
+                    </form>
+                </div>
+
+                <!-- VIEW 3: Form Lupa / Ganti Password -->
+                <div id="forgot-password-form" class="{% if not forgot_mode %}hidden{% endif %} animate-fade-slide">
+                    <div class="flex items-center justify-between mb-4">
+                        <button type="button" 
+                                onclick="showLocalForm()" 
+                                class="inline-flex items-center gap-1.5 text-xs font-bold text-slate-500 hover:text-[#EA580C] transition focus:outline-none">
+                            <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i>
+                            <span>Kembali ke login</span>
+                        </button>
+                        <span class="text-[10px] font-extrabold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-amber-50 text-amber-700 border border-amber-200/80">
+                            RESET PASSWORD
+                        </span>
+                    </div>
+
+                    <p class="text-xs text-slate-500 mb-4 leading-relaxed">
+                        Masukkan alamat email akun Anda beserta kata sandi baru untuk memperbarui akses masuk.
+                    </p>
+
+                    <form method="POST" action="{{ url_for('auth.forgot_password') }}" class="space-y-3.5">
+                        <div>
+                            <label for="forgot_email" class="block text-xs font-bold text-slate-700 mb-1.5">Email / Username Terdaftar</label>
+                            <div class="relative flex items-center">
+                                <span class="absolute left-3.5 flex items-center pointer-events-none text-slate-400">
+                                    <i data-lucide="mail" class="w-4 h-4"></i>
+                                </span>
+                                <input type="text" 
+                                       id="forgot_email" 
+                                       name="email" 
+                                       value="{{ forgot_email or '' }}"
+                                       required 
+                                       placeholder="Email atau Username" 
+                                       class="w-full h-10 pl-10 pr-4 bg-slate-50 hover:bg-slate-100/70 focus:bg-white text-slate-900 placeholder:text-slate-400 text-xs sm:text-sm rounded-xl border border-slate-200 focus:border-[#EA580C] focus:ring-2 focus:ring-orange-500/20 transition-all outline-none">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label for="new_password" class="block text-xs font-bold text-slate-700 mb-1.5">Password Baru</label>
+                            <div class="relative flex items-center">
+                                <span class="absolute left-3.5 flex items-center pointer-events-none text-slate-400">
+                                    <i data-lucide="key" class="w-4 h-4"></i>
+                                </span>
+                                <input type="password" 
+                                       id="new_password" 
+                                       name="new_password" 
+                                       required 
+                                       minlength="6"
+                                       placeholder="Minimal 6 karakter" 
+                                       class="w-full h-10 pl-10 pr-4 bg-slate-50 hover:bg-slate-100/70 focus:bg-white text-slate-900 placeholder:text-slate-400 text-xs sm:text-sm rounded-xl border border-slate-200 focus:border-[#EA580C] focus:ring-2 focus:ring-orange-500/20 transition-all outline-none">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label for="confirm_password" class="block text-xs font-bold text-slate-700 mb-1.5">Konfirmasi Password Baru</label>
+                            <div class="relative flex items-center">
+                                <span class="absolute left-3.5 flex items-center pointer-events-none text-slate-400">
+                                    <i data-lucide="check-circle" class="w-4 h-4"></i>
+                                </span>
+                                <input type="password" 
+                                       id="confirm_password" 
+                                       name="confirm_password" 
+                                       required 
+                                       minlength="6"
+                                       placeholder="Ketik ulang password baru" 
+                                       class="w-full h-10 pl-10 pr-4 bg-slate-50 hover:bg-slate-100/70 focus:bg-white text-slate-900 placeholder:text-slate-400 text-xs sm:text-sm rounded-xl border border-slate-200 focus:border-[#EA580C] focus:ring-2 focus:ring-orange-500/20 transition-all outline-none">
+                            </div>
+                        </div>
+
+                        <button type="submit" 
+                                class="w-full h-11 mt-1 bg-gradient-to-r from-[#F97316] to-[#EA580C] hover:from-[#EA580C] hover:to-[#C2410C] text-white font-bold text-xs sm:text-sm rounded-xl shadow-md hover:shadow-lg hover:shadow-orange-500/25 transition-all flex items-center justify-center gap-2 active:scale-[0.99]">
+                            <i data-lucide="refresh-cw" class="w-4 h-4"></i>
+                            <span>Simpan Password Baru</span>
+                        </button>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+
+    </main>
+
+    <script>
+        lucide.createIcons();
+
+        // Toggle Password Visibility
+        const toggleBtn = document.getElementById('toggle-password-btn');
+        const passwordInput = document.getElementById('password');
+        const eyeIcon = document.getElementById('eye-icon');
+
+        if (toggleBtn && passwordInput) {
+            toggleBtn.addEventListener('click', () => {
+                const isPassword = passwordInput.getAttribute('type') === 'password';
+                passwordInput.setAttribute('type', isPassword ? 'text' : 'password');
+                eyeIcon.setAttribute('data-lucide', isPassword ? 'eye-off' : 'eye');
+                lucide.createIcons();
+            });
+        }
+
+        // Toggle Picker <-> Local Form <-> Forgot Password Form
+        function showLocalForm(accountType) {
+            document.getElementById('sso-account-picker').classList.add('hidden');
+            document.getElementById('forgot-password-form').classList.add('hidden');
+            document.getElementById('local-login-form').classList.remove('hidden');
+            const badge = document.getElementById('selected-account-badge');
+            if (badge && accountType) {
+                badge.textContent = accountType;
+            }
+            const emailInput = document.getElementById('email');
+            if (emailInput) setTimeout(() => emailInput.focus(), 100);
+            lucide.createIcons();
+        }
+
+        function showAccountPicker() {
+            document.getElementById('local-login-form').classList.add('hidden');
+            document.getElementById('forgot-password-form').classList.add('hidden');
+            document.getElementById('sso-account-picker').classList.remove('hidden');
+            lucide.createIcons();
+        }
+
+        function showForgotForm() {
+            document.getElementById('sso-account-picker').classList.add('hidden');
+            document.getElementById('local-login-form').classList.add('hidden');
+            document.getElementById('forgot-password-form').classList.remove('hidden');
+            const currentEmail = document.getElementById('email')?.value;
+            const forgotEmail = document.getElementById('forgot_email');
+            if (forgotEmail && currentEmail && !forgotEmail.value) {
+                forgotEmail.value = currentEmail;
+            }
+            if (forgotEmail) setTimeout(() => forgotEmail.focus(), 100);
+            lucide.createIcons();
+        }
+
+        // Multi-language Switcher (ID / EN)
+        const i18n = {
+            id: {
+                heroTitle: "Single Sign-On",
+                heroDesc: "Satu akun untuk mengakses seluruh ekosistem aplikasi BPS, layanan data, dan infrastruktur internal secara aman dan mudah.",
+                badgeAman: "Aman",
+                badgeCepat: "Cepat",
+                badgeTerintegrasi: "Terintegrasi",
+                pickerSubtitle: "Pilih akun BPS Anda untuk melanjutkan.",
+                pegawaiTitle: "SSO PEGAWAI BPS",
+                pegawaiDesc: "Untuk pegawai BPS",
+                eksternalTitle: "SSO EKSTERNAL BPS",
+                eksternalDesc: "Untuk partner dan kolaborator eksternal",
+                loginManual: "Masuk dengan Email & Password →",
+                backPicker: "Kembali ke pilihan akun",
+                btnLogin: "Masuk"
+            },
+            en: {
+                heroTitle: "Single Sign-On",
+                heroDesc: "One account to access the entire BPS application ecosystem, data services, and internal infrastructure securely and easily.",
+                badgeAman: "Secure",
+                badgeCepat: "Fast",
+                badgeTerintegrasi: "Integrated",
+                pickerSubtitle: "Choose your BPS account to continue.",
+                pegawaiTitle: "BPS EMPLOYEE SSO",
+                pegawaiDesc: "For BPS employees",
+                eksternalTitle: "BPS EXTERNAL SSO",
+                eksternalDesc: "For partners and external collaborators",
+                loginManual: "Sign in with Email & Password →",
+                backPicker: "Back to account selection",
+                btnLogin: "Sign In"
+            }
+        };
+
+        function switchLanguage(lang) {
+            const t = i18n[lang] || i18n.id;
+            document.getElementById('hero-title').textContent = t.heroTitle;
+            document.getElementById('hero-desc').textContent = t.heroDesc;
+            document.getElementById('badge-aman').textContent = t.badgeAman;
+            document.getElementById('badge-cepat').textContent = t.badgeCepat;
+            document.getElementById('badge-terintegrasi').textContent = t.badgeTerintegrasi;
+            document.getElementById('picker-subtitle').textContent = t.pickerSubtitle;
+            document.getElementById('sso-pegawai-title').textContent = t.pegawaiTitle;
+            document.getElementById('sso-pegawai-desc').textContent = t.pegawaiDesc;
+            document.getElementById('sso-eksternal-title').textContent = t.eksternalTitle;
+            document.getElementById('sso-eksternal-desc').textContent = t.eksternalDesc;
+            document.getElementById('link-login-manual').textContent = t.loginManual;
+            document.getElementById('btn-back-picker').textContent = t.backPicker;
+            document.getElementById('btn-submit-login').textContent = t.btnLogin;
+        }
+    </script>
+</body>
+</html>

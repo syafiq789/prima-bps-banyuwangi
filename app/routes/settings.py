@@ -11,7 +11,7 @@ settings_bp = Blueprint('settings', __name__)
 def links():
     links_list = ImportantLink.query.order_by(ImportantLink.id.asc()).all()
     categories_list = Category.query.order_by(Category.group, Category.name).all()
-    return render_template('settings/links.j2', links=links_list, categories=categories_list)
+    return render_template('settings/links.html', links=links_list, categories=categories_list)
 
 @settings_bp.route('/category/<int:category_id>/edit-drive', methods=['POST'])
 @login_required
@@ -80,7 +80,7 @@ def activities():
     actions = [a[0] for a in db.session.query(Activity.action).distinct().all()]
 
     return render_template(
-        'settings/activities.j2',
+        'settings/activities.html',
         activities=pagination.items,
         pagination=pagination,
         users=users,

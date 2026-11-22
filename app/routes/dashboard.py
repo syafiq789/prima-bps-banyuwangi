@@ -59,7 +59,7 @@ def index():
     # Quick links to categories
     categories = Category.query.order_by(Category.group, Category.name).all()
 
-    return render_template('dashboard.j2',
+    return render_template('dashboard.html',
         total_docs=total_docs,
         docs_perencanaan=docs_perencanaan,
         docs_pengukuran=docs_pengukuran,

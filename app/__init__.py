@@ -85,7 +85,6 @@ def create_app(config_name=None):
     from app.routes.pegawai import pegawai_bp
     from app.routes.keuangan import keuangan_bp
     from app.routes.hub import hub_bp
-    from app.routes.api_v1 import api_v1_bp
 
     app.register_blueprint(auth_bp, url_prefix='/auth')
     app.register_blueprint(dashboard_bp)
@@ -100,7 +99,6 @@ def create_app(config_name=None):
     app.register_blueprint(pegawai_bp)
     app.register_blueprint(keuangan_bp)
     app.register_blueprint(hub_bp)
-    app.register_blueprint(api_v1_bp)
 
     # Template globals
     app.jinja_env.globals.update(round=round, min=min, max=max)
@@ -152,14 +150,14 @@ def create_app(config_name=None):
             current_path=request.path
         )
 
-    # Error handlers (JSON API responses)
+    # Error handlers
     @app.errorhandler(404)
     def page_not_found(e):
-        return {'ok': False, 'message': 'Endpoint tidak ditemukan.'}, 404
+        return render_template('404.html'), 404
 
     @app.errorhandler(500)
     def internal_server_error(e):
-        return {'ok': False, 'message': 'Terjadi kesalahan pada server.'}, 500
+        return render_template('500.html'), 500
 
     # Initialize tables and seed initial data
     with app.app_context():

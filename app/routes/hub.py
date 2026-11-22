@@ -59,7 +59,7 @@ def index():
         })
 
     return render_template(
-        'hub/index.j2',
+        'hub/index.html',
         total_mitra=total_mitra,
         total_mitra_aktif=total_mitra_aktif,
         total_penugasan=total_penugasan,

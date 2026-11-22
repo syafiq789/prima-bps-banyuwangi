@@ -19,7 +19,7 @@ def checklist():
     percentage = round((fulfilled_items / total_items) * 100, 1) if total_items > 0 else 0
 
     return render_template(
-        'completeness/checklist.j2',
+        'completeness/checklist.html',
         checklist_items=checklist_items,
         selected_year=year,
         available_years=available_years,
@@ -101,7 +101,7 @@ def administrasi():
             'percentage': pct
         })
 
-    return render_template('completeness/administrasi.j2', stats=stats)
+    return render_template('completeness/administrasi.html', stats=stats)
 
 @completeness_bp.route('/belum-lengkap')
 @login_required
@@ -110,7 +110,7 @@ def belum_lengkap():
     unfulfilled_checklist = DocumentCompleteness.query.filter_by(is_fulfilled=False).order_by(DocumentCompleteness.year.desc()).all()
 
     return render_template(
-        'completeness/belum_lengkap.j2',
+        'completeness/belum_lengkap.html',
         pending_documents=pending_documents,
         unfulfilled_checklist=unfulfilled_checklist
     )

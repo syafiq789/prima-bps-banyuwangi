@@ -1,0 +1,686 @@
+<!-- LENTERA Sidebar Navigation -->
+<aside id="sidebar" 
+       style="background: linear-gradient(168deg, #17345A 0%, #0F233E 42%, #091526 100%);"
+       class="fixed top-0 left-0 z-40 w-72 h-screen transition-transform -translate-x-full lg:translate-x-0 text-slate-200 border-r border-white/10 flex flex-col justify-between shadow-2xl select-none overflow-hidden">
+    
+    <!-- Subtle Visible Ambient Glow -->
+    <div class="pointer-events-none absolute -top-24 -left-20 w-64 h-64 rounded-full bg-sky-400/10 blur-3xl"></div>
+    <div class="pointer-events-none absolute top-1/3 -right-24 w-56 h-56 rounded-full bg-blue-500/10 blur-3xl"></div>
+
+    <!-- Top Branding & Logo Header -->
+    <div class="relative z-10 p-4 border-b border-white/10 bg-white/[0.03] backdrop-blur-md flex items-center justify-between">
+        <a href="{{ url_for('dashboard.index') }}" class="flex items-center gap-3 group">
+            <div class="w-12 h-11 rounded-xl bg-white p-1 flex items-center justify-center group-hover:scale-105 transition-transform duration-200 shadow-md border border-white/20 overflow-hidden flex-shrink-0">
+                <img src="{{ url_for('static', filename='images/logo_lentera.jpg') }}" alt="Logo LENTERA BPS" class="w-full h-full object-contain">
+            </div>
+            <div class="sidebar-text">
+                <div class="flex items-center gap-1.5">
+                    <span class="text-lg font-black tracking-wider text-white">LENTERA</span>
+                    <span class="text-[9px] font-bold uppercase tracking-wider bg-blue-500/20 text-sky-300 px-1.5 py-0.2 rounded border border-blue-400/30">BPS</span>
+                </div>
+                <p class="text-[10px] text-slate-400 font-medium leading-tight line-clamp-1">BPS Kabupaten Banyuwangi</p>
+            </div>
+        </a>
+        
+        <!-- Mobile close button -->
+        <button id="mobile-close-btn" type="button" class="lg:hidden p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 focus:outline-none">
+            <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+    </div>
+
+    <!-- Navigation Area (Scrollable) -->
+    <div class="flex-1 overflow-y-auto px-3.5 py-4 space-y-3 sidebar-scroll">
+        
+        <!-- DETEKSI MODUL AKTIF -->
+        {% set is_mitra_active = request.path.startswith('/mitra') %}
+        {% set is_pegawai_active = request.path.startswith('/pegawai') %}
+        {% set is_keuangan_active = request.path.startswith('/keuangan') %}
+        {% set is_prima_active = not (is_mitra_active or is_pegawai_active or is_keuangan_active) %}
+
+        <!-- ============================================================== -->
+        <!-- 1. MASTER MODUL: PRIMA                                         -->
+        <!-- Sesuai persis dengan tangkapan layar (Expand & Collapse)       -->
+        <!-- ============================================================== -->
+        <div class="sidebar-single-container">
+            
+            <!-- Tombol Master Card PRIMA (Modern Glass SaaS) -->
+            <button type="button" 
+                    id="btn-prima-master"
+                    onclick="togglePrimaMasterMenu()"
+                    style="background: linear-gradient(135deg, rgba(37, 99, 235, {% if is_prima_active %}0.32{% else %}0.11{% endif %}) 0%, rgba(20, 42, 74, 0.72) 60%, rgba(13, 27, 46, 0.85) 100%);"
+                    class="master-module-btn relative w-full flex items-center justify-between p-2.5 rounded-xl border transition-all duration-200 group overflow-hidden {% if is_prima_active %} border-blue-400/50 shadow-lg shadow-blue-950/30 {% else %} border-white/10 hover:border-blue-400/35 {% endif %}">
+                <span id="accent-prima-master" class="absolute left-0 top-2 bottom-2 w-[3px] rounded-r-full bg-gradient-to-b from-sky-400 to-blue-500 transition-opacity duration-200 {% if is_prima_active %}opacity-100{% else %}opacity-0{% endif %}"></span>
+                <span class="flex items-center gap-3 pl-1 min-w-0">
+                    <div class="w-9 h-9 rounded-lg bg-white/95 p-1 ring-1 ring-blue-400/30 shadow-xs flex items-center justify-center group-hover:scale-105 transition-transform duration-200 overflow-hidden flex-shrink-0">
+                        <img src="{{ url_for('static', filename='images/logo_prima.png') }}" alt="Logo PRIMA" class="w-full h-full object-contain">
+                    </div>
+                    <div class="text-left sidebar-text min-w-0">
+                        <span class="block text-xs font-bold tracking-wide text-slate-100 group-hover:text-white transition-colors truncate">PRIMA</span>
+                        <span class="block text-[10px] font-medium leading-tight mt-0.5 truncate {% if is_prima_active %}text-sky-300/90{% else %}text-slate-400 group-hover:text-slate-300{% endif %}">Pusat Arsip & Manajemen AKIP</span>
+                    </div>
+                </span>
+                <i data-lucide="chevron-down" id="chevron-prima-master" class="w-4 h-4 flex-shrink-0 transition-transform duration-200 {% if is_prima_active %}text-sky-400 rotate{% else %}text-slate-500 group-hover:text-slate-300{% endif %}"></i>
+            </button>
+
+            <!-- KONTEN FITUR-FITUR DI DALAM MENU PRIMA -->
+            <div id="container-prima-features" class="mt-2 space-y-1.5 px-1 {% if not is_prima_active %}closed{% endif %}">
+                
+                <!-- 1. MENU UTAMA (Dashboard, Arsip, Info, Guide) -->
+                {% set is_utama_active = request.path == '/' or request.path == '/dashboard' or request.path.startswith('/documents') or request.path.startswith('/info') %}
+                <div class="sidebar-subgroup">
+                    <button type="button" 
+                            id="trigger-sub-utama"
+                            onclick="toggleSubFeature('subcontent-utama', this)"
+                            class="subgroup-trigger w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-bold {% if is_utama_active %} bg-slate-800/80 text-sky-400 {% else %} text-slate-300 hover:bg-slate-800/80 hover:text-white {% endif %} transition">
+                        <span class="flex items-center gap-2.5">
+                            <i data-lucide="layout-grid" class="w-3.5 h-3.5 text-sky-400"></i>
+                            <span>Menu Utama</span>
+                        </span>
+                        <i data-lucide="chevron-down" class="subgroup-chevron w-3.5 h-3.5 text-slate-400 transition-transform {% if is_utama_active %}rotate{% endif %}"></i>
+                    </button>
+                    <div id="subcontent-utama" class="subgroup-content pl-3 pr-1 mt-1 space-y-0.5 {% if is_utama_active %}open{% endif %}" {% if is_utama_active %}style="max-height: 400px; opacity: 1;"{% endif %}>
+                        <a href="{{ url_for('dashboard.index') }}" 
+                           class="nav-subitem flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs transition group/sub {% if request.path == '/' or request.path == '/dashboard' %} bg-gradient-to-r from-blue-600 to-sky-500 text-white font-bold shadow-md shadow-blue-600/25 {% else %} text-slate-300 hover:text-white hover:bg-slate-800/60 {% endif %}">
+                            <i data-lucide="layout-dashboard" class="w-4 h-4 {% if request.path == '/' or request.path == '/dashboard' %} text-white {% else %} text-sky-400 group-hover/sub:scale-110 {% endif %} flex-shrink-0 transition-transform"></i>
+                            <span>Dashboard PRIMA</span>
+                        </a>
+                        <a href="{{ url_for('documents.index') }}" 
+                           class="nav-subitem flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs transition group/sub {% if request.path.startswith('/documents') %} bg-gradient-to-r from-blue-600 to-sky-500 text-white font-bold shadow-md shadow-blue-600/25 {% else %} text-slate-300 hover:text-white hover:bg-slate-800/60 {% endif %}">
+                            <i data-lucide="folder-archive" class="w-4 h-4 {% if request.path.startswith('/documents') %} text-white {% else %} text-sky-400 group-hover/sub:scale-110 {% endif %} flex-shrink-0 transition-transform"></i>
+                            <span>Arsip Dokumen AKIP</span>
+                        </a>
+                        <a href="{{ url_for('info.about') }}" 
+                           class="nav-subitem flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs transition group/sub {% if request.path == '/info/about' %} bg-gradient-to-r from-blue-600 to-sky-500 text-white font-bold shadow-md shadow-blue-600/25 {% else %} text-slate-300 hover:text-white hover:bg-slate-800/60 {% endif %}">
+                            <i data-lucide="info" class="w-4 h-4 {% if request.path == '/info/about' %} text-white {% else %} text-sky-400 group-hover/sub:scale-110 {% endif %} flex-shrink-0 transition-transform"></i>
+                            <span>Tentang PRIMA</span>
+                        </a>
+                        <a href="{{ url_for('info.guide') }}" 
+                           class="nav-subitem flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs transition group/sub {% if request.path == '/info/guide' %} bg-gradient-to-r from-blue-600 to-sky-500 text-white font-bold shadow-md shadow-blue-600/25 {% else %} text-slate-300 hover:text-white hover:bg-slate-800/60 {% endif %}">
+                            <i data-lucide="book-marked" class="w-4 h-4 {% if request.path == '/info/guide' %} text-white {% else %} text-sky-400 group-hover/sub:scale-110 {% endif %} flex-shrink-0 transition-transform"></i>
+                            <span>Panduan Penggunaan</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- 2. PERENCANAAN -->
+                <div class="sidebar-subgroup">
+                    <button type="button" 
+                            id="trigger-sub-perencanaan"
+                            onclick="toggleSubFeature('subcontent-perencanaan', this)"
+                            class="subgroup-trigger w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-bold text-slate-300 hover:bg-slate-800/80 hover:text-white transition">
+                        <span class="flex items-center gap-2.5">
+                            <i data-lucide="compass" class="w-3.5 h-3.5 text-sky-400"></i>
+                            <span>Perencanaan</span>
+                        </span>
+                        <i data-lucide="chevron-down" class="subgroup-chevron w-3.5 h-3.5 text-slate-400 transition-transform"></i>
+                    </button>
+                    <div id="subcontent-perencanaan" class="subgroup-content pl-3 pr-1 mt-1 space-y-0.5">
+                        {% set perenc_items = [
+                            ('rencana-awal-renstra', 'Rencana Awal Renstra'),
+                            ('renstra', 'Renstra'),
+                            ('perjanjian-kinerja', 'Perjanjian Kinerja')
+                        ] %}
+                        {% for slug, label in perenc_items %}
+                        <a href="{{ url_for('documents.open_category_drive', slug=slug) }}" 
+                           target="_blank" 
+                           rel="noopener noreferrer" 
+                           class="nav-subitem flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs text-slate-400 hover:text-white hover:bg-slate-800/60 transition group/sub"
+                           title="Buka Google Drive {{ label }}">
+                            <span class="flex items-center gap-2 truncate">
+                                <i data-lucide="file-text" class="w-3.5 h-3.5 text-sky-400 group-hover/sub:scale-110 flex-shrink-0 transition-transform"></i>
+                                <span class="truncate">{{ label }}</span>
+                            </span>
+                            <i data-lucide="external-link" class="w-3 h-3 text-slate-500 group-hover/sub:text-sky-400 opacity-60 group-hover/sub:opacity-100 flex-shrink-0 transition"></i>
+                        </a>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- 3. PENGUKURAN (Monitoring Capaian Kinerja) -->
+                <div class="sidebar-subgroup">
+                    <button type="button" 
+                            id="trigger-sub-pengukuran"
+                            onclick="toggleSubFeature('subcontent-pengukuran', this)"
+                            class="subgroup-trigger w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-bold text-slate-300 hover:bg-slate-800/80 hover:text-white transition">
+                        <span class="flex items-center gap-2.5">
+                            <i data-lucide="gauge" class="w-3.5 h-3.5 text-sky-400"></i>
+                            <span>Pengukuran</span>
+                        </span>
+                        <i data-lucide="chevron-down" class="subgroup-chevron w-3.5 h-3.5 text-slate-400 transition-transform"></i>
+                    </button>
+                    <div id="subcontent-pengukuran" class="subgroup-content pl-3 pr-1 mt-1 space-y-0.5">
+                        {% set peng_items = [
+                            ('kkpk', 'KKPK'),
+                            ('daha', 'DAHA'),
+                            ('proksi', 'Proksi'),
+                            ('monitoring-capaian-renstra', 'Monitoring Capaian Renstra')
+                        ] %}
+                        {% for slug, label in peng_items %}
+                        <a href="{{ url_for('documents.open_category_drive', slug=slug) }}" 
+                           target="_blank" 
+                           rel="noopener noreferrer" 
+                           class="nav-subitem flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs text-slate-400 hover:text-white hover:bg-slate-800/60 transition group/sub"
+                           title="Buka Google Drive {{ label }}">
+                            <span class="flex items-center gap-2 truncate">
+                                <i data-lucide="bar-chart-2" class="w-3.5 h-3.5 text-sky-400 group-hover/sub:scale-110 flex-shrink-0 transition-transform"></i>
+                                <span class="truncate">{{ label }}</span>
+                            </span>
+                            <i data-lucide="external-link" class="w-3 h-3 text-slate-500 group-hover/sub:text-sky-400 opacity-60 group-hover/sub:opacity-100 flex-shrink-0 transition"></i>
+                        </a>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- 4. PELAPORAN -->
+                <div class="sidebar-subgroup">
+                    <button type="button" 
+                            id="trigger-sub-pelaporan"
+                            onclick="toggleSubFeature('subcontent-pelaporan', this)"
+                            class="subgroup-trigger w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-bold text-slate-300 hover:bg-slate-800/80 hover:text-white transition">
+                        <span class="flex items-center gap-2.5">
+                            <i data-lucide="file-check-2" class="w-3.5 h-3.5 text-sky-400"></i>
+                            <span>Pelaporan</span>
+                        </span>
+                        <i data-lucide="chevron-down" class="subgroup-chevron w-3.5 h-3.5 text-slate-400 transition-transform"></i>
+                    </button>
+                    <div id="subcontent-pelaporan" class="subgroup-content pl-3 pr-1 mt-1 space-y-0.5">
+                        {% set pel_items = [
+                            ('laporan-kinerja', 'Laporan Kinerja')
+                        ] %}
+                        {% for slug, label in pel_items %}
+                        <a href="{{ url_for('documents.open_category_drive', slug=slug) }}" 
+                           target="_blank" 
+                           rel="noopener noreferrer" 
+                           class="nav-subitem flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs text-slate-400 hover:text-white hover:bg-slate-800/60 transition group/sub"
+                           title="Buka Google Drive {{ label }}">
+                            <span class="flex items-center gap-2 truncate">
+                                <i data-lucide="file-check" class="w-3.5 h-3.5 text-sky-400 group-hover/sub:scale-110 flex-shrink-0 transition-transform"></i>
+                                <span class="truncate">{{ label }}</span>
+                            </span>
+                            <i data-lucide="external-link" class="w-3 h-3 text-slate-500 group-hover/sub:text-sky-400 opacity-60 group-hover/sub:opacity-100 flex-shrink-0 transition"></i>
+                        </a>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- 5. EVALUASI -->
+                <div class="sidebar-subgroup">
+                    <button type="button" 
+                            id="trigger-sub-evaluasi"
+                            onclick="toggleSubFeature('subcontent-evaluasi', this)"
+                            class="subgroup-trigger w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-bold text-slate-300 hover:bg-slate-800/80 hover:text-white transition">
+                        <span class="flex items-center gap-2.5">
+                            <i data-lucide="clipboard-check" class="w-3.5 h-3.5 text-sky-400"></i>
+                            <span>Evaluasi</span>
+                        </span>
+                        <i data-lucide="chevron-down" class="subgroup-chevron w-3.5 h-3.5 text-slate-400 transition-transform"></i>
+                    </button>
+                    <div id="subcontent-evaluasi" class="subgroup-content pl-3 pr-1 mt-1 space-y-0.5">
+                        {% set eval_items = [
+                            ('permindok', 'PERMINDOK'),
+                            ('lhe-akip', 'LHE AKIP'),
+                            ('berita-acara', 'Berita Acara')
+                        ] %}
+                        {% for slug, label in eval_items %}
+                        <a href="{{ url_for('documents.open_category_drive', slug=slug) }}" 
+                           target="_blank" 
+                           rel="noopener noreferrer" 
+                           class="nav-subitem flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs text-slate-400 hover:text-white hover:bg-slate-800/60 transition group/sub"
+                           title="Buka Google Drive {{ label }}">
+                            <span class="flex items-center gap-2 truncate">
+                                <i data-lucide="clipboard-list" class="w-3.5 h-3.5 text-sky-400 group-hover/sub:scale-110 flex-shrink-0 transition-transform"></i>
+                                <span class="truncate">{{ label }}</span>
+                            </span>
+                            <i data-lucide="external-link" class="w-3 h-3 text-slate-500 group-hover/sub:text-sky-400 opacity-60 group-hover/sub:opacity-100 flex-shrink-0 transition"></i>
+                        </a>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- 6. KELENGKAPAN SAKIP (Checklist Dokumen persis di screenshot) -->
+                <div class="sidebar-subgroup">
+                    {% set is_sakip_active = request.path.startswith('/completeness') %}
+                    <button type="button" 
+                            id="trigger-sub-kelengkapan"
+                            onclick="toggleSubFeature('subcontent-kelengkapan', this)"
+                            class="subgroup-trigger w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-bold {% if is_sakip_active %} bg-slate-800/80 text-sky-400 {% else %} text-slate-300 hover:bg-slate-800/80 hover:text-white {% endif %} transition">
+                        <span class="flex items-center gap-2.5">
+                            <i data-lucide="check-square" class="w-3.5 h-3.5 text-sky-400"></i>
+                            <span>Kelengkapan SAKIP</span>
+                        </span>
+                        <div class="flex items-center gap-1.5">
+                            {% if pending_docs_count > 0 %}
+                            <span class="px-1.5 py-0.2 text-[9px] font-bold bg-blue-500/20 text-sky-300 border border-blue-400/30 rounded-full">
+                                {{ pending_docs_count }}
+                            </span>
+                            {% endif %}
+                            <i data-lucide="chevron-down" class="subgroup-chevron w-3.5 h-3.5 text-slate-400 transition-transform {% if is_sakip_active %}rotate{% endif %}"></i>
+                        </div>
+                    </button>
+                    <div id="subcontent-kelengkapan" class="subgroup-content pl-3 pr-1 mt-1 space-y-1 {% if is_sakip_active %}open{% endif %}" {% if is_sakip_active %}style="max-height: 600px; opacity: 1;"{% endif %}>
+                        {% set kel_items = [
+                            ('sk-tim-kerja-sakip', 'SK Tim Kerja SAKIP'),
+                            ('reward-dan-punishment', 'Reward & Punishment'),
+                            ('mph', 'MPH'),
+                            ('skp', 'SKP'),
+                            ('pedoman-teknis', 'Pedoman Teknis')
+                        ] %}
+                        {% for slug, label in kel_items %}
+                        <a href="{{ url_for('documents.open_category_drive', slug=slug) }}" 
+                           target="_blank" 
+                           rel="noopener noreferrer" 
+                           class="nav-subitem flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs text-slate-400 hover:text-white hover:bg-slate-800/60 transition group/sub"
+                           title="Buka Google Drive {{ label }}">
+                            <span class="flex items-center gap-2 truncate">
+                                <i data-lucide="folder-check" class="w-3.5 h-3.5 text-sky-400 group-hover/sub:scale-110 flex-shrink-0 transition-transform"></i>
+                                <span class="truncate">{{ label }}</span>
+                            </span>
+                            <i data-lucide="external-link" class="w-3 h-3 text-slate-500 group-hover/sub:text-sky-400 opacity-60 group-hover/sub:opacity-100 flex-shrink-0 transition"></i>
+                        </a>
+                        {% endfor %}
+                        
+                        <!-- Checklist Dokumen -->
+                        <a href="{{ url_for('completeness.checklist') }}" 
+                           class="nav-subitem flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs transition group/sub {% if request.path == url_for('completeness.checklist') %} bg-gradient-to-r from-blue-600 to-sky-500 text-white font-bold shadow-md shadow-blue-600/25 {% else %} text-slate-300 hover:text-white hover:bg-slate-800/60 {% endif %}">
+                            <i data-lucide="check-circle-2" class="w-4 h-4 {% if request.path == url_for('completeness.checklist') %} text-white {% else %} text-sky-400 group-hover/sub:scale-110 {% endif %} flex-shrink-0 transition-transform"></i>
+                            <span>Checklist Dokumen</span>
+                        </a>
+
+                        <a href="{{ url_for('completeness.administrasi') }}" 
+                           class="nav-subitem flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs transition group/sub {% if request.path == url_for('completeness.administrasi') %} bg-gradient-to-r from-blue-600 to-sky-500 text-white font-bold shadow-md shadow-blue-600/25 {% else %} text-slate-300 hover:text-white hover:bg-slate-800/60 {% endif %}">
+                            <i data-lucide="file-check-2" class="w-4 h-4 {% if request.path == url_for('completeness.administrasi') %} text-white {% else %} text-sky-400 group-hover/sub:scale-110 {% endif %} flex-shrink-0 transition-transform"></i>
+                            <span>Kelengkapan Administrasi</span>
+                        </a>
+
+                        <a href="{{ url_for('completeness.belum_lengkap') }}" 
+                           class="nav-subitem flex items-center justify-between px-3 py-2 rounded-xl text-xs transition group/sub {% if request.path == url_for('completeness.belum_lengkap') %} bg-gradient-to-r from-blue-600 to-sky-500 text-white font-bold shadow-md shadow-blue-600/25 {% else %} text-slate-300 hover:text-white hover:bg-slate-800/60 {% endif %}">
+                            <span class="flex items-center gap-2.5">
+                                <i data-lucide="alert-circle" class="w-4 h-4 {% if request.path == url_for('completeness.belum_lengkap') %} text-white {% else %} text-sky-400 group-hover/sub:scale-110 {% endif %} flex-shrink-0 transition-transform"></i>
+                                <span>Belum Lengkap</span>
+                            </span>
+                            {% if pending_docs_count > 0 %}
+                            <span class="text-[9px] font-bold bg-blue-500/20 text-sky-300 px-1.5 py-0.2 rounded-full border border-blue-400/30">
+                                {{ pending_docs_count }}
+                            </span>
+                            {% endif %}
+                        </a>
+                    </div>
+                </div>
+
+                <!-- 7. LINK PENTING (SINERGI, KiPApp, MAJAPAHIT) -->
+                <div class="sidebar-subgroup">
+                    <button type="button" 
+                            id="trigger-sub-penting"
+                            onclick="toggleSubFeature('subcontent-penting', this)"
+                            class="subgroup-trigger w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-bold text-slate-300 hover:bg-slate-800/80 hover:text-white transition">
+                        <span class="flex items-center gap-2.5">
+                            <i data-lucide="star" class="w-3.5 h-3.5 text-sky-400"></i>
+                            <span>Link Penting</span>
+                        </span>
+                        <i data-lucide="chevron-down" class="subgroup-chevron w-3.5 h-3.5 text-slate-400 transition-transform"></i>
+                    </button>
+                    <div id="subcontent-penting" class="subgroup-content pl-3 pr-1 mt-1 space-y-0.5">
+                        {% set penting_items = [
+                            ('sinergi', 'SINERGI'),
+                            ('kipapp', 'KiPApp'),
+                            ('majapahit', 'MAJAPAHIT')
+                        ] %}
+                        {% for cslug, clabel in penting_items %}
+                        <a href="{{ url_for('important_links.open_link', code_slug=cslug) }}" 
+                           target="_blank" 
+                           rel="noopener noreferrer" 
+                           class="nav-subitem flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs text-slate-400 hover:text-white hover:bg-slate-800/60 transition group/sub"
+                           title="Buka Portal {{ clabel }}">
+                            <span class="flex items-center gap-2 truncate">
+                                <i data-lucide="globe" class="w-3.5 h-3.5 text-sky-400 group-hover/sub:scale-110 flex-shrink-0 transition-transform"></i>
+                                <span class="truncate">{{ clabel }}</span>
+                            </span>
+                            <i data-lucide="external-link" class="w-3 h-3 text-slate-500 group-hover/sub:text-sky-400 opacity-60 group-hover/sub:opacity-100 flex-shrink-0 transition"></i>
+                        </a>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- 8. MANAJEMEN ADMIN (Khusus Admin) -->
+                {% if current_user.is_authenticated and current_user.is_admin %}
+                {% set is_admin_active = request.path.startswith('/users') or request.path.startswith('/categories') or request.path.startswith('/settings') %}
+                <div class="sidebar-subgroup pt-2 border-t border-slate-800/60">
+                    <button type="button" 
+                            id="trigger-sub-admin"
+                            onclick="toggleSubFeature('subcontent-admin', this)"
+                            class="subgroup-trigger w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-bold {% if is_admin_active %} bg-slate-800/80 text-sky-400 {% else %} text-sky-400 hover:bg-slate-800/80 hover:text-sky-300 {% endif %} transition">
+                        <span class="flex items-center gap-2.5">
+                            <i data-lucide="shield" class="w-3.5 h-3.5 text-sky-400"></i>
+                            <span>Manajemen Admin</span>
+                        </span>
+                        <i data-lucide="chevron-down" class="subgroup-chevron w-3.5 h-3.5 text-sky-400 transition-transform {% if is_admin_active %}rotate{% endif %}"></i>
+                    </button>
+                    <div id="subcontent-admin" class="subgroup-content pl-3 pr-1 mt-1 space-y-0.5 {% if is_admin_active %}open{% endif %}" {% if is_admin_active %}style="max-height: 400px; opacity: 1;"{% endif %}>
+                        <a href="{{ url_for('users.index') }}" class="nav-subitem flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs transition group/sub {% if request.path.startswith('/users') %} bg-gradient-to-r from-blue-600 to-sky-500 text-white font-bold shadow-md shadow-blue-600/25 {% else %} text-slate-300 hover:text-white hover:bg-slate-800/60 {% endif %}">
+                            <i data-lucide="users" class="w-4 h-4 {% if request.path.startswith('/users') %} text-white {% else %} text-sky-400 group-hover/sub:scale-110 {% endif %} flex-shrink-0 transition-transform"></i>
+                            <span>Kelola Pengguna</span>
+                        </a>
+                        <a href="{{ url_for('categories.index') }}" class="nav-subitem flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs transition group/sub {% if request.path.startswith('/categories') %} bg-gradient-to-r from-blue-600 to-sky-500 text-white font-bold shadow-md shadow-blue-600/25 {% else %} text-slate-300 hover:text-white hover:bg-slate-800/60 {% endif %}">
+                            <i data-lucide="tags" class="w-4 h-4 {% if request.path.startswith('/categories') %} text-white {% else %} text-sky-400 group-hover/sub:scale-110 {% endif %} flex-shrink-0 transition-transform"></i>
+                            <span>Kelola Kategori</span>
+                        </a>
+                        <a href="{{ url_for('settings.links') }}" class="nav-subitem flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs transition group/sub {% if request.path == url_for('settings.links') %} bg-gradient-to-r from-blue-600 to-sky-500 text-white font-bold shadow-md shadow-blue-600/25 {% else %} text-slate-300 hover:text-white hover:bg-slate-800/60 {% endif %}">
+                            <i data-lucide="link" class="w-4 h-4 {% if request.path == url_for('settings.links') %} text-white {% else %} text-sky-400 group-hover/sub:scale-110 {% endif %} flex-shrink-0 transition-transform"></i>
+                            <span>Pengaturan Link</span>
+                        </a>
+                        <a href="{{ url_for('settings.activities') }}" class="nav-subitem flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs transition group/sub {% if request.path == url_for('settings.activities') %} bg-gradient-to-r from-blue-600 to-sky-500 text-white font-bold shadow-md shadow-blue-600/25 {% else %} text-slate-300 hover:text-white hover:bg-slate-800/60 {% endif %}">
+                            <i data-lucide="activity" class="w-4 h-4 {% if request.path == url_for('settings.activities') %} text-white {% else %} text-sky-400 group-hover/sub:scale-110 {% endif %} flex-shrink-0 transition-transform"></i>
+                            <span>Log Aktivitas Sistem</span>
+                        </a>
+                    </div>
+                </div>
+                {% endif %}
+
+            </div>
+
+        </div>
+
+        <!-- ============================================================== -->
+        <!-- 2. MASTER MODUL: MONITORING MITRA                              -->
+        <!-- Desain Card Menarik & Interaktif (Expand & Collapse)           -->
+        <!-- ============================================================== -->
+        <div class="sidebar-single-container">
+            <!-- Tombol Master Monitoring Mitra (Modern Glass SaaS) -->
+            <button type="button" 
+                    id="btn-mitra-master"
+                    onclick="toggleMitraMasterMenu()"
+                    style="background: linear-gradient(135deg, rgba(37, 99, 235, {% if is_mitra_active %}0.32{% else %}0.11{% endif %}) 0%, rgba(20, 42, 74, 0.72) 60%, rgba(13, 27, 46, 0.85) 100%);"
+                    class="master-module-btn relative w-full flex items-center justify-between p-2.5 rounded-xl border transition-all duration-200 group overflow-hidden {% if is_mitra_active %} border-blue-400/50 shadow-lg shadow-blue-950/30 {% else %} border-white/10 hover:border-blue-400/35 {% endif %}">
+                <span id="accent-mitra-master" class="absolute left-0 top-2 bottom-2 w-[3px] rounded-r-full bg-gradient-to-b from-sky-400 to-blue-500 transition-opacity duration-200 {% if is_mitra_active %}opacity-100{% else %}opacity-0{% endif %}"></span>
+                <span class="flex items-center gap-3 pl-1 min-w-0">
+                    <div class="w-9 h-9 rounded-lg bg-white/95 p-1 ring-1 ring-blue-400/30 shadow-xs flex items-center justify-center group-hover:scale-105 transition-transform duration-200 overflow-hidden flex-shrink-0">
+                        <img src="{{ url_for('static', filename='images/logo_mitra.svg') }}" alt="Logo Monitoring Mitra" class="w-full h-full object-contain">
+                    </div>
+                    <div class="text-left sidebar-text min-w-0">
+                        <span class="block text-xs font-bold tracking-wide text-slate-100 group-hover:text-white transition-colors truncate">MONITORING MITRA</span>
+                        <span class="block text-[10px] font-medium leading-tight mt-0.5 truncate {% if is_mitra_active %}text-sky-300/90{% else %}text-slate-400 group-hover:text-slate-300{% endif %}">Pengelolaan & Evaluasi Mitra</span>
+                    </div>
+                </span>
+                <i data-lucide="chevron-down" id="chevron-mitra-master" class="w-4 h-4 flex-shrink-0 transition-transform duration-200 {% if is_mitra_active %}text-sky-400 rotate{% else %}text-slate-500 group-hover:text-slate-300{% endif %}"></i>
+            </button>
+
+            <!-- KONTEN FITUR-FITUR MONITORING MITRA -->
+            <div id="container-mitra-features" class="mt-2 space-y-1 px-1 {% if not is_mitra_active %}closed{% endif %}">
+                
+                <!-- Dashboard Mitra -->
+                <a href="{{ url_for('mitra.dashboard') }}" 
+                   class="nav-subitem flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold transition-all duration-200 group/sub {% if request.path == url_for('mitra.dashboard') %} bg-gradient-to-r from-blue-600 to-sky-500 text-white font-bold shadow-md shadow-blue-600/25 {% else %} text-slate-300 hover:text-white hover:bg-slate-800/70 hover:translate-x-1 {% endif %}">
+                    <i data-lucide="layout-grid" class="w-4 h-4 {% if request.path == url_for('mitra.dashboard') %} text-white {% else %} text-sky-400 group-hover/sub:scale-110 {% endif %} flex-shrink-0 transition-transform"></i>
+                    <span class="truncate">Dashboard Mitra</span>
+                </a>
+
+                <!-- SECTION: DATA & UPLOAD -->
+                <div class="pt-2 pb-1 px-2.5 flex items-center justify-between border-t border-slate-800/60 mt-1.5">
+                    <span class="text-[9px] font-black uppercase tracking-wider text-slate-400">Data &amp; Upload</span>
+                </div>
+
+                <!-- Data Mitra -->
+                <a href="{{ url_for('mitra.database') }}" 
+                   class="nav-subitem flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold transition-all duration-200 group/sub {% if request.path == url_for('mitra.database') %} bg-gradient-to-r from-blue-600 to-sky-500 text-white font-bold shadow-md shadow-blue-600/25 {% else %} text-slate-300 hover:text-white hover:bg-slate-800/70 hover:translate-x-1 {% endif %}">
+                    <i data-lucide="database" class="w-4 h-4 {% if request.path == url_for('mitra.database') %} text-white {% else %} text-sky-400 group-hover/sub:scale-110 {% endif %} flex-shrink-0 transition-transform"></i>
+                    <span class="truncate">Data Mitra</span>
+                </a>
+
+                <!-- Template & Upload -->
+                <a href="{{ url_for('mitra.template') }}" 
+                   class="nav-subitem flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold transition-all duration-200 group/sub {% if request.path == url_for('mitra.template') %} bg-gradient-to-r from-blue-600 to-sky-500 text-white font-bold shadow-md shadow-blue-600/25 {% else %} text-slate-300 hover:text-white hover:bg-slate-800/70 hover:translate-x-1 {% endif %}">
+                    <i data-lucide="file-up" class="w-4 h-4 {% if request.path == url_for('mitra.template') %} text-white {% else %} text-sky-400 group-hover/sub:scale-110 {% endif %} flex-shrink-0 transition-transform"></i>
+                    <span class="truncate">Template &amp; Upload</span>
+                </a>
+
+                <!-- SECTION: KEGIATAN & LAPORAN -->
+                <div class="pt-2.5 pb-1 px-2.5 flex items-center justify-between border-t border-slate-800/60 mt-1.5">
+                    <span class="text-[9px] font-black uppercase tracking-wider text-slate-400">Kegiatan &amp; Laporan</span>
+                </div>
+
+                <!-- Penugasan Mitra -->
+                <a href="{{ url_for('mitra.penugasan') }}" 
+                   class="nav-subitem flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold transition-all duration-200 group/sub {% if request.path == url_for('mitra.penugasan') %} bg-gradient-to-r from-blue-600 to-sky-500 text-white font-bold shadow-md shadow-blue-600/25 {% else %} text-slate-300 hover:text-white hover:bg-slate-800/70 hover:translate-x-1 {% endif %}">
+                    <i data-lucide="clipboard-list" class="w-4 h-4 {% if request.path == url_for('mitra.penugasan') %} text-white {% else %} text-sky-400 group-hover/sub:scale-110 {% endif %} flex-shrink-0 transition-transform"></i>
+                    <span class="truncate">Penugasan Mitra</span>
+                </a>
+
+                <!-- Daftar Kegiatan -->
+                <a href="{{ url_for('mitra.monitoring') }}" 
+                   class="nav-subitem flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold transition-all duration-200 group/sub {% if request.path.startswith('/mitra/monitoring') %} bg-gradient-to-r from-blue-600 to-sky-500 text-white font-bold shadow-md shadow-blue-600/25 {% else %} text-slate-300 hover:text-white hover:bg-slate-800/70 hover:translate-x-1 {% endif %}">
+                    <i data-lucide="activity" class="w-4 h-4 {% if request.path.startswith('/mitra/monitoring') %} text-white {% else %} text-sky-400 group-hover/sub:scale-110 {% endif %} flex-shrink-0 transition-transform"></i>
+                    <span class="truncate">Daftar Kegiatan</span>
+                </a>
+
+                <!-- Penilaian Mitra -->
+                <a href="{{ url_for('mitra.evaluasi') }}" 
+                   class="nav-subitem flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold transition-all duration-200 group/sub {% if request.path == url_for('mitra.evaluasi') %} bg-gradient-to-r from-blue-600 to-sky-500 text-white font-bold shadow-md shadow-blue-600/25 {% else %} text-slate-300 hover:text-white hover:bg-slate-800/70 hover:translate-x-1 {% endif %}">
+                    <i data-lucide="award" class="w-4 h-4 {% if request.path == url_for('mitra.evaluasi') %} text-white {% else %} text-sky-400 group-hover/sub:scale-110 {% endif %} flex-shrink-0 transition-transform"></i>
+                    <span class="truncate">Penilaian Mitra</span>
+                </a>
+
+                <!-- Laporan & Honor -->
+                <a href="{{ url_for('mitra.rekapitulasi') }}" 
+                   class="nav-subitem flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold transition-all duration-200 group/sub {% if request.path == url_for('mitra.rekapitulasi') %} bg-gradient-to-r from-blue-600 to-sky-500 text-white font-bold shadow-md shadow-blue-600/25 {% else %} text-slate-300 hover:text-white hover:bg-slate-800/70 hover:translate-x-1 {% endif %}">
+                    <i data-lucide="bar-chart-2" class="w-4 h-4 {% if request.path == url_for('mitra.rekapitulasi') %} text-white {% else %} text-sky-400 group-hover/sub:scale-110 {% endif %} flex-shrink-0 transition-transform"></i>
+                    <span class="truncate">Laporan &amp; Honor</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- ============================================================== -->
+        <!-- 3. MASTER MODUL: KINERJA PEGAWAI                               -->
+        <!-- Desain Card Menarik & Interaktif (Expand & Collapse)           -->
+        <!-- ============================================================== -->
+        <div class="sidebar-single-container">
+            <!-- Tombol Master Kinerja Pegawai (Modern Glass SaaS) -->
+            <button type="button" 
+                    id="btn-pegawai-master"
+                    onclick="togglePegawaiMasterMenu()"
+                    style="background: linear-gradient(135deg, rgba(37, 99, 235, {% if is_pegawai_active %}0.32{% else %}0.11{% endif %}) 0%, rgba(20, 42, 74, 0.72) 60%, rgba(13, 27, 46, 0.85) 100%);"
+                    class="master-module-btn relative w-full flex items-center justify-between p-2.5 rounded-xl border transition-all duration-200 group overflow-hidden {% if is_pegawai_active %} border-blue-400/50 shadow-lg shadow-blue-950/30 {% else %} border-white/10 hover:border-blue-400/35 {% endif %}">
+                <span id="accent-pegawai-master" class="absolute left-0 top-2 bottom-2 w-[3px] rounded-r-full bg-gradient-to-b from-sky-400 to-blue-500 transition-opacity duration-200 {% if is_pegawai_active %}opacity-100{% else %}opacity-0{% endif %}"></span>
+                <span class="flex items-center gap-3 pl-1 min-w-0">
+                    <div class="w-9 h-9 rounded-lg bg-white/95 p-1 ring-1 ring-blue-400/30 shadow-xs flex items-center justify-center group-hover:scale-105 transition-transform duration-200 overflow-hidden flex-shrink-0">
+                        <img src="{{ url_for('static', filename='images/logo_pegawai.svg') }}" alt="Logo Kinerja Pegawai" class="w-full h-full object-contain">
+                    </div>
+                    <div class="text-left sidebar-text min-w-0">
+                        <span class="block text-xs font-bold tracking-wide text-slate-100 group-hover:text-white transition-colors truncate">KINERJA PEGAWAI</span>
+                        <span class="block text-[10px] font-medium leading-tight mt-0.5 truncate {% if is_pegawai_active %}text-sky-300/90{% else %}text-slate-400 group-hover:text-slate-300{% endif %}">Monitoring Kinerja Pegawai</span>
+                    </div>
+                </span>
+                <i data-lucide="chevron-down" id="chevron-pegawai-master" class="w-4 h-4 flex-shrink-0 transition-transform duration-200 {% if is_pegawai_active %}text-sky-400 rotate{% else %}text-slate-500 group-hover:text-slate-300{% endif %}"></i>
+            </button>
+
+            <!-- KONTEN FITUR-FITUR KINERJA PEGAWAI -->
+            <div id="container-pegawai-features" class="mt-2 space-y-1 px-1 {% if not is_pegawai_active %}closed{% endif %}">
+                
+                <!-- Dashboard Pegawai -->
+                <a href="{{ url_for('pegawai.dashboard') }}" 
+                   class="nav-subitem flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold transition-all duration-200 group/sub {% if request.path == url_for('pegawai.dashboard') %} bg-gradient-to-r from-blue-600 to-sky-500 text-white font-bold shadow-md shadow-blue-600/25 {% else %} text-slate-300 hover:text-white hover:bg-slate-800/70 hover:translate-x-1 {% endif %}">
+                    <i data-lucide="layout-grid" class="w-4 h-4 {% if request.path == url_for('pegawai.dashboard') %} text-white {% else %} text-sky-400 group-hover/sub:scale-110 {% endif %} flex-shrink-0 transition-transform"></i>
+                    <span class="truncate">Dashboard Pegawai</span>
+                </a>
+
+                <!-- SECTION: DATA & AKTIVITAS -->
+                <div class="pt-2 pb-1 px-2.5 flex items-center justify-between border-t border-slate-800/60 mt-1.5">
+                    <span class="text-[9px] font-black uppercase tracking-wider text-slate-400">Data & Aktivitas</span>
+                </div>
+
+                <!-- Data Pegawai -->
+                <a href="{{ url_for('pegawai.database') }}" 
+                   class="nav-subitem flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold transition-all duration-200 group/sub {% if request.path == url_for('pegawai.database') %} bg-gradient-to-r from-blue-600 to-sky-500 text-white font-bold shadow-md shadow-blue-600/25 {% else %} text-slate-300 hover:text-white hover:bg-slate-800/70 hover:translate-x-1 {% endif %}">
+                    <i data-lucide="users" class="w-4 h-4 {% if request.path == url_for('pegawai.database') %} text-white {% else %} text-sky-400 group-hover/sub:scale-110 {% endif %} flex-shrink-0 transition-transform"></i>
+                    <span class="truncate">Data Pegawai</span>
+                </a>
+
+                <!-- Aktivitas Pegawai -->
+                <a href="{{ url_for('pegawai.aktivitas') }}" 
+                   class="nav-subitem flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold transition-all duration-200 group/sub {% if request.path == url_for('pegawai.aktivitas') %} bg-gradient-to-r from-blue-600 to-sky-500 text-white font-bold shadow-md shadow-blue-600/25 {% else %} text-slate-300 hover:text-white hover:bg-slate-800/70 hover:translate-x-1 {% endif %}">
+                    <i data-lucide="calendar" class="w-4 h-4 {% if request.path == url_for('pegawai.aktivitas') %} text-white {% else %} text-sky-400 group-hover/sub:scale-110 {% endif %} flex-shrink-0 transition-transform"></i>
+                    <span class="truncate">Aktivitas Pegawai</span>
+                </a>
+
+                <!-- SECTION: PEMANTAUAN & LAPORAN -->
+                <div class="pt-2.5 pb-1 px-2.5 flex items-center justify-between border-t border-slate-800/60 mt-1.5">
+                    <span class="text-[9px] font-black uppercase tracking-wider text-slate-400">Pemantauan & Laporan</span>
+                </div>
+
+                <!-- Kinerja per Tim -->
+                <a href="{{ url_for('pegawai.monitoring') }}" 
+                   class="nav-subitem flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold transition-all duration-200 group/sub {% if request.path == url_for('pegawai.monitoring') %} bg-gradient-to-r from-blue-600 to-sky-500 text-white font-bold shadow-md shadow-blue-600/25 {% else %} text-slate-300 hover:text-white hover:bg-slate-800/70 hover:translate-x-1 {% endif %}">
+                    <i data-lucide="line-chart" class="w-4 h-4 {% if request.path == url_for('pegawai.monitoring') %} text-white {% else %} text-sky-400 group-hover/sub:scale-110 {% endif %} flex-shrink-0 transition-transform"></i>
+                    <span class="truncate">Kinerja per Tim</span>
+                </a>
+
+                <!-- Laporan Kinerja -->
+                <a href="{{ url_for('pegawai.rekapitulasi') }}" 
+                   class="nav-subitem flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold transition-all duration-200 group/sub {% if request.path == url_for('pegawai.rekapitulasi') %} bg-gradient-to-r from-blue-600 to-sky-500 text-white font-bold shadow-md shadow-blue-600/25 {% else %} text-slate-300 hover:text-white hover:bg-slate-800/70 hover:translate-x-1 {% endif %}">
+                    <i data-lucide="bar-chart-2" class="w-4 h-4 {% if request.path == url_for('pegawai.rekapitulasi') %} text-white {% else %} text-sky-400 group-hover/sub:scale-110 {% endif %} flex-shrink-0 transition-transform"></i>
+                    <span class="truncate">Laporan Kinerja</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- ============================================================== -->
+        <!-- 4. MASTER MODUL: TRACKING KEUANGAN                             -->
+        <!-- Desain Card Menarik & Interaktif (Expand & Collapse)           -->
+        <!-- ============================================================== -->
+        <div class="sidebar-single-container">
+            <!-- Tombol Master Tracking Keuangan (Modern Glass SaaS) -->
+            <button type="button" 
+                    id="btn-keuangan-master"
+                    onclick="toggleKeuanganMasterMenu()"
+                    style="background: linear-gradient(135deg, rgba(37, 99, 235, {% if is_keuangan_active %}0.32{% else %}0.11{% endif %}) 0%, rgba(20, 42, 74, 0.72) 60%, rgba(13, 27, 46, 0.85) 100%);"
+                    class="master-module-btn relative w-full flex items-center justify-between p-2.5 rounded-xl border transition-all duration-200 group overflow-hidden {% if is_keuangan_active %} border-blue-400/50 shadow-lg shadow-blue-950/30 {% else %} border-white/10 hover:border-blue-400/35 {% endif %}">
+                <span id="accent-keuangan-master" class="absolute left-0 top-2 bottom-2 w-[3px] rounded-r-full bg-gradient-to-b from-sky-400 to-blue-500 transition-opacity duration-200 {% if is_keuangan_active %}opacity-100{% else %}opacity-0{% endif %}"></span>
+                <span class="flex items-center gap-3 pl-1 min-w-0">
+                    <div class="w-9 h-9 rounded-lg bg-white/95 p-1 ring-1 ring-blue-400/30 shadow-xs flex items-center justify-center group-hover:scale-105 transition-transform duration-200 overflow-hidden flex-shrink-0">
+                        <img src="{{ url_for('static', filename='images/logo_keuangan.svg') }}" alt="Logo Tracking Keuangan" class="w-full h-full object-contain">
+                    </div>
+                    <div class="text-left sidebar-text min-w-0">
+                        <span class="block text-xs font-bold tracking-wide text-slate-100 group-hover:text-white transition-colors truncate">TRACKING KEUANGAN</span>
+                        <span class="block text-[10px] font-medium leading-tight mt-0.5 truncate {% if is_keuangan_active %}text-sky-300/90{% else %}text-slate-400 group-hover:text-slate-300{% endif %}">Pengajuan & Realisasi Anggaran</span>
+                    </div>
+                </span>
+                <i data-lucide="chevron-down" id="chevron-keuangan-master" class="w-4 h-4 flex-shrink-0 transition-transform duration-200 {% if is_keuangan_active %}text-sky-400 rotate{% else %}text-slate-500 group-hover:text-slate-300{% endif %}"></i>
+            </button>
+
+            <!-- KONTEN FITUR-FITUR TRACKING KEUANGAN -->
+            <div id="container-keuangan-features" class="mt-2 space-y-1 px-1 {% if not is_keuangan_active %}closed{% endif %}">
+                
+                <!-- 0. Ringkasan / Dashboard -->
+                <a href="{{ url_for('keuangan.dashboard') }}" 
+                   class="nav-subitem flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold transition-all duration-200 group/sub {% if request.path == url_for('keuangan.dashboard') %} bg-gradient-to-r from-blue-600 to-sky-500 text-white font-bold shadow-md shadow-blue-600/25 {% else %} text-slate-300 hover:text-white hover:bg-slate-800/70 hover:translate-x-1 {% endif %}">
+                    <i data-lucide="layout-grid" class="w-4 h-4 {% if request.path == url_for('keuangan.dashboard') %} text-white {% else %} text-sky-400 group-hover/sub:scale-110 {% endif %} flex-shrink-0 transition-transform"></i>
+                    <span class="truncate">Dashboard Keuangan</span>
+                </a>
+
+                <!-- SECTION: ALUR ANGGARAN -->
+                <div class="pt-2 pb-1 px-2.5 flex items-center justify-between border-t border-slate-800/60 mt-1.5">
+                    <span class="text-[9px] font-black uppercase tracking-wider text-slate-400">Alur Anggaran</span>
+                </div>
+
+                <!-- 1. Pengajuan Anggaran -->
+                <a href="{{ url_for('keuangan.pengajuan') }}" 
+                   class="nav-subitem flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold transition-all duration-200 group/sub {% if request.path == url_for('keuangan.pengajuan') %} bg-gradient-to-r from-blue-600 to-sky-500 text-white font-bold shadow-md shadow-blue-600/25 {% else %} text-slate-300 hover:text-white hover:bg-slate-800/70 hover:translate-x-1 {% endif %}"
+                   title="Input pengajuan anggaran kegiatan">
+                    <span class="w-4 h-4 rounded-full bg-blue-500/20 text-sky-300 text-[10px] font-black flex items-center justify-center flex-shrink-0 {% if request.path == url_for('keuangan.pengajuan') %} bg-white text-blue-600 {% endif %}">1</span>
+                    <span class="truncate">Pengajuan Anggaran</span>
+                </a>
+
+                <!-- 2. Persetujuan Anggaran -->
+                <a href="{{ url_for('keuangan.persetujuan') }}" 
+                   class="nav-subitem flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold transition-all duration-200 group/sub {% if request.path == url_for('keuangan.persetujuan') %} bg-gradient-to-r from-blue-600 to-sky-500 text-white font-bold shadow-md shadow-blue-600/25 {% else %} text-slate-300 hover:text-white hover:bg-slate-800/70 hover:translate-x-1 {% endif %}"
+                   title="Verifikasi dan persetujuan pengajuan anggaran">
+                    <span class="w-4 h-4 rounded-full bg-blue-500/20 text-sky-300 text-[10px] font-black flex items-center justify-center flex-shrink-0 {% if request.path == url_for('keuangan.persetujuan') %} bg-white text-blue-600 {% endif %}">2</span>
+                    <span class="truncate">Persetujuan Anggaran</span>
+                </a>
+
+                <!-- 3. Pencairan Anggaran -->
+                <a href="{{ url_for('keuangan.realisasi') }}" 
+                   class="nav-subitem flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold transition-all duration-200 group/sub {% if request.path == url_for('keuangan.realisasi') %} bg-gradient-to-r from-blue-600 to-sky-500 text-white font-bold shadow-md shadow-blue-600/25 {% else %} text-slate-300 hover:text-white hover:bg-slate-800/70 hover:translate-x-1 {% endif %}"
+                   title="Pencairan dana anggaran yang telah disetujui">
+                    <span class="w-4 h-4 rounded-full bg-blue-500/20 text-sky-300 text-[10px] font-black flex items-center justify-center flex-shrink-0 {% if request.path == url_for('keuangan.realisasi') %} bg-white text-blue-600 {% endif %}">3</span>
+                    <span class="truncate">Pencairan Anggaran</span>
+                </a>
+
+                <!-- SECTION: DATA & LAPORAN -->
+                <div class="pt-2.5 pb-1 px-2.5 flex items-center justify-between border-t border-slate-800/60 mt-1.5">
+                    <span class="text-[9px] font-black uppercase tracking-wider text-slate-400">Data &amp; Laporan</span>
+                </div>
+
+                <!-- Database Akun -->
+                <a href="{{ url_for('keuangan.akun') }}" 
+                   class="nav-subitem flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold transition-all duration-200 group/sub {% if request.path == url_for('keuangan.akun') %} bg-gradient-to-r from-blue-600 to-sky-500 text-white font-bold shadow-md shadow-blue-600/25 {% else %} text-slate-300 hover:text-white hover:bg-slate-800/70 hover:translate-x-1 {% endif %}">
+                    <i data-lucide="book-open" class="w-4 h-4 {% if request.path == url_for('keuangan.akun') %} text-white {% else %} text-sky-400 group-hover/sub:scale-110 {% endif %} flex-shrink-0 transition-transform"></i>
+                    <span class="truncate">Database Akun</span>
+                </a>
+
+                <!-- Komponen Anggaran -->
+                <a href="{{ url_for('keuangan.komponen') }}" 
+                   class="nav-subitem flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold transition-all duration-200 group/sub {% if request.path == url_for('keuangan.komponen') %} bg-gradient-to-r from-blue-600 to-sky-500 text-white font-bold shadow-md shadow-blue-600/25 {% else %} text-slate-300 hover:text-white hover:bg-slate-800/70 hover:translate-x-1 {% endif %}">
+                    <i data-lucide="layers" class="w-4 h-4 {% if request.path == url_for('keuangan.komponen') %} text-white {% else %} text-sky-400 group-hover/sub:scale-110 {% endif %} flex-shrink-0 transition-transform"></i>
+                    <span class="truncate">Komponen Anggaran</span>
+                </a>
+
+                <!-- Rekapitulasi Keuangan -->
+                <a href="{{ url_for('keuangan.rekapitulasi') }}" 
+                   class="nav-subitem flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold transition-all duration-200 group/sub {% if request.path == url_for('keuangan.rekapitulasi') %} bg-gradient-to-r from-blue-600 to-sky-500 text-white font-bold shadow-md shadow-blue-600/25 {% else %} text-slate-300 hover:text-white hover:bg-slate-800/70 hover:translate-x-1 {% endif %}">
+                    <i data-lucide="pie-chart" class="w-4 h-4 {% if request.path == url_for('keuangan.rekapitulasi') %} text-white {% else %} text-sky-400 group-hover/sub:scale-110 {% endif %} flex-shrink-0 transition-transform"></i>
+                    <span class="truncate">Rekapitulasi Keuangan</span>
+                </a>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- User Profile Dock Bottom (Sleek Modern Single-Row Glass) -->
+    <div class="relative z-10 p-3 border-t border-white/10">
+        {% if current_user.is_authenticated %}
+        {% set clean_name = (current_user.full_name or current_user.username or 'US')|replace('.', ' ') %}
+        {% set name_parts = clean_name.split() %}
+        {% set user_initials = (name_parts[0][0] + name_parts[-1][0]).upper() if name_parts|length > 1 else clean_name[:2].upper() %}
+        <div style="background: linear-gradient(135deg, rgba(30, 58, 95, 0.72) 0%, rgba(14, 29, 50, 0.92) 100%);"
+             class="rounded-2xl border border-white/10 hover:border-white/20 p-2.5 shadow-lg shadow-black/25 flex items-center justify-between gap-2 transition-all duration-200">
+            <a href="{{ url_for('auth.profile') }}" 
+               title="Lihat Profil Pengguna"
+               class="flex items-center gap-2.5 min-w-0 flex-1 group">
+                <div class="relative flex-shrink-0">
+                    <div style="background: linear-gradient(135deg, #38BDF8 0%, #2563EB 100%);"
+                         class="w-9 h-9 rounded-xl text-white flex items-center justify-center font-extrabold text-xs tracking-wide shadow-md shadow-blue-500/25 group-hover:scale-105 transition-transform duration-200">
+                        {{ user_initials }}
+                    </div>
+                    <span class="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-blue-400 ring-2 ring-[#0E1D32]"></span>
+                </div>
+                <div class="min-w-0 flex-1 sidebar-text">
+                    <p class="text-[13px] font-bold text-white truncate leading-tight group-hover:text-sky-200 transition-colors">
+                        {{ current_user.full_name or current_user.username }}
+                    </p>
+                    <p class="text-[10px] font-medium text-sky-300/75 truncate mt-0.5">
+                        {{ current_user.role_display_name }}
+                    </p>
+                </div>
+            </a>
+
+            <a href="{{ url_for('auth.logout') }}" 
+               title="Keluar dari LENTERA" 
+               class="w-8 h-8 rounded-xl bg-white/[0.06] hover:bg-blue-500/20 text-slate-300 hover:text-blue-300 border border-white/10 hover:border-blue-400/40 flex items-center justify-center flex-shrink-0 transition-all duration-200 active:scale-95"
+               onclick="return confirm('Apakah Anda yakin ingin keluar dari LENTERA?');">
+                <i data-lucide="log-out" class="w-4 h-4"></i>
+            </a>
+        </div>
+        {% else %}
+        <a href="{{ url_for('auth.login') }}" 
+           style="background: linear-gradient(135deg, #38BDF8 0%, #2563EB 100%);"
+           class="w-full py-2.5 px-3 hover:opacity-95 text-white rounded-xl text-xs font-bold text-center transition flex items-center justify-center gap-1.5 shadow-md shadow-blue-500/20">
+            <i data-lucide="log-in" class="w-3.5 h-3.5"></i>
+            <span>Masuk ke LENTERA</span>
+        </a>
+        {% endif %}
+    </div>
+
+</aside>
+
+<!-- Mobile Overlay Backdrop -->
+<div id="sidebar-overlay" class="fixed inset-0 z-30 bg-black/60 backdrop-blur-xs hidden lg:hidden"></div>

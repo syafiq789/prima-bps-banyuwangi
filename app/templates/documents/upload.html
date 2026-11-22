@@ -1,0 +1,186 @@
+{% extends 'base.html' %}
+
+{% block title %}Kelola Dokumen via Google Drive - PRIMA BPS Kabupaten Banyuwangi{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto space-y-6">
+
+    <!-- Top Navigation -->
+    <div class="flex items-center justify-between">
+        <a href="{{ url_for('documents.index') }}" class="inline-flex items-center gap-2 text-xs font-semibold text-slate-600 hover:text-navy-main transition">
+            <i data-lucide="arrow-left" class="w-4 h-4"></i>
+            <span>Kembali ke Daftar Dokumen</span>
+        </a>
+        <span class="text-xs text-slate-400">Pengarsipan Terintegrasi Google Drive</span>
+    </div>
+
+    <!-- Upload / Link Form Card -->
+    <div class="bg-white rounded-3xl border border-slate-200/80 shadow-card p-6 sm:p-8">
+        
+        <div class="mb-6 pb-4 border-b border-slate-100">
+            <div class="flex items-center gap-3">
+                <div class="w-11 h-11 rounded-2xl bg-gradient-to-tr from-blue-600 to-blue-500 text-white flex items-center justify-center shadow-md shadow-blue-500/20">
+                    <i data-lucide="folder-symlink" class="w-6 h-6"></i>
+                </div>
+                <div>
+                    <h1 class="text-xl font-black text-slate-900 tracking-tight">Simpan Link Dokumen / Folder Google Drive</h1>
+                    <p class="text-xs text-slate-500 mt-0.5">Tautkan berkas atau folder Google Drive BPS Banyuwangi ke dalam repositori akuntabilitas PRIMA.</p>
+                </div>
+            </div>
+        </div>
+
+        <form action="{{ url_for('documents.upload') }}" method="POST" enctype="multipart/form-data" class="space-y-5">
+            
+            <!-- Judul / Nama Dokumen atau Folder -->
+            <div>
+                <label for="title" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+                    Nama Dokumen atau Nama Folder <span class="text-blue-500">*</span>
+                </label>
+                <input type="text" 
+                       id="title" 
+                       name="title" 
+                       required 
+                       placeholder="Contoh: Folder Rencana Kerja BPS 2025 atau Perjanjian Kinerja 2025" 
+                       class="w-full px-4 py-2.5 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-navy-main focus:ring-2 focus:ring-navy-main/20 outline-none transition">
+            </div>
+
+            <!-- TAUTAN UTAMA: Link Google Drive -->
+            <div class="p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-blue-50/80 via-blue-50/50 to-blue-50/40 border border-blue-200/80">
+                <label for="drive_url" class="block text-xs font-bold uppercase tracking-wider text-blue-900 mb-1.5 flex items-center gap-2">
+                    <i data-lucide="link" class="w-4 h-4 text-blue-600"></i>
+                    <span>Tautan / URL Google Drive (Folder atau Berkas) <span class="text-blue-500">*</span></span>
+                </label>
+                <div class="relative flex items-center">
+                    <span class="absolute left-3.5 flex items-center pointer-events-none text-blue-500">
+                        <i data-lucide="external-link" class="w-4 h-4"></i>
+                    </span>
+                    <input type="url" 
+                           id="drive_url" 
+                           name="drive_url" 
+                           required 
+                           placeholder="https://drive.google.com/drive/folders/... atau https://drive.google.com/file/d/..." 
+                           class="w-full pl-10 pr-4 py-3 text-xs sm:text-sm bg-white border border-blue-300 rounded-xl focus:border-blue-600 focus:ring-2 focus:ring-blue-500/20 font-mono text-slate-800 outline-none transition shadow-xs">
+                </div>
+                <p class="text-[11px] text-slate-500 mt-2 flex items-center gap-1.5">
+                    <i data-lucide="info" class="w-3.5 h-3.5 text-blue-600 flex-shrink-0"></i>
+                    <span>Buka Google Drive BPS, klik <strong>Bagikan (Share)</strong> pada folder/file, salin tautan (*copy link*), lalu tempelkan di sini.</span>
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <!-- Kategori Dokumen -->
+                <div>
+                    <label for="category_id" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+                        Kategori Dokumen <span class="text-blue-500">*</span>
+                    </label>
+                    <select id="category_id" name="category_id" required class="w-full px-3 py-2.5 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-navy-main outline-none">
+                        <option value="">-- Pilih Kategori --</option>
+                        {% for cat in categories %}
+                            <option value="{{ cat.id }}" {% if selected_cat_id == cat.id %}selected{% endif %}>
+                                {{ cat.name }} ({{ cat.group|capitalize }})
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <!-- Tahun Dokumen -->
+                <div>
+                    <label for="year" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+                        Tahun Kinerja <span class="text-blue-500">*</span>
+                    </label>
+                    <select id="year" name="year" required class="w-full px-3 py-2.5 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-navy-main outline-none">
+                        {% for y in [2026, 2025, 2024, 2023, 2022, 2021, 2020] %}
+                            <option value="{{ y }}" {% if y == 2025 %}selected{% endif %}>Tahun {{ y }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <!-- Tipe Konten -->
+                <div>
+                    <label for="file_type" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+                        Jenis Tautan Drive <span class="text-blue-500">*</span>
+                    </label>
+                    <select id="file_type" name="file_type" required class="w-full px-3 py-2.5 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-navy-main outline-none">
+                        <option value="folder" selected>📁 Folder Google Drive</option>
+                        <option value="pdf">📄 Dokumen PDF</option>
+                        <option value="doc">📝 Google Docs / Word</option>
+                        <option value="xlsx">📊 Google Sheets / Excel</option>
+                        <option value="pptx">📑 Google Slides / PPTX</option>
+                        <option value="gdrive">🌐 Link Drive Lainnya</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <!-- Status Kelengkapan -->
+                <div>
+                    <label for="status" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+                        Status Kepatuhan AKIP <span class="text-blue-500">*</span>
+                    </label>
+                    <select id="status" name="status" required class="w-full px-3 py-2.5 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-navy-main outline-none">
+                        <option value="lengkap" selected>Lengkap (Tervalidasi di Drive)</option>
+                        <option value="belum_lengkap">Belum Lengkap (Perlu Tindak Lanjut)</option>
+                    </select>
+                </div>
+
+                <!-- Catatan Tambahan -->
+                <div>
+                    <label for="notes" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+                        Catatan / Nomor Referensi
+                    </label>
+                    <input type="text" 
+                           id="notes" 
+                           name="notes" 
+                           placeholder="Contoh: Revisi Triwulan III / SK No..." 
+                           class="w-full px-3 py-2.5 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-navy-main outline-none">
+                </div>
+            </div>
+
+            <!-- Deskripsi Dokumen -->
+            <div>
+                <label for="description" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+                    Deskripsi Ringkas Dokumen / Folder
+                </label>
+                <textarea id="description" 
+                          name="description" 
+                          rows="3" 
+                          placeholder="Jelaskan isi berkas atau folder Google Drive ini..." 
+                          class="w-full px-4 py-2.5 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-navy-main focus:ring-2 focus:ring-navy-main/20 outline-none transition"></textarea>
+            </div>
+
+            <!-- Optional File Upload (Accordion Opsional jika ingin melampirkan file offline) -->
+            <details class="group rounded-2xl border border-slate-200/80 bg-slate-50/50 p-4">
+                <summary class="flex items-center justify-between cursor-pointer font-bold text-xs text-slate-600 hover:text-navy-main select-none">
+                    <span class="flex items-center gap-2">
+                        <i data-lucide="paperclip" class="w-3.5 h-3.5 text-slate-400"></i>
+                        <span>Opsi Cadangan: Unggah file fisik dari komputer (Opsional)</span>
+                    </span>
+                    <i data-lucide="chevron-down" class="w-4 h-4 text-slate-400 group-open:rotate-180 transition-transform"></i>
+                </summary>
+                <div class="mt-3 pt-3 border-t border-slate-200/60">
+                    <input type="file" 
+                           id="file" 
+                           name="file" 
+                           accept=".pdf,.doc,.docx,.xls,.xlsx,.pptx"
+                           class="w-full text-xs text-slate-500 file:mr-4 file:py-1.5 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-slate-200 file:text-slate-700 hover:file:bg-slate-300 cursor-pointer">
+                    <p class="text-[10px] text-slate-400 mt-1">Hanya diperlukan jika ingin menyimpan salinan berkas lokal di server.</p>
+                </div>
+            </details>
+
+            <!-- Action Buttons -->
+            <div class="pt-4 border-t border-slate-100 flex items-center justify-end gap-3">
+                <a href="{{ url_for('documents.index') }}" class="px-5 py-2.5 border border-slate-200 hover:bg-slate-50 text-slate-600 rounded-xl text-xs sm:text-sm font-semibold transition">
+                    Batal
+                </a>
+                <button type="submit" class="px-6 py-2.5 bg-gradient-to-r from-blue-600 via-navy-main to-[#0D1B2A] hover:from-blue-700 hover:to-navy-main text-white rounded-xl text-xs sm:text-sm font-bold shadow-md shadow-blue-500/20 transition-all flex items-center gap-2 hover:scale-[1.01] active:scale-[0.99]">
+                    <i data-lucide="cloud-check" class="w-4 h-4"></i>
+                    <span>Simpan Link Google Drive</span>
+                </button>
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+{% endblock %}

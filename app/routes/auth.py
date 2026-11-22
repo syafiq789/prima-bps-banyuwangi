@@ -24,11 +24,11 @@ def login():
 
         if not user or not user.check_password(password):
             flash('Email / Username atau password yang Anda masukkan salah.', 'danger')
-            return render_template('login.j2', email=identifier)
+            return render_template('login.html', email=identifier)
 
         if not user.is_active:
             flash('Akun Anda dinonaktifkan oleh Administrator. Hubungi admin untuk mengaktifkan.', 'warning')
-            return render_template('login.j2', email=identifier)
+            return render_template('login.html', email=identifier)
 
         login_user(user, remember=remember)
         log_activity('LOGIN', f"Pengguna {user.email or user.username} ({user.role}) berhasil masuk ke sistem.", user.id)
@@ -40,7 +40,7 @@ def login():
         return redirect(next_page)
 
     sso_configured = bool(current_app.config.get('SSO_BPS_CLIENT_ID') and current_app.config.get('SSO_BPS_CLIENT_SECRET'))
-    return render_template('login.j2', sso_configured=sso_configured)
+    return render_template('login.html', sso_configured=sso_configured)
 
 @auth_bp.route('/sso/login')
 def sso_login():
@@ -185,7 +185,7 @@ def forgot_password():
 
     if not identifier:
         flash('Email atau Username akun wajib diisi.', 'danger')
-        return render_template('login.j2', forgot_mode=True, forgot_email=identifier)
+        return render_template('login.html', forgot_mode=True, forgot_email=identifier)
 
     user = User.query.filter(
         (User.email == identifier) | (User.username == identifier)
@@ -193,21 +193,21 @@ def forgot_password():
 
     if not user:
         flash(f"Akun dengan email/username '{identifier}' tidak ditemukan dalam sistem.", 'danger')
-        return render_template('login.j2', forgot_mode=True, forgot_email=identifier)
+        return render_template('login.html', forgot_mode=True, forgot_email=identifier)
 
     if len(new_password) < 6:
         flash('Password baru minimal 6 karakter.', 'danger')
-        return render_template('login.j2', forgot_mode=True, forgot_email=identifier)
+        return render_template('login.html', forgot_mode=True, forgot_email=identifier)
 
     if new_password != confirm_password:
         flash('Konfirmasi password baru tidak cocok.', 'danger')
-        return render_template('login.j2', forgot_mode=True, forgot_email=identifier)
+        return render_template('login.html', forgot_mode=True, forgot_email=identifier)
 
     user.set_password(new_password)
     db.session.commit()
     log_activity('FORGOT_PASSWORD', f"Password akun {user.email or user.username} berhasil diperbarui melalui fitur Lupa Password.", user.id)
     flash(f'Password untuk {user.email or user.username} berhasil diperbarui! Silakan masuk dengan password baru Anda.', 'success')
-    return render_template('login.j2', email=user.email or user.username)
+    return render_template('login.html', email=user.email or user.username)
 
 @auth_bp.route('/logout')
 @login_required
@@ -262,4 +262,4 @@ def profile():
 
         return redirect(url_for('auth.profile'))
 
-    return render_template('profile.j2')
+    return render_template('profile.html')

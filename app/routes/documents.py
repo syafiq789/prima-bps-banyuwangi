@@ -68,7 +68,7 @@ def index():
         available_years = [2026, 2025, 2024, 2023]
 
     return render_template(
-        'documents/index.j2',
+        'documents/index.html',
         documents=pagination.items,
         pagination=pagination,
         categories=categories,
@@ -118,7 +118,7 @@ def category_view(slug):
         available_years = [2026, 2025, 2024, 2023]
 
     return render_template(
-        'documents/category_view.j2',
+        'documents/category_view.html',
         category=category,
         documents=pagination.items,
         pagination=pagination,
@@ -176,20 +176,20 @@ def upload():
 
         if not title:
             flash('Nama / Judul dokumen wajib diisi.', 'danger')
-            return render_template('documents/upload.j2', categories=categories)
+            return render_template('documents/upload.html', categories=categories)
 
         if not category_id or not Category.query.get(category_id):
             flash('Kategori dokumen tidak valid.', 'danger')
-            return render_template('documents/upload.j2', categories=categories)
+            return render_template('documents/upload.html', categories=categories)
 
         if not year or year < 2000 or year > 2100:
             flash('Tahun dokumen tidak valid.', 'danger')
-            return render_template('documents/upload.j2', categories=categories)
+            return render_template('documents/upload.html', categories=categories)
 
         # Validasi: Minimal link Google Drive atau file fisik
         if not drive_url and (not file or file.filename == ''):
             flash('Mohon masukkan Link Google Drive atau unggah file dokumen.', 'danger')
-            return render_template('documents/upload.j2', categories=categories)
+            return render_template('documents/upload.html', categories=categories)
 
         try:
             filename = None
@@ -200,7 +200,7 @@ def upload():
             if file and file.filename != '':
                 if not allowed_file(file.filename):
                     flash('Format file tidak didukung. Format yang diperbolehkan: PDF, DOC, DOCX, XLS, XLSX, PPTX.', 'danger')
-                    return render_template('documents/upload.j2', categories=categories)
+                    return render_template('documents/upload.html', categories=categories)
                 filename, orig_name, file_size, detected_type = save_document_file(file)
                 if not file_type or file_type == 'gdrive':
                     file_type = detected_type
@@ -237,14 +237,14 @@ def upload():
             flash(f"Terjadi kesalahan saat menyimpan dokumen: {str(e)}", 'danger')
 
     selected_cat_id = request.args.get('category_id', type=int)
-    return render_template('documents/upload.j2', categories=categories, selected_cat_id=selected_cat_id)
+    return render_template('documents/upload.html', categories=categories, selected_cat_id=selected_cat_id)
 
 @documents_bp.route('/<int:doc_id>')
 @login_required
 def detail(doc_id):
     """Halaman rincian informasi dan status kelengkapan dokumen."""
     document = Document.query.get_or_404(doc_id)
-    return render_template('documents/detail.j2', document=document)
+    return render_template('documents/detail.html', document=document)
 
 @documents_bp.route('/<int:doc_id>/edit', methods=['GET', 'POST'])
 @login_required
@@ -269,11 +269,11 @@ def edit(doc_id):
 
         if not title:
             flash('Judul dokumen wajib diisi.', 'danger')
-            return render_template('documents/edit.j2', document=document, categories=categories)
+            return render_template('documents/edit.html', document=document, categories=categories)
 
         if not category_id or not Category.query.get(category_id):
             flash('Kategori dokumen tidak valid.', 'danger')
-            return render_template('documents/edit.j2', document=document, categories=categories)
+            return render_template('documents/edit.html', document=document, categories=categories)
 
         document.title = title
         document.category_id = category_id
@@ -289,7 +289,7 @@ def edit(doc_id):
         if file and file.filename != '':
             if not allowed_file(file.filename):
                 flash('Format file pengganti tidak didukung.', 'danger')
-                return render_template('documents/edit.j2', document=document, categories=categories)
+                return render_template('documents/edit.html', document=document, categories=categories)
 
             # Hapus file fisik lama
             delete_document_file(document.filename)
@@ -306,7 +306,7 @@ def edit(doc_id):
         flash(f"Informasi dokumen '{document.title}' berhasil diperbarui.", 'success')
         return redirect(url_for('documents.detail', doc_id=document.id))
 
-    return render_template('documents/edit.j2', document=document, categories=categories)
+    return render_template('documents/edit.html', document=document, categories=categories)
 
 @documents_bp.route('/<int:doc_id>/delete', methods=['POST'])
 @login_required
