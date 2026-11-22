@@ -1,0 +1,11 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: 'Plus Jakarta Sans', Inter, system-ui, sans-serif;
+}
+
+.executive-banner {
+  background: linear-gradient(135deg, #0F2547 0%, #173B6D 55%, #1D4ED8 100%);
+}
