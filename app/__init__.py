@@ -152,14 +152,14 @@ def create_app(config_name=None):
             current_path=request.path
         )
 
-    # Error handlers
+    # Error handlers (JSON API responses)
     @app.errorhandler(404)
     def page_not_found(e):
-        return render_template('404.j2'), 404
+        return {'ok': False, 'message': 'Endpoint tidak ditemukan.'}, 404
 
     @app.errorhandler(500)
     def internal_server_error(e):
-        return render_template('500.j2'), 500
+        return {'ok': False, 'message': 'Terjadi kesalahan pada server.'}, 500
 
     # Initialize tables and seed initial data
     with app.app_context():
