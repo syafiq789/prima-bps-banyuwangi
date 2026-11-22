@@ -44,10 +44,19 @@
             </div>
             
             <!-- Right: Action Buttons -->
-            <div class="flex flex-wrap items-center gap-2 pt-1 lg:pt-0 flex-shrink-0">
+            <div class="flex flex-wrap items-center gap-2 pt-1 lg:pt-0">
+                <!-- Cetak Data Mitra -->
+                <button type="button"
+                        onclick="window.print()"
+                        class="h-10 px-3.5 rounded-xl bg-white/10 hover:bg-white/20 text-white border border-white/20 font-semibold text-xs transition-all flex items-center gap-1.5 backdrop-blur-sm whitespace-nowrap"
+                        title="Cetak daftar mitra">
+                    <i data-lucide="printer" class="w-3.5 h-3.5 text-sky-200"></i>
+                    <span>Cetak</span>
+                </button>
+
                 <!-- Unduh Templat CSV -->
                 <a href="{{ url_for('mitra.download_template_mitra') }}" 
-                   class="h-10 px-4 rounded-xl bg-white/10 hover:bg-white/20 text-white border border-white/20 font-semibold text-xs transition-all flex items-center gap-1.5 backdrop-blur-sm whitespace-nowrap"
+                   class="h-10 px-3.5 rounded-xl bg-white/10 hover:bg-white/20 text-white border border-white/20 font-semibold text-xs transition-all flex items-center gap-1.5 backdrop-blur-sm whitespace-nowrap"
                    title="Unduh templat CSV mitra statistik">
                     <i data-lucide="download" class="w-3.5 h-3.5 text-sky-200"></i>
                     <span>Unduh Template</span>
@@ -56,7 +65,7 @@
                 <!-- Impor Berkas CSV -->
                 <button type="button" 
                         onclick="document.getElementById('modalImportMitra').classList.remove('hidden')" 
-                        class="h-10 px-4 rounded-xl bg-white/10 hover:bg-white/20 text-white border border-white/20 font-semibold text-xs transition-all flex items-center gap-1.5 backdrop-blur-sm whitespace-nowrap">
+                        class="h-10 px-3.5 rounded-xl bg-white/10 hover:bg-white/20 text-white border border-white/20 font-semibold text-xs transition-all flex items-center gap-1.5 backdrop-blur-sm whitespace-nowrap">
                     <i data-lucide="file-up" class="w-3.5 h-3.5 text-sky-200"></i>
                     <span>Upload CSV</span>
                 </button>
@@ -172,9 +181,30 @@
         {% endif %}
     </div>
 
-    <!-- 3. Tabel Database Master Mitra (Modern, Bersih & Sesuai Kolom Template) -->
+    <!-- 3. Tabel Database Master Mitra (Modern, Bersih & Fitur Geser Kiri/Kanan) -->
     <div class="bg-white rounded-3xl border border-slate-200/80 shadow-[0_4px_20px_-4px_rgba(20,43,74,0.04)] overflow-hidden">
-        <div class="overflow-x-auto">
+        <!-- Toolbar Geser Tabel -->
+        <div class="px-5 py-3 border-b border-slate-100 bg-slate-50/60 flex flex-wrap items-center justify-between gap-2">
+            <span class="text-xs font-bold text-slate-600 inline-flex items-center gap-1.5">
+                <i data-lucide="move-horizontal" class="w-3.5 h-3.5 text-blue-600"></i>
+                <span>Geser tabel ke kiri/kanan untuk melihat seluruh kolom</span>
+            </span>
+            <div class="flex items-center gap-1.5">
+                <button type="button"
+                        onclick="document.getElementById('scrollTabelMitra').scrollBy({ left: -320, behavior: 'smooth' })"
+                        class="px-3 py-1.5 rounded-xl bg-white hover:bg-blue-50 text-slate-700 hover:text-blue-700 border border-slate-200 hover:border-blue-200 text-xs font-bold inline-flex items-center gap-1 transition shadow-2xs">
+                    <i data-lucide="chevron-left" class="w-3.5 h-3.5"></i>
+                    <span>Geser Kiri</span>
+                </button>
+                <button type="button"
+                        onclick="document.getElementById('scrollTabelMitra').scrollBy({ left: 320, behavior: 'smooth' })"
+                        class="px-3 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold inline-flex items-center gap-1 transition shadow-2xs">
+                    <span>Geser Kanan</span>
+                    <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+                </button>
+            </div>
+        </div>
+        <div id="scrollTabelMitra" class="overflow-x-auto scroll-smooth">
             <table class="w-full text-left text-xs table-modern">
                 <thead>
                     <tr class="bg-slate-50/80 border-b border-slate-200/80 text-slate-500 uppercase font-bold text-[10px] tracking-wider">
