@@ -397,6 +397,12 @@ def create_penugasan():
     peran = request.form.get('peran', 'PPL')
     target_dokumen = request.form.get('target_dokumen', 10, type=int)
     honor_total = request.form.get('honor_total', 0, type=int)
+    status = request.form.get('status', 'PROSES').strip().upper()
+    if status not in ('PROSES', 'SELESAI'):
+        status = 'PROSES'
+    realisasi_dokumen = request.form.get('realisasi_dokumen', 0, type=int)
+    if status == 'SELESAI' and realisasi_dokumen == 0:
+        realisasi_dokumen = target_dokumen
 
     if not mitra_id or not kegiatan_id:
         flash('Mitra dan Kegiatan wajib dipilih.', 'danger')
@@ -407,7 +413,9 @@ def create_penugasan():
         kegiatan_id=kegiatan_id,
         peran=peran,
         target_dokumen=target_dokumen,
+        realisasi_dokumen=realisasi_dokumen,
         honor_total=honor_total,
+        status=status,
         created_by=current_user.id
     )
     db.session.add(penugasan_item)

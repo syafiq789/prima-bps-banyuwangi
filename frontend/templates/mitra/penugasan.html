@@ -326,66 +326,235 @@
     </div>
 </div>
 
-<!-- Modal Buat Penugasan -->
+<!-- Modal Buat Penugasan (Detail & Interaktif) -->
 <div id="modalPenugasan" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
-    <div class="bg-white rounded-3xl max-w-md w-full shadow-2xl border border-slate-100 overflow-hidden">
-        <div class="bg-gradient-to-r from-blue-50 via-sky-50/50 to-white px-6 py-4 border-b border-blue-100 flex items-center justify-between">
+    <div class="bg-white rounded-3xl max-w-2xl w-full max-h-[92vh] flex flex-col shadow-2xl border border-slate-100 overflow-hidden">
+        <!-- Header Modal -->
+        <div style="background: linear-gradient(135deg, #0F2547 0%, #173B6D 55%, #1D4ED8 100%);"
+             class="px-6 py-4 text-white flex items-center justify-between shrink-0">
             <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-2xl bg-blue-600 text-white flex items-center justify-center shadow-sm">
+                <div class="w-10 h-10 rounded-2xl bg-white/15 border border-white/20 text-white flex items-center justify-center">
                     <i data-lucide="user-check" class="w-5 h-5"></i>
                 </div>
                 <div>
-                    <h3 class="text-sm font-extrabold text-slate-900">Tugaskan Mitra Baru</h3>
-                    <p class="text-[11px] text-slate-500">Pilih mitra &amp; kegiatan dari data yang sudah diupload</p>
+                    <h3 class="text-base font-extrabold text-white">Tugaskan Mitra Baru</h3>
+                    <p class="text-[11px] text-blue-100/80">Lengkapi rincian mitra, kegiatan, peran petugas, target dokumen, dan kalkulasi honorarium</p>
                 </div>
             </div>
-            <button onclick="document.getElementById('modalPenugasan').classList.add('hidden')" class="text-slate-400 hover:text-slate-600">
-                <i data-lucide="x" class="w-5 h-5"></i>
+            <button type="button" onclick="document.getElementById('modalPenugasan').classList.add('hidden')" class="p-1.5 rounded-xl bg-white/10 hover:bg-white/20 text-white transition">
+                <i data-lucide="x" class="w-4 h-4"></i>
             </button>
         </div>
 
-        <form action="{{ url_for('mitra.create_penugasan') }}" method="POST" class="p-6 space-y-4">
-            <div>
-                <label class="block text-xs font-bold text-slate-700 mb-1.5">Pilih Mitra *</label>
-                <select name="mitra_id" required class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs bg-white focus:border-blue-500 outline-none">
-                    {% for m in mitra_options %}
-                    <option value="{{ m.id }}">{{ m.nama_lengkap }} ({{ m.id_sobat }} &bull; Kec. {{ m.kecamatan }})</option>
-                    {% else %}
-                    <option value="">Belum ada data mitra — upload di Template &amp; Upload</option>
-                    {% endfor %}
-                </select>
-            </div>
-            <div>
-                <label class="block text-xs font-bold text-slate-700 mb-1.5">Pilih Kegiatan *</label>
-                <select name="kegiatan_id" required class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs bg-white focus:border-blue-500 outline-none">
-                    {% for k in kegiatan_options %}
-                    <option value="{{ k.id }}">{{ k.nama_kegiatan }} &mdash; {{ k.tim_kerja }} ({{ k.bulan or '' }} {{ k.tahun }})</option>
-                    {% else %}
-                    <option value="">Belum ada data kegiatan — upload di Template &amp; Upload</option>
-                    {% endfor %}
-                </select>
-            </div>
-            <div class="grid grid-cols-2 gap-3">
+        <form action="{{ url_for('mitra.create_penugasan') }}" method="POST" class="p-6 space-y-5 overflow-y-auto">
+
+            <!-- BAGIAN 1: DATA MITRA -->
+            <div class="p-4 rounded-2xl bg-slate-50/80 border border-slate-200/80 space-y-3">
+                <div class="flex items-center justify-between">
+                    <span class="text-[11px] font-extrabold uppercase tracking-wider text-blue-700 flex items-center gap-1.5">
+                        <span class="w-5 h-5 rounded-lg bg-blue-600 text-white text-[10px] font-black flex items-center justify-center">1</span>
+                        Pilih Mitra Statistik
+                    </span>
+                    <span class="text-[10px] font-semibold text-slate-400">{{ mitra_options|length }} Mitra Aktif</span>
+                </div>
+
+                <!-- Filter Cepat Mitra -->
+                <div class="grid grid-cols-1 sm:grid-cols-12 gap-2.5">
+                    <div class="sm:col-span-7 relative">
+                        <i data-lucide="search" class="w-3.5 h-3.5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none"></i>
+                        <input type="text"
+                               id="modalSearchMitra"
+                               oninput="filterModalMitra()"
+                               placeholder="Cari nama atau ID Sobat..."
+                               class="w-full pl-8 pr-3 py-2 rounded-xl border border-slate-200 text-xs bg-white focus:border-blue-500 outline-none">
+                    </div>
+                    <div class="sm:col-span-5">
+                        <select id="modalFilterKecMitra"
+                                onchange="filterModalMitra()"
+                                class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs bg-white focus:border-blue-500 outline-none">
+                            <option value="">Semua Kecamatan (25)</option>
+                            {% for kec in kecamatan_options %}
+                            <option value="{{ kec }}">{{ kec }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+
                 <div>
-                    <label class="block text-xs font-bold text-slate-700 mb-1.5">Peran Petugas</label>
-                    <select name="peran" class="w-full px-3 py-2.5 rounded-xl border border-slate-200 text-xs bg-white focus:border-blue-500 outline-none">
-                        <option value="PPL">Pencacah Lapangan (PPL)</option>
-                        <option value="PML">Pengawas Lapangan (PML)</option>
-                        <option value="PENGOLAH">Petugas Pengolahan</option>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">Mitra yang Ditugaskan *</label>
+                    <select name="mitra_id"
+                            id="selectModalMitra"
+                            required
+                            onchange="updateMitraPreview()"
+                            class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs bg-white font-semibold text-slate-800 focus:border-blue-500 outline-none">
+                        {% for m in mitra_options %}
+                        <option value="{{ m.id }}"
+                                data-nama="{{ m.nama_lengkap }}"
+                                data-sobat="{{ m.id_sobat }}"
+                                data-kec="{{ m.kecamatan or '-' }}"
+                                data-desa="{{ m.desa or '-' }}"
+                                data-hp="{{ m.no_hp or '-' }}"
+                                data-email="{{ m.email or '-' }}">
+                            {{ m.nama_lengkap }} ({{ m.id_sobat }} &bull; Desa {{ m.desa or '-' }}, Kec. {{ m.kecamatan }})
+                        </option>
+                        {% else %}
+                        <option value="">Belum ada data mitra — upload di Template &amp; Upload</option>
+                        {% endfor %}
                     </select>
                 </div>
-                <div>
-                    <label class="block text-xs font-bold text-slate-700 mb-1.5">Target Dokumen</label>
-                    <input type="number" name="target_dokumen" value="25" min="1" class="w-full px-3 py-2.5 rounded-xl border border-slate-200 text-xs font-bold focus:border-blue-500 outline-none">
+
+                <!-- Preview Detail Mitra Terpilih -->
+                <div id="previewMitraBox" class="grid grid-cols-2 sm:grid-cols-4 gap-2 p-3 rounded-xl bg-white border border-blue-100 text-[11px]">
+                    <div>
+                        <span class="block text-[9px] font-bold uppercase text-slate-400">ID Sobat</span>
+                        <span id="prevMitraSobat" class="font-mono font-bold text-blue-700">-</span>
+                    </div>
+                    <div>
+                        <span class="block text-[9px] font-bold uppercase text-slate-400">Wilayah Domisili</span>
+                        <span id="prevMitraWilayah" class="font-semibold text-slate-800">-</span>
+                    </div>
+                    <div>
+                        <span class="block text-[9px] font-bold uppercase text-slate-400">Nomor HP</span>
+                        <span id="prevMitraHp" class="font-mono text-slate-700">-</span>
+                    </div>
+                    <div>
+                        <span class="block text-[9px] font-bold uppercase text-slate-400">Email</span>
+                        <span id="prevMitraEmail" class="text-slate-600 truncate block">-</span>
+                    </div>
                 </div>
             </div>
-            <div>
-                <label class="block text-xs font-bold text-slate-700 mb-1.5">Total Honorarium (Rp)</label>
-                <input type="number" name="honor_total" value="3200000" min="0" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs font-bold font-mono focus:border-blue-500 outline-none">
+
+            <!-- BAGIAN 2: KEGIATAN & JADWAL -->
+            <div class="p-4 rounded-2xl bg-slate-50/80 border border-slate-200/80 space-y-3">
+                <div class="flex items-center justify-between">
+                    <span class="text-[11px] font-extrabold uppercase tracking-wider text-blue-700 flex items-center gap-1.5">
+                        <span class="w-5 h-5 rounded-lg bg-blue-600 text-white text-[10px] font-black flex items-center justify-center">2</span>
+                        Pilih Kegiatan &amp; Tim Kerja
+                    </span>
+                    <span class="text-[10px] font-semibold text-slate-400">{{ kegiatan_options|length }} Kegiatan Tersedia</span>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-12 gap-2.5">
+                    <div class="sm:col-span-4">
+                        <label class="block text-xs font-bold text-slate-700 mb-1">Filter Tim Kerja</label>
+                        <select id="modalFilterTimKeg"
+                                onchange="filterModalKegiatan()"
+                                class="w-full px-3 py-2.5 rounded-xl border border-slate-200 text-xs bg-white focus:border-blue-500 outline-none">
+                            <option value="">Semua Tim</option>
+                            <option value="Tim Distribusi">Tim Distribusi</option>
+                            <option value="Tim Neraca">Tim Neraca</option>
+                            <option value="Tim Produksi">Tim Produksi</option>
+                            <option value="Tim PLS">Tim PLS</option>
+                        </select>
+                    </div>
+                    <div class="sm:col-span-8">
+                        <label class="block text-xs font-bold text-slate-700 mb-1">Nama Kegiatan *</label>
+                        <select name="kegiatan_id"
+                                id="selectModalKegiatan"
+                                required
+                                onchange="updateKegiatanPreview()"
+                                class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs bg-white font-semibold text-slate-800 focus:border-blue-500 outline-none">
+                            {% for k in kegiatan_options %}
+                            <option value="{{ k.id }}"
+                                    data-tim="{{ k.tim_kerja or 'Tim Distribusi' }}"
+                                    data-periode="{{ k.bulan or 'Semua Bulan' }} {{ k.tahun }}"
+                                    data-jadwal="{{ k.tanggal_mulai }} s.d. {{ k.tanggal_selesai }}">
+                                {{ k.nama_kegiatan }} &mdash; {{ k.tim_kerja }} ({{ k.bulan or '' }} {{ k.tahun }})
+                            </option>
+                            {% else %}
+                            <option value="">Belum ada data kegiatan — upload di Template &amp; Upload</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Preview Detail Kegiatan Terpilih -->
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 p-3 rounded-xl bg-white border border-blue-100 text-[11px]">
+                    <div>
+                        <span class="block text-[9px] font-bold uppercase text-slate-400">Tim Kerja</span>
+                        <span id="prevKegTim" class="font-bold text-blue-700">-</span>
+                    </div>
+                    <div>
+                        <span class="block text-[9px] font-bold uppercase text-slate-400">Periode</span>
+                        <span id="prevKegPeriode" class="font-semibold text-slate-800">-</span>
+                    </div>
+                    <div>
+                        <span class="block text-[9px] font-bold uppercase text-slate-400">Jadwal Pelaksanaan</span>
+                        <span id="prevKegJadwal" class="font-mono text-slate-700">-</span>
+                    </div>
+                </div>
             </div>
-            <div class="pt-3 border-t border-slate-100 flex justify-end gap-2">
-                <button type="button" onclick="document.getElementById('modalPenugasan').classList.add('hidden')" class="px-4 py-2 rounded-xl text-xs font-bold text-slate-600 hover:bg-slate-100">Batal</button>
-                <button type="submit" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-blue-600 to-sky-500 hover:opacity-95 text-white text-xs font-bold shadow-md shadow-blue-600/20 transition">Simpan Penugasan</button>
+
+            <!-- BAGIAN 3: RINCIAN PERAN, TARGET & KALKULASI HONOR -->
+            <div class="p-4 rounded-2xl bg-slate-50/80 border border-slate-200/80 space-y-3">
+                <span class="text-[11px] font-extrabold uppercase tracking-wider text-blue-700 flex items-center gap-1.5">
+                    <span class="w-5 h-5 rounded-lg bg-blue-600 text-white text-[10px] font-black flex items-center justify-center">3</span>
+                    Rincian Tugas &amp; Perhitungan Honor
+                </span>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1">Peran Petugas *</label>
+                        <select name="peran" class="w-full px-3 py-2.5 rounded-xl border border-slate-200 text-xs bg-white focus:border-blue-500 outline-none font-semibold">
+                            <option value="PPL">Pencacah Lapangan (PPL)</option>
+                            <option value="PML">Pengawas Lapangan (PML)</option>
+                            <option value="PENGOLAH">Petugas Pengolahan</option>
+                            <option value="KOSEKA">Koordinator Lapangan (Koseka)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1">Status Awal Tugas</label>
+                        <select name="status" class="w-full px-3 py-2.5 rounded-xl border border-slate-200 text-xs bg-white focus:border-blue-500 outline-none font-semibold">
+                            <option value="PROSES">Sedang Berjalan (Proses)</option>
+                            <option value="SELESAI">Selesai</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1">Target Dokumen *</label>
+                        <input type="number"
+                               id="inputTargetDok"
+                               name="target_dokumen"
+                               value="25"
+                               min="1"
+                               oninput="hitungHonorOtomatis()"
+                               class="w-full px-3 py-2.5 rounded-xl border border-slate-200 text-xs font-bold bg-white focus:border-blue-500 outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1">Honor / Dokumen (Rp)</label>
+                        <input type="number"
+                               id="inputHonorSatuan"
+                               value="128000"
+                               min="0"
+                               oninput="hitungHonorOtomatis()"
+                               class="w-full px-3 py-2.5 rounded-xl border border-slate-200 text-xs font-bold font-mono bg-white focus:border-blue-500 outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1">Total Honorarium (Rp) *</label>
+                        <input type="number"
+                               id="inputHonorTotal"
+                               name="honor_total"
+                               value="3200000"
+                               min="0"
+                               oninput="updateHonorPreview()"
+                               class="w-full px-3 py-2.5 rounded-xl border border-blue-300 text-xs font-extrabold font-mono text-blue-700 bg-white focus:border-blue-500 outline-none">
+                    </div>
+                </div>
+
+                <div class="flex items-center justify-between px-4 py-2.5 rounded-xl bg-blue-50 border border-blue-200/70">
+                    <span class="text-xs font-semibold text-blue-800">Estimasi Total Honor Diterima Mitra</span>
+                    <span id="previewHonorRp" class="text-sm font-black font-mono text-blue-700">Rp 3.200.000</span>
+                </div>
+            </div>
+
+            <div class="pt-2 border-t border-slate-100 flex items-center justify-end gap-2.5">
+                <button type="button" onclick="document.getElementById('modalPenugasan').classList.add('hidden')" class="px-4 py-2.5 rounded-xl text-xs font-bold text-slate-600 hover:bg-slate-100 transition">Batal</button>
+                <button type="submit" class="px-6 py-2.5 rounded-xl bg-gradient-to-r from-blue-600 to-sky-500 hover:opacity-95 text-white text-xs font-bold shadow-md shadow-blue-600/25 transition flex items-center gap-1.5">
+                    <i data-lucide="check" class="w-4 h-4"></i>
+                    <span>Simpan Penugasan</span>
+                </button>
             </div>
         </form>
     </div>
@@ -401,5 +570,84 @@ function openModalUpdateProgress(id, name, currentReal, target) {
     document.getElementById('modalTargetDokumen').innerText = target;
     modal.classList.remove('hidden');
 }
+
+function updateMitraPreview() {
+    const sel = document.getElementById('selectModalMitra');
+    if (!sel || !sel.options.length) return;
+    const opt = sel.options[sel.selectedIndex];
+    if (!opt || !opt.value) return;
+    document.getElementById('prevMitraSobat').innerText = opt.dataset.sobat || '-';
+    document.getElementById('prevMitraWilayah').innerText = `${opt.dataset.desa || '-'}, ${opt.dataset.kec || '-'}`;
+    document.getElementById('prevMitraHp').innerText = opt.dataset.hp || '-';
+    document.getElementById('prevMitraEmail').innerText = opt.dataset.email || '-';
+}
+
+function filterModalMitra() {
+    const q = (document.getElementById('modalSearchMitra')?.value || '').toLowerCase().trim();
+    const kec = (document.getElementById('modalFilterKecMitra')?.value || '').toLowerCase().trim();
+    const sel = document.getElementById('selectModalMitra');
+    if (!sel) return;
+    let firstVisible = -1;
+    Array.from(sel.options).forEach((opt, idx) => {
+        const text = (opt.textContent || '').toLowerCase();
+        const optKec = (opt.dataset.kec || '').toLowerCase();
+        const matchQ = !q || text.includes(q);
+        const matchKec = !kec || optKec === kec;
+        const visible = matchQ && matchKec;
+        opt.hidden = !visible;
+        if (visible && firstVisible === -1) firstVisible = idx;
+    });
+    if (firstVisible !== -1) {
+        sel.selectedIndex = firstVisible;
+        updateMitraPreview();
+    }
+}
+
+function updateKegiatanPreview() {
+    const sel = document.getElementById('selectModalKegiatan');
+    if (!sel || !sel.options.length) return;
+    const opt = sel.options[sel.selectedIndex];
+    if (!opt || !opt.value) return;
+    document.getElementById('prevKegTim').innerText = opt.dataset.tim || '-';
+    document.getElementById('prevKegPeriode').innerText = opt.dataset.periode || '-';
+    document.getElementById('prevKegJadwal').innerText = opt.dataset.jadwal || '-';
+}
+
+function filterModalKegiatan() {
+    const tim = (document.getElementById('modalFilterTimKeg')?.value || '').toLowerCase().trim();
+    const sel = document.getElementById('selectModalKegiatan');
+    if (!sel) return;
+    let firstVisible = -1;
+    Array.from(sel.options).forEach((opt, idx) => {
+        const optTim = (opt.dataset.tim || '').toLowerCase();
+        const visible = !tim || optTim === tim;
+        opt.hidden = !visible;
+        if (visible && firstVisible === -1) firstVisible = idx;
+    });
+    if (firstVisible !== -1) {
+        sel.selectedIndex = firstVisible;
+        updateKegiatanPreview();
+    }
+}
+
+function updateHonorPreview() {
+    const total = Number(document.getElementById('inputHonorTotal')?.value || 0);
+    document.getElementById('previewHonorRp').innerText = 'Rp ' + total.toLocaleString('id-ID');
+}
+
+function hitungHonorOtomatis() {
+    const target = Number(document.getElementById('inputTargetDok')?.value || 0);
+    const satuan = Number(document.getElementById('inputHonorSatuan')?.value || 0);
+    const total = Math.max(0, target * satuan);
+    const totalEl = document.getElementById('inputHonorTotal');
+    if (totalEl) totalEl.value = total;
+    updateHonorPreview();
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    updateMitraPreview();
+    updateKegiatanPreview();
+    updateHonorPreview();
+});
 </script>
 {% endblock %}
